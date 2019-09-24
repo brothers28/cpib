@@ -1,2 +1,2 @@
-# cpib
-Compiler for IML
+# CPIB
+Compiler for IML. 
