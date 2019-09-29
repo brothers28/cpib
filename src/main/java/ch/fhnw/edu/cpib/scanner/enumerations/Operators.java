@@ -1,18 +1,31 @@
 package ch.fhnw.edu.cpib.scanner.enumerations;
 
 public enum Operators {
-    NOT,
     TIMES,
-    DIV,
-    MOD,
     PLUS,
     MINUS,
-    EQ,
-    NE,
-    GT,
-    LT,
-    GE,
-    LE,
+    EQ, // =
+    NE, // /=
+    LT, // <
+    GT, // >
+    LE, // <=
+    GE, // >=
+    AND, // &&
+    OR, // ||
     CAND,
-    COR
+    COR,
+    BOOL,
+    CONST,
+    COPY,
+    DIV,
+    MOD,
+    FALSE,
+    TRUE,
+    IN,
+    INOUT,
+    INT64,
+    OUT,
+    REF,
+    VAR,
+    NOT
 }
