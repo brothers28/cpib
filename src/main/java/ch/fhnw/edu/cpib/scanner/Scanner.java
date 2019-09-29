@@ -16,7 +16,7 @@ public class Scanner {
         // Build symbols map
         symbols = Map.ofEntries(
                 entry("<", new RelOpr(Operators.LT)),
-                entry(">=", new RelOpr(Operators.LE)),
+                entry("<=", new RelOpr(Operators.LE)),
                 entry(":", Terminals.COLON),
                 entry(":=", Terminals.BECOMES));
 
@@ -63,7 +63,20 @@ public class Scanner {
                 }
                 break;
             case 1:
+                if (isFollowingSymbol(c, syAcc)) {
+                    state = 0;
+                    syAcc.append(c);
 
+                    Token token = symbols.get(syAcc.toString());
+                    result.add(token);
+                }
+                else {
+                    state = 0;
+                    i = i - 1; // one back for next lexeme
+
+                    Token token = symbols.get(syAcc.toString());
+                    result.add(token);
+                }
                 break;
             case 2:
                 if (Character.isDigit(c)) {
@@ -105,13 +118,31 @@ public class Scanner {
     }
 
     /**
+     * Determines if character is subsequent part of symbol.
+     *
+     * @param c Character to check
+     * @return True, if character is subsequent symbol
+     */
+    private boolean isFollowingSymbol(char c, StringBuffer previous) {
+        switch (previous.toString())
+        {
+        case "<" :
+            return c == '=';
+        case ":" :
+            return c == '=';
+        default:
+            return false;
+        } // switch
+    }
+
+    /**
      * Checks if character is regular symbol of iml.
      *
      * @param c Current character
      * @return True if regular iml symbol
      */
     private boolean isSymbol(char c) {
-        return symbols.containsKey(c);
+        return symbols.containsKey(String.valueOf(c));
     }
 
     /**
