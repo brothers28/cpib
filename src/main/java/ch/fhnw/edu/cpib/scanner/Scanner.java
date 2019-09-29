@@ -16,6 +16,10 @@ public class Scanner {
         symbols = Map.ofEntries(
                 entry("<", new RelOpr(Operators.LT)),
                 entry("<=", new RelOpr(Operators.LE)),
+                entry(">", new RelOpr(Operators.GT)),
+                entry(">=", new RelOpr(Operators.GE)),
+                entry("=", new RelOpr(Operators.EQ)),
+                entry("/=", new RelOpr(Operators.NE)),
                 entry(":", Terminals.COLON),
                 entry(":=", Terminals.BECOMES));
 
