@@ -3,7 +3,7 @@ package ch.fhnw.edu.cpib.scanner;
 import ch.fhnw.edu.cpib.scanner.enumerations.Operators;
 import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
 
-public class Operator extends Base {
+public abstract class Operator extends Base {
     private final Operators operator;
 
     public Operator(Terminals terminal, Operators operator) {
