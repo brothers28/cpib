@@ -2,7 +2,6 @@ package ch.fhnw.edu.cpib.scanner;
 
 import ch.fhnw.edu.cpib.scanner.enumerations.Operators;
 import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
-import com.sun.jdi.Value;
 
 import java.util.Map;
 
@@ -24,7 +23,26 @@ public class Scanner {
         keywords = Map.ofEntries(
                 entry("while", Terminals.WHILE),
                 entry("endwhile", Terminals.ENDWHILE),
-                entry("do", Terminals.DO));
+                entry("do", Terminals.DO),
+                entry("program", Terminals.PROGRAM),
+                entry("endprogram", Terminals.ENDPROGRAM),
+                entry("proc", Terminals.PROC),
+                entry("endproc", Terminals.ENDPROC),
+                entry("call", Terminals.CALL ),
+                entry("debugin", Terminals.DEBUGIN),
+                entry("debugout", Terminals.DEBUGOUT),
+                entry("else", Terminals.ELSE),
+                entry("endfun", Terminals.ENDFUN),
+                entry("endif", Terminals.ENDIF),
+                entry("fun", Terminals.FUN),
+                entry("global", Terminals.GLOBAL),
+                entry("if", Terminals.IF),
+                entry("init", Terminals.INIT),
+                entry("local", Terminals.LOCAL),
+                entry("notopr", Terminals.NOTOPR),
+                entry("returns", Terminals.RETURNS),
+                entry("skip", Terminals.SKIP),
+                entry("then", Terminals.THEN));
     }
 
     /**

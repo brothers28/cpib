@@ -25,7 +25,7 @@ public enum Terminals implements Token {
     ENDPROGRAM,
     ENDWHILE,
     FUN, // fun
-    GOLBAL,
+    GLOBAL,
     IF,
     FLOWMODE,
     INIT,
