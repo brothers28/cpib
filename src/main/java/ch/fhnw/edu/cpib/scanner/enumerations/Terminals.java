@@ -1,6 +1,8 @@
 package ch.fhnw.edu.cpib.scanner.enumerations;
 
-public enum Terminals {
+import ch.fhnw.edu.cpib.scanner.Token;
+
+public enum Terminals implements Token {
     WHILE,
     IDENT,
     RELOPR,

@@ -5,7 +5,7 @@ import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
 
 public class RelOpr extends Operator{
 
-    public RelOpr(Terminals terminal, Operators operator) {
-        super(terminal, operator);
+    public RelOpr(Operators operator) {
+        super(Terminals.RELOPR, operator);
     }
 }

@@ -16,20 +16,6 @@ import static java.util.Map.entry;
 @SpringBootApplication public class CpibApplication {
     public static final String FILE_NAME = "/example.iml";
 
-    public static final Map<String, Object> keywords;
-    public static final Map<String, Object> symbols;
-
-    static {
-        // Build symbols map
-        symbols = Map.ofEntries(entry("<", new RelOpr(Terminals.RELOPR, Operators.LT)),
-                entry(">=", new RelOpr(Terminals.RELOPR, Operators.LE)), entry(":", Terminals.COLON),
-                entry(":=", Terminals.BECOMES));
-
-        // Build keywords map
-        keywords = Map.ofEntries(entry("while", Terminals.WHILE), entry("endwhile", Terminals.ENDWHILE),
-                entry("do", Terminals.DO));
-    }
-
     public static void main(String[] args) {
         // Start spring application
         SpringApplication.run(CpibApplication.class, args);

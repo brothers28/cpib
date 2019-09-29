@@ -3,10 +3,10 @@ package ch.fhnw.edu.cpib.scanner;
 import java.util.ArrayList;
 
 public class TokenList {
-    private ArrayList<Base> tokenList = new ArrayList<Base>();
+    private ArrayList<Token> tokenList = new ArrayList<>();
     private int position = 0;
 
-    public void add(Base token){
+    public void add(Token token){
         tokenList.add(token);
     }
 
@@ -14,14 +14,14 @@ public class TokenList {
         position = 0;
     }
 
-    public Base nextToken() {
+    public Token nextToken() {
         return tokenList.get(position++);
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Base b : tokenList){
-            sb.append(b.toString());
+        for (Token t : tokenList){
+            sb.append(t.toString());
         }
         return sb.toString();
     }

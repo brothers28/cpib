@@ -2,7 +2,7 @@ package ch.fhnw.edu.cpib.scanner;
 
 import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
 
-public class Base {
+public class Base implements Token{
     private final Terminals terminal;
     Base(Terminals terminal){
         this.terminal = terminal;
