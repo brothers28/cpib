@@ -1,10 +1,11 @@
 package ch.fhnw.edu.cpib.scanner;
 
-import ch.fhnw.edu.cpib.scanner.enumerations.Operators;
-import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
-import ch.fhnw.edu.cpib.scanner.symbols.AddOpr;
-import ch.fhnw.edu.cpib.scanner.symbols.BoolOpr;
-import ch.fhnw.edu.cpib.scanner.symbols.RelOpr;
+import ch.fhnw.edu.cpib.scanner.enumerations.*;
+import ch.fhnw.edu.cpib.scanner.keywords.Changemode;
+import ch.fhnw.edu.cpib.scanner.keywords.Flowmode;
+import ch.fhnw.edu.cpib.scanner.keywords.Mechmode;
+import ch.fhnw.edu.cpib.scanner.keywords.Type;
+import ch.fhnw.edu.cpib.scanner.symbols.*;
 
 import java.util.Map;
 
@@ -59,7 +60,20 @@ public class Scanner {
                 entry("notopr", Terminals.NOTOPR),
                 entry("returns", Terminals.RETURNS),
                 entry("skip", Terminals.SKIP),
-                entry("then", Terminals.THEN));
+                entry("then", Terminals.THEN),
+                entry("bool", new Type(Types.BOOL)),
+                entry("int64", new Type(Types.INT64)),
+                entry("const", new Changemode(Changemodes.CONST.CONST)),
+                entry("var", new Changemode(Changemodes.VAR)),
+                entry("copy", new Mechmode(Mechmodes.COPY)),
+                entry("ref", new Mechmode(Mechmodes.REF)),
+                entry("divE", new MultOpr(Operators.DIV_E)),
+                entry("modeE", new MultOpr(Operators.MOD_E)),
+                entry("false", new Literal(Terminals.BOOLVALFALSE)),
+                entry("true", new Literal(Terminals.BOOLVALTRUE)),
+                entry("[in]", new Flowmode(Flowmodes.IN)),
+                entry("[inout]", new Flowmode(Flowmodes.INOUT)),
+                entry("[out]", new Flowmode(Flowmodes.OUT)));
     }
 
     /**

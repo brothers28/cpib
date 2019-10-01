@@ -14,18 +14,16 @@ public enum Operators {
     OR, // ||
     CAND,
     COR,
-    BOOL,
-    CONST,
     COPY,
     DIV,
+    DIV_E, // TODO: Test if current implementation does not take DIV
     MOD,
+    MOD_E, // TODO: Test if current implementation does not take DIV
     FALSE,
     TRUE,
     IN,
     INOUT,
-    INT64,
     OUT,
     REF,
-    VAR,
     NOT
 }

@@ -1,4 +1,4 @@
-package ch.fhnw.edu.cpib.scanner;
+package ch.fhnw.edu.cpib.errors;
 
 public class LexicalError extends Exception {
 

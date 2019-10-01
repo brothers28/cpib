@@ -6,6 +6,12 @@ public class Literal extends Base {
     private final boolean isBoolean;
     private final int value;
 
+    public Literal(Terminals terminal) {
+        super(terminal);
+        this.isBoolean = true;
+        this.value = 0; // Default, not used
+    }
+
     public Literal(Terminals terminal, int value) {
         super(terminal);
         this.isBoolean = false;

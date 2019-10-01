@@ -42,7 +42,9 @@ public enum Terminals implements Token {
     COMMA,
     SEMICOLON,
     COLON, // :
-    BECOMES, // :=
+    BECOMES,
+    BOOLVALFALSE,
+    BOOLVALTRUE// :=
 
 
 
