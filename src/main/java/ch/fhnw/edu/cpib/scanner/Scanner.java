@@ -2,6 +2,9 @@ package ch.fhnw.edu.cpib.scanner;
 
 import ch.fhnw.edu.cpib.scanner.enumerations.Operators;
 import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
+import ch.fhnw.edu.cpib.scanner.symbols.AddOpr;
+import ch.fhnw.edu.cpib.scanner.symbols.BoolOpr;
+import ch.fhnw.edu.cpib.scanner.symbols.RelOpr;
 
 import java.util.Map;
 
@@ -20,6 +23,16 @@ public class Scanner {
                 entry(">=", new RelOpr(Operators.GE)),
                 entry("=", new RelOpr(Operators.EQ)),
                 entry("/=", new RelOpr(Operators.NE)),
+                entry("+", new AddOpr(Operators.PLUS)),
+                entry("-", new AddOpr(Operators.MINUS)),
+                entry("&", new BoolOpr(Operators.AND)),
+                entry("|", new BoolOpr(Operators.OR)),
+                entry("&&", new BoolOpr(Operators.CAND)),
+                entry("||", new BoolOpr(Operators.COR)),
+                entry("(", Terminals.LPAREN),
+                entry(")", Terminals.RPAREN),
+                entry(",", Terminals.COMMA),
+                entry(";", Terminals.SEMICOLON),
                 entry(":", Terminals.COLON),
                 entry(":=", Terminals.BECOMES));
 
@@ -148,6 +161,14 @@ public class Scanner {
     private boolean isFollowingSymbol(char c, StringBuffer previous) {
         switch (previous.toString())
         {
+        case "/" :
+            return c == '=';
+        case "&" :
+            return c == '&';
+        case "|" :
+            return c == '|';
+        case ">" :
+            return c == '=';
         case "<" :
             return c == '=';
         case ":" :

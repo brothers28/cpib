@@ -1,5 +1,6 @@
-package ch.fhnw.edu.cpib.scanner;
+package ch.fhnw.edu.cpib.scanner.symbols;
 
+import ch.fhnw.edu.cpib.scanner.Base;
 import ch.fhnw.edu.cpib.scanner.enumerations.Operators;
 import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
 
