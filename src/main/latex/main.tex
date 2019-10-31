@@ -32,7 +32,7 @@
 	\authorstyle{Marco Romanutti\textsuperscript{1,2} und Benjamin Meyer\textsuperscript{1,2}} % Authors
 	\newline\newline % Space before institutions
 	\textsuperscript{1}\institution{Fachhochschule Nordwestschweiz FHNW, Brugg}\\ % Institution
-	\textsuperscript{2}\texttt{Zwischenbericht Compilerbau} % Module
+	\textsuperscript{2}\texttt{Zwischenbericht} % Module
 }
 
 \date{}
@@ -49,34 +49,37 @@
 %	ABSTRACT
 %----------------------------------------------------------------------------------------
 
-\lettrineabstract{Im Modul Compilerbau soll eine Erweiterung für eine bestehende IML spezifiziert und implementiert werden. Unsere Erweiterung führt die Unterstützung eines Datentypen für natürliche Zahlen ein. In den nachfolgegenden Abschnitten werden die Erweiterungen an der IML-Spezifikation beschrieben und Implementationsentscheide begründet.}
+%\lettrineabstract{Im Modul Compilerbau soll eine Erweiterung für eine bestehende IML spezifiziert und implementiert werden. Unsere Erweiterung führt die Unterstützung eines Datentypen für natürliche Zahlen ein. In den nachfolgegenden Abschnitten werden die Erweiterungen an der IML-Spezifikation beschrieben und Implementationsentscheide begründet.}
+\lettrineabstract{Im Modul Compilerbau wird eine Erweiterung für die bestehende IML spezifiziert und implementiert. Neu soll ein Datentyp für natürliche Zahlen unterstützt werden. Werte vom bestehenden Datentyp int64 können in den neuen Datentypen gecastet werden und umgekehrt.}
+
 %----------------------------------------------------------------------------------------
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
 
-\section{Einleitung}
+\section{Compiler}
+Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
 
-Unter natürlichen Zahlen werden die positiven Zahlen und 0 verstanden. Die IML soll um einen neuen Datentyp nat64 erweitert werden. Der neue Datentyp soll solche Zahlen mit bis zu 64 Ziffern abbilden können. Es sollen die Operationen Addition, Subtraktion, Multiplikation, Division und Modulo  unterstützt werden. Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp int64 und dem neuen Datentyp nat64 möglich sein.
+\section{Erweiterung}
+\subsection{Einleitung}
 
-\section{Lexikalische Syntax}
+Unter natürlichen Zahlen werden die positiven Zahlen und 0 verstanden. Die IML soll um einen neuen Datentyp \texttt{nat64} erweitert werden. Der neue Datentyp soll solche Zahlen mit bis zu 64 Ziffern abbilden können. Es sollen die Operationen Addition, Subtraktion, Multiplikation, Division und Modulo  unterstützt werden. Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp int64 und dem neuen Datentyp nat64 möglich sein.
+
+\subsection{Lexikalische Syntax}
 Für den neuen Datentyp wird ein neues Keyword \texttt{(TYPE, NAT64)} eingefügt.
 Zusätzlich werden für das Casting rechteckige Klammern eingeführt.
 Die rechteckigen Klammern werden nachfolgend Brackets genannt.
 Mithilfe der Brackets kann der Ziel-Datentyp bestimmt werden.
 Dieser wird dabei zwischen einer öffnenden Klammer \texttt{(LBRACKET)} und einer schliessenden Klammer \texttt{(RBRACKET)} angegeben.
+% Listing mit neuen Elementen
+\begin{lstlisting}[backgroundcolor = \color{lightgray},
+xleftmargin = 0.05cm,
+framexleftmargin = 0.05em]
+    Datentyp:     nat64     (TYPE, NAT64)
+    Brackets:     [ ]       LBRACKET, RBRACKET
+\end{lstlisting}
 
-% Tabelle für neue Elemente
-\begin{table}[h]
-\centering
-\small
-\begin{tabular}{lll}
-Neuer Datentyp: & nat64   & (TYPE, NAT64)      \\
-Neue Brackets: & [ ] & LBRACKET, RBRACKET
-\end{tabular}
-\end{table}
-
-\section{Grammatikalische Syntax}
-Das nachfolgende Code-Listing zeigt, wie der neue Datentyp eingesetzt werden kann.
+\subsection{Grammatikalische Syntax}
+Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{nat64} eingesetzt werden kann.
 \begin{lstlisting}
     // Deklaration
     var natIdent1 : nat64;
@@ -88,61 +91,90 @@ Das nachfolgende Code-Listing zeigt, wie der neue Datentyp eingesetzt werden kan
     natIdent2 init := 10;
     natIdent3 init := natIdent1 + natIdent2;
 
-    // Casting
-    // int64 -> nat64
+    // Casting von int64 nach nat64
     var intIdent1 : int;
     intIdent1 init := 30
     natIdent3 := [nat64] intIdent1;
 
     call functionWithNatParam([nat64] intIdent1);
 
-    // nat64 -> int64
+    // Casting von nat64 nach int64
     var intIdent2 : int;
     intIdent2 init := [int64] natIdent3;
 
     call functionWithIntParam([int64] natIdent3);
 \end{lstlisting}
-
-Falls zwei Datentypen nicht gecastet werden können, muss ein Grammatik-Error geworften werden.
+Falls zwei Datentypen nicht gecastet werden können, muss ein Grammatik-Error geworfen werden.
+Folgendes Code-Listing zeigt ein solches Beispiel mit dem bestehenden Datentyp \texttt{bool}:
 \begin{lstlisting}
     // Deklaration
     var boolIdent : bool;
     boolIdent init := false;
 
     var natIdent : nat64;
-    natIdent init := [nat64] boolIdent // Throws Error!
+    // Throws error:
+    natIdent init := [nat64] boolIdent
+\end{lstlisting}
+Unsere Erweiterung unterstützt keine impliziten Castings von einem Datentypen in einen anderen.
+Weitere Code-Beispiele sind in Kapitel TODO zu finden.
+
+\subsection{Änderungen an der Grammatik}
+
+Zusätzlich zu den bestehende Operatoren wurde ein neuer \texttt{castOpr} erstellt, welcher anstelle des Nichtterminal-Symbol \texttt{factor} verwendet werden kann.
+% Neuer Operator
+\begin{lstlisting}[backgroundcolor = \color{lightgray},
+xleftmargin = 0.05cm,
+framexleftmargin = 0.05em]
+    castOpr :=  LBRACKET LITERAL RBRACKET
+\end{lstlisting}
+Das bestehende Nichtterminal-Symbol \texttt{factor} wird um diese neue Produktion ergänzt:
+% Neue Produktionen
+\begin{lstlisting}[backgroundcolor = \color{lightgray},
+xleftmargin = 0.05cm,
+framexleftmargin = 0.05em]
+    factor :=   LITERAL
+    | IDENT [INIT | exprList]
+    | castOpr factor
+    | monadicOpr factor
+    | LPAREN expr RPAREN
 \end{lstlisting}
 
-\section{Änderungen an der Grammatik}
+\subsection{Kontext- und Typen-Einschränkungen}
+Der Literal zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss ein Datentyp\footnote{Aktuell int64, bool oder nat64} sein.
 
-Zusätzlich zu den bestehende Operatoren wurde ein neuer \texttt{castOpr} erstellt, welcher in Zusammenhang mit dem Nichtterminal-Symbol \texttt{factor} verwendet werden kann.
+Der neue Datentyp \texttt{nat64} unterstützt die bestehenden Operationen aus IML\footnote{Aktuell sind dies \begin{itemize} \item MULTOPR(*, divE, modE) \item ADDOPR(+, -) \item RELOPR(<, <=, >, >=, =, /=) \item BOOLOPR(/\textbackslash? \textbackslash/?)\end{itemize}}.
+Sofern sich die einzelnen Operanden und auch das Resulat im Wertebereich ($\in \mathbb{N}$) befinden, entspricht das Verhalten vom Datentyp \texttt{nat64} jenem vom Datentyp \texttt{int64}.
+Andernfalls wird folgendes Verhalten festgelegt:
 
-% Tabelle für neue Elemente
+\begin{itemize}
+    \item \textbf{Werteüberlauf}: % TODO Definieren was passiert
+    \item \textbf{Negative Werte}: % TODO Definieren was passiert
+    \item \textbf{Rest bei Division}: Wird analog \texttt{int64} behandelt und Nachkommastellen werden abgeschnitten.
+\end{itemize}
+
+Tabelle \ref{tab:casting} zeigt die unterstützen Typumwandlungen der verschiedenen Datentypen.
+Typumwandlungen, welche zu potentiellem Informationsverlust führen, sind mit mit \texttt{*} gekennzeichnet.
+% TODO Handhabung von diesen Umwandungen bei Wertüberlauf, negativen Werten definieren, s. oben
 \begin{table}[h]
+    \tiny
     \centering
-    \small
-    \begin{tabular}{l}
-        castOpr := LBRACKET LITERAL RBRACKET
-    \end{tabular}
+    \caption{Casting zwischen Datentypen}
+    \label{tab:casting}
+    \resizebox{\columnwidth}{!}{%
+    \begin{tabular}{rlll}
+        \hline
+        Quell- \textbackslash \ Zieldatentyp & int64 & nat64 & bool \\ \hline
+        int64                   & \cmark        & \cmark *       & \xmark      \\
+        nat64                   & \cmark        & \cmark         & \xmark     \\
+        bool                    & \xmark        & \xmark         & \cmark     \\ \hline
+    \end{tabular}%
+    }
 \end{table}
 
-Der bestehende \texttt{factor} wird um den neuen Operator ergänzt:
-
-\begin{table}[h]
-    \centering
-    \small
-    \begin{tabular}{ll}
-        factor :=   & LITERAL \\
-                    & | IDENT [INIT | exprList] \\
-                    & | castOpr factor \\
-                    & | monadicOpr factor \\
-                    & | LPAREN expr RPAREN
-    \end{tabular}
-\end{table}
-
-\section{Kontext- und Typen-Einschränkungen}
 
 \section{Vergleich mit anderen Programmiersprachen}
+
+\section{Beispielprogramme}
 
 
 %----------------------------------------------------------------------------------------
