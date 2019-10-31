@@ -81,42 +81,42 @@ framexleftmargin = 0.05em]
 \subsection{Grammatikalische Syntax}
 Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{nat64} eingesetzt werden kann.
 \begin{lstlisting}
-    // Deklaration
-    var natIdent1 : nat64;
-    var natIdent2 : nat64;
-    var natIdent3 : nat64;
+// Deklaration
+var natIdent1 : nat64;
+var natIdent2 : nat64;
+var natIdent3 : nat64;
 
-    // Initialisierung
-    natIdent1 init := 50;
-    natIdent2 init := 10;
-    natIdent3 init := natIdent1 + natIdent2;
+// Initialisierung
+natIdent1 init := 50;
+natIdent2 init := 10;
+natIdent3 init := natIdent1 + natIdent2;
 
-    // Casting von int64 nach nat64
-    var intIdent1 : int;
-    intIdent1 init := 30
-    natIdent3 := [nat64] intIdent1;
+// Casting von int64 nach nat64
+var intIdent1 : int;
+intIdent1 init := 30
+natIdent3 := [nat64] intIdent1;
 
-    call functionWithNatParam([nat64] intIdent1);
+call functionWithNatParam([nat64] intIdent1);
 
-    // Casting von nat64 nach int64
-    var intIdent2 : int;
-    intIdent2 init := [int64] natIdent3;
+// Casting von nat64 nach int64
+var intIdent2 : int;
+intIdent2 init := [int64] natIdent3;
 
-    call functionWithIntParam([int64] natIdent3);
+call functionWithIntParam([int64] natIdent3);
 \end{lstlisting}
 Falls zwei Datentypen nicht gecastet werden können, muss ein Grammatik-Error geworfen werden.
 Folgendes Code-Listing zeigt ein solches Beispiel mit dem bestehenden Datentyp \texttt{bool}:
 \begin{lstlisting}
-    // Deklaration
-    var boolIdent : bool;
-    boolIdent init := false;
+// Deklaration
+var boolIdent : bool;
+boolIdent init := false;
 
-    var natIdent : nat64;
-    // Throws error:
-    natIdent init := [nat64] boolIdent
+var natIdent : nat64;
+// Throws error:
+natIdent init := [nat64] boolIdent
 \end{lstlisting}
 Unsere Erweiterung unterstützt keine impliziten Castings von einem Datentypen in einen anderen.
-Weitere Code-Beispiele sind in Kapitel TODO zu finden.
+Weitere Code-Beispiele sind in Kapitel \ref{sec:prog} zu finden.
 
 \subsection{Änderungen an der Grammatik}
 
@@ -173,9 +173,53 @@ Typumwandlungen, welche zu potentiellem Informationsverlust führen, sind mit mi
 
 
 \section{Vergleich mit anderen Programmiersprachen}
+\subsection{Java}
+In Java werden Wertebereichsunterschreibungen und -überschreibungen für Initialisierung und fortlaufende Berechnungen unterschiedliche gehandhabt:
+Bei der Initialisierung wird beispielsweise beim Datentyp \texttt{int} geprüft, ob die Werte innerhalb der Wertebereiche liegen. Falls dies nicht der Fall ist, wird ein Error geworfen.
+Falls bei fortlaufenden Berechnungen Wertebereiche unter- resp. überschritten werden, wird einfach auf dem Zahlenkreis weitergegangen und der entsprechende Wert verwendet.
+Dies kann dazu führen, dass mit \glqq falschen\grqq \ Werten gerechnet wird, ohne dass der Entwickler dies bemerkt.
+
+\subsection{C++}
+% TODO Kapitel schreiben
 
 \section{Beispielprogramme}
+\label{sec:prog}
+Operation:
+\begin{lstlisting}
+program progAddition
+global
+    var x:nat64;
+    var y:nat64;
+    var r:nat64;
+    var b:bool
+do
+    x init := 4;
+    y init := 3;
+    r init := x + y;
+    b init := r = 7;
 
+    debugout r;
+    debugout b
+endprogram
+\end{lstlisting}
+Casting:
+\begin{lstlisting}
+program progCasting
+global
+    var x:nat64;
+    var y:int64;
+    var r:nat64;
+    var b:bool
+do
+    x init := 4;
+    y init := 3;
+    r init := x + [nat64] y;
+    b init := r = 7;
+
+    debugout r;
+    debugout b
+endprogram
+\end{lstlisting}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
