@@ -18,6 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
         Scanner scanner = new Scanner();
         TokenList tokens = scanner.scan(iml);
+        System.out.println(tokens.toString());
     }
 
 }

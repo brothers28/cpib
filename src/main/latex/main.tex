@@ -61,15 +61,20 @@ Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
 
 \section{Erweiterung}
 \subsection{Einleitung}
-
-Unter natürlichen Zahlen werden die positiven Zahlen und 0 verstanden. Die IML soll um einen neuen Datentyp \texttt{nat64} erweitert werden. Der neue Datentyp soll solche Zahlen mit bis zu 64 Ziffern abbilden können. Es sollen die Operationen Addition, Subtraktion, Multiplikation, Division und Modulo  unterstützt werden. Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp int64 und dem neuen Datentyp nat64 möglich sein.
+Unter natürlichen Zahlen werden die positiven Zahlen und 0 verstanden.
+Die IML soll um einen neuen Datentyp \texttt{nat64} erweitert werden.
+Der neue Datentyp soll solche Zahlen mit bis zu 64 Ziffern abbilden können.
+Es sollen die Operationen Addition, Subtraktion, Multiplikation, Division und Modulo unterstützt werden.
+Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp \texttt{int64} und dem neuen Datentyp \texttt{nat64} möglich sein.
 
 \subsection{Lexikalische Syntax}
 Für den neuen Datentyp wird ein neues Keyword \texttt{(TYPE, NAT64)} eingefügt.
-Zusätzlich werden für das Casting rechteckige Klammern eingeführt.
-Die rechteckigen Klammern werden nachfolgend Brackets genannt.
-Mithilfe der Brackets kann der Ziel-Datentyp bestimmt werden.
-Dieser wird dabei zwischen einer öffnenden Klammer \texttt{(LBRACKET)} und einer schliessenden Klammer \texttt{(RBRACKET)} angegeben.
+Ebenfalls wird eine explizite Typkonversation (nachfolgend casting gennant) implementiert.
+Casting ist nur von \texttt{(TYPE, INT64)} zu \texttt{(TYPE, NAT64)} und umgekehrt möglich.
+Als castingoperator wird die rechtekige Klammern (nachfolgend brackets gennant) verwendet.
+Innerhalb der brakets befindet sich der Zieldatentyp: \texttt{[TYPE]}
+
+
 % Listing mit neuen Elementen
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
 xleftmargin = 0.05cm,
@@ -104,7 +109,7 @@ intIdent2 init := [int64] natIdent3;
 
 call functionWithIntParam([int64] natIdent3);
 \end{lstlisting}
-Falls zwei Datentypen nicht gecastet werden können, muss ein Grammatik-Error geworfen werden.
+Falls zwei Datentypen nicht gecastet werden können, wird ein Kompilierungsfehler geworfen.
 Folgendes Code-Listing zeigt ein solches Beispiel mit dem bestehenden Datentyp \texttt{bool}:
 \begin{lstlisting}
 // Deklaration
@@ -115,7 +120,7 @@ var natIdent : nat64;
 // Throws error:
 natIdent init := [nat64] boolIdent
 \end{lstlisting}
-Unsere Erweiterung unterstützt keine impliziten Castings von einem Datentypen in einen anderen.
+Unsere Erweiterung unterstützt keine impliziten Castings
 Weitere Code-Beispiele sind in Kapitel \ref{sec:prog} zu finden.
 
 \subsection{Änderungen an der Grammatik}
@@ -140,15 +145,17 @@ framexleftmargin = 0.05em]
 \end{lstlisting}
 
 \subsection{Kontext- und Typen-Einschränkungen}
-Der Literal zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss ein Datentyp\footnote{Aktuell int64, bool oder nat64} sein.
+Der Literal zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss vom Datentyp \footnote{int64 oder nat64} sein.
+Unsere Erweiterung unterstützt kein casting vom Datentyp \texttt{bool}.
+Ein explizites casting zum Typ \texttt{bool} führt zu einem Kompilierungsfehler.
 
 Der neue Datentyp \texttt{nat64} unterstützt die bestehenden Operationen aus IML\footnote{Aktuell sind dies \begin{itemize} \item MULTOPR(*, divE, modE) \item ADDOPR(+, -) \item RELOPR(<, <=, >, >=, =, /=) \item BOOLOPR(/\textbackslash? \textbackslash/?)\end{itemize}}.
 Sofern sich die einzelnen Operanden und auch das Resulat im Wertebereich ($\in \mathbb{N}$) befinden, entspricht das Verhalten vom Datentyp \texttt{nat64} jenem vom Datentyp \texttt{int64}.
 Andernfalls wird folgendes Verhalten festgelegt:
 
 \begin{itemize}
-    \item \textbf{Werteüberlauf}: % TODO Definieren was passiert
-    \item \textbf{Negative Werte}: % TODO Definieren was passiert
+    \item \textbf{Werteüberlauf}: Bei einem überlauf wird ein laufzeitfehler geworfen % TODO --> soll etwas anderes passieren?
+    \item \textbf{Negative Werte}: Wird ein Laufzeitfehler geworfen. Bei einem expliziten casting wird der negati.ve Wert * (-1) gerechnet % TODO --> Soll etwas anderes passieren?
     \item \textbf{Rest bei Division}: Wird analog \texttt{int64} behandelt und Nachkommastellen werden abgeschnitten.
 \end{itemize}
 
@@ -163,10 +170,9 @@ Typumwandlungen, welche zu potentiellem Informationsverlust führen, sind mit mi
     \resizebox{\columnwidth}{!}{%
     \begin{tabular}{rlll}
         \hline
-        Quell- \textbackslash \ Zieldatentyp & int64 & nat64 & bool \\ \hline
-        int64                   & \cmark        & \cmark *       & \xmark      \\
+        Quell- \textbackslash \ Zieldatentyp & int64 & nat64 \\ \hline
+        int64                   & \cmark        & value >= 0 -> konvertierung, value < 0 -> value * (-1) \cmark *       & \xmark     \\ %TODO wollen wir das so?
         nat64                   & \cmark        & \cmark         & \xmark     \\
-        bool                    & \xmark        & \xmark         & \cmark     \\ \hline
     \end{tabular}%
     }
 \end{table}

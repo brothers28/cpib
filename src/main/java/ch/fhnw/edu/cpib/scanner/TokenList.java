@@ -20,9 +20,13 @@ public class TokenList {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("[");
         for (Token t : tokenList){
             sb.append(t.toString());
+            sb.append(", ");
         }
+        sb.deleteCharAt(sb.lastIndexOf(","));
+        sb.append("]");
         return sb.toString();
     }
 }

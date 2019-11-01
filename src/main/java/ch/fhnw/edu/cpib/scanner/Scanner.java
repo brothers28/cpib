@@ -163,6 +163,8 @@ public class Scanner {
                 throw new InternalError("Default case in scanner.");
             }
         }
+
+        result.add(new Base(Terminals.SENTINEL));
         return result;
     }
 
