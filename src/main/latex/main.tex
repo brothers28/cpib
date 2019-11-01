@@ -32,7 +32,7 @@
 	\authorstyle{Marco Romanutti\textsuperscript{1,2} und Benjamin Meyer\textsuperscript{1,2}} % Authors
 	\newline\newline % Space before institutions
 	\textsuperscript{1}\institution{Fachhochschule Nordwestschweiz FHNW, Brugg}\\ % Institution
-	\textsuperscript{2}\texttt{Compilerbau, Klasse 7Ibb} % Module
+	\textsuperscript{2}\texttt{Zwischenbericht} % Module
 }
 
 \date{}
@@ -49,74 +49,177 @@
 %	ABSTRACT
 %----------------------------------------------------------------------------------------
 
-\lettrineabstract{Unter natürlichen Zahlen werden die positiven Zahlen und 0 verstanden. Die IML soll um einen neuen Datentyp nat64 erweitert werden. Der neue Datentyp soll solche Zahlen mit bis zu 64 Ziffern abbilden können. Es sollen die Operationen Addition, Subtraktion, Multiplikation, Division und Modulo  unterstützt werden.}
+%\lettrineabstract{Im Modul Compilerbau soll eine Erweiterung für eine bestehende IML spezifiziert und implementiert werden. Unsere Erweiterung führt die Unterstützung eines Datentypen für natürliche Zahlen ein. In den nachfolgegenden Abschnitten werden die Erweiterungen an der IML-Spezifikation beschrieben und Implementationsentscheide begründet.}
+\lettrineabstract{Im Modul Compilerbau wird eine Erweiterung für die bestehende IML spezifiziert und implementiert. Neu soll ein Datentyp für natürliche Zahlen unterstützt werden. Werte vom bestehenden Datentyp int64 können in den neuen Datentypen gecastet werden und umgekehrt.}
+
 %----------------------------------------------------------------------------------------
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
 
-\section{Einleitung}
+\section{Compiler}
+Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
 
-Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-\begin{align}
-	A =
-	\begin{bmatrix}
-		0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
-	\end{bmatrix}
-\end{align}
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.
+\section{Erweiterung}
+\subsection{Einleitung}
 
-\begin{lstlisting}
-// Hello.java
-import javax.swing.JApplet;
-import java.awt.Graphics;
+Unter natürlichen Zahlen werden die positiven Zahlen und 0 verstanden. Die IML soll um einen neuen Datentyp \texttt{nat64} erweitert werden. Der neue Datentyp soll solche Zahlen mit bis zu 64 Ziffern abbilden können. Es sollen die Operationen Addition, Subtraktion, Multiplikation, Division und Modulo  unterstützt werden. Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp int64 und dem neuen Datentyp nat64 möglich sein.
 
-public class Hello extends JApplet {
-    public void paintComponent(Graphics g) {
-        g.drawString("Hello, world!", 65, 95);
-    }
-}
+\subsection{Lexikalische Syntax}
+Für den neuen Datentyp wird ein neues Keyword \texttt{(TYPE, NAT64)} eingefügt.
+Zusätzlich werden für das Casting rechteckige Klammern eingeführt.
+Die rechteckigen Klammern werden nachfolgend Brackets genannt.
+Mithilfe der Brackets kann der Ziel-Datentyp bestimmt werden.
+Dieser wird dabei zwischen einer öffnenden Klammer \texttt{(LBRACKET)} und einer schliessenden Klammer \texttt{(RBRACKET)} angegeben.
+% Listing mit neuen Elementen
+\begin{lstlisting}[backgroundcolor = \color{lightgray},
+xleftmargin = 0.05cm,
+framexleftmargin = 0.05em]
+    Datentyp:     nat64     (TYPE, NAT64)
+    Brackets:     [ ]       LBRACKET, RBRACKET
 \end{lstlisting}
 
-At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua.
+\subsection{Grammatikalische Syntax}
+Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{nat64} eingesetzt werden kann.
+\begin{lstlisting}
+// Deklaration
+var natIdent1 : nat64;
+var natIdent2 : nat64;
+var natIdent3 : nat64;
 
-\begin{figure}[H]
-    \includegraphics[width=\linewidth]{example_image.png} % Figure image
-    \caption{This is a nice picture} % Figure caption
-    \label{image_1} % Label for referencing with \ref{image_1}
-\end{figure}
+// Initialisierung
+natIdent1 init := 50;
+natIdent2 init := 10;
+natIdent3 init := natIdent1 + natIdent2;
 
-Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+// Casting von int64 nach nat64
+var intIdent1 : int;
+intIdent1 init := 30
+natIdent3 := [nat64] intIdent1;
 
-Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+call functionWithNatParam([nat64] intIdent1);
 
+// Casting von nat64 nach int64
+var intIdent2 : int;
+intIdent2 init := [int64] natIdent3;
+
+call functionWithIntParam([int64] natIdent3);
+\end{lstlisting}
+Falls zwei Datentypen nicht gecastet werden können, muss ein Grammatik-Error geworfen werden.
+Folgendes Code-Listing zeigt ein solches Beispiel mit dem bestehenden Datentyp \texttt{bool}:
+\begin{lstlisting}
+// Deklaration
+var boolIdent : bool;
+boolIdent init := false;
+
+var natIdent : nat64;
+// Throws error:
+natIdent init := [nat64] boolIdent
+\end{lstlisting}
+Unsere Erweiterung unterstützt keine impliziten Castings von einem Datentypen in einen anderen.
+Weitere Code-Beispiele sind in Kapitel \ref{sec:prog} zu finden.
+
+\subsection{Änderungen an der Grammatik}
+
+Zusätzlich zu den bestehende Operatoren wurde ein neuer \texttt{castOpr} erstellt, welcher anstelle des Nichtterminal-Symbol \texttt{factor} verwendet werden kann.
+% Neuer Operator
+\begin{lstlisting}[backgroundcolor = \color{lightgray},
+xleftmargin = 0.05cm,
+framexleftmargin = 0.05em]
+    castOpr :=  LBRACKET LITERAL RBRACKET
+\end{lstlisting}
+Das bestehende Nichtterminal-Symbol \texttt{factor} wird um diese neue Produktion ergänzt:
+% Neue Produktionen
+\begin{lstlisting}[backgroundcolor = \color{lightgray},
+xleftmargin = 0.05cm,
+framexleftmargin = 0.05em]
+    factor :=   LITERAL
+    | IDENT [INIT | exprList]
+    | castOpr factor
+    | monadicOpr factor
+    | LPAREN expr RPAREN
+\end{lstlisting}
+
+\subsection{Kontext- und Typen-Einschränkungen}
+Der Literal zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss ein Datentyp\footnote{Aktuell int64, bool oder nat64} sein.
+
+Der neue Datentyp \texttt{nat64} unterstützt die bestehenden Operationen aus IML\footnote{Aktuell sind dies \begin{itemize} \item MULTOPR(*, divE, modE) \item ADDOPR(+, -) \item RELOPR(<, <=, >, >=, =, /=) \item BOOLOPR(/\textbackslash? \textbackslash/?)\end{itemize}}.
+Sofern sich die einzelnen Operanden und auch das Resulat im Wertebereich ($\in \mathbb{N}$) befinden, entspricht das Verhalten vom Datentyp \texttt{nat64} jenem vom Datentyp \texttt{int64}.
+Andernfalls wird folgendes Verhalten festgelegt:
+
+\begin{itemize}
+    \item \textbf{Werteüberlauf}: % TODO Definieren was passiert
+    \item \textbf{Negative Werte}: % TODO Definieren was passiert
+    \item \textbf{Rest bei Division}: Wird analog \texttt{int64} behandelt und Nachkommastellen werden abgeschnitten.
+\end{itemize}
+
+Tabelle \ref{tab:casting} zeigt die unterstützen Typumwandlungen der verschiedenen Datentypen.
+Typumwandlungen, welche zu potentiellem Informationsverlust führen, sind mit mit \texttt{*} gekennzeichnet.
+% TODO Handhabung von diesen Umwandungen bei Wertüberlauf, negativen Werten definieren, s. oben
 \begin{table}[h]
-    \begin{tabularx}{\linewidth}{>{\parskip1ex}X@{\kern4\tabcolsep}>{\parskip1ex}X}
-        \toprule
-        \hfil\bfseries Pros
-        &
-        \hfil\bfseries Cons
-        \\\cmidrule(r{3\tabcolsep}){1-1}\cmidrule(l{-\tabcolsep}){2-2}
-
-        %% PROS, seperated by empty line or \par
-        \lipsum[1] Anstelle der eigentlichen Daten werden nur die Hashes der Elemente gespeichert. Dadurch wird weniger Speicherkapazität benötigt.
-        \par
-        \lipsum[2] Das Hinzufügen und Prüfen von Elementen gehört zur Komplexitätsklasse \textit{O(k)}. Weil die verschiedenen Hashverfahren voneinander unabhängig sind, kann die Anwendung ebendieser parallelisiert werden.
-        \par
-        \lipsum[3] Durch die Anwendung von Hashfunktionen auf die einzelnen Werte kann der Nachteil von unregelmässig verteilten Daten verringert werden. In verteilten Datenbanken wird durch das Hashing-Verfahren eine gleichmässigere Verteilung der Daten auf den verschiedenen Datenbank-Nodes erreicht.
-
-        &
-        %% CONS, seperated by empty line or \par
-        \lipsum[1] Ein Bloom-Filter kann erkennen, ob ein Wort \textit{nicht} im Filter vorhanden ist - ob ein Wort allerdings mit Sicherheit im Filter vorkommt kann nicht bestimmt werden.
-        \par
-        \lipsum[2] Der Bloom-Filter ist einfach umzusetzen, falls Wörter nur hinzugefügt werden. Die eingangs beschriebene Funktionsweise eignet sich allerdings nicht, falls Wörter auch entfernt oder zu einem späteren Zeitpunkt geändert werden müssen.
-        \par
-        \lipsum[3] Wird ein Bloom-Filter erstellt, so werden die damit verbundenen Daten nicht gespeichert. Dies führt zur Einschränkung, dass nicht auf die Daten zugegriffen werden kann, da nur deren Hash-Werte im Bloom-Filter gespeichert sind.
-
-        \\\bottomrule
-    \end{tabularx}
-    \caption{Gegenüberstellung Vorteile und Nachteile}
+    \tiny
+    \centering
+    \caption{Casting zwischen Datentypen}
+    \label{tab:casting}
+    \resizebox{\columnwidth}{!}{%
+    \begin{tabular}{rlll}
+        \hline
+        Quell- \textbackslash \ Zieldatentyp & int64 & nat64 & bool \\ \hline
+        int64                   & \cmark        & \cmark *       & \xmark      \\
+        nat64                   & \cmark        & \cmark         & \xmark     \\
+        bool                    & \xmark        & \xmark         & \cmark     \\ \hline
+    \end{tabular}%
+    }
 \end{table}
 
+
+\section{Vergleich mit anderen Programmiersprachen}
+\subsection{Java}
+In Java werden Wertebereichsunterschreibungen und -überschreibungen für Initialisierung und fortlaufende Berechnungen unterschiedliche gehandhabt:
+Bei der Initialisierung wird beispielsweise beim Datentyp \texttt{int} geprüft, ob die Werte innerhalb der Wertebereiche liegen. Falls dies nicht der Fall ist, wird ein Error geworfen.
+Falls bei fortlaufenden Berechnungen Wertebereiche unter- resp. überschritten werden, wird einfach auf dem Zahlenkreis weitergegangen und der entsprechende Wert verwendet.
+Dies kann dazu führen, dass mit \glqq falschen\grqq \ Werten gerechnet wird, ohne dass der Entwickler dies bemerkt.
+
+\subsection{C++}
+% TODO Kapitel schreiben
+
+\section{Beispielprogramme}
+\label{sec:prog}
+Operation:
+\begin{lstlisting}
+program progAddition
+global
+    var x:nat64;
+    var y:nat64;
+    var r:nat64;
+    var b:bool
+do
+    x init := 4;
+    y init := 3;
+    r init := x + y;
+    b init := r = 7;
+
+    debugout r;
+    debugout b
+endprogram
+\end{lstlisting}
+Casting:
+\begin{lstlisting}
+program progCasting
+global
+    var x:nat64;
+    var y:int64;
+    var r:nat64;
+    var b:bool
+do
+    x init := 4;
+    y init := 3;
+    r init := x + [nat64] y;
+    b init := r = 7;
+
+    debugout r;
+    debugout b
+endprogram
+\end{lstlisting}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
