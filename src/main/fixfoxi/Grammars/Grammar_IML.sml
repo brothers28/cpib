@@ -88,7 +88,8 @@ val string_of_term =
    | WHILE => "WHILE"
 
 datatype nonterm
-  = cmd
+  = castOpr
+  | cmd
   | cpsCmd
   | cpsDecl
   | cpsStoDecl
@@ -138,7 +139,8 @@ datatype nonterm
   | typedIdent
 
 val string_of_nonterm =
-  fn cmd => "cmd"
+  fn castOpr => "castOpr"
+   | cmd => "cmd"
    | cpsCmd => "cpsCmd"
    | cpsDecl => "cpsDecl"
    | cpsStoDecl => "cpsStoDecl"
