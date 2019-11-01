@@ -26,7 +26,7 @@
 %	ARTICLE INFORMATION
 %----------------------------------------------------------------------------------------
 
-\title{Nat64 Support für IML} % The article title
+\title{Nat64 und Casting Support für IML} % The article title
 
 \author{
 	\authorstyle{Marco Romanutti\textsuperscript{1,2} und Benjamin Meyer\textsuperscript{1,2}} % Authors
@@ -68,18 +68,18 @@ Es sollen die Operationen Addition, Subtraktion, Multiplikation, Division und Mo
 Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp \texttt{int64} und dem neuen Datentyp \texttt{nat64} möglich sein.
 
 \subsection{Lexikalische Syntax}
-Für den neuen Datentyp wird ein neues Keyword \texttt{(TYPE, NAT64)} eingefügt.
-Ebenfalls wird eine explizite Typkonversation (nachfolgend casting gennant) implementiert.
+Für den neuen Datentyp wird das Keyword \texttt{(TYPE, NAT64)} hinzugefügt.
+Ebenfalls wird ein explizites Casting implementiert.
 Casting ist nur von \texttt{(TYPE, INT64)} zu \texttt{(TYPE, NAT64)} und umgekehrt möglich.
-Als castingoperator wird die rechtekige Klammern (nachfolgend brackets gennant) verwendet.
-Innerhalb der brakets befindet sich der Zieldatentyp: \texttt{[TYPE]}
+Als Castingoperator wird die rechtekige Klammern (nachfolgend Brackets gennant) verwendet.
+Innerhalb der Brakets befindet sich der Zieldatentyp (zum Beispiel \texttt{[int64]}).
 
 
 % Listing mit neuen Elementen
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
 xleftmargin = 0.05cm,
 framexleftmargin = 0.05em]
-    Datentyp:     nat64     (TYPE, NAT64)
+    Datentyp:     \texttt{nat64}     \texttt{(TYPE, NAT64)}
     Brackets:     [ ]       LBRACKET, RBRACKET
 \end{lstlisting}
 
@@ -120,7 +120,7 @@ var natIdent : nat64;
 // Throws error:
 natIdent init := [nat64] boolIdent
 \end{lstlisting}
-Unsere Erweiterung unterstützt keine impliziten Castings
+Unsere Erweiterung unterstützt keine impliziten Castings.
 Weitere Code-Beispiele sind in Kapitel \ref{sec:prog} zu finden.
 
 \subsection{Änderungen an der Grammatik}
@@ -145,34 +145,33 @@ framexleftmargin = 0.05em]
 \end{lstlisting}
 
 \subsection{Kontext- und Typen-Einschränkungen}
-Der Literal zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss vom Datentyp \footnote{int64 oder nat64} sein.
-Unsere Erweiterung unterstützt kein casting vom Datentyp \texttt{bool}.
-Ein explizites casting zum Typ \texttt{bool} führt zu einem Kompilierungsfehler.
+Der Literal zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss vom Datentyp \texttt{int64} oder \texttt{nat64} sein.
+Ein Casting zum Typ \texttt{bool} oder vom Typ \texttt{bool} zu \texttt{int64} resp. \texttt{nat64} führt zu einem Kompilierungsfehler.
 
 Der neue Datentyp \texttt{nat64} unterstützt die bestehenden Operationen aus IML\footnote{Aktuell sind dies \begin{itemize} \item MULTOPR(*, divE, modE) \item ADDOPR(+, -) \item RELOPR(<, <=, >, >=, =, /=) \item BOOLOPR(/\textbackslash? \textbackslash/?)\end{itemize}}.
 Sofern sich die einzelnen Operanden und auch das Resulat im Wertebereich ($\in \mathbb{N}$) befinden, entspricht das Verhalten vom Datentyp \texttt{nat64} jenem vom Datentyp \texttt{int64}.
 Andernfalls wird folgendes Verhalten festgelegt:
 
 \begin{itemize}
-    \item \textbf{Werteüberlauf}: Bei einem überlauf wird ein laufzeitfehler geworfen % TODO --> soll etwas anderes passieren?
-    \item \textbf{Negative Werte}: Wird ein Laufzeitfehler geworfen. Bei einem expliziten casting wird der negati.ve Wert * (-1) gerechnet % TODO --> Soll etwas anderes passieren?
+    \item \textbf{Werteüberlauf}: Bei einem überlauf wird ein Laufzeitfehler geworfen % TODO --> soll etwas anderes passieren?
+    \item \textbf{Negative Werte}: Wird ein Laufzeitfehler geworfen. Bei einem Casting wird der negative Wert mit (-1) multipliziert % TODO --> Soll etwas anderes passieren?
     \item \textbf{Rest bei Division}: Wird analog \texttt{int64} behandelt und Nachkommastellen werden abgeschnitten.
 \end{itemize}
 
-Tabelle \ref{tab:casting} zeigt die unterstützen Typumwandlungen der verschiedenen Datentypen.
+Tabelle \ref{tab:Casting} zeigt die unterstützen Typumwandlungen der verschiedenen Datentypen.
 Typumwandlungen, welche zu potentiellem Informationsverlust führen, sind mit mit \texttt{*} gekennzeichnet.
-% TODO Handhabung von diesen Umwandungen bei Wertüberlauf, negativen Werten definieren, s. oben
+% TODO Handhabung von diesen Umwandungen bei Wertüberlauf, negativen Werten definieren, s. oben --> soll etwas anderes passieren?
 \begin{table}[h]
     \tiny
     \centering
     \caption{Casting zwischen Datentypen}
-    \label{tab:casting}
+    \label{tab:Casting}
     \resizebox{\columnwidth}{!}{%
     \begin{tabular}{rlll}
-        \hline
-        Quell- \textbackslash \ Zieldatentyp & int64 & nat64 \\ \hline
-        int64                   & \cmark        & value >= 0 -> konvertierung, value < 0 -> value * (-1) \cmark *       & \xmark     \\ %TODO wollen wir das so?
-        nat64                   & \cmark        & \cmark         & \xmark     \\
+        \hline %TODO wollen wir dieses Verhalten? Zudem wird die Fussnote nicht richtig dargestellt
+        Quell- \textbackslash \ Zieldatentyp & \texttt{int64} & \texttt{nat64} \\ \hline
+        \texttt{int64}                   & \cmark        & \cmark * \footnote{value >= 0 -> normale konvertierung, value < 0 -> value * (-1)}       & \xmark     \\
+        \texttt{nat64}                   & \cmark        & \cmark         & \xmark     \\
     \end{tabular}%
     }
 \end{table}
@@ -184,9 +183,6 @@ In Java werden Wertebereichsunterschreibungen und -überschreibungen für Initia
 Bei der Initialisierung wird beispielsweise beim Datentyp \texttt{int} geprüft, ob die Werte innerhalb der Wertebereiche liegen. Falls dies nicht der Fall ist, wird ein Error geworfen.
 Falls bei fortlaufenden Berechnungen Wertebereiche unter- resp. überschritten werden, wird einfach auf dem Zahlenkreis weitergegangen und der entsprechende Wert verwendet.
 Dies kann dazu führen, dass mit \glqq falschen\grqq \ Werten gerechnet wird, ohne dass der Entwickler dies bemerkt.
-
-\subsection{C++}
-% TODO Kapitel schreiben
 
 \section{Beispielprogramme}
 \label{sec:prog}
