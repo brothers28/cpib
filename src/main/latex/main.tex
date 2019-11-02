@@ -26,7 +26,7 @@
 %	ARTICLE INFORMATION
 %----------------------------------------------------------------------------------------
 
-\title{Nat64 und Casting Support für IML} % The article title
+\title{Nat64 und Casting für IML} % The article title
 
 \author{
 	\authorstyle{Marco Romanutti\textsuperscript{1,2} und Benjamin Meyer\textsuperscript{1,2}} % Authors
@@ -64,24 +64,23 @@ Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
 Unter natürlichen Zahlen werden die positiven Zahlen und 0 verstanden.
 Die IML soll um einen neuen Datentyp \texttt{nat64} erweitert werden.
 Der neue Datentyp soll solche Zahlen mit bis zu 64 Ziffern abbilden können.
-Es sollen die Operationen Addition, Subtraktion, Multiplikation, Division und Modulo unterstützt werden.
+Es sollen die bestehenden Operationen unterstützt werden.
 Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp \texttt{int64} und dem neuen Datentyp \texttt{nat64} möglich sein.
 
 \subsection{Lexikalische Syntax}
-Für den neuen Datentyp wird das Keyword \texttt{(TYPE, NAT64)} hinzugefügt.
-Ebenfalls wird ein explizites Casting implementiert.
-Casting ist nur von \texttt{(TYPE, INT64)} zu \texttt{(TYPE, NAT64)} und umgekehrt möglich.
-Als Castingoperator wird die rechtekige Klammern (nachfolgend Brackets gennant) verwendet.
-Innerhalb der Brakets befindet sich der Zieldatentyp (zum Beispiel \texttt{[int64]}).
-
+Für den neuen Datentyp wird das Keyword \texttt{(TYPE, NAT64)} und ein Castingoperator hinzugefügt.
 
 % Listing mit neuen Elementen
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
 xleftmargin = 0.05cm,
 framexleftmargin = 0.05em]
-    Datentyp:     \texttt{nat64}     \texttt{(TYPE, NAT64)}
+    Datentyp:     nat64     (TYPE, NAT64)
     Brackets:     [ ]       LBRACKET, RBRACKET
 \end{lstlisting}
+
+Casting ist nur von \texttt{(TYPE, INT64)} zu \texttt{(TYPE, NAT64)} und umgekehrt möglich.
+Als Castingoperator wird die rechtekige Klammern (nachfolgend Brackets gennant) verwendet.
+Innerhalb der Brakets befindet sich der Zieldatentyp \footnote{zum Beispiel \texttt{[int64]}}.
 
 \subsection{Grammatikalische Syntax}
 Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{nat64} eingesetzt werden kann.
@@ -153,14 +152,13 @@ Sofern sich die einzelnen Operanden und auch das Resulat im Wertebereich ($\in \
 Andernfalls wird folgendes Verhalten festgelegt:
 
 \begin{itemize}
-    \item \textbf{Werteüberlauf}: Bei einem überlauf wird ein Laufzeitfehler geworfen % TODO --> soll etwas anderes passieren?
-    \item \textbf{Negative Werte}: Wird ein Laufzeitfehler geworfen. Bei einem Casting wird der negative Wert mit (-1) multipliziert % TODO --> Soll etwas anderes passieren?
+    \item \textbf{Werteüberlauf}: Bei einem Überlauf wird jeweils mit dem maximalen Wert weitergerechnet. Dieser entspricht dem maximalen Wert von \texttt{int64}\footnote{9,223,372,036,854,775,807}.
+    \item \textbf{Negative Werte}: Werte werten jeweils als absolute Werte Betrachtet. Ein negativer Wert $-5$ entspricht beispielsweise dem Betrag, also $|-5| = 5$.
     \item \textbf{Rest bei Division}: Wird analog \texttt{int64} behandelt und Nachkommastellen werden abgeschnitten.
 \end{itemize}
 
 Tabelle \ref{tab:Casting} zeigt die unterstützen Typumwandlungen der verschiedenen Datentypen.
 Typumwandlungen, welche zu potentiellem Informationsverlust führen, sind mit mit \texttt{*} gekennzeichnet.
-% TODO Handhabung von diesen Umwandungen bei Wertüberlauf, negativen Werten definieren, s. oben --> soll etwas anderes passieren?
 \begin{table}[h]
     \tiny
     \centering
@@ -168,14 +166,14 @@ Typumwandlungen, welche zu potentiellem Informationsverlust führen, sind mit mi
     \label{tab:Casting}
     \resizebox{\columnwidth}{!}{%
     \begin{tabular}{rlll}
-        \hline %TODO wollen wir dieses Verhalten? Zudem wird die Fussnote nicht richtig dargestellt
-        Quell- \textbackslash \ Zieldatentyp & \texttt{int64} & \texttt{nat64} \\ \hline
-        \texttt{int64}                   & \cmark        & \cmark * \footnote{value >= 0 -> normale konvertierung, value < 0 -> value * (-1)}       & \xmark     \\
-        \texttt{nat64}                   & \cmark        & \cmark         & \xmark     \\
+        \hline
+        Quell- \textbackslash \ Zieldatentyp & int64 & nat64 & bool \\ \hline
+        int64                   & \cmark        & \cmark *       & \xmark      \\
+        nat64                   & \cmark        & \cmark         & \xmark     \\
+        bool                    & \xmark        & \xmark         & \xmark     \\ \hline
     \end{tabular}%
     }
 \end{table}
-
 
 \section{Vergleich mit anderen Programmiersprachen}
 \subsection{Java}
