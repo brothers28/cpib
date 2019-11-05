@@ -96,14 +96,14 @@ natIdent2 init := 10;
 natIdent3 init := natIdent1 + natIdent2;
 
 // Casting von int64 nach nat64
-var intIdent1 : int;
+var intIdent1 : int64;
 intIdent1 init := 30
 natIdent3 := [nat64] intIdent1;
 
 call functionWithNatParam([nat64] intIdent1);
 
 // Casting von nat64 nach int64
-var intIdent2 : int;
+var intIdent2 : int64;
 intIdent2 init := [int64] natIdent3;
 
 call functionWithIntParam([int64] natIdent3);
