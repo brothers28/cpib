@@ -6,32 +6,6 @@
 \usepackage{fontawesome}
 
 
-\usepackage{listings}
-\usepackage{color}
-\usepackage[listings]{tcolorbox}
-
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
-
-\lstset{frame=tb,
-language=Java,
-aboveskip=3mm,
-belowskip=3mm,
-showstringspaces=false,
-columns=flexible,
-basicstyle={\small\ttfamily},
-numbers=none,
-numberstyle=\tiny\color{gray},
-keywordstyle=\color{blue},
-commentstyle=\color{dkgreen},
-stringstyle=\color{mauve},
-breaklines=true,
-breakatwhitespace=true,
-tabsize=3
-}
-
-
 \makeatother
 \setbeamertemplate{footline}
 {
@@ -44,7 +18,7 @@ tabsize=3
     \usebeamerfont{title in head/foot}\insertshorttitle
 \end{beamercolorbox}%
 \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
-    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+    \insertframenumber{}
 \end{beamercolorbox}}%
 \vskip0pt%
 }
@@ -53,16 +27,12 @@ tabsize=3
 \setbeamertemplate{navigation symbols}{}
 
 
-
-
-
 % setting some colors for the theme
 \setbeamercolor{palette primary}{fg=black,bg=white}
 \setbeamercolor{palette secondary}{fg=black,bg=white}
 \setbeamercolor{structure}{fg=black,bg=white}
 \setbeamercolor{title in head/foot}{fg=black,bg=white}
 \setbeamercolor{date in head/foot}{fg=black,bg=white}
-
 
 
 % definition of the title page template
@@ -217,8 +187,12 @@ tabsize=3
     \begin{frame}
         \frametitle{Vergleich mit Java}
         \begin{itemize}
-            \item Unterschiedliches Verhalten für Initialiserung und fortlaufende Berechnungen
-            \item Werteüberlauf führt zu entsprechendem Werte auf Zahlenkreis
+            \item Unterschiedliches Verhalten für Initialisierung und fortlaufende Berechnungen
+            \begin{itemize}
+                \item Error falls Wertebereich bei Initialisierung überschritten wird
+                \item Implizite Umwandlung falls Wertebereich bei fortlaufender Berechnung überschritten wird
+            \end{itemize}
+            \item Werteüberlauf führt zu entsprechendem Wert auf Zahlenkreis
         \end{itemize}
         \vspace{30}
     \end{frame}
@@ -226,7 +200,15 @@ tabsize=3
     % Beispielprogramme
     \begin{frame}
         \frametitle{Beispielprogramme}
+        \framesubtitle{Addition}
+        {\includegraphics[width=8cm]{listing_8.png}}
+        \vspace{30}
+    \end{frame}
 
+    \begin{frame}
+        \frametitle{Beispielprogramme}
+        \framesubtitle{Casting}
+        {\includegraphics[width=8cm]{listing_9.png}}
         \vspace{30}
     \end{frame}
 
