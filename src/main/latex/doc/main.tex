@@ -61,9 +61,9 @@ Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
 
 \section{Erweiterung}
 \subsection{Einleitung}
-Unter natürlichen Zahlen werden die positiven Zahlen und 0 verstanden.
+Unter natürlichen Zahlen werden die positiven, ganzen Zahlen und 0 verstanden.
 Die IML soll um einen neuen Datentyp \texttt{nat64} erweitert werden.
-Der neue Datentyp soll solche Zahlen mit bis zu 64 Ziffern abbilden können.
+Der neue Datentyp soll solche positiven, ganzen Zahlen mit bis Länge 64 in Binärdarstellung abbilden können.
 Es sollen die bestehenden Operationen unterstützt werden.
 Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp \texttt{int64} und dem neuen Datentyp \texttt{nat64} möglich sein.
 
@@ -116,7 +116,7 @@ var boolIdent : bool;
 boolIdent init := false;
 
 var natIdent : nat64;
-// Throws error:
+// Throws type checker error:
 natIdent init := [nat64] boolIdent
 \end{lstlisting}
 Unsere Erweiterung unterstützt keine impliziten Castings.
@@ -129,7 +129,7 @@ Zusätzlich zu den bestehende Operatoren wurde ein neuer \texttt{castOpr} erstel
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
 xleftmargin = 0.05cm,
 framexleftmargin = 0.05em]
-    castOpr :=  LBRACKET LITERAL RBRACKET
+    castOpr :=  LBRACKET ATOMTYPE RBRACKET
 \end{lstlisting}
 Das bestehende Nichtterminal-Symbol \texttt{factor} wird um diese neue Produktion ergänzt:
 % Neue Produktionen
@@ -144,21 +144,13 @@ framexleftmargin = 0.05em]
 \end{lstlisting}
 
 \subsection{Kontext- und Typen-Einschränkungen}
-Der Literal zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss vom Datentyp \texttt{int64} oder \texttt{nat64} sein.
+Der \texttt{ATOMTYPE} zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss vom Datentyp \texttt{int64} oder \texttt{nat64} sein.
 Ein Casting zum Typ \texttt{bool} oder vom Typ \texttt{bool} zu \texttt{int64} resp. \texttt{nat64} führt zu einem Kompilierungsfehler.
-
-Der neue Datentyp \texttt{nat64} unterstützt die bestehenden Operationen aus IML\footnote{Aktuell sind dies \begin{itemize} \item MULTOPR(*, divE, modE) \item ADDOPR(+, -) \item RELOPR(<, <=, >, >=, =, /=) \item BOOLOPR(/\textbackslash? \textbackslash/?)\end{itemize}}.
-Sofern sich die einzelnen Operanden und auch das Resulat im Wertebereich ($\in \mathbb{N}$) befinden, entspricht das Verhalten vom Datentyp \texttt{nat64} jenem vom Datentyp \texttt{int64}.
-Andernfalls wird folgendes Verhalten festgelegt:
-
-\begin{itemize}
-    \item \textbf{Werteüberlauf}: Bei einem Überlauf wird jeweils mit dem maximalen Wert weitergerechnet. Dieser entspricht dem maximalen Wert von \texttt{int64}\footnote{9,223,372,036,854,775,807}.
-    \item \textbf{Negative Werte}: Werte werten jeweils als absolute Werte Betrachtet. Ein negativer Wert $-5$ entspricht beispielsweise dem Betrag, also $|-5| = 5$.
-    \item \textbf{Rest bei Division}: Wird analog \texttt{int64} behandelt und Nachkommastellen werden abgeschnitten.
-\end{itemize}
 
 Tabelle \ref{tab:Casting} zeigt die unterstützen Typumwandlungen der verschiedenen Datentypen.
 Typumwandlungen, welche zu potentiellem Informationsverlust führen, sind mit mit \texttt{*} gekennzeichnet.
+Bei der Umwandlung von \texttt{nat64} nach \texttt{int64} kann ein Informationsverlust resultieren, weil beim Datentyp \texttt{int64} das Most Significant Bit (MSB) für das Vorzeichen verwendet wird (vgl. Kapitel 4). % TODO: Kapitel verifizieren
+Falls Werte von \texttt{int64} nach \texttt{nat64} umgewandelt werden, geht die Information zum Vorzeichen verloren und der Wert wird als absoluter Wert interpretiert.
 \begin{table}[h]
     \tiny
     \centering
@@ -169,18 +161,55 @@ Typumwandlungen, welche zu potentiellem Informationsverlust führen, sind mit mi
         \hline
         Quell- \textbackslash \ Zieldatentyp & int64 & nat64 & bool \\ \hline
         int64                   & \cmark        & \cmark *       & \xmark      \\
-        nat64                   & \cmark        & \cmark         & \xmark     \\
+        nat64                   & \cmark *      & \cmark         & \xmark     \\
         bool                    & \xmark        & \xmark         & \xmark     \\ \hline
     \end{tabular}%
     }
 \end{table}
 
-\section{Vergleich mit anderen Programmiersprachen}
-\subsection{Java}
-In Java werden Wertebereichsunterschreibungen und -überschreibungen für Initialisierung und fortlaufende Berechnungen unterschiedliche gehandhabt:
-Bei der Initialisierung wird beispielsweise beim Datentyp \texttt{int} geprüft, ob die Werte innerhalb der Wertebereiche liegen. Falls dies nicht der Fall ist, wird ein Error geworfen.
-Falls bei fortlaufenden Berechnungen Wertebereiche unter- resp. überschritten werden, wird einfach auf dem Zahlenkreis weitergegangen und der entsprechende Wert verwendet.
+\section{Vergleich mit anderen Programmiersprachen (am Beispiel von Java)}
+\subsection{Ganzzahlige Werte}
+In Java wird bei Zuweisungen die Länge einer Zahl in Bitdarstellung überprüft:
+Beim Datentyp \texttt{long} wird beispielsweise geprüft, ob der Wert als ganzzahliger Wert von 64-bit Länge dargestellt werden kann.
+Falls dies nicht der Fall ist, wird ein Fehler zur Kompilierungszeit geworfen.
+Das MSB wird als Vorzeichenbit verwendet, womit rund die Hälfte der vorzeichenlos darstellbaren Long-Werte entfällt, resp. zur Darstellung von negativen Zahlen eingesetzt wird.
+Falls bei fortlaufenden Berechnungen Wertebereiche unter- resp. überschritten werden, führt dies zu einem arithmetischen Überlauf.
+Abbildung \ref{zahlenkreis} %TODO: Abbildung-Nr.verifizieren
+zeigt den Überlauf bei ganzzahligen, vorzeichenbehafteten Datentypen (am Beispiel von Bitlänge 3 + 1).
+
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{zahlenkreis_int3.jpg} % Figure image
+    \caption{Überlauf mit Integerzahlen } % Figure caption
+    % TODO: Ref: https://de.wikipedia.org/wiki/Integer_(Datentyp)#/media/Datei:Zahlenkreis_sint3.jpg
+    \label{zahlenkreis} % Label for referencing with \ref{scylla_ring}
+\end{figure}
+
+
+Dadurch führt z.B. beim Datentyp \texttt{int} der Ausdruck \texttt{Integer.MAX\_VALUE + 1} zum Wert \texttt{Integer.MIN\_VALUE}.
 Dies kann dazu führen, dass mit \glqq falschen\grqq \ Werten gerechnet wird, ohne dass der Entwickler dies bemerkt.
+
+\subsection{Fliesskommazahlen}
+% TODO: Zweierkomplement oben noch nicht beschrieben
+Im Gegensatz zur Darstellung im Zweierkomplement, welche für Integer-Typen in Java verwendet werden, werden Fliesskommazahlen intern nach IEEE Standard dargestellt.
+Anders als bei der Zweierkomplement-Darstellung sieht dieses Format spezielle Werte für \texttt{POSITIVE\_INFINITY} und \texttt{NEGATIVE\_INFINITY} vor.
+%  Quelle: https://stackoverflow.com/questions/41312477/purpose-of-defining-positive-infinity-negative-infinity-nan-constants-only-for
+
+\section{Designentscheidungen}
+\subsection{Spezifiziertes Verhalten}
+Der neue Datentyp \texttt{nat64} unterstützt die bestehenden Operationen aus IML\footnote{Aktuell sind dies \begin{itemize} \item MULTOPR(*, divE, modE) \item ADDOPR(+, -) \item RELOPR(<, <=, >, >=, =, /=) \item BOOLOPR(/\textbackslash? \textbackslash/?)\end{itemize}}.
+Sofern sich die einzelnen Operanden und auch das Resulat im Wertebereich ($\in \mathbb{N}$) befinden, %TODO: + länge max 64-bit
+entspricht das Verhalten vom Datentyp \texttt{nat64} jenem vom Datentyp \texttt{int64}.
+Andernfalls wird folgendes Verhalten festgelegt:
+
+\begin{itemize} % TODO: Effektives Verhalten anpassen gemäss Entscheidung
+    \item \textbf{Wertebereich}: Bei einem Überlauf wird jeweils mit dem maximalen Wert weitergerechnet. Dieser entspricht dem maximalen Wert von \texttt{int64}\footnote{9,223,372,036,854,775,807}.
+    \item \textbf{Negative Werte}: Werte werden jeweils als absolute Werte Betrachtet. Ein negativer Wert $-5$ entspricht beispielsweise dem Betrag, also $|-5| = 5$.
+    \item \textbf{Rest bei Division}: Wird analog \texttt{int64} behandelt und Nachkommastellen werden abgeschnitten.
+\end{itemize}
+
+\subsection{Alternative Ansätze}
+
+% TODO: Downsides z.B. gemäss %  Quelle: https://stackoverflow.com/questions/41312477/purpose-of-defining-positive-infinity-negative-infinity-nan-constants-only-for
 
 \section{Beispielprogramme}
 \label{sec:prog}

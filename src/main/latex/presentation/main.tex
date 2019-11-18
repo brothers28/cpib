@@ -117,7 +117,7 @@
     \begin{frame}
         \frametitle{Idee}
         \centering
-        Nat64\footnote{positive Zahlen bis 64 bits und 0} + Casting = \faRocket
+        Nat64\footnote{positive Zahlen bis 64 Bits Länge und inkl. 0} + Casting = \faRocket
     \end{frame}
 
     % Lexikalische Syntax
@@ -175,7 +175,7 @@
             {\includegraphics[width=8cm]{listing_7.png}}
             \item Definiertes Verhalten in Spezialfällen:
                 \begin{itemize}
-                    \item Werteüberlauf: Maximaler Wert wird verwendet
+                    \item Arithmetischer Überlauf: Maximaler Wert wird verwendet
                     \item Negative Werte: Werte werden absolut interpretiert
                     \item Rest bei Divison: Nachkommastellen werden ignoriert
                 \end{itemize}
@@ -192,7 +192,7 @@
                 \item Error falls Wertebereich bei Initialisierung überschritten wird
                 \item Implizite Umwandlung falls Wertebereich bei fortlaufender Berechnung überschritten wird
             \end{itemize}
-            \item Werteüberlauf führt zu entsprechendem Wert auf Zahlenkreis
+            \item Arithmetischer Überlauf führt zu potenziell negativen Werten (Zahlenkreis)
         \end{itemize}
         \vspace{30}
     \end{frame}
