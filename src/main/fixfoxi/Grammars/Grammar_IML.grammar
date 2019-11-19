@@ -59,7 +59,10 @@ factor ::= LITERAL
 	| IDENT [INIT | exprList]
 	| monadicOpr factor
 	| LPAREN expr RPAREN
-	
+	| castOpr factor
+
+castOpr ::= LBRACKET ATOMTYPE RBRACKET
+
 exprList ::= LPAREN [expr {COMMA expr}] RPAREN
 
 monadicOpr ::= NOT | ADDOPR

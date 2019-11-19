@@ -1,6 +1,6 @@
 (*
-file:	Grammar_IML.grammar
-time:	2018-11-06 21:33:25.174319
+file:   Grammar_IML.grammar
+time:   2019-11-19 16:58:51.176153
 *)
 
 datatype term
@@ -27,19 +27,19 @@ datatype term
   | IDENT
   | IF
   | INIT
+  | LBRACKET
   | LITERAL
   | LOCAL
   | LPAREN
-  | LBRACKET
   | MECHMODE
   | MULTOPR
   | NOT
   | PROC
   | PROGRAM
+  | RBRACKET
   | RELOPR
   | RETURNS
   | RPAREN
-  | RBRACKET
   | SEMICOLON
   | SKIP
   | THEN
@@ -69,19 +69,19 @@ val string_of_term =
    | IDENT => "IDENT"
    | IF => "IF"
    | INIT => "INIT"
+   | LBRACKET => "LBRACKET"
    | LITERAL => "LITERAL"
    | LOCAL => "LOCAL"
    | LPAREN => "LPAREN"
-   | LBRACKET => "LBRACKET"
    | MECHMODE => "MECHMODE"
    | MULTOPR => "MULTOPR"
    | NOT => "NOT"
    | PROC => "PROC"
    | PROGRAM => "PROGRAM"
+   | RBRACKET => "RBRACKET"
    | RELOPR => "RELOPR"
    | RETURNS => "RETURNS"
    | RPAREN => "RPAREN"
-   | RBRACKET => "RBRACKET"
    | SEMICOLON => "SEMICOLON"
    | SKIP => "SKIP"
    | THEN => "THEN"
@@ -319,11 +319,10 @@ val productions =
     [T LITERAL],
     [T IDENT, N opt_INITexprList],
     [N monadicOpr, N factor],
-    [T LPAREN, N expr, T RPAREN]],
-    [N castOpr, N factor]),
+    [T LPAREN, N expr, T RPAREN],
+    [N castOpr, N factor]]),
   (castOpr, [
-    [T LBRACKET, N LITERLAL, T RBRACKET]
-  ]),
+    [T LBRACKET, T ATOMTYPE, T RBRACKET]]),
   (rep_COMMAexpr, [
     [T COMMA, N expr, N rep_COMMAexpr],
     []]),
@@ -342,4 +341,3 @@ val S = program
 val result = fix_foxi productions S string_of_gramsym
 
 end (* local *)
-
