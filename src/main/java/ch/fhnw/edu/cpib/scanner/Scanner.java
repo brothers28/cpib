@@ -41,6 +41,8 @@ public class Scanner {
                 entry("||", new BoolOpr(Operators.COR)),
                 entry("(", Terminals.LPAREN),
                 entry(")", Terminals.RPAREN),
+                entry("[", Terminals.LBRACKET),
+                entry("]", Terminals.RBRACKET),
                 entry(",", Terminals.COMMA),
                 entry(";", Terminals.SEMICOLON),
                 entry(":", Terminals.COLON),
