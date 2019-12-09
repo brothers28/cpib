@@ -1,6 +1,8 @@
 package ch.fhnw.edu.cpib.scanner;
 
 import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
+import jdk.jshell.spi.ExecutionControl;
 
 public class Literal extends Base {
     private final boolean isBoolean;
@@ -24,7 +26,25 @@ public class Literal extends Base {
         this.value = value;
     }
 
-    public int getValue(){
+    public long getValue(){
+        return value;
+    }
+
+    public Types getType(){
+        return isBoolean ? Types.BOOL : Types.INT64;
+    }
+
+    public boolean getBoolValue() throws ExecutionControl.NotImplementedException {
+        if(!isBoolean)
+            throw new ExecutionControl.NotImplementedException("Gagu");
+
+        return value > 0 ? true : false;
+    }
+
+    public int getIntValue() throws ExecutionControl.NotImplementedException {
+        if(isBoolean)
+            throw new ExecutionControl.NotImplementedException("Gagu 2");
+
         return value;
     }
 

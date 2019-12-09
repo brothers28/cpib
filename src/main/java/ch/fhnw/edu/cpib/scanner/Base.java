@@ -8,7 +8,7 @@ public class Base implements Token{
         this.terminal = terminal;
     }
 
-    Terminals getTerminal(){
+    public Terminals getTerminal(){
         return terminal;
     }
 
