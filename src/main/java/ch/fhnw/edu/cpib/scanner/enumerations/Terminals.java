@@ -39,6 +39,8 @@ public enum Terminals implements Token {
     THEN,
     LPAREN, // (
     RPAREN, // )
+    LBRACKET,
+    RBRACKET,
     COMMA,
     SEMICOLON,
     COLON, // :

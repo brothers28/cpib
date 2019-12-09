@@ -6,24 +6,16 @@ public enum Operators {
     MINUS,
     EQ, // =
     NE, // /=
-    LT, // <
+    LT, // <mo
     GT, // >
     LE, // <=
     GE, // >=
-    AND, // &&
-    OR, // ||
+    AND, // &
+    OR, // |
     CAND,
     COR,
-    COPY,
     DIV,
-    DIV_E, // TODO: Test if current implementation does not take DIV
+    DIV_E,
     MOD,
-    MOD_E, // TODO: Test if current implementation does not take DIV
-    FALSE,
-    TRUE,
-    IN,
-    INOUT,
-    OUT,
-    REF,
-    NOT
+    MOD_E
 }

@@ -1,5 +1,6 @@
 package ch.fhnw.edu.cpib;
 
+import ch.fhnw.edu.cpib.errors.LexicalError;
 import ch.fhnw.edu.cpib.scanner.Scanner;
 import ch.fhnw.edu.cpib.scanner.TokenList;
 import ch.fhnw.edu.cpib.scanner.util.ImlReader;
@@ -17,8 +18,20 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         CharSequence iml = reader.readFile(FILE_NAME);
 
         Scanner scanner = new Scanner();
-        TokenList tokens = scanner.scan(iml);
-        System.out.println(tokens.toString());
+        TokenList tokens =  null;
+
+        try {
+            tokens = scanner.scan(iml);
+            System.out.println("---------------------------------------------");
+            System.out.println("Char List:");
+            System.out.println(iml.toString());
+            System.out.println("---------------------------------------------");
+            System.out.println("TokenList:");
+            System.out.println(tokens.toString());
+            System.out.println("---------------------------------------------");
+        } catch (LexicalError e) {
+            e.printStackTrace();
+        }
     }
 
 }
