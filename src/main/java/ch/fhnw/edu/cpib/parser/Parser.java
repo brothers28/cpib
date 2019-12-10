@@ -451,7 +451,7 @@ public class Parser {
     private IExpr expr() throws GrammarError {
         if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
                 || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
-                || currentTerminal == Terminals.LITERAL) {
+                || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.LBRACKET) {
             System.out.println("expr ::= <term1> <exprNTS>");
             ITerm1 N_term1 = term1();
             IExprNTS N_exprNTS = exprNTS();
@@ -488,7 +488,7 @@ public class Parser {
     private ITerm1 term1() throws GrammarError {
         if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
                 || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
-                || currentTerminal == Terminals.LITERAL) {
+                || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.LBRACKET ) {
             System.out.println("term1 ::= <term2> <term1NTS>");
             ITerm2 N_term2 = term2();
             ITerm1NTS N_term1NTS = term1NTS();
@@ -544,7 +544,7 @@ public class Parser {
     private ITerm2 term2() throws GrammarError {
         if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
                 || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
-                || currentTerminal == Terminals.LITERAL) {
+                || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.LBRACKET) {
             System.out.println("term2 ::= <term3> <term2NTS>");
             ITerm3 N_term3 = term3();
             ITerm2NTS N_term2NTS = term2NTS();
@@ -582,7 +582,7 @@ public class Parser {
     private ITerm3 term3() throws GrammarError {
         if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
                 || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
-                || currentTerminal == Terminals.LITERAL) {
+                || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.LBRACKET) {
             System.out.println("term3 ::= <factor> <term3NTS>");
             IFactor N_factor = factor();
             ITerm3NTS N_term3NTS = term3NTS();
@@ -618,6 +618,7 @@ public class Parser {
 
     // factor ::= LITERAL
     // factor ::= IDENT factorNTS
+    // factor ::= castOpr factor
     // factor ::= monadicOpr factor
     // factor ::= LPAREN expr RPAREN
     private IFactor factor() throws GrammarError {
@@ -630,6 +631,11 @@ public class Parser {
             Token T_ident = consume(Terminals.IDENT);
             IFactorNTS N_factorNTS = factorNTS();
             return new FactorIdent(T_ident, N_factorNTS);
+        } else if (currentTerminal == Terminals.LBRACKET) {
+            System.out.println("factor ::= <castOpr> <factor>");
+            ICastOpr N_castOpr = castOpr();
+            IFactor N_factor = factor();
+            return new FactorCastOpr(N_castOpr, N_factor);
         } else if (currentTerminal == Terminals.ADDOPR || currentTerminal == Terminals.NOTOPR) {
             System.out.println("factor ::= <monadicOpr> <factor>");
             IMonadicOpr N_monadicOpr = monadicOpr();
@@ -735,6 +741,19 @@ public class Parser {
             return new MonadicOprAddOpr(T_addOpr);
         } else {
             throw new GrammarError(Terminals.MONADICOPR, currentTerminal);
+        }
+    }
+
+    // castOpr ::= LBRACKET ATOMTYPE RBRACKET
+    private ICastOpr castOpr() throws GrammarError {
+        if (currentTerminal == Terminals.LBRACKET) {
+            System.out.println("castOpr ::= LBRACKET ATOMTYPE RPAREN");
+            Token T_lBracket = consume(Terminals.LBRACKET);
+            Token T_type = consume(Terminals.TYPE); // FIXME Should be ATOMTYPE?
+            Token T_rBracket = consume(Terminals.RBRACKET);
+            return new CastOpr(T_lBracket, T_type, T_rBracket);
+        } else {
+            throw new GrammarError(Terminals.CASTOPR, currentTerminal);
         }
     }
 
