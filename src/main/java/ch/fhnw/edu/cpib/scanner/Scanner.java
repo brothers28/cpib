@@ -39,14 +39,14 @@ public class Scanner {
                 entry("|", new BoolOpr(Operators.OR)),
                 entry("&&", new BoolOpr(Operators.CAND)),
                 entry("||", new BoolOpr(Operators.COR)),
-                entry("(", Terminals.LPAREN),
-                entry(")", Terminals.RPAREN),
-                entry("[", Terminals.LBRACKET),
-                entry("]", Terminals.RBRACKET),
-                entry(",", Terminals.COMMA),
-                entry(";", Terminals.SEMICOLON),
-                entry(":", Terminals.COLON),
-                entry(":=", Terminals.BECOMES));
+                entry("(", new Base(Terminals.LPAREN)),
+                entry(")", new Base(Terminals.RPAREN)),
+                entry("[", new Base(Terminals.LBRACKET)),
+                entry("]", new Base(Terminals.RBRACKET)),
+                entry(",", new Base(Terminals.COMMA)),
+                entry(";", new Base(Terminals.SEMICOLON)),
+                entry(":", new Base(Terminals.COLON)),
+                entry(":=", new Base(Terminals.BECOMES)));
 
         // Build keywords map
         keywords = Map

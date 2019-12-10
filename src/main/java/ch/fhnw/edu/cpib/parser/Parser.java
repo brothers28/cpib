@@ -78,6 +78,7 @@ public class Parser {
     }
 
     // program ::= PROGRAM IDENT globalNTS DO cpsCmd ENDPROGRAM
+    // TODO: progParamList fehlt hier
     private IProgram program() throws GrammarError {
         if (currentTerminal == Terminals.PROGRAM) {
             System.out.println("program ::= PROGRAM IDENT <globalNTS> DO <cpsCmd> ENDPROGRAM");
