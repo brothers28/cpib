@@ -18,6 +18,11 @@ public class TokenList {
         return tokenList.get(position++);
     }
 
+    public Token get(int index){
+        position = index + 1;
+        return tokenList.get(index);
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");

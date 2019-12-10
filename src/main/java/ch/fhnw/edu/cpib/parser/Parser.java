@@ -5,70 +5,72 @@ import ch.fhnw.edu.cpib.concSynTree.*;
 import ch.fhnw.edu.cpib.concSynTree.interfaces.*;
 import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.scanner.Base;
+import ch.fhnw.edu.cpib.scanner.Token;
+import ch.fhnw.edu.cpib.scanner.TokenList;
 import ch.fhnw.edu.cpib.scanner.enumerations.Operators;
 import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
 import ch.fhnw.edu.cpib.scanner.symbols.Operator;
-import ch.fhnw.edu.cpib.scanner.Token;
-
-import java.util.List;
 
 public class Parser {
     // TODO: anpassen überall wo isFirstRelOperator geprüft wird
-    private List<Token> tokens;
+    private TokenList tokens;
     private Base currentToken;
     private Terminals currentTerminal;
     private int counter;
     private boolean isFirstRelOpr = true;
     private Operators lastRelOprValue;
 
-    public Parser(List<Token> tokens) {
+    public Parser(TokenList tokens) {
         this.tokens = tokens;
         nextToken();
     }
 
     private void nextToken() {
-        currentToken = (Base)tokens.get(counter++);
+        currentToken = (Base) tokens.get(counter++);
         currentTerminal = currentToken.getTerminal();
     }
 
-    private Token consume(Terminals expectedT) throws GrammarError {
-        if (this.currentTerminal == expectedT) {
-            Token consumedT = this.currentToken;
-            if (this.currentTerminal != Terminals.SENTINEL) nextToken();
-            return consumedT;
+    private Token consume(Terminals expectedTerminal) throws GrammarError {
+        if (this.currentTerminal == expectedTerminal) {
+            Token consumedTerminal = this.currentToken;
+            if (this.currentTerminal != Terminals.SENTINEL) {
+                nextToken();
+            }
+            return consumedTerminal;
         } else {
-            throw new GrammarError(expectedT, this.currentToken.getTerminal());
+            throw new GrammarError(expectedTerminal, this.currentToken.getTerminal());
         }
     }
 
-    public AbsSynTree parse() throws GrammarError, NameAlreadyDeclaredError, NameNotDeclaredError, NameAlreadyGloballyDeclaredError,
+    public AbsSynTree parse()
+            throws GrammarError, NameAlreadyDeclaredError, NameNotDeclaredError, NameAlreadyGloballyDeclaredError,
             LRValueError, InvalidParamCountError, AlreadyInitializedError, TypeCheckError, NotInitializedError,
             GlobalInitializationProhibitedError, CannotAssignToConstError {
-        System.out.println("Start parsing :\n");
+        System.out.println("Start parsing:\n");
         IProgram program = program();
         consume(Terminals.SENTINEL);
 
         System.out.println("\n---------------------------------------------------\n");
-        System.out.println("Concrete Syntax Tree :\n");
+        System.out.println("Concrete Syntax Tree:\n");
         System.out.println(program.toString(""));
 
         System.out.println("\n---------------------------------------------------\n");
-        System.out.println("Abstract Syntax Tree :\n");
+        System.out.println("Abstract Syntax Tree:\n");
         AbsSynTree absSynTree = new AbsSynTree(program);
         System.out.println(absSynTree.toString());
 
         System.out.println("\n---------------------------------------------------\n");
-        System.out.print("Scope checking :");
+        System.out.print("Scope checking:");
         absSynTree.doScopeChecking();
         System.out.println(" OK!");
 
         System.out.println("\n---------------------------------------------------\n");
-        System.out.print("Type checking :");
+        System.out.print("Type checking:");
         absSynTree.doTypeChecking();
         System.out.println(" OK!");
 
         System.out.println("\n---------------------------------------------------\n");
-        System.out.print("Init checking :");
+        System.out.print("Init checking:");
         absSynTree.doInitChecking();
         System.out.println(" OK!");
 
@@ -85,8 +87,7 @@ public class Parser {
             Token T_do = consume(Terminals.DO);
             ICpsCmd N_cpsCmd = cpsCmd();
             Token T_endprogram = consume(Terminals.ENDPROGRAM);
-            return new Program(T_program, T_ident, N_globalNTS, T_do,
-                    N_cpsCmd, T_endprogram);
+            return new Program(T_program, T_ident, N_globalNTS, T_do, N_cpsCmd, T_endprogram);
         } else {
             throw new GrammarError(Terminals.PROGRAM, currentTerminal);
         }
@@ -110,10 +111,8 @@ public class Parser {
 
     // cpsDecl ::= decl cpsDeclNTS
     private ICpsDecl cpsDecl() throws GrammarError {
-        if (currentTerminal == Terminals.PROC
-                || currentTerminal == Terminals.FUN
-                || currentTerminal == Terminals.CHANGEMOD
-                || currentTerminal == Terminals.IDENT) {
+        if (currentTerminal == Terminals.PROC || currentTerminal == Terminals.FUN
+                || currentTerminal == Terminals.CHANGEMOD || currentTerminal == Terminals.IDENT) {
             System.out.println("cpsDecl ::= <decl> <cpsDeclNTS>");
             IDecl N_decl = decl();
             ICpsDeclNTS N_cpsDeclNTS = cpsDeclNTS();
@@ -144,8 +143,7 @@ public class Parser {
     // decl ::= funDecl
     // decl ::= procDecl
     private IDecl decl() throws GrammarError {
-        if (currentTerminal == Terminals.CHANGEMOD
-                || currentTerminal == Terminals.IDENT) {
+        if (currentTerminal == Terminals.CHANGEMOD || currentTerminal == Terminals.IDENT) {
             System.out.println("decl ::= <stoDecl>");
             IStoDecl N_stoDecl = stoDecl();
             return new DeclStoDecl(N_stoDecl);
@@ -205,8 +203,8 @@ public class Parser {
             Token T_do = consume(Terminals.DO);
             ICpsCmd N_cpsCmd = cpsCmd();
             Token T_endFun = consume(Terminals.ENDFUN);
-            return  new FunDecl(T_fun, T_ident, N_paramList, T_returns,
-                    N_stoDecl, N_funDeclNTS, T_do, N_cpsCmd, T_endFun);
+            return new FunDecl(T_fun, T_ident, N_paramList, T_returns, N_stoDecl, N_funDeclNTS, T_do, N_cpsCmd,
+                    T_endFun);
         } else {
             throw new GrammarError(Terminals.FUNDECL, currentTerminal);
         }
@@ -244,8 +242,7 @@ public class Parser {
     // paramListNTS ::= param paramNTS
     // paramListNTS ::= ε
     private IParamListNTS paramListNTS() throws GrammarError {
-        if (currentTerminal == Terminals.IDENT
-                || currentTerminal == Terminals.MECHMODE
+        if (currentTerminal == Terminals.IDENT || currentTerminal == Terminals.MECHMODE
                 || currentTerminal == Terminals.CHANGEMOD) {
             System.out.println("paramListNTS ::= <param> <paramNTS>");
             IParam N_param = param();
@@ -278,10 +275,8 @@ public class Parser {
 
     // param ::= flowModeNTS mechModeNTS changeModNTS typedIdent
     private IParam param() throws GrammarError {
-        if (currentTerminal == Terminals.IDENT
-                || currentTerminal == Terminals.FLOWMODE
-                || currentTerminal == Terminals.CHANGEMOD
-                || currentTerminal == Terminals.MECHMODE) {
+        if (currentTerminal == Terminals.IDENT || currentTerminal == Terminals.FLOWMODE
+                || currentTerminal == Terminals.CHANGEMOD || currentTerminal == Terminals.MECHMODE) {
             System.out.println("param ::= <flowModeNTS> <mechModeNTS> <changeModNTS> <typedIdent>");
             IFlowModeNTS N_flowModeNTS = flowModeNTS();
             IMechModeNTS N_mechModeNTS = mechModeNTS();
@@ -340,16 +335,11 @@ public class Parser {
 
     // cpsCmd ::= cmd cpsCmdNTS
     private ICpsCmd cpsCmd() throws GrammarError {
-        if (currentTerminal == Terminals.DEBUGOUT
-                || currentTerminal == Terminals.DEBUGIN
-                || currentTerminal == Terminals.CALL
-                || currentTerminal == Terminals.WHILE
-                || currentTerminal == Terminals.IF
-                || currentTerminal == Terminals.LPAREN
-                || currentTerminal == Terminals.ADDOPR
-                || currentTerminal == Terminals.NOTOPR
-                || currentTerminal == Terminals.IDENT
-                || currentTerminal == Terminals.LITERAL
+        if (currentTerminal == Terminals.DEBUGOUT || currentTerminal == Terminals.DEBUGIN
+                || currentTerminal == Terminals.CALL || currentTerminal == Terminals.WHILE
+                || currentTerminal == Terminals.IF || currentTerminal == Terminals.LPAREN
+                || currentTerminal == Terminals.ADDOPR || currentTerminal == Terminals.NOTOPR
+                || currentTerminal == Terminals.IDENT || currentTerminal == Terminals.LITERAL
                 || currentTerminal == Terminals.SKIP) {
             System.out.println("cpsCMD ::= <cmd> <cpsCmdNTS>");
             ICmd N_cmd = cmd();
@@ -370,12 +360,9 @@ public class Parser {
             ICmd N_cmd = cmd();
             ICpsCmdNTS N_cpsCmdNTS = cpsCmdNTS();
             return new CpsCmdNTS(T_semicolon, N_cmd, N_cpsCmdNTS);
-        } else if (currentTerminal == Terminals.ENDPROC
-                || currentTerminal == Terminals.ENDWHILE
-                || currentTerminal == Terminals.ENDIF
-                || currentTerminal == Terminals.ELSE
-                || currentTerminal == Terminals.ENDFUN
-                || currentTerminal == Terminals.ENDPROGRAM) {
+        } else if (currentTerminal == Terminals.ENDPROC || currentTerminal == Terminals.ENDWHILE
+                || currentTerminal == Terminals.ENDIF || currentTerminal == Terminals.ELSE
+                || currentTerminal == Terminals.ENDFUN || currentTerminal == Terminals.ENDPROGRAM) {
             System.out.println("cpsCmdNTS ::= ε");
             return new Epsilon.CpsCmdNTS();
         } else {
@@ -395,10 +382,8 @@ public class Parser {
             System.out.println("cmd ::= SKIP");
             Token T_skip = consume(Terminals.SKIP);
             return new CmdSkip(T_skip);
-        } else if (currentTerminal == Terminals.LPAREN
-                || currentTerminal == Terminals.ADDOPR
-                || currentTerminal == Terminals.NOTOPR
-                || currentTerminal == Terminals.IDENT
+        } else if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
+                || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
                 || currentTerminal == Terminals.LITERAL) {
             System.out.println("cmd ::= <expr> BECOMES <expr>");
             IExpr N_expr1 = expr();
@@ -463,10 +448,8 @@ public class Parser {
 
     // expr ::= term1 exprNTS
     private IExpr expr() throws GrammarError {
-        if (currentTerminal == Terminals.LPAREN
-                || currentTerminal == Terminals.ADDOPR
-                || currentTerminal == Terminals.NOTOPR
-                || currentTerminal == Terminals.IDENT
+        if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
+                || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
                 || currentTerminal == Terminals.LITERAL) {
             System.out.println("expr ::= <term1> <exprNTS>");
             ITerm1 N_term1 = term1();
@@ -486,18 +469,12 @@ public class Parser {
             ITerm1 N_term1 = term1();
             IExprNTS N_exprNTS = exprNTS();
             return new ExprNTS(T_boolOpr, N_term1, N_exprNTS);
-        } else if (currentTerminal == Terminals.COMMA
-                || currentTerminal == Terminals.RPAREN
-                || currentTerminal == Terminals.COLON
-                || currentTerminal == Terminals.DO
-                || currentTerminal == Terminals.THEN
-                || currentTerminal == Terminals.ENDPROC
-                || currentTerminal == Terminals.ENDWHILE
-                || currentTerminal == Terminals.ENDIF
-                || currentTerminal == Terminals.ELSE
-                || currentTerminal == Terminals.ENDFUN
-                || currentTerminal == Terminals.ENDPROGRAM
-                || currentTerminal == Terminals.SEMICOLON
+        } else if (currentTerminal == Terminals.COMMA || currentTerminal == Terminals.RPAREN
+                || currentTerminal == Terminals.COLON || currentTerminal == Terminals.DO
+                || currentTerminal == Terminals.THEN || currentTerminal == Terminals.ENDPROC
+                || currentTerminal == Terminals.ENDWHILE || currentTerminal == Terminals.ENDIF
+                || currentTerminal == Terminals.ELSE || currentTerminal == Terminals.ENDFUN
+                || currentTerminal == Terminals.ENDPROGRAM || currentTerminal == Terminals.SEMICOLON
                 || currentTerminal == Terminals.BECOMES) {
             System.out.println("exprNTS ::= ε");
             return new Epsilon.ExprNTS();
@@ -508,10 +485,8 @@ public class Parser {
 
     // term1 ::= term2 term1NTS
     private ITerm1 term1() throws GrammarError {
-        if (currentTerminal == Terminals.LPAREN
-                || currentTerminal == Terminals.ADDOPR
-                || currentTerminal == Terminals.NOTOPR
-                || currentTerminal == Terminals.IDENT
+        if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
+                || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
                 || currentTerminal == Terminals.LITERAL) {
             System.out.println("term1 ::= <term2> <term1NTS>");
             ITerm2 N_term2 = term2();
@@ -535,17 +510,13 @@ public class Parser {
                 ITerm2 N_term2 = term2();
                 ITerm1NTS N_term1NTS = term1NTS();
                 return new Term1NTS(T_relOpr, N_term2, N_term1NTS);
-            } else if (lastRelOprValue == Operators.EQ
-                    || ((lastRelOprValue == Operators.LT
-                    || lastRelOprValue == Operators.LE)
-                    && (currentRelOprValue == Operators.LT
-                    || currentRelOprValue == Operators.LE
-                    || currentRelOprValue == Operators.EQ))
-                    || ((lastRelOprValue == Operators.GT
-                    || lastRelOprValue == Operators.GE)
-                    && (currentRelOprValue == Operators.GT
-                    || currentRelOprValue == Operators.GE
-                    || currentRelOprValue == Operators.EQ))) {
+            } else if (lastRelOprValue == Operators.EQ || (
+                    (lastRelOprValue == Operators.LT || lastRelOprValue == Operators.LE) && (
+                            currentRelOprValue == Operators.LT || currentRelOprValue == Operators.LE
+                                    || currentRelOprValue == Operators.EQ)) || (
+                    (lastRelOprValue == Operators.GT || lastRelOprValue == Operators.GE) && (
+                            currentRelOprValue == Operators.GT || currentRelOprValue == Operators.GE
+                                    || currentRelOprValue == Operators.EQ))) {
                 Token T_relOpr = consume(Terminals.RELOPR);
                 lastRelOprValue = currentRelOprValue;
                 ITerm2 N_term2 = term2();
@@ -554,20 +525,13 @@ public class Parser {
             } else {
                 throw new GrammarError("Not allowed relation operator: " + currentRelOprValue);
             }
-        } else if (currentTerminal == Terminals.COMMA
-                || currentTerminal == Terminals.RPAREN
-                || currentTerminal == Terminals.COLON
-                || currentTerminal == Terminals.DO
-                || currentTerminal == Terminals.THEN
-                || currentTerminal == Terminals.ENDPROC
-                || currentTerminal == Terminals.ENDWHILE
-                || currentTerminal == Terminals.ENDIF
-                || currentTerminal == Terminals.ELSE
-                || currentTerminal == Terminals.ENDFUN
-                || currentTerminal == Terminals.ENDPROGRAM
-                || currentTerminal == Terminals.SEMICOLON
-                || currentTerminal == Terminals.BECOMES
-                || currentTerminal == Terminals.BOOLOPR) {
+        } else if (currentTerminal == Terminals.COMMA || currentTerminal == Terminals.RPAREN
+                || currentTerminal == Terminals.COLON || currentTerminal == Terminals.DO
+                || currentTerminal == Terminals.THEN || currentTerminal == Terminals.ENDPROC
+                || currentTerminal == Terminals.ENDWHILE || currentTerminal == Terminals.ENDIF
+                || currentTerminal == Terminals.ELSE || currentTerminal == Terminals.ENDFUN
+                || currentTerminal == Terminals.ENDPROGRAM || currentTerminal == Terminals.SEMICOLON
+                || currentTerminal == Terminals.BECOMES || currentTerminal == Terminals.BOOLOPR) {
             System.out.println("term1NTS ::= ε");
             return new Epsilon.Term1NTS();
         } else {
@@ -577,10 +541,8 @@ public class Parser {
 
     // term2 ::= term3 term2NTS
     private ITerm2 term2() throws GrammarError {
-        if (currentTerminal == Terminals.LPAREN
-                || currentTerminal == Terminals.ADDOPR
-                || currentTerminal == Terminals.NOTOPR
-                || currentTerminal == Terminals.IDENT
+        if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
+                || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
                 || currentTerminal == Terminals.LITERAL) {
             System.out.println("term2 ::= <term3> <term2NTS>");
             ITerm3 N_term3 = term3();
@@ -600,20 +562,13 @@ public class Parser {
             ITerm3 N_term3 = term3();
             ITerm2NTS N_term2NTS = term2NTS();
             return new Term2NTS(T_addOpr, N_term3, N_term2NTS);
-        } else if (currentTerminal == Terminals.COMMA
-                || currentTerminal == Terminals.RPAREN
-                || currentTerminal == Terminals.COLON
-                || currentTerminal == Terminals.DO
-                || currentTerminal == Terminals.THEN
-                || currentTerminal == Terminals.ENDPROC
-                || currentTerminal == Terminals.ENDWHILE
-                || currentTerminal == Terminals.ENDIF
-                || currentTerminal == Terminals.ELSE
-                || currentTerminal == Terminals.ENDFUN
-                || currentTerminal == Terminals.ENDPROGRAM
-                || currentTerminal == Terminals.SEMICOLON
-                || currentTerminal == Terminals.BECOMES
-                || currentTerminal == Terminals.BOOLOPR
+        } else if (currentTerminal == Terminals.COMMA || currentTerminal == Terminals.RPAREN
+                || currentTerminal == Terminals.COLON || currentTerminal == Terminals.DO
+                || currentTerminal == Terminals.THEN || currentTerminal == Terminals.ENDPROC
+                || currentTerminal == Terminals.ENDWHILE || currentTerminal == Terminals.ENDIF
+                || currentTerminal == Terminals.ELSE || currentTerminal == Terminals.ENDFUN
+                || currentTerminal == Terminals.ENDPROGRAM || currentTerminal == Terminals.SEMICOLON
+                || currentTerminal == Terminals.BECOMES || currentTerminal == Terminals.BOOLOPR
                 || currentTerminal == Terminals.RELOPR) {
             System.out.println("term2NTS ::= ε");
             return new Epsilon.Term2NTS();
@@ -624,10 +579,8 @@ public class Parser {
 
     // term3 ::= factor term3NTS
     private ITerm3 term3() throws GrammarError {
-        if (currentTerminal == Terminals.LPAREN
-                || currentTerminal == Terminals.ADDOPR
-                || currentTerminal == Terminals.NOTOPR
-                || currentTerminal == Terminals.IDENT
+        if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
+                || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
                 || currentTerminal == Terminals.LITERAL) {
             System.out.println("term3 ::= <factor> <term3NTS>");
             IFactor N_factor = factor();
@@ -647,22 +600,14 @@ public class Parser {
             IFactor N_factor = factor();
             ITerm3NTS N_term3NTS = term3NTS();
             return new Term3NTS(T_multOpr, N_factor, N_term3NTS);
-        } else if (currentTerminal == Terminals.COMMA
-                || currentTerminal == Terminals.RPAREN
-                || currentTerminal == Terminals.COLON
-                || currentTerminal == Terminals.DO
-                || currentTerminal == Terminals.THEN
-                || currentTerminal == Terminals.ENDPROC
-                || currentTerminal == Terminals.ENDWHILE
-                || currentTerminal == Terminals.ENDIF
-                || currentTerminal == Terminals.ELSE
-                || currentTerminal == Terminals.ENDFUN
-                || currentTerminal == Terminals.ENDPROGRAM
-                || currentTerminal == Terminals.SEMICOLON
-                || currentTerminal == Terminals.BECOMES
-                || currentTerminal == Terminals.BOOLOPR
-                || currentTerminal == Terminals.RELOPR
-                || currentTerminal == Terminals.ADDOPR) {
+        } else if (currentTerminal == Terminals.COMMA || currentTerminal == Terminals.RPAREN
+                || currentTerminal == Terminals.COLON || currentTerminal == Terminals.DO
+                || currentTerminal == Terminals.THEN || currentTerminal == Terminals.ENDPROC
+                || currentTerminal == Terminals.ENDWHILE || currentTerminal == Terminals.ENDIF
+                || currentTerminal == Terminals.ELSE || currentTerminal == Terminals.ENDFUN
+                || currentTerminal == Terminals.ENDPROGRAM || currentTerminal == Terminals.SEMICOLON
+                || currentTerminal == Terminals.BECOMES || currentTerminal == Terminals.BOOLOPR
+                || currentTerminal == Terminals.RELOPR || currentTerminal == Terminals.ADDOPR) {
             System.out.println("term3NTS ::= ε");
             return new Epsilon.Term3NTS();
         } else {
@@ -684,8 +629,7 @@ public class Parser {
             Token T_ident = consume(Terminals.IDENT);
             IFactorNTS N_factorNTS = factorNTS();
             return new FactorIdent(T_ident, N_factorNTS);
-        } else if (currentTerminal == Terminals.ADDOPR
-                || currentTerminal == Terminals.NOTOPR) {
+        } else if (currentTerminal == Terminals.ADDOPR || currentTerminal == Terminals.NOTOPR) {
             System.out.println("factor ::= <monadicOpr> <factor>");
             IMonadicOpr N_monadicOpr = monadicOpr();
             IFactor N_factor = factor();
@@ -713,22 +657,14 @@ public class Parser {
             System.out.println("factorNTS ::= <exprList>");
             IExprList N_exprList = exprList();
             return new FactorNTSExprList(N_exprList);
-        } else if (currentTerminal == Terminals.COMMA
-                || currentTerminal == Terminals.RPAREN
-                || currentTerminal == Terminals.COLON
-                || currentTerminal == Terminals.DO
-                || currentTerminal == Terminals.THEN
-                || currentTerminal == Terminals.ENDPROC
-                || currentTerminal == Terminals.ENDWHILE
-                || currentTerminal == Terminals.ENDIF
-                || currentTerminal == Terminals.ELSE
-                || currentTerminal == Terminals.ENDFUN
-                || currentTerminal == Terminals.ENDPROGRAM
-                || currentTerminal == Terminals.SEMICOLON
-                || currentTerminal == Terminals.BECOMES
-                || currentTerminal == Terminals.BOOLOPR
-                || currentTerminal == Terminals.RELOPR
-                || currentTerminal == Terminals.ADDOPR
+        } else if (currentTerminal == Terminals.COMMA || currentTerminal == Terminals.RPAREN
+                || currentTerminal == Terminals.COLON || currentTerminal == Terminals.DO
+                || currentTerminal == Terminals.THEN || currentTerminal == Terminals.ENDPROC
+                || currentTerminal == Terminals.ENDWHILE || currentTerminal == Terminals.ENDIF
+                || currentTerminal == Terminals.ELSE || currentTerminal == Terminals.ENDFUN
+                || currentTerminal == Terminals.ENDPROGRAM || currentTerminal == Terminals.SEMICOLON
+                || currentTerminal == Terminals.BECOMES || currentTerminal == Terminals.BOOLOPR
+                || currentTerminal == Terminals.RELOPR || currentTerminal == Terminals.ADDOPR
                 || currentTerminal == Terminals.MULTOPR) {
             System.out.println("factorNTS ::= ε");
             return new Epsilon.FactorNTS();
@@ -753,10 +689,8 @@ public class Parser {
     // exprListLparenNTS ::= expr exprListNTS
     // exprListLparenNTS ::= ε
     private IExprListLparenNTS exprListLparenNTS() throws GrammarError {
-        if (currentTerminal == Terminals.LPAREN
-                || currentTerminal == Terminals.ADDOPR
-                || currentTerminal == Terminals.NOTOPR
-                || currentTerminal == Terminals.IDENT
+        if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
+                || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
                 || currentTerminal == Terminals.LITERAL) {
             System.out.println("exprListLparenNTS ::= <expr> <exprListNTS>");
             IExpr N_expr = expr();
@@ -805,8 +739,7 @@ public class Parser {
 
     // cpsStoDecl ::= stoDecl cpsStoDeclNTS
     private ICpsStoDecl cpsStoDecl() throws GrammarError {
-        if (currentTerminal == Terminals.CHANGEMOD
-                || currentTerminal == Terminals.IDENT) {
+        if (currentTerminal == Terminals.CHANGEMOD || currentTerminal == Terminals.IDENT) {
             System.out.println("cpsStoDecl ::= <stoDecl> <cpsStoDeclNTS>");
             IStoDecl N_stoDecl = stoDecl();
             ICpsStoDeclNTS N_cpsStoDeclNTS = cpsStoDeclNTS();
