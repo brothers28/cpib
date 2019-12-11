@@ -9,6 +9,8 @@ import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+import static ch.fhnw.edu.cpib.parser.util.Cast.isCastable;
+
 public class AssignCmd extends AbsSynTreeNode implements ICmd {
 	private IExpr exprLeft;
 	private IExpr exprRight;
@@ -42,7 +44,7 @@ public class AssignCmd extends AbsSynTreeNode implements ICmd {
 		exprLeft.doTypeChecking();
 		exprRight.doTypeChecking();
 		
-		if(exprLeft.getType() != exprRight.getType())
+		if(exprLeft.getType() != exprRight.getType() && !isCastable(exprLeft.getType(), exprRight.getType()))
 			throw new TypeCheckError(exprLeft.getType(), exprRight.getType());		
 	}
 

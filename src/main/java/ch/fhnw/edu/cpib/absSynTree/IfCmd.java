@@ -3,7 +3,7 @@ package ch.fhnw.edu.cpib.absSynTree;
 import ch.fhnw.edu.cpib.absSynTree.interfaces.ICmd;
 import ch.fhnw.edu.cpib.absSynTree.interfaces.IExpr;
 import ch.fhnw.edu.cpib.errors.*;
-import ch.fhnw.edu.cpib.parser.DeepCopy;
+import ch.fhnw.edu.cpib.parser.util.DeepCopy;
 import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import ch.fhnw.edu.cpib.vm.IInstructions;

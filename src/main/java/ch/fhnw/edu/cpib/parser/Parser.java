@@ -9,6 +9,8 @@ import ch.fhnw.edu.cpib.scanner.Token;
 import ch.fhnw.edu.cpib.scanner.TokenList;
 import ch.fhnw.edu.cpib.scanner.enumerations.Operators;
 import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
+import ch.fhnw.edu.cpib.scanner.keywords.Type;
 import ch.fhnw.edu.cpib.scanner.symbols.Operator;
 
 public class Parser {
@@ -21,6 +23,7 @@ public class Parser {
     private Operators lastRelOprValue;
 
     public Parser(TokenList tokens) {
+        // Setup token processing
         this.tokens = tokens;
         nextToken();
     }

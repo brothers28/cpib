@@ -1,4 +1,4 @@
-package ch.fhnw.edu.cpib.parser;
+package ch.fhnw.edu.cpib.parser.util;
 
 import ch.fhnw.edu.cpib.absSynTree.TypeIdent;
 
