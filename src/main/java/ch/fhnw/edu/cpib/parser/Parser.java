@@ -17,8 +17,6 @@ public class Parser {
     private Base currentToken;
     private Terminals currentTerminal;
     private int counter;
-    private boolean isFirstRelOpr = true;
-    private Operators lastRelOprValue;
 
     public Parser(TokenList tokens) {
         this.tokens = tokens;
@@ -296,7 +294,7 @@ public class Parser {
             System.out.println("flowModeNTS ::= FLOWMODE");
             Token T_flowMode = consume(Terminals.FLOWMODE);
             return new FlowModeNTS(T_flowMode);
-        } else if (currentTerminal == Terminals.IDENT || currentTerminal == Terminals.MECHMODE) {
+        } else if (currentTerminal == Terminals.IDENT || currentTerminal == Terminals.MECHMODE || currentTerminal == Terminals.CHANGEMOD) {
             System.out.println("flowModeNTS ::= ε");
             return new Epsilon.FlowModeNTS();
         } else {
@@ -311,7 +309,7 @@ public class Parser {
             System.out.println("changeModNTS ::= CHANGEMOD");
             Token T_changeMode = consume(Terminals.CHANGEMOD);
             return new ChangeModeNTS(T_changeMode);
-        } else if (currentTerminal == Terminals.IDENT || currentTerminal == Terminals.MECHMODE) {
+        } else if (currentTerminal == Terminals.IDENT) {
             System.out.println("changeModNTS ::= ε");
             return new Epsilon.ChangeModeNTS();
         } else {
@@ -326,7 +324,7 @@ public class Parser {
             System.out.println("mechModeNTS ::= MECHMODE");
             Token T_mechMode = consume(Terminals.MECHMODE);
             return new MechModeNTS(T_mechMode);
-        } else if (currentTerminal == Terminals.IDENT) {
+        } else if (currentTerminal == Terminals.IDENT || currentTerminal == Terminals.CHANGEMOD) {
             System.out.println("mechModeNTS ::= ε");
             return new Epsilon.MechModeNTS();
         } else {
@@ -357,7 +355,6 @@ public class Parser {
         if (currentTerminal == Terminals.SEMICOLON) {
             System.out.println("cpsCmdNTS ::= SEMICOLON <cmd> <cpsCmdNTS>");
             Token T_semicolon = consume(Terminals.SEMICOLON);
-            isFirstRelOpr = true;
             ICmd N_cmd = cmd();
             ICpsCmdNTS N_cpsCmdNTS = cpsCmdNTS();
             return new CpsCmdNTS(T_semicolon, N_cmd, N_cpsCmdNTS);
@@ -396,7 +393,6 @@ public class Parser {
             Token T_if = consume(Terminals.IF);
             IExpr N_expr = expr();
             Token T_then = consume(Terminals.THEN);
-            isFirstRelOpr = true;
             ICpsCmd N_cpsCmd = cpsCmd();
             IIfElseNTS N_ifelseNTS = ifElseNTS();
             Token T_endif = consume(Terminals.ENDIF);
@@ -406,7 +402,6 @@ public class Parser {
             Token T_while = consume(Terminals.WHILE);
             IExpr N_expr = expr();
             Token T_do = consume(Terminals.DO);
-            isFirstRelOpr = true;
             ICpsCmd N_cpsCmd = cpsCmd();
             Token T_endwhile = consume(Terminals.ENDWHILE);
             return new CmdWhileDo(T_while, N_expr, T_do, N_cpsCmd, T_endwhile);
@@ -488,7 +483,7 @@ public class Parser {
     private ITerm1 term1() throws GrammarError {
         if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
                 || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
-                || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.LBRACKET ) {
+                || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.LBRACKET) {
             System.out.println("term1 ::= <term2> <term1NTS>");
             ITerm2 N_term2 = term2();
             ITerm1NTS N_term1NTS = term1NTS();
@@ -503,29 +498,10 @@ public class Parser {
     private ITerm1NTS term1NTS() throws GrammarError {
         if (currentTerminal == Terminals.RELOPR) {
             System.out.println("term1NTS ::= RELOPR <term2> <term1NTS>");
-            Operators currentRelOprValue = ((Operator) currentToken).getOperator();
-            if (isFirstRelOpr) {
-                Token T_relOpr = consume(Terminals.RELOPR);
-                isFirstRelOpr = false;
-                lastRelOprValue = currentRelOprValue;
-                ITerm2 N_term2 = term2();
-                ITerm1NTS N_term1NTS = term1NTS();
-                return new Term1NTS(T_relOpr, N_term2, N_term1NTS);
-            } else if (lastRelOprValue == Operators.EQ || (
-                    (lastRelOprValue == Operators.LT || lastRelOprValue == Operators.LE) && (
-                            currentRelOprValue == Operators.LT || currentRelOprValue == Operators.LE
-                                    || currentRelOprValue == Operators.EQ)) || (
-                    (lastRelOprValue == Operators.GT || lastRelOprValue == Operators.GE) && (
-                            currentRelOprValue == Operators.GT || currentRelOprValue == Operators.GE
-                                    || currentRelOprValue == Operators.EQ))) {
-                Token T_relOpr = consume(Terminals.RELOPR);
-                lastRelOprValue = currentRelOprValue;
-                ITerm2 N_term2 = term2();
-                ITerm1NTS N_term1NTS = term1NTS();
-                return new Term1NTS(T_relOpr, N_term2, N_term1NTS);
-            } else {
-                throw new GrammarError("Not allowed relation operator: " + currentRelOprValue);
-            }
+            Token T_relOpr = consume(Terminals.RELOPR);
+            ITerm2 N_term2 = term2();
+            ITerm1NTS N_term1NTS = term1NTS();
+            return new Term1NTS(T_relOpr, N_term2, N_term1NTS);
         } else if (currentTerminal == Terminals.COMMA || currentTerminal == Terminals.RPAREN
                 || currentTerminal == Terminals.COLON || currentTerminal == Terminals.DO
                 || currentTerminal == Terminals.THEN || currentTerminal == Terminals.ENDPROC
@@ -698,7 +674,7 @@ public class Parser {
     private IExprListLparenNTS exprListLparenNTS() throws GrammarError {
         if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
                 || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
-                || currentTerminal == Terminals.LITERAL) {
+                || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.LBRACKET) {
             System.out.println("exprListLparenNTS ::= <expr> <exprListNTS>");
             IExpr N_expr = expr();
             IExprListNTS N_exprListNTS = exprListNTS();

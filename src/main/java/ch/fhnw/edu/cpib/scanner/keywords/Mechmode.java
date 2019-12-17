@@ -8,7 +8,7 @@ public class Mechmode extends Base {
     private final Mechmodes mechmode;
 
     public Mechmode(Mechmodes mechmode) {
-        super(Terminals.CHANGEMOD);
+        super(Terminals.MECHMODE);
         this.mechmode = mechmode;
     }
 

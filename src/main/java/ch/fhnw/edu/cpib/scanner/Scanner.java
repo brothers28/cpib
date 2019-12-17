@@ -102,7 +102,7 @@ public class Scanner {
 
         TokenList result = new TokenList();
         int state = 0;
-        StringBuffer lexAcc = null; // for constructing the identifier
+        StringBuffer lexAcc = new StringBuffer(); // for constructing the identifier
         StringBuffer syAcc = null; // for constructing the symbols
         long numAccu = 0L; // for constructing the literal value
 
@@ -145,7 +145,7 @@ public class Scanner {
                         if (syAcc.length() == 2 && syAcc.toString().equals(COMMENT_SYMBOL + "" + COMMENT_SYMBOL)){
                             // Following is a line comment;
                             state = 4;
-                            syAcc.delete(0, lexAcc.length());
+                            syAcc.delete(0, syAcc.length());
                         }
                 } else {
                     state = 0;
@@ -200,6 +200,11 @@ public class Scanner {
             default:
                 throw new InternalError("Default case in scanner.");
             }
+        }
+
+        if (isKeyword(lexAcc)) {
+            Token token = keywords.get(lexAcc.toString());
+            result.add(token);
         }
 
         result.add(new Base(Terminals.SENTINEL));
