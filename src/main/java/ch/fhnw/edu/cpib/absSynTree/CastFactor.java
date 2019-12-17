@@ -3,15 +3,13 @@ package ch.fhnw.edu.cpib.absSynTree;
 import ch.fhnw.edu.cpib.absSynTree.interfaces.IFactor;
 import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.scanner.enumerations.LRValue;
-import ch.fhnw.edu.cpib.scanner.enumerations.Operators;
-import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
 import ch.fhnw.edu.cpib.scanner.enumerations.Types;
-import ch.fhnw.edu.cpib.scanner.symbols.Operator;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
-import ch.fhnw.edu.cpib.vm.IInstructions;
 
 import java.util.HashMap;
 import java.util.stream.Collectors;
+
+import static ch.fhnw.edu.cpib.parser.util.Cast.isCastable;
 
 public class CastFactor extends AbsSynTreeNode implements IFactor {
 	private Types castType;
@@ -45,22 +43,16 @@ public class CastFactor extends AbsSynTreeNode implements IFactor {
 
 	@Override
 	public Types getType() {
-		return factor.getType();
+		return castType;
 	}
 
 	@Override
 	public void doTypeChecking() throws TypeCheckError {
 		factor.doTypeChecking();
 		
-		// TODO: Scope Checking
-		/*
-		if(Terminals.NOTOPR.equals(castType.getOperator()) && factor.getType() != Types.BOOL)
-			throw new TypeCheckError(Types.BOOL, factor.getType());
-		if(Terminals.ADDOPR.equals(castType.getOperator()) && factor.getType() != Types.INT64)
-			throw new TypeCheckError(Types.INT64, factor.getType());
-		if(Terminals.ADDOPR.equals(castType.getOperator()) && factor.getType() != Types.NAT64)
-			throw new TypeCheckError(Types.NAT64, factor.getType());
-		 */
+		// TODO: Type Checking
+		if(!isCastable(factor.getType(), getType()))
+			throw new TypeCheckError(getType(), factor.getType());
 	}
 
 	@Override
@@ -104,5 +96,5 @@ public class CastFactor extends AbsSynTreeNode implements IFactor {
 		s += factor.toString(subIndent);
 		
 		return s;
-	}	
+	}
 }
