@@ -49,15 +49,43 @@
 %	ABSTRACT
 %----------------------------------------------------------------------------------------
 
-%\lettrineabstract{Im Modul Compilerbau soll eine Erweiterung für eine bestehende IML spezifiziert und implementiert werden. Unsere Erweiterung führt die Unterstützung eines Datentypen für natürliche Zahlen ein. In den nachfolgegenden Abschnitten werden die Erweiterungen an der IML-Spezifikation beschrieben und Implementationsentscheide begründet.}
-%\lettrineabstract{Im Modul Compilerbau wird eine Erweiterung für die bestehende Sprache IML spezifiziert und implementiert. Neu soll ein Datentyp für natürliche Zahlen unterstützt werden. Werte vom bestehenden Datentyp int64 können in den neuen Datentypen gecastet werden und umgekehrt.}
-\lettrineabstract{Im Modul Compilerbau wird eine Erweiterung für die bestehende Sprache IML spezifiziert und implementiert. Die Implementierung beinhaltet einen neuen Datentyp für natürliche Zahlen, sowie eine Möglichkeit den Datentyp int64 in den neuen Datentyp zu casten und umgekehrt.}
+\lettrineabstract{Im Modul Compilerbau wird eine Erweiterung für die bestehende Sprache IML spezifiziert und implementiert. Die Implementierung beinhaltet einen neuen Datentyp für natürliche Zahlen, sowie eine Möglichkeit den Datentyp int64 in den neuen Datentypen zu casten und umgekehrt.}
 %----------------------------------------------------------------------------------------
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
 
-\section{Compiler}
+\section{Aufbau Compiler}
 Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
+
+\subsection{Statische Analyse}
+% TODO: Namespaces
+
+Bei \textit{FunCall, ProcCall, DebugIn} und \textit{AssignCmd} muss überprüft werden, ob die Parameter den richtigen \texttt{LValue}, resp. \texttt{RValue} besitzen.
+Folgende Kombinationen sind dabei allgemein erlaubt:
+
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[h]
+    \centering
+    \tiny
+    \caption{LRValue-Kombinationen}
+    \label{tab:lrvalues}
+    \resizebox{\columnwidth}{!}{%
+    \begin{tabular}{@{}lll@{}}
+        \toprule
+        Callee & Caller &  Resultat                       \\ \midrule
+        LValue & LValue &  Valid                          \\
+        RValue & LValue &  Valid (LValue dereferenzieren) \\
+        RValue & RValue &  Valid                          \\
+        LValue & RValue &  LRValueError \Lightning         \\ \bottomrule
+    \end{tabular}%
+    }
+\end{table}
+
+Bei einem \textit{AssignCmd} muss der Ausdruck links zudem zwingend ein \texttt{LValue} sein.
+
+Bei einem \textit{DebugIn} muss es sich ebenfalls um einen \texttt{LValue} handeln, damit der Input-Wert dieser Variable zugewiesen werden kann.
 
 \section{Erweiterung}
 \subsection{Einleitung}
