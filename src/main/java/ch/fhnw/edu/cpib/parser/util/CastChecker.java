@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Cast {
+public class CastChecker {
 
     private static Map<Types, List<Types>> possibleCasts = new HashMap<>();
 

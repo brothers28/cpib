@@ -3,7 +3,7 @@ package ch.fhnw.edu.cpib.absSynTree;
 import ch.fhnw.edu.cpib.absSynTree.interfaces.ICmd;
 import ch.fhnw.edu.cpib.absSynTree.interfaces.IExpr;
 import ch.fhnw.edu.cpib.errors.*;
-import ch.fhnw.edu.cpib.parser.util.DeepCopy;
+import ch.fhnw.edu.cpib.parser.util.DataStructureHelper;
 import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import ch.fhnw.edu.cpib.vm.IInstructions;
@@ -27,8 +27,8 @@ public class IfCmd extends AbsSynTreeNode implements ICmd {
 			throws NameAlreadyDeclaredError, NameAlreadyGloballyDeclaredError, AlreadyInitializedError {
 		this.localStoresNamespace = localStoresNamespace;
 		expr.saveNamespaceInfoToNode(this.localStoresNamespace);
-		ifCpsCmd.saveNamespaceInfoToNode(DeepCopy.deepCopy(this.localStoresNamespace));
-		elseCpsCmd.saveNamespaceInfoToNode(DeepCopy.deepCopy(this.localStoresNamespace));
+		ifCpsCmd.saveNamespaceInfoToNode(DataStructureHelper.deepCopy(this.localStoresNamespace));
+		elseCpsCmd.saveNamespaceInfoToNode(DataStructureHelper.deepCopy(this.localStoresNamespace));
 	}
 
 	@Override

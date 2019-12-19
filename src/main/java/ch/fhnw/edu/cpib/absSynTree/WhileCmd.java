@@ -3,7 +3,7 @@ package ch.fhnw.edu.cpib.absSynTree;
 import ch.fhnw.edu.cpib.absSynTree.interfaces.ICmd;
 import ch.fhnw.edu.cpib.absSynTree.interfaces.IExpr;
 import ch.fhnw.edu.cpib.errors.*;
-import ch.fhnw.edu.cpib.parser.util.DeepCopy;
+import ch.fhnw.edu.cpib.parser.util.DataStructureHelper;
 import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import ch.fhnw.edu.cpib.vm.IInstructions;
@@ -25,7 +25,7 @@ public class WhileCmd extends AbsSynTreeNode implements ICmd {
 		this.localStoresNamespace = localStoresNamespace;
 		expr.saveNamespaceInfoToNode(this.localStoresNamespace);
 		// inner while body with deepCopy from localStorage
-		cpsCmd.saveNamespaceInfoToNode(DeepCopy.deepCopy(this.localStoresNamespace));
+		cpsCmd.saveNamespaceInfoToNode(DataStructureHelper.deepCopy(this.localStoresNamespace));
 	}
 	
 	@Override

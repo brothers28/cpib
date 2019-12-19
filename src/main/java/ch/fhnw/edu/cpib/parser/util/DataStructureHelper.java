@@ -5,10 +5,7 @@ import ch.fhnw.edu.cpib.absSynTree.TypeIdent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeepCopy {
-    public DeepCopy() {
-
-    }
+public class DataStructureHelper {
 
     public static HashMap<String, TypeIdent> deepCopy(HashMap<String, TypeIdent> map) {
         HashMap<String, TypeIdent> tmp = new HashMap<>();

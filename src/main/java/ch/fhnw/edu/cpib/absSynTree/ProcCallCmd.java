@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-import static ch.fhnw.edu.cpib.parser.util.Cast.isCastable;
+import static ch.fhnw.edu.cpib.parser.util.CastChecker.isCastable;
 
 public class ProcCallCmd extends AbsSynTreeNode implements ICmd {
 	private Ident ident;
