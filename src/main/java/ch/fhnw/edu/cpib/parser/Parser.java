@@ -14,7 +14,6 @@ import ch.fhnw.edu.cpib.scanner.keywords.Type;
 import ch.fhnw.edu.cpib.scanner.symbols.Operator;
 
 public class Parser {
-    // TODO: anpassen überall wo isFirstRelOperator geprüft wird
     private TokenList tokens;
     private Base currentToken;
     private Terminals currentTerminal;

@@ -1,0 +1,19 @@
+program progConjunctional
+global
+   var x:nat64;
+   var y:int64;
+   var z:int64;
+   var b:bool
+do
+   x init := 4;
+   y init := 4;
+   z init := 0;
+   if x > y = 4  then
+      z := ([int64] x * y)
+   else
+      z := ([int64] x + y)
+   endif;
+   b init := [int64] x >= y;
+   debugout z;
+   debugout b
+endprogram
