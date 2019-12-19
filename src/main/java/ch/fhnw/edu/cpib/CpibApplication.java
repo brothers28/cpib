@@ -6,6 +6,10 @@ import ch.fhnw.edu.cpib.parser.Parser;
 import ch.fhnw.edu.cpib.scanner.Scanner;
 import ch.fhnw.edu.cpib.scanner.TokenList;
 import ch.fhnw.edu.cpib.scanner.util.ImlReader;
+import ch.fhnw.edu.cpib.vm.ICodeArray;
+import ch.fhnw.edu.cpib.vm.IVirtualMachine;
+import ch.fhnw.edu.cpib.vm.VirtualMachine;
+import ch.fhnw.edu.cpib.vm.util.CodeArrayGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -72,6 +76,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
             e.printStackTrace();
         } catch (CannotAssignToConstError e) {
             System.out.println(" Error...\n");
+            e.printStackTrace();
+        }
+
+        CodeArrayGenerator codeArrayGenerator = new CodeArrayGenerator();
+        IVirtualMachine virtualMachine = null;
+        try {
+            System.out.println("\n---------------------------------------------------\n");
+            System.out.println("Generating code array :\n");
+            ICodeArray codeArray = codeArrayGenerator.convert(absSynTree);
+            System.out.println(codeArray.toString());
+
+            virtualMachine = new VirtualMachine(codeArray, 65536);
+        } catch (IVirtualMachine.ExecutionError e) {
+            System.out.println("\nVM error...\n");
+            e.printStackTrace();
+        } catch (ICodeArray.CodeTooSmallError e) {
+            System.out.println("\nVM error...\n");
             e.printStackTrace();
         }
     }
