@@ -202,10 +202,6 @@ public class Scanner {
             }
         }
 
-        if (isKeyword(lexAcc)) {
-            Token token = keywords.get(lexAcc.toString());
-            result.add(token);
-        }
 
         result.add(new Base(Terminals.SENTINEL));
         return result;

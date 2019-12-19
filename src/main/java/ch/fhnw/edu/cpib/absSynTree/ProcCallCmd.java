@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+import static ch.fhnw.edu.cpib.parser.util.Cast.isCastable;
+
 public class ProcCallCmd extends AbsSynTreeNode implements ICmd {
 	private Ident ident;
 	private ArrayList<IExpr> expressions = new ArrayList<>();
@@ -71,7 +73,7 @@ public class ProcCallCmd extends AbsSynTreeNode implements ICmd {
 		for(int i = 0; i < procDecl.getParams().size(); i++) {
 			Types typeExpected = procDecl.getParams().get(i).getTypeIdent().getType();
 			Types typeFound = expressions.get(i).getType();
-			if(typeExpected != typeFound)
+			if(typeExpected != typeFound && !isCastable(typeExpected, typeFound))
 				throw new TypeCheckError(typeExpected, typeFound);
 		}
 	}

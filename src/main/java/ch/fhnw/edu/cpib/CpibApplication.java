@@ -10,7 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication public class CpibApplication {
-    public static final String FILE_NAME = "/example3.iml";
+    public static final String FILE_NAME = "/example_factorial";
 
     public static void main(String[] args) {
         // Start spring application
