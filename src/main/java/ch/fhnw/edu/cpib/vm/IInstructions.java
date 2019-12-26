@@ -187,33 +187,37 @@ public interface IInstructions {
         }
     }
 
- // New
+    // New
     class DivEuclInt implements IInstr {
         public String toString() { return "DivEuclInt"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
             return vm.new DivEuclIntExec();
         }
-    } 
+    }
+
+    // New
     class ModEuclInt implements IInstr {
         public String toString() { return "ModEuclInt"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
             return vm.new ModEuclIntExec();
         }
     }
-    
+
+    // New
     class DivFloorInt implements IInstr {
         public String toString() { return "DivFloorInt"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
             return vm.new DivFloorIntExec();
         }
-    } 
+    }
+
+    // New
     class ModFloorInt implements IInstr {
         public String toString() { return "ModFloorInt"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
             return vm.new ModFloorIntExec();
         }
     }
- //
 
     class EqInt implements IInstr {
         public String toString() { return "EqInt"; }
@@ -257,21 +261,23 @@ public interface IInstructions {
         }
     }
 
- // New
+    // New
     class AndBool implements IInstr {
         public String toString() { return "AndBool"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
             return vm.new AndBoolExec();
         }
     }    
-    
+
+    // New
     class OrBool implements IInstr {
         public String toString() { return "OrBool"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
             return vm.new OrBoolExec();
         }
     }      
-    
+
+    // New
     class CAndBool implements IInstr {
         public String toString() { return "CAndBool"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
@@ -279,13 +285,13 @@ public interface IInstructions {
         }
     }    
 
+    // New
     class COrBool implements IInstr {
         public String toString() { return "COrBool"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
             return vm.new COrBoolExec();
         }
-    }     
- //
+    }
     
     // jump instructions
 

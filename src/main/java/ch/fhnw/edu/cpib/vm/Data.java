@@ -128,7 +128,7 @@ public class Data
         }
     }
 
-// New
+    // New
     static IntData intDivFloor(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError
     {
         try
@@ -141,6 +141,7 @@ public class Data
         }
     }
 
+    // New
     static IntData intModFloor(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError
     {
         try
@@ -169,6 +170,7 @@ public class Data
         }
     }
 
+    // New
     static IntData intModEucl(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError
     {
         try
@@ -217,18 +219,21 @@ public class Data
     static IntData boolAnd(IBaseData a, IBaseData b)
     {
         return boolNew(boolGet(a) & boolGet(b));
-    }  
-    
+    }
+
+    // New
     static IntData boolOr(IBaseData a, IBaseData b)
     {
         return boolNew(boolGet(a) | boolGet(b));
-    }     
-    
+    }
+
+    // New
     static IntData boolCAnd(IBaseData a, IBaseData b)
     {
         return boolNew(boolGet(a) && boolGet(b));
-    }  
-    
+    }
+
+    // New
     static IntData boolCOr(IBaseData a, IBaseData b)
     {
         return boolNew(boolGet(a) || boolGet(b));

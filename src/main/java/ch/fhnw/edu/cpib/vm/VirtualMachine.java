@@ -256,6 +256,7 @@ public class VirtualMachine implements IVirtualMachine {
     }
     
     // dyadic instructions
+
     public class AddIntExec extends AddInt implements IExecInstr {
         public void execute()
         {
@@ -301,7 +302,7 @@ public class VirtualMachine implements IVirtualMachine {
         }
     }
 
-// New
+    // New
     public class DivEuclIntExec extends DivEuclInt implements IExecInstr {
         public void execute() throws ExecutionError
         {
@@ -310,7 +311,8 @@ public class VirtualMachine implements IVirtualMachine {
             pc= pc + 1;
         }
     }
-    
+
+    // New
     public class ModEuclIntExec extends ModEuclInt implements IExecInstr {
         public void execute() throws ExecutionError
         {
@@ -319,7 +321,8 @@ public class VirtualMachine implements IVirtualMachine {
             pc= pc + 1;
         }
     }
-    
+
+    // New
     public class DivFloorIntExec extends DivFloorInt implements IExecInstr {
         public void execute() throws ExecutionError
         {
@@ -328,7 +331,8 @@ public class VirtualMachine implements IVirtualMachine {
             pc= pc + 1;
         }
     }
-    
+
+    // New
     public class ModFloorIntExec extends ModFloorInt implements IExecInstr {
         public void execute() throws ExecutionError
         {
@@ -337,7 +341,6 @@ public class VirtualMachine implements IVirtualMachine {
             pc= pc + 1;
         }
     }
-//
     
     public class EqIntExec extends EqInt implements IExecInstr {
         public void execute()
@@ -393,7 +396,7 @@ public class VirtualMachine implements IVirtualMachine {
         }
     }
 
-// New
+    // New
     public class AndBoolExec extends AndBool implements IExecInstr {
         public void execute()
         {
@@ -402,7 +405,8 @@ public class VirtualMachine implements IVirtualMachine {
             pc= pc + 1;
         }
     }    
-    
+
+    // New
     public class OrBoolExec extends OrBool implements IExecInstr {
         public void execute()
         {
@@ -411,7 +415,8 @@ public class VirtualMachine implements IVirtualMachine {
             pc= pc + 1;
         }
     } 
-    
+
+    // New
     public class CAndBoolExec extends CAndBool implements IExecInstr {
         public void execute()
         {
@@ -420,7 +425,8 @@ public class VirtualMachine implements IVirtualMachine {
             pc= pc + 1;
         }
     }    
-    
+
+    // New
     public class COrBoolExec extends COrBool implements IExecInstr {
         public void execute()
         {
@@ -429,7 +435,6 @@ public class VirtualMachine implements IVirtualMachine {
             pc= pc + 1;
         }
     }
-//
     
     // jump instructions
 
