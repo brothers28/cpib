@@ -72,13 +72,28 @@ public class MultExpr extends AbsSynTreeNode implements IExpr {
 		if(!simulateOnly) {
 			switch(multOpr) {
 				case TIMES:
-					codeArray.put(codeArrayPointer, new IInstructions.MultInt());
+					if (Types.INT64.equals(getType())) {
+						codeArray.put(codeArrayPointer, new IInstructions.MultInt());
+					} else if (Types.NAT64.equals(getType())) {
+						codeArray.put(codeArrayPointer, new IInstructions.MultNat());
+					} else
+						throw new RuntimeException("Unknown Type!");
 					break;
 				case DIV_E:
-					codeArray.put(codeArrayPointer, new IInstructions.DivEuclInt());
+					if (Types.INT64.equals(getType())) {
+						codeArray.put(codeArrayPointer, new IInstructions.DivEuclInt());
+					} else if (Types.NAT64.equals(getType())) {
+						codeArray.put(codeArrayPointer, new IInstructions.DivEuclNat());
+					} else
+						throw new RuntimeException("Unknown Type!");
 					break;
 				case MOD_E:
-					codeArray.put(codeArrayPointer, new IInstructions.ModEuclInt());
+					if (Types.INT64.equals(getType())) {
+						codeArray.put(codeArrayPointer, new IInstructions.ModEuclInt());
+					} else if (Types.NAT64.equals(getType())) {
+						codeArray.put(codeArrayPointer, new IInstructions.ModEuclNat());
+					} else
+						throw new RuntimeException("Unknown Type!");
 					break;
 			}
 		}			

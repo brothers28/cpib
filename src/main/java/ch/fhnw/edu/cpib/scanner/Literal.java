@@ -6,7 +6,7 @@ import jdk.jshell.spi.ExecutionControl;
 
 public class Literal extends Base {
     private final boolean isBoolean;
-    private final int value;
+    private final long value;
 
     public Literal(Terminals terminal) {
         super(terminal);
@@ -14,13 +14,13 @@ public class Literal extends Base {
         this.value = 0; // Default, not used
     }
 
-    public Literal(Terminals terminal, int value) {
+    public Literal(Terminals terminal, long value) {
         super(terminal);
         this.isBoolean = false;
         this.value = value;
     }
 
-    public Literal(Terminals terminal, int value, boolean isBoolean){
+    public Literal(Terminals terminal, long value, boolean isBoolean){
         super(terminal);
         this.isBoolean = isBoolean;
         this.value = value;
@@ -32,18 +32,25 @@ public class Literal extends Base {
 
     public Types getType(){
         return isBoolean ? Types.BOOL : Types.INT64;
-    }
+    } // FIXME: WTF?
 
     public boolean getBoolValue() throws ExecutionControl.NotImplementedException {
         if(!isBoolean)
-            throw new ExecutionControl.NotImplementedException("Gagu");
+            throw new ExecutionControl.NotImplementedException("Gagu"); // FIXME: WTF?
 
         return value > 0 ? true : false;
     }
 
     public int getIntValue() throws ExecutionControl.NotImplementedException {
         if(isBoolean)
-            throw new ExecutionControl.NotImplementedException("Gagu 2");
+            throw new ExecutionControl.NotImplementedException("Gagu 2"); // FIXME: WTF?
+
+        return (int) value;
+    }
+
+    public long getNatValue() throws ExecutionControl.NotImplementedException {
+        if(isBoolean)
+            throw new ExecutionControl.NotImplementedException("sdfsdf"); // FIXME: WTF?
 
         return value;
     }

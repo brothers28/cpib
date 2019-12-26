@@ -3,6 +3,7 @@ package ch.fhnw.edu.cpib.absSynTree;
 import ch.fhnw.edu.cpib.absSynTree.interfaces.IFactor;
 import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.scanner.enumerations.LRValue;
+import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
 import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 
@@ -63,23 +64,25 @@ public class CastFactor extends AbsSynTreeNode implements IFactor {
 	@Override
 	public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
 			throws CodeTooSmallError {
-		
+
 		// Add the value on top of stack
 		factor.addIInstrToCodeArray(localLocations, simulateOnly);
 		
 		// Negate it
-		// TODO: Make running
 		/*
+		// FIXME: MAke run
 		if(!simulateOnly) {
-			if(Terminals.NOTOPR.equals(castType.getOperator())) {
+			if(Terminals.NOTOPR.equals(factor.getOperator())) {
 				codeArray.put(codeArrayPointer, new IInstructions.NegBool());
 			} else if(Operators.MINUS.equals(castType.getOperator())) {
 				codeArray.put(codeArrayPointer, new IInstructions.NegInt());		
 			} else {
 				throw new RuntimeException("UNSUPPORTED CAST OPERATOR!");
 			}
-		} */
-		codeArrayPointer++;	
+		}
+		codeArrayPointer++;
+		*/
+
 	}
 
 	@Override
@@ -97,4 +100,5 @@ public class CastFactor extends AbsSynTreeNode implements IFactor {
 		
 		return s;
 	}
+
 }

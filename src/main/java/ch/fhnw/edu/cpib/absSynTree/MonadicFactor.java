@@ -76,7 +76,13 @@ public class MonadicFactor extends AbsSynTreeNode implements IFactor {
 			if(Terminals.NOTOPR.equals(monadicOpr.getOperator())) {
 				codeArray.put(codeArrayPointer, new IInstructions.NegBool());
 			} else if(Operators.MINUS.equals(monadicOpr.getOperator())) {
-				codeArray.put(codeArrayPointer, new IInstructions.NegInt());		
+				if (Types.INT64.equals(getType())){
+					codeArray.put(codeArrayPointer, new IInstructions.NegInt());
+				} else if (Types.NAT64.equals(getType())) {
+					codeArray.put(codeArrayPointer, new IInstructions.NegNat());
+				} else {
+					throw new RuntimeException("Unknown Type!");
+				}
 			} else {
 				throw new RuntimeException("UNSUPPORTED MONADIC OPERATOR!");
 			}

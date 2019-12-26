@@ -82,6 +82,15 @@ public interface IInstructions {
             return vm.new LoadImIntExec(value);
         }
     }
+
+    class LoadImNat implements IInstr {
+        protected long value;
+        public LoadImNat(long value) { this.value= value; }
+        public String toString() { return "LoadImNat(" + value + ")"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new LoadImNatExec(value);
+        }
+    }
     
     // New
     // load immediate value (value -> stack)
@@ -141,6 +150,14 @@ public interface IInstructions {
             return vm.new NegIntExec();
         }
     }
+
+    // nat extension
+    class NegNat implements IInstr {
+        public String toString() { return "NegNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new NegNatExec();
+        }
+    }
     
     // New
     class NegBool implements IInstr {
@@ -148,7 +165,7 @@ public interface IInstructions {
         public IExecInstr toExecInstr(VirtualMachine vm) {
             return vm.new NegBoolExec();
         }
-    }    
+    }
 
     // dyadic instructions
 
@@ -261,31 +278,151 @@ public interface IInstructions {
         }
     }
 
-    // New
+    // nat extension
+    class AddNat implements IInstr {
+        public String toString() { return "AddNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new AddNatExec();
+        }
+    }
+
+    // nat extension
+    class SubNat implements IInstr {
+        public String toString() { return "SubNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new SubNatExec();
+        }
+    }
+
+    // nat extension
+    class MultNat implements IInstr {
+        public String toString() { return "MultNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new MultNatExec();
+        }
+    }
+
+    // nat extension
+    class DivTruncNat implements IInstr {
+        public String toString() { return "DivTruncNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new DivTruncNatExec();
+        }
+    }
+
+    // nat extension
+    class ModTruncNat implements IInstr {
+        public String toString() { return "ModTruncNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new ModTruncNatExec();
+        }
+    }
+
+    // nat extension
+    class DivEuclNat implements IInstr {
+        public String toString() { return "DivEuclNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new DivEuclNatExec();
+        }
+    }
+
+    // nat extension
+    class ModEuclNat implements IInstr {
+        public String toString() { return "ModEuclNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new ModEuclNatExec();
+        }
+    }
+
+    // nat extension
+    class DivFloorNat implements IInstr {
+        public String toString() { return "DivFloorNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new DivFloorNatExec();
+        }
+    }
+
+    // nat extension
+    class ModFloorNat implements IInstr {
+        public String toString() { return "ModFloorNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new ModFloorNatExec();
+        }
+    }
+
+    // nat extension
+    class EqNat implements IInstr {
+        public String toString() { return "EqNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new EqNatExec();
+        }
+    }
+
+    // nat extension
+    class NeNat implements IInstr {
+        public String toString() { return "NeNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new NeNatExec();
+        }
+    }
+
+    // nat extension
+    class GtNat implements IInstr {
+        public String toString() { return "GtNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new GtNatExec();
+        }
+    }
+
+    // nat extension
+    class LtNat implements IInstr {
+        public String toString() { return "LtNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new LtNatExec();
+        }
+    }
+
+    // nat extension
+    class GeNat implements IInstr {
+        public String toString() { return "GeNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new GeNatExec();
+        }
+    }
+
+    // nat extension
+    class LeNat implements IInstr {
+        public String toString() { return "LeNat"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new LeNatExec();
+        }
+    }
+
+    // nat extension
     class AndBool implements IInstr {
         public String toString() { return "AndBool"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
             return vm.new AndBoolExec();
         }
-    }    
+    }
 
-    // New
+    // nat extension
     class OrBool implements IInstr {
         public String toString() { return "OrBool"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
             return vm.new OrBoolExec();
         }
-    }      
+    }
 
-    // New
+    // nat extension
     class CAndBool implements IInstr {
         public String toString() { return "CAndBool"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
             return vm.new CAndBoolExec();
         }
-    }    
+    }
 
-    // New
+    // nat extension
     class COrBool implements IInstr {
         public String toString() { return "COrBool"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
@@ -343,6 +480,15 @@ public interface IInstructions {
         }
     }
 
+    class InputNat implements IInstr {
+        protected String indicator;
+        public InputNat(String indicator) { this.indicator= indicator; }
+        public String toString() { return "InputNat(\"" + indicator + "\")"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new InputNatExec(indicator);
+        }
+    }
+
     class OutputBool implements IInstr {
         protected String indicator;
         public OutputBool(String indicator) { this.indicator= indicator; }
@@ -358,6 +504,15 @@ public interface IInstructions {
         public String toString() { return "OutputInt(\"" + indicator + "\")"; }
         public IExecInstr toExecInstr(VirtualMachine vm) {
             return vm.new OutputIntExec(indicator);
+        }
+    }
+
+    class OutputNat implements IInstr {
+        protected String indicator;
+        public OutputNat(String indicator) { this.indicator= indicator; }
+        public String toString() { return "OutputNat(\"" + indicator + "\")"; }
+        public IExecInstr toExecInstr(VirtualMachine vm) {
+            return vm.new OutputNatExec(indicator);
         }
     }
 }

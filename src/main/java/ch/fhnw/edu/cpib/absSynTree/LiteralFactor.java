@@ -57,6 +57,8 @@ public class LiteralFactor extends AbsSynTreeNode implements IFactor {
 					codeArray.put(codeArrayPointer, new IInstructions.LoadImBool(literal.getBoolValue()));
 				} else if (literal.getType() == Types.INT64) {
 					codeArray.put(codeArrayPointer, new IInstructions.LoadImInt(literal.getIntValue()));
+				} else if (literal.getType() == Types.NAT64) {
+					codeArray.put(codeArrayPointer, new IInstructions.LoadImNat(literal.getNatValue()));
 				} else {
 					throw new RuntimeException("Unknown type!");
 				}

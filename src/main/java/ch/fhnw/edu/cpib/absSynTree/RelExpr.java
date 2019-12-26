@@ -101,22 +101,52 @@ public class RelExpr extends AbsSynTreeNode implements IExpr {
 			if (!simulateOnly) {
 				switch (relOpr) {
 					case EQ:
-						codeArray.put(codeArrayPointer, new IInstructions.EqInt());
+						if (Types.INT64.equals(getType())) {
+							codeArray.put(codeArrayPointer, new IInstructions.EqInt());
+						} else if (Types.NAT64.equals(getType())) {
+							codeArray.put(codeArrayPointer, new IInstructions.EqNat());
+						} else
+							throw new RuntimeException("Unknown Type!");
 						break;
 					case GE:
-						codeArray.put(codeArrayPointer, new IInstructions.GeInt());
+						if (Types.INT64.equals(getType())) {
+							codeArray.put(codeArrayPointer, new IInstructions.GeInt());
+						} else if (Types.NAT64.equals(getType())) {
+							codeArray.put(codeArrayPointer, new IInstructions.GeNat());
+						} else
+							throw new RuntimeException("Unknown Type!");
 						break;
 					case GT:
-						codeArray.put(codeArrayPointer, new IInstructions.GtInt());
+						if (Types.INT64.equals(getType())) {
+							codeArray.put(codeArrayPointer, new IInstructions.GtInt());
+						} else if (Types.NAT64.equals(getType())) {
+							codeArray.put(codeArrayPointer, new IInstructions.GtNat());
+						} else
+							throw new RuntimeException("Unknown Type!");
 						break;
 					case LE:
-						codeArray.put(codeArrayPointer, new IInstructions.LeInt());
+						if (Types.INT64.equals(getType())) {
+							codeArray.put(codeArrayPointer, new IInstructions.LeInt());
+						} else if (Types.NAT64.equals(getType())) {
+							codeArray.put(codeArrayPointer, new IInstructions.LeNat());
+						} else
+							throw new RuntimeException("Unknown Type!");
 						break;
 					case LT:
-						codeArray.put(codeArrayPointer, new IInstructions.LtInt());
+						if (Types.INT64.equals(getType())) {
+							codeArray.put(codeArrayPointer, new IInstructions.LtInt());
+						} else if (Types.NAT64.equals(getType())) {
+							codeArray.put(codeArrayPointer, new IInstructions.LtNat());
+						} else
+							throw new RuntimeException("Unknown Type!");
 						break;
 					case NE:
-						codeArray.put(codeArrayPointer, new IInstructions.NeInt());
+						if (Types.INT64.equals(getType())) {
+							codeArray.put(codeArrayPointer, new IInstructions.NegInt());
+						} else if (Types.NAT64.equals(getType())) {
+							codeArray.put(codeArrayPointer, new IInstructions.NeNat());
+						} else
+							throw new RuntimeException("Unknown Type!");
 						break;
 				}
 			}
