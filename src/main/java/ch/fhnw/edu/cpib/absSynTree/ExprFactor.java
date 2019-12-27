@@ -55,7 +55,7 @@ public class ExprFactor extends AbsSynTreeNode implements IFactor {
 	}
 
 	@Override
-	public void doTypeChecking() throws TypeCheckError {
+	public void doTypeChecking() throws TypeCheckError, CastError {
 		expr.doTypeChecking();
 	}
 

@@ -33,7 +33,7 @@ public class CpsCmd extends AbsSynTreeNode implements ICmd {
 	}
 
 	@Override
-	public void doTypeChecking() throws TypeCheckError {
+	public void doTypeChecking() throws TypeCheckError, CastError {
 		for(ICmd command : commands) {
 			command.doTypeChecking();
 		}

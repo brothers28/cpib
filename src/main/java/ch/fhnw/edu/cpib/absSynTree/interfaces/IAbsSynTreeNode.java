@@ -16,7 +16,7 @@ public interface IAbsSynTreeNode {
 
 	public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError;
 
-	public void doTypeChecking() throws TypeCheckError;
+	public void doTypeChecking() throws TypeCheckError, CastError;
 
 	public void doInitChecking(boolean globalProtected) throws NotInitializedError, AlreadyInitializedError,
 			GlobalInitializationProhibitedError, CannotAssignToConstError;

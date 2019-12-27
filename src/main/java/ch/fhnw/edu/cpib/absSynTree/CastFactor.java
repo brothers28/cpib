@@ -52,12 +52,12 @@ public class CastFactor extends AbsSynTreeNode implements IFactor {
 	}
 
 	@Override
-	public void doTypeChecking() throws TypeCheckError {
+	public void doTypeChecking() throws CastError, TypeCheckError {
 		factor.doTypeChecking();
 		
 		// TODO: Type Checking
 		if(!isCastable(factor.getType(), getType()))
-			throw new TypeCheckError(getType(), factor.getType());
+			throw new CastError(getType(), factor.getType());
 	}
 
 	@Override

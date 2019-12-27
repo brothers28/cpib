@@ -77,6 +77,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         } catch (CannotAssignToConstError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
+        } catch (CastError e) {
+            System.out.println(" Error...\n");
+            e.printStackTrace();
         }
 
         CodeArrayGenerator codeArrayGenerator = new CodeArrayGenerator();

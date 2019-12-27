@@ -61,7 +61,7 @@ public class MonadicFactor extends AbsSynTreeNode implements IFactor {
 	}
 
 	@Override
-	public void doTypeChecking() throws TypeCheckError {
+	public void doTypeChecking() throws TypeCheckError, CastError {
 		factor.doTypeChecking();
 		
 		if(Terminals.NOTOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.BOOL)

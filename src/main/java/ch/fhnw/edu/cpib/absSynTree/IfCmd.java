@@ -39,7 +39,7 @@ public class IfCmd extends AbsSynTreeNode implements ICmd {
 	}
 	
 	@Override
-	public void doTypeChecking() throws TypeCheckError {
+	public void doTypeChecking() throws TypeCheckError, CastError {
 		expr.doTypeChecking();
 		ifCpsCmd.doTypeChecking();
 		elseCpsCmd.doTypeChecking();

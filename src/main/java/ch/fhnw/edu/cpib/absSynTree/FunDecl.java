@@ -48,7 +48,7 @@ public class FunDecl extends AbsSynTreeNode implements IDecl {
 	}
 	
 	@Override
-	public void doTypeChecking() throws TypeCheckError {
+	public void doTypeChecking() throws TypeCheckError, CastError {
 		cpsCmd.doTypeChecking();
 	}
 

@@ -48,7 +48,7 @@ public class Program extends AbsSynTreeNode {
 	}
 	
 	@Override
-	public void doTypeChecking() throws TypeCheckError {
+	public void doTypeChecking() throws TypeCheckError, CastError {
 		for(IDecl decl : globalDeclarations) {
 			// For funDecl and procDecl, do the type checking
 			if(!(decl instanceof StoDecl))

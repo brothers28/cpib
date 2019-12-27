@@ -56,7 +56,7 @@ public class AddExpr extends AbsSynTreeNode implements IExpr {
         return exprLeft.getType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError {
+    @Override public void doTypeChecking() throws TypeCheckError, CastError {
         exprLeft.doTypeChecking();
         exprRight.doTypeChecking();
 

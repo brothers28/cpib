@@ -45,7 +45,7 @@ public class Parser {
     public AbsSynTree parse()
             throws GrammarError, NameAlreadyDeclaredError, NameNotDeclaredError, NameAlreadyGloballyDeclaredError,
             LRValueError, InvalidParamCountError, AlreadyInitializedError, TypeCheckError, NotInitializedError,
-            GlobalInitializationProhibitedError, CannotAssignToConstError {
+            GlobalInitializationProhibitedError, CannotAssignToConstError, CastError {
         System.out.println("Start parsing:\n");
         IProgram program = program();
         consume(Terminals.SENTINEL);

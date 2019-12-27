@@ -26,7 +26,7 @@ public class AbsSynTree {
 		root.doScopeChecking();
 	}
 	
-	public void doTypeChecking() throws TypeCheckError {
+	public void doTypeChecking() throws TypeCheckError, CastError {
 		root.doTypeChecking();
 	}
 	

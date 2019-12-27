@@ -31,7 +31,7 @@ public class DebugInCmd extends AbsSynTreeNode implements ICmd {
             throw new LRValueError(LRValue.LVALUE, expr.getLRValue());
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError {
+    @Override public void doTypeChecking() throws TypeCheckError, CastError {
         expr.doTypeChecking();
     }
 

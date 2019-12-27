@@ -41,11 +41,11 @@ public class AssignCmd extends AbsSynTreeNode implements ICmd {
 	}
 
 	@Override
-	public void doTypeChecking() throws TypeCheckError {
+	public void doTypeChecking() throws TypeCheckError, CastError {
 		exprLeft.doTypeChecking();
 		exprRight.doTypeChecking();
 		
-		if(exprLeft.getType() != exprRight.getType() && !isCastable(exprLeft.getType(), exprRight.getType()))
+		if(exprLeft.getType() != exprRight.getType()) //&& !isCastable(exprLeft.getType(), exprRight.getType()))
 			throw new TypeCheckError(exprLeft.getType(), exprRight.getType());
 	}
 

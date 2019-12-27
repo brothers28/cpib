@@ -8,14 +8,42 @@ public class Data {
         IBaseData copy();
     }
 
-    static class IntData implements IBaseData {
-        private int i; // FIXME: According to https://de.wikipedia.org/wiki/Integer_(Datentyp) should be twice as big -> long
+    // nat extension
+    static class NumData implements IBaseData {
+        private long i;
 
-        IntData(int i) {
+        NumData(){}
+        NumData(long i) {
             this.i = i;
         }
 
-        int getData() {
+        long getData() {
+            return i;
+        }
+
+        public NumData copy() {
+            return numCopy(this);
+        }
+    }
+
+
+        static class IntData extends NumData {
+        public static final long MAX_VALUE = 2147483647L; // FIXME: According to https://de.wikipedia.org/wiki/Integer_(Datentyp) should be twice as big -> biginteger
+        public static final long MIN_VALUE = -2147483648L;
+
+        private long i; // FIXME: According to https://de.wikipedia.org/wiki/Integer_(Datentyp) should be twice as big -> long
+
+        IntData(long i) {
+            // Check boundaries
+            if (i > MAX_VALUE)
+                throw new RuntimeException("Int overflow.");
+            if (i < MIN_VALUE)
+                throw new RuntimeException("Int underflow.");
+
+            this.i = i;
+        }
+
+        long getData() {
             return i;
         }
 
@@ -29,7 +57,7 @@ public class Data {
     }
 
     // nat extension
-    static class NatData implements IBaseData {
+    static class NatData extends NumData {
         public static final long MAX_VALUE = 9223372036854775807L; // FIXME: According to https://de.wikipedia.org/wiki/Integer_(Datentyp) should be twice as big -> biginteger
         public static final long MIN_VALUE = 0L;
 
@@ -58,16 +86,30 @@ public class Data {
         }
     }
 
-    static IntData intNew(int i) {
+    // nat extension
+    static NumData numNew(long i) {
+        return new NumData(i);
+    }
+
+    // nat extension
+    static long numGet(IBaseData a) {
+        return ((NumData) a).getData();
+    }
+
+    static NumData numCopy(IBaseData a) {
+        return numNew(numGet(a));
+    }
+
+    static IntData intNew(long i) {
         return new IntData(i);
     }
 
     static int intGet(IBaseData a) {
-        return ((IntData) a).getData();
+        return (int) ((IntData) a).getData();
     }
 
     static IntData intCopy(IBaseData a) {
-        return intNew(intGet(a));
+        return intNew(numGet(a));
     }
 
     // nat extension
@@ -82,7 +124,7 @@ public class Data {
 
     // nat extension
     static NatData natCopy(IBaseData a) {
-        return natNew(natGet(a));
+        return natNew(numGet(a));
     }
 
     // booleans -> integers
@@ -124,12 +166,12 @@ public class Data {
     }
 
     static IntData intInv(IBaseData a) {
-        return intNew(-intGet(a));
+        return intNew(-numGet(a));
     }
 
     // nat extension
     static NatData natInv(IBaseData a) {
-        return natNew(-natGet(a));
+        return natNew(-numGet(a));
     }
 
     static FloatData floatInv(IBaseData a) {
@@ -138,24 +180,24 @@ public class Data {
 
     // boolean -> integers
     static IntData boolInv(IBaseData a) {
-        return boolNew(intGet(a) == 1 ? false : true);
+        return boolNew(numGet(a) == 1 ? false : true);
     }
 
     static IntData intAdd(IBaseData a, IBaseData b) {
-        return intNew(intGet(a) + intGet(b));
+        return intNew(numGet(a) + numGet(b));
     }
 
     static IntData intSub(IBaseData a, IBaseData b) {
-        return intNew(intGet(a) - intGet(b));
+        return intNew(numGet(a) - numGet(b));
     }
 
     static IntData intMult(IBaseData a, IBaseData b) {
-        return intNew(intGet(a) * intGet(b));
+        return intNew(numGet(a) * numGet(b));
     }
 
     static IntData intDivTrunc(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            return intNew(intGet(a) / intGet(b));
+            return intNew(numGet(a) / numGet(b));
         } catch (ArithmeticException e) {
             throw new VirtualMachine.ExecutionError("Integer division by zero.");
         }
@@ -163,7 +205,7 @@ public class Data {
 
     static IntData intModTrunc(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            return intNew(intGet(a) % intGet(b));
+            return intNew(numGet(a) % numGet(b));
         } catch (ArithmeticException e) {
             throw new VirtualMachine.ExecutionError("Integer remainder by zero.");
         }
@@ -172,7 +214,7 @@ public class Data {
     // New
     static IntData intDivFloor(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            return intNew(Math.floorDiv(intGet(a), intGet(b)));
+            return intNew(Math.floorDiv(numGet(a), numGet(b)));
         } catch (ArithmeticException e) {
             throw new VirtualMachine.ExecutionError("Integer division by zero.");
         }
@@ -181,7 +223,7 @@ public class Data {
     // New
     static IntData intModFloor(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            return intNew(Math.floorMod(intGet(a), intGet(b)));
+            return intNew(Math.floorMod(numGet(a), numGet(b)));
         } catch (ArithmeticException e) {
             throw new VirtualMachine.ExecutionError("Integer remainder by zero.");
         }
@@ -189,9 +231,9 @@ public class Data {
 
     static IntData intDivEucl(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            int r = intGet(a) / intGet(b);
-            if (intGet(a) < 0 && r * intGet(b) != intGet(a)) {
-                r -= java.lang.Math.signum(intGet(b));
+            long r = numGet(a) / numGet(b);
+            if (numGet(a) < 0 && r * numGet(b) != numGet(a)) {
+                r -= java.lang.Math.signum(numGet(b));
             }
             return intNew(r);
         } catch (ArithmeticException e) {
@@ -202,7 +244,7 @@ public class Data {
     // New
     static IntData intModEucl(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            int r = intGet(a) - intGet(intDivEucl(a, b)) * intGet(b);
+            long r = numGet(a) - numGet(intDivEucl(a, b)) * numGet(b);
             return intNew(r);
         } catch (ArithmeticException e) {
             throw new VirtualMachine.ExecutionError("Integer remainder by zero.");
@@ -210,33 +252,33 @@ public class Data {
     }
 
     static IntData intEQ(IBaseData a, IBaseData b) {
-        return boolNew(intGet(a) == intGet(b));
+        return boolNew(numGet(a) == numGet(b));
     }
 
     static IntData intNE(IBaseData a, IBaseData b) {
-        return boolNew(intGet(a) != intGet(b));
+        return boolNew(numGet(a) != numGet(b));
     }
 
     static IntData intGT(IBaseData a, IBaseData b) {
-        return boolNew(intGet(a) > intGet(b));
+        return boolNew(numGet(a) > numGet(b));
     }
 
     static IntData intLT(IBaseData a, IBaseData b) {
-        return boolNew(intGet(a) < intGet(b));
+        return boolNew(numGet(a) < numGet(b));
     }
 
     static IntData intGE(IBaseData a, IBaseData b) {
-        return boolNew(intGet(a) >= intGet(b));
+        return boolNew(numGet(a) >= numGet(b));
     }
 
     static IntData intLE(IBaseData a, IBaseData b) {
-        return boolNew(intGet(a) <= intGet(b));
+        return boolNew(numGet(a) <= numGet(b));
     }
 
     // nat extension
     static NatData natAdd(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            return natNew(natGet(a) + natGet(b));
+            return natNew(numGet(a) + numGet(b));
         } catch (RuntimeException e) {
             throw new VirtualMachine.ExecutionError(e.getMessage());
         }
@@ -245,7 +287,7 @@ public class Data {
     // nat extension
     static NatData natSub(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            return natNew(natGet(a) - natGet(b));
+            return natNew(numGet(a) - numGet(b));
         } catch (RuntimeException e) {
             throw new VirtualMachine.ExecutionError(e.getMessage());
         }
@@ -254,7 +296,7 @@ public class Data {
     // nat extension
     static NatData natMult(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            return natNew(natGet(a) * natGet(b));
+            return natNew(numGet(a) * numGet(b));
         } catch (RuntimeException e) {
             throw new VirtualMachine.ExecutionError(e.getMessage());
         }
@@ -263,7 +305,7 @@ public class Data {
     // nat extension
     static NatData natDivTrunc(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            return natNew(natGet(a) / natGet(b));
+            return natNew(numGet(a) / numGet(b));
         } catch (ArithmeticException e) {
             throw new VirtualMachine.ExecutionError("Integer division by zero.");
         } catch (RuntimeException e) {
@@ -274,7 +316,7 @@ public class Data {
     // nat extension
     static NatData natModTrunc(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            return natNew(natGet(a) % natGet(b));
+            return natNew(numGet(a) % numGet(b));
         } catch (ArithmeticException e) {
             throw new VirtualMachine.ExecutionError("Integer remainder by zero.");
         } catch (RuntimeException e) {
@@ -285,7 +327,7 @@ public class Data {
     // nat extension
     static NatData natDivFloor(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            return natNew(Math.floorDiv(natGet(a), natGet(b)));
+            return natNew(Math.floorDiv(numGet(a), numGet(b)));
         } catch (ArithmeticException e) {
             throw new VirtualMachine.ExecutionError("Integer division by zero.");
         } catch (RuntimeException e) {
@@ -296,7 +338,7 @@ public class Data {
     // nat extension
     static NatData natModFloor(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            return natNew(Math.floorMod(natGet(a), natGet(b)));
+            return natNew(Math.floorMod(numGet(a), numGet(b)));
         } catch (ArithmeticException e) {
             throw new VirtualMachine.ExecutionError("Integer remainder by zero.");
         } catch (RuntimeException e) {
@@ -307,10 +349,10 @@ public class Data {
     // nat extension
     static NatData natDivEucl(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            long r = natGet(a) / natGet(b);
-            if (natGet(a) < 0 && r * natGet(b) != natGet(a)) {
+            long r = numGet(a) / numGet(b);
+            if (numGet(a) < 0 && r * numGet(b) != numGet(a)) {
                 // FIXME: Nat can never be negative?
-                r -= java.lang.Math.signum(natGet(b));
+                r -= java.lang.Math.signum(numGet(b));
             }
             return natNew(r);
         } catch (ArithmeticException e) {
@@ -323,7 +365,7 @@ public class Data {
     // nat extension
     static NatData natModEucl(IBaseData a, IBaseData b) throws IVirtualMachine.ExecutionError {
         try {
-            long r = natGet(a) - natGet(natDivEucl(a, b)) * natGet(b);
+            long r = numGet(a) - numGet(natDivEucl(a, b)) * numGet(b);
             return natNew(r);
         } catch (ArithmeticException e) {
             throw new VirtualMachine.ExecutionError("Integer remainder by zero.");
@@ -334,32 +376,32 @@ public class Data {
 
     // nat extension
     static IntData natEQ(IBaseData a, IBaseData b) {
-        return boolNew(natGet(a) == natGet(b));
+        return boolNew(numGet(a) == numGet(b));
     }
 
     // nat extension
     static IntData natNE(IBaseData a, IBaseData b) {
-        return boolNew(natGet(a) != natGet(b));
+        return boolNew(numGet(a) != numGet(b));
     }
 
     // nat extension
     static IntData natGT(IBaseData a, IBaseData b) {
-        return boolNew(natGet(a) > natGet(b));
+        return boolNew(numGet(a) > numGet(b));
     }
 
     // nat extension
     static IntData natLT(IBaseData a, IBaseData b) {
-        return boolNew(natGet(a) < natGet(b));
+        return boolNew(numGet(a) < numGet(b));
     }
 
     // nat extension
     static IntData natGE(IBaseData a, IBaseData b) {
-        return boolNew(natGet(a) >= natGet(b));
+        return boolNew(numGet(a) >= numGet(b));
     }
 
     // nat extension
     static IntData natLE(IBaseData a, IBaseData b) {
-        return boolNew(natGet(a) <= natGet(b));
+        return boolNew(numGet(a) <= numGet(b));
     }
 
     // boolean -> integers

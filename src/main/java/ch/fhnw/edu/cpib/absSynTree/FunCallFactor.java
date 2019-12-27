@@ -86,7 +86,7 @@ public class FunCallFactor extends IdentFactor{
 	}
 
 	@Override
-	public void doTypeChecking() throws TypeCheckError {
+	public void doTypeChecking() throws TypeCheckError, CastError {
 		for(IExpr expr : expressions) {
 			expr.doTypeChecking();
 		}

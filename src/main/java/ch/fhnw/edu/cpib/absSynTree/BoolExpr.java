@@ -49,7 +49,7 @@ public class BoolExpr extends AbsSynTreeNode implements IExpr {
 	}
 
 	@Override
-	public void doTypeChecking() throws TypeCheckError {
+	public void doTypeChecking() throws TypeCheckError, CastError {
 		exprLeft.doTypeChecking();
 		exprRight.doTypeChecking();
 		
