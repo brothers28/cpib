@@ -21,10 +21,6 @@ public class CastFactor extends AbsSynTreeNode implements IFactor {
 		this.factor = factor;
 	}
 
-	public CastFactor(Types castType) {
-		this.castType = castType;
-	}
-	
 	@Override
 	public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
 			throws NameAlreadyDeclaredError, NameAlreadyGloballyDeclaredError, AlreadyInitializedError {
@@ -35,6 +31,14 @@ public class CastFactor extends AbsSynTreeNode implements IFactor {
 	@Override
 	public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
 		factor.doScopeChecking();
+	}
+
+	@Override public void doTypeCasting(Types type) {
+		if (type != null){
+			this.castType = type;
+		}
+		// Change unerlying factors
+		factor.doTypeCasting(castType);
 	}
 	
 	@Override

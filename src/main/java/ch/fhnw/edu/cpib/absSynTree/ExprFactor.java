@@ -5,6 +5,7 @@ import ch.fhnw.edu.cpib.absSynTree.interfaces.IFactor;
 import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.scanner.enumerations.LRValue;
 import ch.fhnw.edu.cpib.scanner.enumerations.Types;
+import ch.fhnw.edu.cpib.scanner.keywords.Type;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 public class ExprFactor extends AbsSynTreeNode implements IFactor {
 	private IExpr expr;
+	private Types castType;
 
 	public ExprFactor(IExpr expr) {
 		this.expr = expr;
@@ -30,6 +32,13 @@ public class ExprFactor extends AbsSynTreeNode implements IFactor {
 		expr.doScopeChecking();
 	}
 
+	@Override public void doTypeCasting(Types type) {
+		if (type != null){
+			this.castType = type;
+		}
+		expr.doTypeCasting(type);
+	}
+
 	@Override
 	public LRValue getLRValue() {
 		return LRValue.RVALUE;
@@ -37,6 +46,11 @@ public class ExprFactor extends AbsSynTreeNode implements IFactor {
 
 	@Override
 	public Types getType() {
+		if (castType != null){
+			// type is casted
+			return castType;
+		}
+		// otherwise get real type
 		return expr.getType();
 	}
 
@@ -53,6 +67,8 @@ public class ExprFactor extends AbsSynTreeNode implements IFactor {
 	@Override
 	public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
 			throws CodeTooSmallError {
+
+		// Add the value on top of stack
 		expr.addIInstrToCodeArray(localLocations, simulateOnly);
 	}
 
@@ -69,5 +85,5 @@ public class ExprFactor extends AbsSynTreeNode implements IFactor {
 		s += expr.toString(subIndent);
 		
 		return s;
-	}	
+	}
 }

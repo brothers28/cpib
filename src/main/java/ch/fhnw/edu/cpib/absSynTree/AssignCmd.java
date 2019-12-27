@@ -4,6 +4,7 @@ import ch.fhnw.edu.cpib.absSynTree.interfaces.ICmd;
 import ch.fhnw.edu.cpib.absSynTree.interfaces.IExpr;
 import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.scanner.enumerations.LRValue;
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.HashMap;
@@ -39,12 +40,18 @@ public class AssignCmd extends AbsSynTreeNode implements ICmd {
 			throw new LRValueError(LRValue.LVALUE, exprLeft.getLRValue());
 	}
 
+	@Override public void doTypeCasting(Types type) {
+		exprLeft.doTypeCasting(type);
+		exprRight.doTypeCasting(type);
+	}
+
 	@Override
 	public void doTypeChecking() throws TypeCheckError {
 		exprLeft.doTypeChecking();
 		exprRight.doTypeChecking();
 		
 		if(exprLeft.getType() != exprRight.getType() && !isCastable(exprLeft.getType(), exprRight.getType()))
+		if(exprLeft.getType() != exprRight.getType())
 			throw new TypeCheckError(exprLeft.getType(), exprRight.getType());		
 	}
 

@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class MonadicFactor extends AbsSynTreeNode implements IFactor {
 	private Operator monadicOpr;
 	private IFactor factor;
+	private Types castType;
 	
 	public MonadicFactor(Operator monadicOpr, IFactor factor) {
 		this.monadicOpr = monadicOpr;
@@ -36,6 +37,13 @@ public class MonadicFactor extends AbsSynTreeNode implements IFactor {
 	public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
 		factor.doScopeChecking();
 	}
+
+	@Override public void doTypeCasting(Types type) {
+		if (type != null){
+			this.castType = type;
+		}
+		factor.doTypeCasting(type);
+	}
 	
 	@Override
 	public LRValue getLRValue() {
@@ -44,6 +52,11 @@ public class MonadicFactor extends AbsSynTreeNode implements IFactor {
 
 	@Override
 	public Types getType() {
+		if (castType != null){
+			// type is casted
+			return castType;
+		}
+		// otherwise get real type
 		return factor.getType();
 	}
 
@@ -67,7 +80,7 @@ public class MonadicFactor extends AbsSynTreeNode implements IFactor {
 	@Override
 	public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
 			throws CodeTooSmallError {
-		
+
 		// Add the value on top of stack
 		factor.addIInstrToCodeArray(localLocations, simulateOnly);
 		
@@ -104,5 +117,6 @@ public class MonadicFactor extends AbsSynTreeNode implements IFactor {
 		s += factor.toString(subIndent);
 		
 		return s;
-	}	
+	}
+
 }

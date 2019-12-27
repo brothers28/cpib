@@ -2,6 +2,7 @@ package ch.fhnw.edu.cpib.absSynTree;
 
 import ch.fhnw.edu.cpib.absSynTree.interfaces.ICmd;
 import ch.fhnw.edu.cpib.errors.*;
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,12 @@ public class CpsCmd extends AbsSynTreeNode implements ICmd {
 	public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
 		for(ICmd command : commands) {
 			command.doScopeChecking();
+		}
+	}
+
+	@Override public void doTypeCasting(Types type) {
+		for(ICmd command : commands) {
+			command.doTypeCasting(type);
 		}
 	}
 

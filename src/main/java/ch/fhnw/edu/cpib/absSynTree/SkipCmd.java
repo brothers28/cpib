@@ -2,6 +2,7 @@ package ch.fhnw.edu.cpib.absSynTree;
 
 import ch.fhnw.edu.cpib.absSynTree.interfaces.ICmd;
 import ch.fhnw.edu.cpib.errors.*;
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 
 import java.util.HashMap;
@@ -21,6 +22,10 @@ public class SkipCmd extends AbsSynTreeNode implements ICmd {
 	@Override
 	public void doScopeChecking() throws NameNotDeclaredError {
 		// Do nothing		
+	}
+
+	@Override public void doTypeCasting(Types type) {
+		// Do nothing
 	}
 	
 	@Override

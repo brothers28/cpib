@@ -65,6 +65,11 @@ public class Parser {
         System.out.println(" OK!");
 
         System.out.println("\n---------------------------------------------------\n");
+        System.out.print("Type casting:");
+        absSynTree.doTypeCasting();
+        System.out.println(" OK!");
+
+        System.out.println("\n---------------------------------------------------\n");
         System.out.print("Type checking:");
         absSynTree.doTypeChecking();
         System.out.println(" OK!");

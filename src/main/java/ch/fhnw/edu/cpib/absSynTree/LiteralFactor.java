@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 public class LiteralFactor extends AbsSynTreeNode implements IFactor {
 	private Literal literal;
+	private Types castType;
 
 	public LiteralFactor(Literal literal) {
 		this.literal = literal;
@@ -27,6 +28,13 @@ public class LiteralFactor extends AbsSynTreeNode implements IFactor {
 	@Override
 	public void doScopeChecking() throws NameNotDeclaredError {
 	}
+
+	@Override public void doTypeCasting(Types type) {
+		if (type != null){
+			this.castType = type;
+		}
+		literal.doTypeCasting(type);
+	}
 	
 	@Override
 	public LRValue getLRValue() {
@@ -35,6 +43,11 @@ public class LiteralFactor extends AbsSynTreeNode implements IFactor {
 
 	@Override
 	public Types getType() {
+		if (castType != null){
+			// type is casted
+			return castType;
+		}
+		// otherwise get real type
 		return literal.getType();
 	}
 
@@ -51,6 +64,8 @@ public class LiteralFactor extends AbsSynTreeNode implements IFactor {
 	@Override
 	public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
 			throws CodeTooSmallError {
+
+		// Add the value on top of stack
 		if(!simulateOnly) {
 			try {
 				if (literal.getType() == Types.BOOL) {

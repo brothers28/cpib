@@ -4,6 +4,7 @@ import ch.fhnw.edu.cpib.absSynTree.interfaces.IDecl;
 import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.scanner.enumerations.Mechmodes;
 import ch.fhnw.edu.cpib.scanner.Ident;
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.ArrayList;
@@ -44,6 +45,10 @@ public class ProcDecl extends AbsSynTreeNode implements IDecl {
 	@Override
 	public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
 		cpsCmd.doScopeChecking();
+	}
+
+	@Override public void doTypeCasting(Types type) {
+		cpsCmd.doTypeCasting(type);
 	}
 
 	@Override

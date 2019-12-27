@@ -46,6 +46,10 @@ public class FunDecl extends AbsSynTreeNode implements IDecl {
 	public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
 		cpsCmd.doScopeChecking();
 	}
+
+	@Override public void doTypeCasting(Types type) {
+		cpsCmd.doTypeCasting(type);
+	}
 	
 	@Override
 	public void doTypeChecking() throws TypeCheckError {
