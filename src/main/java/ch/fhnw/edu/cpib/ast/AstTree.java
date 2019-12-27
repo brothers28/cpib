@@ -7,10 +7,10 @@ import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 
 import java.util.HashMap;
 
-public class AbsSynTree {
-    private AbsSynTreeNode root;
+public class AstTree {
+    private AstNode root;
 
-    public AbsSynTree(IProgram concSynTreeRoot) {
+    public AstTree(IProgram concSynTreeRoot) {
         this.root = concSynTreeRoot.toAbsSyn();
     }
 
@@ -37,8 +37,8 @@ public class AbsSynTree {
 
     public ICodeArray getCodeArray() throws CodeTooSmallError {
         root.addIInstrToCodeArray(new HashMap<String, Integer>(), false);
-        AbsSynTreeNode.codeArray.resize();
-        return AbsSynTreeNode.codeArray;
+        AstNode.codeArray.resize();
+        return AstNode.codeArray;
     }
 
 }

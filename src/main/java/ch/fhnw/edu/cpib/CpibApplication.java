@@ -1,6 +1,6 @@
 package ch.fhnw.edu.cpib;
 
-import ch.fhnw.edu.cpib.ast.AbsSynTree;
+import ch.fhnw.edu.cpib.ast.AstTree;
 import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.parser.Parser;
 import ch.fhnw.edu.cpib.scanner.Scanner;
@@ -40,10 +40,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         }
 
         Parser parser = new Parser(tokens);
-        AbsSynTree absSynTree = null;
+        AstTree ast = null;
 
         try {
-            absSynTree = parser.parse();
+            ast = parser.parse();
         } catch (GrammarError e) {
             System.out.println("\nParser error...\n");
             e.printStackTrace();
@@ -87,7 +87,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         try {
             System.out.println("\n---------------------------------------------------\n");
             System.out.println("Generating code array :\n");
-            ICodeArray codeArray = codeArrayGenerator.convert(absSynTree);
+            ICodeArray codeArray = codeArrayGenerator.convert(ast);
             System.out.println(codeArray.toString());
 
             virtualMachine = new VirtualMachine(codeArray, 65536);

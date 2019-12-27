@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class CpsCmd extends AbsSynTreeNode implements ICmd {
+public class CpsCmd extends AstNode implements ICmd {
     private ArrayList<ICmd> commands;
 
     public CpsCmd(ArrayList<ICmd> commands) {

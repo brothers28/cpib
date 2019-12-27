@@ -11,7 +11,7 @@ import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class MultExpr extends AbsSynTreeNode implements IExpr {
+public class MultExpr extends AstNode implements IExpr {
     private Operators multOpr;
     private IExpr exprLeft;
     private IExpr exprRight;

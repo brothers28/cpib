@@ -9,7 +9,7 @@ import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class StoDecl extends AbsSynTreeNode implements IDecl {
+public class StoDecl extends AstNode implements IDecl {
     private Changemodes changeMode;
     private TypeIdent typeIdent;
 

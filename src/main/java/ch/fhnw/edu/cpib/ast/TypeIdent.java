@@ -8,7 +8,7 @@ import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class TypeIdent extends AbsSynTreeNode implements Cloneable {
+public class TypeIdent extends AstNode implements Cloneable {
     private Ident ident;
     private Types type;
     private boolean isInit;

@@ -7,7 +7,7 @@ import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class SkipCmd extends AbsSynTreeNode implements ICmd {
+public class SkipCmd extends AstNode implements ICmd {
     public SkipCmd() {
         // Nothing to do
     }

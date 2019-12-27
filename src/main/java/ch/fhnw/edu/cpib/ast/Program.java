@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class Program extends AbsSynTreeNode {
+public class Program extends AstNode {
     private Ident ident;
     private ArrayList<IDecl> globalDeclarations;
     private CpsCmd cpsCmd;
@@ -24,13 +24,13 @@ public class Program extends AbsSynTreeNode {
     private void analyzeGlobalDeclarations() throws NameAlreadyDeclaredError {
         for (IDecl decl : globalDeclarations) {
             if (decl instanceof StoDecl) {
-                if (AbsSynTreeNode.globalStoresNamespace.containsKey(decl.getIdentString()))
+                if (AstNode.globalStoresNamespace.containsKey(decl.getIdentString()))
                     throw new NameAlreadyDeclaredError(decl.getIdentString());
-                AbsSynTreeNode.globalStoresNamespace.put(decl.getIdentString(), ((StoDecl) decl).getTypeIdent());
+                AstNode.globalStoresNamespace.put(decl.getIdentString(), ((StoDecl) decl).getTypeIdent());
             } else {
-                if (AbsSynTreeNode.globalRoutinesNamespace.containsKey(decl.getIdentString()))
+                if (AstNode.globalRoutinesNamespace.containsKey(decl.getIdentString()))
                     throw new NameAlreadyDeclaredError(decl.getIdentString());
-                AbsSynTreeNode.globalRoutinesNamespace.put(decl.getIdentString(), decl);
+                AstNode.globalRoutinesNamespace.put(decl.getIdentString(), decl);
             }
         }
     }
@@ -132,10 +132,10 @@ public class Program extends AbsSynTreeNode {
         if (localStoresNamespace != null)
             s += argumentIndent + "[localStoresNamespace]: " + localStoresNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
-        if (AbsSynTreeNode.globalStoresNamespace != null)
+        if (AstNode.globalStoresNamespace != null)
             s += argumentIndent + "[globalStoresNamespace]: " + globalStoresNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
-        if (AbsSynTreeNode.globalRoutinesNamespace != null)
+        if (AstNode.globalRoutinesNamespace != null)
             s += argumentIndent + "[globalRoutinesNamespace]: " + globalRoutinesNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<ident>: " + ident.toString() + "\n";

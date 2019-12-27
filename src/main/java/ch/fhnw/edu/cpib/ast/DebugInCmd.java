@@ -11,7 +11,7 @@ import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class DebugInCmd extends AbsSynTreeNode implements ICmd {
+public class DebugInCmd extends AstNode implements ICmd {
     private IExpr expr;
 
     public DebugInCmd(IExpr expr) {

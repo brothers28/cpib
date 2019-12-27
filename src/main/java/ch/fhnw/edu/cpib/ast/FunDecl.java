@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class FunDecl extends AbsSynTreeNode implements IDecl {
+public class FunDecl extends AstNode implements IDecl {
     private Ident ident;
     private CpsCmd cpsCmd;
     private ArrayList<Param> params;

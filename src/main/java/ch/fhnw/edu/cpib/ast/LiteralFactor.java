@@ -11,7 +11,7 @@ import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class LiteralFactor extends AbsSynTreeNode implements IFactor {
+public class LiteralFactor extends AstNode implements IFactor {
     private Literal literal;
     private Types castType;
 

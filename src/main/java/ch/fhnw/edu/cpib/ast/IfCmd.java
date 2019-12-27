@@ -11,7 +11,7 @@ import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class IfCmd extends AbsSynTreeNode implements ICmd {
+public class IfCmd extends AstNode implements ICmd {
     private IExpr expr;
     private CpsCmd ifCpsCmd;
     private CpsCmd elseCpsCmd;

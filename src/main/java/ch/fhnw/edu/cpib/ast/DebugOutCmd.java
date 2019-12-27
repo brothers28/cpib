@@ -10,7 +10,7 @@ import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class DebugOutCmd extends AbsSynTreeNode implements ICmd {
+public class DebugOutCmd extends AstNode implements ICmd {
     private IExpr expr;
 
     public DebugOutCmd(IExpr expr) {

@@ -11,7 +11,7 @@ import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class Param extends AbsSynTreeNode {
+public class Param extends AstNode {
     private Flowmodes flowMode;
     private Mechmodes mechMode;
     private Changemodes changeMode;

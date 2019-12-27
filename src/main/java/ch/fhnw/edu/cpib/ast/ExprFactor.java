@@ -10,7 +10,7 @@ import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class ExprFactor extends AbsSynTreeNode implements IFactor {
+public class ExprFactor extends AstNode implements IFactor {
     private IExpr expr;
     private Types castType;
 

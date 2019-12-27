@@ -7,7 +7,7 @@ import ch.fhnw.edu.cpib.vm.ICodeArray;
 
 import java.util.HashMap;
 
-public abstract class AbsSynTreeNode implements IAbsSynTreeNode {
+public abstract class AstNode implements IAbsSynTreeNode {
 
     static HashMap<String, TypeIdent> globalStoresNamespace = new HashMap<>();
 

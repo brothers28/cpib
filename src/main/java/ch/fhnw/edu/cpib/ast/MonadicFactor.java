@@ -13,7 +13,7 @@ import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class MonadicFactor extends AbsSynTreeNode implements IFactor {
+public class MonadicFactor extends AstNode implements IFactor {
     private Operator monadicOpr;
     private IFactor factor;
     private Types castType;

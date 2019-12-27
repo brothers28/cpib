@@ -1,6 +1,6 @@
 package ch.fhnw.edu.cpib.parser;
 
-import ch.fhnw.edu.cpib.ast.AbsSynTree;
+import ch.fhnw.edu.cpib.ast.AstTree;
 import ch.fhnw.edu.cpib.cst.*;
 import ch.fhnw.edu.cpib.cst.interfaces.*;
 import ch.fhnw.edu.cpib.errors.*;
@@ -38,7 +38,7 @@ public class Parser {
         }
     }
 
-    public AbsSynTree parse()
+    public AstTree parse()
             throws GrammarError, NameAlreadyDeclaredError, NameNotDeclaredError, NameAlreadyGloballyDeclaredError,
             LRValueError, InvalidParamCountError, AlreadyInitializedError, TypeCheckError, NotInitializedError,
             GlobalInitializationProhibitedError, CannotAssignToConstError, CastError {
@@ -52,25 +52,25 @@ public class Parser {
 
         System.out.println("\n---------------------------------------------------\n");
         System.out.println("Abstract Syntax Tree:\n");
-        AbsSynTree absSynTree = new AbsSynTree(program);
-        System.out.println(absSynTree.toString());
+        AstTree ast = new AstTree(program);
+        System.out.println(ast.toString());
 
         System.out.println("\n---------------------------------------------------\n");
         System.out.print("Scope checking:");
-        absSynTree.doScopeChecking();
+        ast.doScopeChecking();
         System.out.println(" OK!");
 
         System.out.println("\n---------------------------------------------------\n");
         System.out.print("Type checking:");
-        absSynTree.doTypeChecking();
+        ast.doTypeChecking();
         System.out.println(" OK!");
 
         System.out.println("\n---------------------------------------------------\n");
         System.out.print("Init checking:");
-        absSynTree.doInitChecking();
+        ast.doInitChecking();
         System.out.println(" OK!");
 
-        return absSynTree;
+        return ast;
     }
 
     // program ::= PROGRAM IDENT globalNTS DO cpsCmd ENDPROGRAM
