@@ -21,18 +21,18 @@ public class Literal extends Base {
         this.value = value;
     }
 
-    public Literal(Terminals terminal, long value, boolean isBoolean){
+    public Literal(Terminals terminal, long value, boolean isBoolean) {
         super(terminal);
         this.isBoolean = isBoolean;
         this.value = value;
     }
 
-    public long getValue(){
+    public long getValue() {
         return value;
     }
 
-    public Types getType(){
-        if (castType != null){
+    public Types getType() {
+        if (castType != null) {
             // type is casted
             return castType;
         }
@@ -40,22 +40,23 @@ public class Literal extends Base {
         return isBoolean ? Types.BOOL : Types.INT64; // FIXME: WTF?
 
     }
+
     public boolean getBoolValue() throws ExecutionControl.NotImplementedException {
-        if(!isBoolean)
+        if (!isBoolean)
             throw new ExecutionControl.NotImplementedException("Gagu"); // FIXME: WTF?
 
         return value > 0 ? true : false;
     }
 
     public int getIntValue() throws ExecutionControl.NotImplementedException {
-        if(isBoolean)
+        if (isBoolean)
             throw new ExecutionControl.NotImplementedException("Gagu 2"); // FIXME: WTF?
 
         return (int) value;
     }
 
     public long getNatValue() throws ExecutionControl.NotImplementedException {
-        if(isBoolean)
+        if (isBoolean)
             throw new ExecutionControl.NotImplementedException("sdfsdf"); // FIXME: WTF?
 
         return value;
@@ -65,8 +66,7 @@ public class Literal extends Base {
         this.castType = type;
     }
 
-    @Override
-    public String toString(){
+    @Override public String toString() {
         return "(" + super.toString() + ", " + (this.isBoolean ? "BoolVal" : "") + getValue() + ")";
     }
 }

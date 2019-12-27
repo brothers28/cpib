@@ -9,7 +9,7 @@ public class DataStructureHelper {
 
     public static HashMap<String, TypeIdent> deepCopy(HashMap<String, TypeIdent> map) {
         HashMap<String, TypeIdent> tmp = new HashMap<>();
-        for(Map.Entry<String, TypeIdent> entry : map.entrySet()){
+        for (Map.Entry<String, TypeIdent> entry : map.entrySet()) {
             try {
                 tmp.put(entry.getKey(), (TypeIdent) entry.getValue().clone());
             } catch (CloneNotSupportedException e) {

@@ -1,4 +1,5 @@
 package ch.fhnw.edu.cpib.cst;
+
 import ch.fhnw.edu.cpib.cst.interfaces.IParam;
 import ch.fhnw.edu.cpib.cst.interfaces.IParamListNTS;
 import ch.fhnw.edu.cpib.cst.interfaces.IParamNTS;
@@ -10,15 +11,13 @@ public class ParamListNTS extends Production implements IParamListNTS {
     protected final IParam N_param;
     protected final IParamNTS N_paramNTS;
 
-    public ParamListNTS(final IParam N_param,
-                        final IParamNTS N_paramNTS) {
+    public ParamListNTS(final IParam N_param, final IParamNTS N_paramNTS) {
         this.N_param = N_param;
         this.N_paramNTS = N_paramNTS;
 
     }
 
-    @Override
-    public ArrayList<ch.fhnw.edu.cpib.ast.Param> toAbsSyn() {
+    @Override public ArrayList<ch.fhnw.edu.cpib.ast.Param> toAbsSyn() {
         ArrayList<ch.fhnw.edu.cpib.ast.Param> temp = new ArrayList<>();
         temp.add(N_param.toAbsSyn());
 

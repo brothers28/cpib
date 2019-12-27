@@ -24,7 +24,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         CharSequence iml = reader.readFile(FILE_NAME);
 
         Scanner scanner = new Scanner();
-        TokenList tokens =  null;
+        TokenList tokens = null;
 
         try {
             tokens = scanner.scan(iml);

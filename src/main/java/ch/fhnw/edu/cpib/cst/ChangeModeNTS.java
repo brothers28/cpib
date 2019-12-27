@@ -1,8 +1,9 @@
 package ch.fhnw.edu.cpib.cst;
+
 import ch.fhnw.edu.cpib.cst.interfaces.IChangeModeNTS;
 import ch.fhnw.edu.cpib.scanner.enumerations.Changemodes;
-import ch.fhnw.edu.cpib.scanner.keywords.Changemode;
 import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
+import ch.fhnw.edu.cpib.scanner.keywords.Changemode;
 
 // changeModeNTS ::= CHANGEMODE
 public class ChangeModeNTS extends Production implements IChangeModeNTS {
@@ -12,8 +13,7 @@ public class ChangeModeNTS extends Production implements IChangeModeNTS {
         T_changeModeNTS = t_changeModeNTS;
     }
 
-    @Override
-    public Changemodes toAbySyn() {
-        return ((Changemode)T_changeModeNTS).getChangemode();
+    @Override public Changemodes toAbySyn() {
+        return ((Changemode) T_changeModeNTS).getChangemode();
     }
 }

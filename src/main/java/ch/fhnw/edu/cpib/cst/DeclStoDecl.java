@@ -1,4 +1,5 @@
 package ch.fhnw.edu.cpib.cst;
+
 import ch.fhnw.edu.cpib.cst.interfaces.IDecl;
 import ch.fhnw.edu.cpib.cst.interfaces.IStoDecl;
 
@@ -10,8 +11,7 @@ public class DeclStoDecl extends Production implements IDecl {
         this.N_stoDecl = N_stoDecl;
     }
 
-    @Override
-    public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyn() {
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyn() {
         return N_stoDecl.toAbsSyn();
     }
 }

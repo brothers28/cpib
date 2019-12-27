@@ -1,8 +1,9 @@
 package ch.fhnw.edu.cpib.cst;
+
 import ch.fhnw.edu.cpib.cst.interfaces.IMechModeNTS;
 import ch.fhnw.edu.cpib.scanner.enumerations.Mechmodes;
-import ch.fhnw.edu.cpib.scanner.keywords.Mechmode;
 import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
+import ch.fhnw.edu.cpib.scanner.keywords.Mechmode;
 
 // mechModeNTS ::= MECHMODE
 public class MechModeNTS extends Production implements IMechModeNTS {
@@ -12,8 +13,7 @@ public class MechModeNTS extends Production implements IMechModeNTS {
         this.T_mechMode = T_mechMode;
     }
 
-    @Override
-    public Mechmodes toAbsSyn() {
-        return ((Mechmode)T_mechMode).getMechmode();
+    @Override public Mechmodes toAbsSyn() {
+        return ((Mechmode) T_mechMode).getMechmode();
     }
 }

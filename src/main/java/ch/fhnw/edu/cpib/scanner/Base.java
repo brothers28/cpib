@@ -5,16 +5,16 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 public class Base implements IToken {
     private final Terminals terminal;
-    public Base(Terminals terminal){
+
+    public Base(Terminals terminal) {
         this.terminal = terminal;
     }
 
-    public Terminals getTerminal(){
+    public Terminals getTerminal() {
         return terminal;
     }
 
-    @Override
-    public String toString(){
+    @Override public String toString() {
         return getTerminal().toString();
     }
 }

@@ -12,11 +12,11 @@ public class Type extends Base {
         this.type = type;
     }
 
-    public Types getType(){
+    public Types getType() {
         return type;
     }
 
-    public String toString(){
+    public String toString() {
         return "(" + super.toString() + ", " + getType().toString() + ")";
     }
 }

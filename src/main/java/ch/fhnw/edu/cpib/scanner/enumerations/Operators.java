@@ -1,10 +1,7 @@
 package ch.fhnw.edu.cpib.scanner.enumerations;
 
 public enum Operators {
-    TIMES,
-    PLUS,
-    MINUS,
-    EQ, // =
+    TIMES, PLUS, MINUS, EQ, // =
     NE, // /=
     LT, // <mo
     GT, // >
@@ -12,10 +9,5 @@ public enum Operators {
     GE, // >=
     AND, // &
     OR, // |
-    CAND,
-    COR,
-    DIV,
-    DIV_E,
-    MOD,
-    MOD_E
+    CAND, COR, DIV, DIV_E, MOD, MOD_E
 }

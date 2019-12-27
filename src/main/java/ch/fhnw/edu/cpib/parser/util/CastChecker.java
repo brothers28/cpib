@@ -28,7 +28,7 @@ public class CastChecker {
         possibleCasts.put(Types.BOOL, Arrays.asList());
     }
 
-    public static boolean isCastable(Types from, Types to){
+    public static boolean isCastable(Types from, Types to) {
         return possibleCasts.get(from).contains(to);
     }
 

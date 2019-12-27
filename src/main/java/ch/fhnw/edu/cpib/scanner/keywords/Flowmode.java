@@ -1,7 +1,6 @@
 package ch.fhnw.edu.cpib.scanner.keywords;
 
 import ch.fhnw.edu.cpib.scanner.Base;
-import ch.fhnw.edu.cpib.scanner.enumerations.Changemodes;
 import ch.fhnw.edu.cpib.scanner.enumerations.Flowmodes;
 import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
 
@@ -13,11 +12,11 @@ public class Flowmode extends Base {
         this.flowmode = flowmode;
     }
 
-    public Flowmodes getFlowmode(){
+    public Flowmodes getFlowmode() {
         return flowmode;
     }
 
-    public String toString(){
+    public String toString() {
         return "(" + super.toString() + ", " + getFlowmode().toString() + ")";
     }
 }

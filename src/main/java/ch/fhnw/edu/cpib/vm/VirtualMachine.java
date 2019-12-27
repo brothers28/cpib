@@ -63,15 +63,15 @@ public class VirtualMachine implements IVirtualMachine {
         hp = store.length - 1;
         fp = 0;
         while (pc > -1) {
-                    	System.out.println("### Executing instruction " + code[pc] + " ###");
-                    	System.out.println("pc: " + pc);
-                    	System.out.println("sp: " + sp);
+            System.out.println("### Executing instruction " + code[pc] + " ###");
+            System.out.println("pc: " + pc);
+            System.out.println("sp: " + sp);
             code[pc].execute();
-                        System.out.println("Stack content:");
-                        for(int i = 0; i < sp; i++) {
-                        	System.out.println(i + ": " + store[i]);
-                        }
-                        System.out.println("#################################");
+            System.out.println("Stack content:");
+            for (int i = 0; i < sp; i++) {
+                System.out.println(i + ": " + store[i]);
+            }
+            System.out.println("#################################");
         }
     }
 
@@ -670,7 +670,7 @@ public class VirtualMachine implements IVirtualMachine {
             System.out.print("? " + indicator + " : nat = ");
             long input = InputUtility.readNat();
             int address = Data.intGet(store[sp - 1]);
-            store[address]= Data.natNew(input);
+            store[address] = Data.natNew(input);
             sp = sp - 1;
             pc = pc + 1;
         }

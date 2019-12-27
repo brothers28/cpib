@@ -8,11 +8,11 @@ public class TokenList {
     private ArrayList<IToken> tokenList = new ArrayList<>();
     private int position = 0;
 
-    public void add(IToken token){
+    public void add(IToken token) {
         tokenList.add(token);
     }
 
-    public void reset(){
+    public void reset() {
         position = 0;
     }
 
@@ -20,7 +20,7 @@ public class TokenList {
         return tokenList.get(position++);
     }
 
-    public IToken get(int index){
+    public IToken get(int index) {
         position = index + 1;
         return tokenList.get(index);
     }
@@ -28,7 +28,7 @@ public class TokenList {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for (IToken t : tokenList){
+        for (IToken t : tokenList) {
             sb.append(t.toString());
             sb.append(", ");
         }

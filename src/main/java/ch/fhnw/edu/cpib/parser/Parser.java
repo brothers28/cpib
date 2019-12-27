@@ -5,9 +5,9 @@ import ch.fhnw.edu.cpib.cst.*;
 import ch.fhnw.edu.cpib.cst.interfaces.*;
 import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.scanner.Base;
-import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 import ch.fhnw.edu.cpib.scanner.TokenList;
 import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
+import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 public class Parser {
     private TokenList tokens;
@@ -292,7 +292,8 @@ public class Parser {
             System.out.println("flowModeNTS ::= FLOWMODE");
             IToken T_flowMode = consume(Terminals.FLOWMODE);
             return new FlowModeNTS(T_flowMode);
-        } else if (currentTerminal == Terminals.IDENT || currentTerminal == Terminals.MECHMODE || currentTerminal == Terminals.CHANGEMOD) {
+        } else if (currentTerminal == Terminals.IDENT || currentTerminal == Terminals.MECHMODE
+                || currentTerminal == Terminals.CHANGEMOD) {
             System.out.println("flowModeNTS ::= ε");
             return new Epsilon.FlowModeNTS();
         } else {

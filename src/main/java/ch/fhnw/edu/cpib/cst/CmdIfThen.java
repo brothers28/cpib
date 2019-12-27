@@ -1,4 +1,5 @@
 package ch.fhnw.edu.cpib.cst;
+
 import ch.fhnw.edu.cpib.cst.interfaces.ICmd;
 import ch.fhnw.edu.cpib.cst.interfaces.ICpsCmd;
 import ch.fhnw.edu.cpib.cst.interfaces.IExpr;
@@ -14,12 +15,8 @@ public class CmdIfThen extends Production implements ICmd {
     protected final IIfElseNTS N_ifelseNTS;
     protected final IToken T_endIf;
 
-    public CmdIfThen(final IToken T_if,
-                     final IExpr N_expr,
-                     final IToken T_then,
-                     final ICpsCmd N_cpsCmd,
-                     final IIfElseNTS N_ifelseNTS,
-                     final IToken T_endIf) {
+    public CmdIfThen(final IToken T_if, final IExpr N_expr, final IToken T_then, final ICpsCmd N_cpsCmd,
+            final IIfElseNTS N_ifelseNTS, final IToken T_endIf) {
         this.T_if = T_if;
         this.N_expr = N_expr;
         this.T_then = T_then;
@@ -28,8 +25,7 @@ public class CmdIfThen extends Production implements ICmd {
         this.T_endIf = T_endIf;
     }
 
-    @Override
-    public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyn() {
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyn() {
         return new ch.fhnw.edu.cpib.ast.IfCmd(N_expr.toAbsSyn(), N_cpsCmd.toAbsSyn(), N_ifelseNTS.toAbsSyn());
     }
 }

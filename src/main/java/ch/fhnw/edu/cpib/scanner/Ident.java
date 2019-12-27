@@ -10,11 +10,11 @@ public class Ident extends Base {
         this.ident = ident;
     }
 
-    public String getIdent(){
+    public String getIdent() {
         return ident;
     }
 
-    public String toString(){
+    public String toString() {
         return "(" + super.toString() + ", \"" + getIdent() + "\")";
     }
 }

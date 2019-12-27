@@ -12,11 +12,11 @@ public class Changemode extends Base {
         this.changemode = changemode;
     }
 
-    public Changemodes getChangemode(){
+    public Changemodes getChangemode() {
         return changemode;
     }
 
-    public String toString(){
+    public String toString() {
         return "(" + super.toString() + ", " + getChangemode().toString() + ")";
     }
 }

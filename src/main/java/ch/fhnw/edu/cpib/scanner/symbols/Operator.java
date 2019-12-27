@@ -12,11 +12,11 @@ public abstract class Operator extends Base {
         this.operator = operator;
     }
 
-    public Operators getOperator(){
+    public Operators getOperator() {
         return operator;
     }
 
-    public String toString(){
+    public String toString() {
         return "(" + super.toString() + ", " + getOperator().toString() + ")";
     }
 }

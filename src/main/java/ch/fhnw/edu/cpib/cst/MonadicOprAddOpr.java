@@ -1,11 +1,8 @@
 package ch.fhnw.edu.cpib.cst;
-import ch.fhnw.edu.cpib.cst.interfaces.IMonadicOpr;
-import ch.fhnw.edu.cpib.scanner.symbols.Operator;
-import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
-/**
- * @Author Hussein Farzi
- */
+import ch.fhnw.edu.cpib.cst.interfaces.IMonadicOpr;
+import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
+import ch.fhnw.edu.cpib.scanner.symbols.Operator;
 
 // monadicOpr ::= ADDOPR
 public class MonadicOprAddOpr extends Production implements IMonadicOpr {
@@ -15,8 +12,7 @@ public class MonadicOprAddOpr extends Production implements IMonadicOpr {
         T_addOpr = t_addOpr;
     }
 
-    @Override
-    public Operator toAbsSyn() {
+    @Override public Operator toAbsSyn() {
         return (Operator) T_addOpr;
     }
 }

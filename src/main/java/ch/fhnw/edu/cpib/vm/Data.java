@@ -36,8 +36,10 @@ public class Data {
 
         IntData(long i) {
             // Check boundaries
-            if (i > MAX_VALUE) throw new RuntimeException("Int overflow.");
-            if (i < MIN_VALUE) throw new RuntimeException("Int underflow.");
+            if (i > MAX_VALUE)
+                throw new RuntimeException("Int overflow.");
+            if (i < MIN_VALUE)
+                throw new RuntimeException("Int underflow.");
 
             this.i = i;
         }
@@ -64,8 +66,10 @@ public class Data {
 
         NatData(long i) {
             // Check boundaries
-            if (i > MAX_VALUE) throw new RuntimeException("Nat overflow.");
-            if (i < MIN_VALUE) throw new RuntimeException("Nat underflow.");
+            if (i > MAX_VALUE)
+                throw new RuntimeException("Nat overflow.");
+            if (i < MIN_VALUE)
+                throw new RuntimeException("Nat underflow.");
 
             this.i = i;
         }
@@ -99,7 +103,6 @@ public class Data {
         }
     }
 
-
     // num data
     static NumData numNew(long i) {
         return new NumData(i);
@@ -112,7 +115,6 @@ public class Data {
     static NumData numCopy(IBaseData a) {
         return numNew(numGet(a));
     }
-
 
     // int data
     static IntData intNew(long i) {
@@ -219,7 +221,6 @@ public class Data {
     static IntData intLE(IBaseData a, IBaseData b) {
         return boolNew(numGet(a) <= numGet(b));
     }
-
 
     // nat data
     // nat extension
@@ -353,7 +354,6 @@ public class Data {
         return boolNew(numGet(a) <= numGet(b));
     }
 
-
     // bool data
     // booleans -> integers
     static IntData boolNew(boolean b) {
@@ -383,7 +383,6 @@ public class Data {
     static IntData boolCOr(IBaseData a, IBaseData b) {
         return boolNew(boolGet(a) || boolGet(b));
     }
-
 
     // float data
     static FloatData floatNew(float f) {

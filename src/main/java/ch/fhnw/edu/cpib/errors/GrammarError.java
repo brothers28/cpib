@@ -2,9 +2,6 @@ package ch.fhnw.edu.cpib.errors;
 
 import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
 
-/**
- * @Author Hussein Farzi
- */
 public class GrammarError extends Exception {
 
     public GrammarError(String e) {

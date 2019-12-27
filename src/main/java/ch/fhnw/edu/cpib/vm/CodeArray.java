@@ -10,8 +10,8 @@ public class CodeArray implements ICodeArray {
     private int size;
 
     public CodeArray(int size) {
-        this.code= new IInstr[size];
-        this.size= size;
+        this.code = new IInstr[size];
+        this.size = size;
     }
 
     public int getSize() {
@@ -20,9 +20,8 @@ public class CodeArray implements ICodeArray {
 
     public void put(int loc, IInstr instr) throws CodeTooSmallError {
         if (loc < code.length) {
-            code[loc]= instr;
-        }
-        else {
+            code[loc] = instr;
+        } else {
             throw new CodeTooSmallError();
         }
     }
@@ -32,25 +31,22 @@ public class CodeArray implements ICodeArray {
     }
 
     public void resize() {
-        int s= 0;
+        int s = 0;
         while (s < code.length && code[s] != null) {
             s++;
         }
-        IInstr[] c= new IInstr[s];
-        for (int i= 0; i < s; i++) {
-            c[i]= code[i];
+        IInstr[] c = new IInstr[s];
+        for (int i = 0; i < s; i++) {
+            c[i] = code[i];
         }
-        code= c;
-        size= s;
+        code = c;
+        size = s;
     }
 
-    public String toString()
-    {
-        StringBuffer b= new StringBuffer();
-        for (int i= 0; i < code.length; i++)
-        {
-            if (code[i] != null)
-            {
+    public String toString() {
+        StringBuffer b = new StringBuffer();
+        for (int i = 0; i < code.length; i++) {
+            if (code[i] != null) {
                 b.append(i + ": " + code[i] + "\n");
             }
         }

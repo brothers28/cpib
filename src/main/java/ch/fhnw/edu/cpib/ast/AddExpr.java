@@ -37,7 +37,7 @@ public class AddExpr extends AbsSynTreeNode implements IExpr {
     }
 
     @Override public void doTypeCasting(Types type) {
-        if (type != null){
+        if (type != null) {
             this.castType = type;
         }
     }
@@ -47,7 +47,7 @@ public class AddExpr extends AbsSynTreeNode implements IExpr {
     }
 
     @Override public Types getType() {
-        if (castType != null){
+        if (castType != null) {
             // type is casted
             return castType;
         }

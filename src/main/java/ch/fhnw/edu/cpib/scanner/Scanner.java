@@ -26,69 +26,40 @@ public class Scanner {
 
     static {
         // Build symbols map
-        symbols = Map.ofEntries(
-                entry("<", new RelOpr(Operators.LT)),
-                entry("<=", new RelOpr(Operators.LE)),
-                entry(">", new RelOpr(Operators.GT)),
-                entry(">=", new RelOpr(Operators.GE)),
-                entry("=", new RelOpr(Operators.EQ)),
-                entry("/=", new RelOpr(Operators.NE)),
-                entry("+", new AddOpr(Operators.PLUS)),
-                entry("-", new AddOpr(Operators.MINUS)),
-                entry("*", new MultOpr(Operators.TIMES)),
-                entry("&", new BoolOpr(Operators.AND)),
-                entry("|", new BoolOpr(Operators.OR)),
-                entry("&&", new BoolOpr(Operators.CAND)),
-                entry("||", new BoolOpr(Operators.COR)),
-                entry("(", new Base(Terminals.LPAREN)),
-                entry(")", new Base(Terminals.RPAREN)),
-                entry("[", new Base(Terminals.LBRACKET)),
-                entry("]", new Base(Terminals.RBRACKET)),
-                entry(",", new Base(Terminals.COMMA)),
-                entry(";", new Base(Terminals.SEMICOLON)),
-                entry(":", new Base(Terminals.COLON)),
+        symbols = Map.ofEntries(entry("<", new RelOpr(Operators.LT)), entry("<=", new RelOpr(Operators.LE)),
+                entry(">", new RelOpr(Operators.GT)), entry(">=", new RelOpr(Operators.GE)),
+                entry("=", new RelOpr(Operators.EQ)), entry("/=", new RelOpr(Operators.NE)),
+                entry("+", new AddOpr(Operators.PLUS)), entry("-", new AddOpr(Operators.MINUS)),
+                entry("*", new MultOpr(Operators.TIMES)), entry("&", new BoolOpr(Operators.AND)),
+                entry("|", new BoolOpr(Operators.OR)), entry("&&", new BoolOpr(Operators.CAND)),
+                entry("||", new BoolOpr(Operators.COR)), entry("(", new Base(Terminals.LPAREN)),
+                entry(")", new Base(Terminals.RPAREN)), entry("[", new Base(Terminals.LBRACKET)),
+                entry("]", new Base(Terminals.RBRACKET)), entry(",", new Base(Terminals.COMMA)),
+                entry(";", new Base(Terminals.SEMICOLON)), entry(":", new Base(Terminals.COLON)),
                 entry(":=", new Base(Terminals.BECOMES)));
 
         // Build keywords map
         keywords = Map
-                .ofEntries(entry("while", new Base(Terminals.WHILE)),
-                        entry("endwhile", new Base(Terminals.ENDWHILE)),
-                        entry("do", new Base(Terminals.DO)),
-                        entry("program", new Base(Terminals.PROGRAM)),
-                        entry("endprogram", new Base(Terminals.ENDPROGRAM)),
-                        entry("proc", new Base(Terminals.PROC)),
-                        entry("endproc", new Base(Terminals.ENDPROC)),
-                        entry("call", new Base(Terminals.CALL)),
-                        entry("debugin", new Base(Terminals.DEBUGIN)),
-                        entry("debugout", new Base(Terminals.DEBUGOUT)),
-                        entry("else", new Base(Terminals.ELSE)),
-                        entry("endfun", new Base(Terminals.ENDFUN)),
-                        entry("endif", new Base(Terminals.ENDIF)),
-                        entry("fun", new Base(Terminals.FUN)),
-                        entry("global", new Base(Terminals.GLOBAL)),
-                        entry("if", new Base(Terminals.IF)),
-                        entry("init", new Base(Terminals.INIT)),
-                        entry("local", new Base(Terminals.LOCAL)),
-                        entry("not", new Base(Terminals.NOTOPR)),
-                        entry("returns", new Base(Terminals.RETURNS)),
-                        entry("skip", new Base(Terminals.SKIP)),
-                        entry("then", new Base(Terminals.THEN)),
-                        entry("bool", new Type(Types.BOOL)),
-                        entry("int64", new Type(Types.INT64)),
-                        entry("nat64", new Type(Types.NAT64)),
-                        entry("const", new Changemode(Changemodes.CONST.CONST)),
-                        entry("var", new Changemode(Changemodes.VAR)),
-                        entry("copy", new Mechmode(Mechmodes.COPY)),
-                        entry("ref", new Mechmode(Mechmodes.REF)),
-                        entry("div", new MultOpr(Operators.DIV)),
-                        entry("divE", new MultOpr(Operators.DIV_E)),
-                        entry("mod", new MultOpr(Operators.MOD)),
+                .ofEntries(entry("while", new Base(Terminals.WHILE)), entry("endwhile", new Base(Terminals.ENDWHILE)),
+                        entry("do", new Base(Terminals.DO)), entry("program", new Base(Terminals.PROGRAM)),
+                        entry("endprogram", new Base(Terminals.ENDPROGRAM)), entry("proc", new Base(Terminals.PROC)),
+                        entry("endproc", new Base(Terminals.ENDPROC)), entry("call", new Base(Terminals.CALL)),
+                        entry("debugin", new Base(Terminals.DEBUGIN)), entry("debugout", new Base(Terminals.DEBUGOUT)),
+                        entry("else", new Base(Terminals.ELSE)), entry("endfun", new Base(Terminals.ENDFUN)),
+                        entry("endif", new Base(Terminals.ENDIF)), entry("fun", new Base(Terminals.FUN)),
+                        entry("global", new Base(Terminals.GLOBAL)), entry("if", new Base(Terminals.IF)),
+                        entry("init", new Base(Terminals.INIT)), entry("local", new Base(Terminals.LOCAL)),
+                        entry("not", new Base(Terminals.NOTOPR)), entry("returns", new Base(Terminals.RETURNS)),
+                        entry("skip", new Base(Terminals.SKIP)), entry("then", new Base(Terminals.THEN)),
+                        entry("bool", new Type(Types.BOOL)), entry("int64", new Type(Types.INT64)),
+                        entry("nat64", new Type(Types.NAT64)), entry("const", new Changemode(Changemodes.CONST.CONST)),
+                        entry("var", new Changemode(Changemodes.VAR)), entry("copy", new Mechmode(Mechmodes.COPY)),
+                        entry("ref", new Mechmode(Mechmodes.REF)), entry("div", new MultOpr(Operators.DIV)),
+                        entry("divE", new MultOpr(Operators.DIV_E)), entry("mod", new MultOpr(Operators.MOD)),
                         entry("modE", new MultOpr(Operators.MOD_E)),
                         entry("false", new Literal(Terminals.BOOLVALFALSE)),
-                        entry("true", new Literal(Terminals.BOOLVALTRUE)),
-                        entry("in", new Flowmode(Flowmodes.IN)),
-                        entry("inout", new Flowmode(Flowmodes.INOUT)),
-                        entry("out", new Flowmode(Flowmodes.OUT)));
+                        entry("true", new Literal(Terminals.BOOLVALTRUE)), entry("in", new Flowmode(Flowmodes.IN)),
+                        entry("inout", new Flowmode(Flowmodes.INOUT)), entry("out", new Flowmode(Flowmodes.OUT)));
     }
 
     /**
@@ -139,15 +110,15 @@ public class Scanner {
 
                     IToken token = symbols.get(syAcc.toString());
                     result.add(token);
-                } else if (isCommentSymbol(c)){
-                        state = 0;
-                        syAcc.append(c);
+                } else if (isCommentSymbol(c)) {
+                    state = 0;
+                    syAcc.append(c);
 
-                        if (syAcc.length() == 2 && syAcc.toString().equals(COMMENT_SYMBOL + "" + COMMENT_SYMBOL)){
-                            // Following is a line comment;
-                            state = 4;
-                            syAcc.delete(0, syAcc.length());
-                        }
+                    if (syAcc.length() == 2 && syAcc.toString().equals(COMMENT_SYMBOL + "" + COMMENT_SYMBOL)) {
+                        // Following is a line comment;
+                        state = 4;
+                        syAcc.delete(0, syAcc.length());
+                    }
                 } else {
                     state = 0;
                     i = i - 1; // one back for next lexeme
@@ -158,7 +129,7 @@ public class Scanner {
                 break;
             case 2:
                 // State: Scanning literal
-                if ( c == SINGLE_QUOTE_SYMBOL){
+                if (c == SINGLE_QUOTE_SYMBOL) {
                     // Do nothing
                 } else if (Character.isDigit(c)) {
                     state = 2;
@@ -175,7 +146,7 @@ public class Scanner {
                 break;
             case 3:
                 // State: Scanning identifier
-                if ( c == SINGLE_QUOTE_SYMBOL){
+                if (c == SINGLE_QUOTE_SYMBOL) {
                     // Do nothing
                 } else if (Character.isAlphabetic(c) || Character.isDigit(c) || c == UNDERSCORE_SYMBOL) {
                     state = 3;
@@ -191,7 +162,7 @@ public class Scanner {
                     }
                 }
                 break;
-            case 4 :
+            case 4:
                 // State: Comment
                 // Ignore until new line
                 if (c == '\n' || c == '\r') {
@@ -202,7 +173,6 @@ public class Scanner {
                 throw new InternalError("Default case in scanner.");
             }
         }
-
 
         result.add(new Base(Terminals.SENTINEL));
         return result;
@@ -262,6 +232,5 @@ public class Scanner {
     private boolean isCommentSymbol(char c) {
         return COMMENT_SYMBOL == c;
     }
-
 
 }

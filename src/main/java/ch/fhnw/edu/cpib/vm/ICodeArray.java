@@ -9,13 +9,19 @@ public interface ICodeArray {
     // for the COMPILER:
     // a CodeTooSmallError indicates that the code is too small
     // to hold the complete program
-    class CodeTooSmallError extends Exception {}
+    class CodeTooSmallError extends Exception {
+    }
+
     void put(int loc, IInstr instr) throws CodeTooSmallError;
+
     void resize();
+
     String toString();
 
     // for the VM:
     int getSize();
+
     IInstr get(int loc);
+
     void fromString();
 }

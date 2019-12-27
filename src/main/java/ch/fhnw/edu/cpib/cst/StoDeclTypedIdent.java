@@ -1,4 +1,5 @@
 package ch.fhnw.edu.cpib.cst;
+
 import ch.fhnw.edu.cpib.cst.interfaces.IStoDecl;
 import ch.fhnw.edu.cpib.cst.interfaces.ITypedIdent;
 
@@ -10,8 +11,7 @@ public class StoDeclTypedIdent extends Production implements IStoDecl {
         this.N_typedIdent = N_typedIdent;
     }
 
-    @Override
-    public ch.fhnw.edu.cpib.ast.StoDecl toAbsSyn() {
+    @Override public ch.fhnw.edu.cpib.ast.StoDecl toAbsSyn() {
         return new ch.fhnw.edu.cpib.ast.StoDecl(N_typedIdent.toAbsSyn());
     }
 }

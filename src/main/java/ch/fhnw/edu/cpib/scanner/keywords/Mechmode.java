@@ -12,11 +12,11 @@ public class Mechmode extends Base {
         this.mechmode = mechmode;
     }
 
-    public Mechmodes getMechmode(){
+    public Mechmodes getMechmode() {
         return mechmode;
     }
 
-    public String toString(){
+    public String toString() {
         return "(" + super.toString() + ", " + getMechmode().toString() + ")";
     }
 }

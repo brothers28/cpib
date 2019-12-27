@@ -11,24 +11,20 @@ import java.io.InputStreamReader;
 
 class InputUtility {
 
-    private static BufferedReader reader=
-            new BufferedReader(new InputStreamReader(System.in));
+    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     public static boolean readBool() throws ExecutionError {
         String s;
         try {
-            s= reader.readLine();
+            s = reader.readLine();
         } catch (IOException e) {
             throw new ExecutionError("Input failed.");
         }
         if (s.equals("false")) {
             return false;
-        }
-        else
-        if (s.equals("true")) {
+        } else if (s.equals("true")) {
             return true;
-        }
-        else {
+        } else {
             throw new ExecutionError("Not a boolean.");
         }
     }
@@ -36,7 +32,7 @@ class InputUtility {
     public static int readInt() throws ExecutionError {
         String s;
         try {
-            s= reader.readLine();
+            s = reader.readLine();
         } catch (IOException e) {
             throw new ExecutionError("Input failed.");
         }
@@ -50,7 +46,7 @@ class InputUtility {
     public static long readNat() throws ExecutionError {
         String s;
         try {
-            s= reader.readLine();
+            s = reader.readLine();
         } catch (IOException e) {
             throw new ExecutionError("Input failed.");
         }
