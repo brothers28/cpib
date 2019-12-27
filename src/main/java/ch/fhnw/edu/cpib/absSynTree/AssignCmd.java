@@ -40,19 +40,13 @@ public class AssignCmd extends AbsSynTreeNode implements ICmd {
 			throw new LRValueError(LRValue.LVALUE, exprLeft.getLRValue());
 	}
 
-	@Override public void doTypeCasting(Types type) {
-		exprLeft.doTypeCasting(type);
-		exprRight.doTypeCasting(type);
-	}
-
 	@Override
 	public void doTypeChecking() throws TypeCheckError {
 		exprLeft.doTypeChecking();
 		exprRight.doTypeChecking();
 		
 		if(exprLeft.getType() != exprRight.getType() && !isCastable(exprLeft.getType(), exprRight.getType()))
-		if(exprLeft.getType() != exprRight.getType())
-			throw new TypeCheckError(exprLeft.getType(), exprRight.getType());		
+			throw new TypeCheckError(exprLeft.getType(), exprRight.getType());
 	}
 
 	@Override

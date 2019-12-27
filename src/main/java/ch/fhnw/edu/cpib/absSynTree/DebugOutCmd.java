@@ -27,10 +27,6 @@ public class DebugOutCmd extends AbsSynTreeNode implements ICmd {
         expr.doScopeChecking();
     }
 
-    @Override public void doTypeCasting(Types type) {
-        expr.doTypeCasting(type);
-    }
-
     @Override public void doTypeChecking() throws TypeCheckError {
         expr.doTypeChecking();
         // TODO: Check LRValue

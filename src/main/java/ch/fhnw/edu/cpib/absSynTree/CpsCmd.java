@@ -32,12 +32,6 @@ public class CpsCmd extends AbsSynTreeNode implements ICmd {
 		}
 	}
 
-	@Override public void doTypeCasting(Types type) {
-		for(ICmd command : commands) {
-			command.doTypeCasting(type);
-		}
-	}
-
 	@Override
 	public void doTypeChecking() throws TypeCheckError {
 		for(ICmd command : commands) {

@@ -9,4 +9,6 @@ public interface IExpr extends IAbsSynTreeNode {
 
 	public LRValue getLRValue();
 
+	public void doTypeCasting(Types type);
+
 }

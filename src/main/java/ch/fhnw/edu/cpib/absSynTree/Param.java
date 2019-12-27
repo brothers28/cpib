@@ -58,10 +58,6 @@ public class Param extends AbsSynTreeNode {
 		// Do nothing
 	}
 
-	@Override public void doTypeCasting(Types type) {
-		// Do nothin
-	}
-
 	@Override
 	public void doInitChecking(boolean globalProtected) throws NotInitializedError,
 			AlreadyInitializedError, GlobalInitializationProhibitedError, CannotAssignToConstError {

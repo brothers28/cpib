@@ -41,7 +41,4 @@ public class AbsSynTree {
 		return AbsSynTreeNode.codeArray;
 	}
 
-    public void doTypeCasting() {
-		root.doTypeCasting(null);
-	}
 }

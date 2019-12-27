@@ -47,10 +47,6 @@ public class StoDecl extends AbsSynTreeNode implements IDecl {
 		// Do nothing		
 	}
 
-	@Override public void doTypeCasting(Types type) {
-		// Do nothing
-	}
-
 	@Override
 	public void doTypeChecking() throws TypeCheckError {
 		// Do nothing

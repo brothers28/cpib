@@ -62,12 +62,6 @@ public class ProcCallCmd extends AbsSynTreeNode implements ICmd {
 				throw new LRValueError(lrValueExpected, lrValFound);
 		}		
 	}
-
-	@Override public void doTypeCasting(Types type) {
-		for(IExpr expr : expressions) {
-			expr.doTypeCasting(type);
-		}
-	}
 	
 	@Override
 	public void doTypeChecking() throws TypeCheckError {

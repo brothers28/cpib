@@ -47,10 +47,6 @@ public class ProcDecl extends AbsSynTreeNode implements IDecl {
 		cpsCmd.doScopeChecking();
 	}
 
-	@Override public void doTypeCasting(Types type) {
-		cpsCmd.doTypeCasting(type);
-	}
-
 	@Override
 	public void doTypeChecking() throws TypeCheckError {
 		cpsCmd.doTypeChecking();

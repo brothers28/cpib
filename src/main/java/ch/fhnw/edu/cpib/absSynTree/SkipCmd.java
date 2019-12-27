@@ -23,10 +23,6 @@ public class SkipCmd extends AbsSynTreeNode implements ICmd {
 	public void doScopeChecking() throws NameNotDeclaredError {
 		// Do nothing		
 	}
-
-	@Override public void doTypeCasting(Types type) {
-		// Do nothing
-	}
 	
 	@Override
 	public void doTypeChecking() throws TypeCheckError {

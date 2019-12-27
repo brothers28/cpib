@@ -41,8 +41,6 @@ public class AddExpr extends AbsSynTreeNode implements IExpr {
         if (type != null){
             this.castType = type;
         }
-        exprLeft.doTypeCasting(type);
-        exprRight.doTypeCasting(type);
     }
 
     @Override public LRValue getLRValue() {

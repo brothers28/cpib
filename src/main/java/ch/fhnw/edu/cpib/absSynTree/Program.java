@@ -46,15 +46,6 @@ public class Program extends AbsSynTreeNode {
 		
 		cpsCmd.doScopeChecking();
 	}
-
-	@Override public void doTypeCasting(Types type) {
-		for(IDecl decl : globalDeclarations) {
-			if(!(decl instanceof StoDecl))
-				decl.doTypeCasting(type);
-		}
-
-		cpsCmd.doTypeCasting(type);
-	}
 	
 	@Override
 	public void doTypeChecking() throws TypeCheckError {
