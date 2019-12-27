@@ -7,6 +7,7 @@ import jdk.jshell.spi.ExecutionControl;
 public class Literal extends Base {
     private final boolean isBoolean;
     private final long value;
+    private Types castType;
 
     public Literal(Terminals terminal) {
         super(terminal);
@@ -31,9 +32,14 @@ public class Literal extends Base {
     }
 
     public Types getType(){
-        return isBoolean ? Types.BOOL : Types.INT64;
-    } // FIXME: WTF?
+        if (castType != null){
+            // type is casted
+            return castType;
+        }
+        // otherwise get real type
+        return isBoolean ? Types.BOOL : Types.INT64; // FIXME: WTF?
 
+    }
     public boolean getBoolValue() throws ExecutionControl.NotImplementedException {
         if(!isBoolean)
             throw new ExecutionControl.NotImplementedException("Gagu"); // FIXME: WTF?
@@ -53,6 +59,10 @@ public class Literal extends Base {
             throw new ExecutionControl.NotImplementedException("sdfsdf"); // FIXME: WTF?
 
         return value;
+    }
+
+    public void doTypeCasting(Types type) {
+        this.castType = type;
     }
 
     @Override

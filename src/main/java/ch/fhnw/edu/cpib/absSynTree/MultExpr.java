@@ -15,6 +15,7 @@ public class MultExpr extends AbsSynTreeNode implements IExpr {
 	private Operators multOpr;
 	private IExpr exprLeft;
 	private IExpr exprRight;
+	private Types castType;
 	
 	public MultExpr(Operators multOpr, IExpr exprLeft, IExpr exprRight) {
 		this.multOpr = multOpr;
@@ -35,6 +36,14 @@ public class MultExpr extends AbsSynTreeNode implements IExpr {
 		exprLeft.doScopeChecking();
 		exprRight.doScopeChecking();
 	}
+
+	@Override public void doTypeCasting(Types type) {
+		if (type != null){
+			this.castType = type;
+		}
+		exprLeft.doTypeCasting(type);
+		exprRight.doTypeCasting(type);
+	}
 	
 	@Override
 	public LRValue getLRValue() {
@@ -54,6 +63,11 @@ public class MultExpr extends AbsSynTreeNode implements IExpr {
 
 	@Override
 	public Types getType() {
+		if (castType != null){
+			// type is casted
+			return castType;
+		}
+		// otherwise get real type
 		return exprLeft.getType();
 	}
 
@@ -66,6 +80,7 @@ public class MultExpr extends AbsSynTreeNode implements IExpr {
 	@Override
 	public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
 			throws CodeTooSmallError {
+
 		exprLeft.addIInstrToCodeArray(localLocations, simulateOnly);
 		exprRight.addIInstrToCodeArray(localLocations, simulateOnly);
 		

@@ -2,6 +2,7 @@ package ch.fhnw.edu.cpib.absSynTree;
 
 import ch.fhnw.edu.cpib.concSynTree.interfaces.IProgram;
 import ch.fhnw.edu.cpib.errors.*;
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.ICodeArray;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 
@@ -38,5 +39,9 @@ public class AbsSynTree {
 		root.addIInstrToCodeArray(new HashMap<String, Integer>(), false);
 		AbsSynTreeNode.codeArray.resize();
 		return AbsSynTreeNode.codeArray;
+	}
+
+    public void doTypeCasting() {
+		root.doTypeCasting(null);
 	}
 }

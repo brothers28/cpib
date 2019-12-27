@@ -34,6 +34,11 @@ public class WhileCmd extends AbsSynTreeNode implements ICmd {
 		cpsCmd.doScopeChecking();
 	}
 
+	@Override public void doTypeCasting(Types type) {
+		expr.doTypeCasting(type);
+		cpsCmd.doTypeCasting(type);
+	}
+
 	@Override
 	public void doTypeChecking() throws TypeCheckError {
 		expr.doTypeChecking();

@@ -2,6 +2,7 @@ package ch.fhnw.edu.cpib.absSynTree.interfaces;
 
 import ch.fhnw.edu.cpib.absSynTree.TypeIdent;
 import ch.fhnw.edu.cpib.errors.*;
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 
 import java.util.HashMap;
@@ -14,6 +15,8 @@ public interface IAbsSynTreeNode {
 			NameAlreadyGloballyDeclaredError, AlreadyInitializedError;
 
 	public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError;
+
+	public void doTypeCasting(Types type);
 
 	public void doTypeChecking() throws TypeCheckError;
 

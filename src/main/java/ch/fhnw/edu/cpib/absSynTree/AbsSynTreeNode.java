@@ -2,6 +2,7 @@ package ch.fhnw.edu.cpib.absSynTree;
 
 import ch.fhnw.edu.cpib.absSynTree.interfaces.IAbsSynTreeNode;
 import ch.fhnw.edu.cpib.absSynTree.interfaces.IDecl;
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.CodeArray;
 import ch.fhnw.edu.cpib.vm.ICodeArray;
 import java.util.HashMap;
@@ -26,4 +27,5 @@ public abstract class AbsSynTreeNode implements IAbsSynTreeNode {
 		if(localStoresNamespace.containsKey(ident.getValue()))
 			localStoresNamespace.get(ident.getValue()).setInit();
 	}
+
 }

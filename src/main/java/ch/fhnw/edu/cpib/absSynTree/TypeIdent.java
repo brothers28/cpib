@@ -70,6 +70,10 @@ public class TypeIdent extends AbsSynTreeNode implements Cloneable{
 	public void doScopeChecking() throws NameNotDeclaredError {
 		// Do nothing		
 	}
+
+	@Override public void doTypeCasting(Types type) {
+		// Do nothing
+	}
 	
 	@Override
 	public void doTypeChecking() throws TypeCheckError {

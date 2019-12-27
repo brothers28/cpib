@@ -3,6 +3,7 @@ package ch.fhnw.edu.cpib.absSynTree;
 import ch.fhnw.edu.cpib.absSynTree.interfaces.IDecl;
 import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.scanner.enumerations.Changemodes;
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.scanner.keywords.Changemode;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import ch.fhnw.edu.cpib.vm.IInstructions;
@@ -44,6 +45,10 @@ public class StoDecl extends AbsSynTreeNode implements IDecl {
 	@Override
 	public void doScopeChecking() throws NameNotDeclaredError{
 		// Do nothing		
+	}
+
+	@Override public void doTypeCasting(Types type) {
+		// Do nothing
 	}
 
 	@Override

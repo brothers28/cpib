@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 public class FunCallFactor extends IdentFactor{
 	private ArrayList<IExpr> expressions;
+	private Types castType;
 
 	public FunCallFactor(Ident ident, ArrayList<IExpr> expressions) {
 		this.ident = ident;
@@ -58,6 +59,15 @@ public class FunCallFactor extends IdentFactor{
 				throw new LRValueError(lrValExpected, lrValFound);
 		}
 	}
+
+	@Override public void doTypeCasting(Types type) {
+		if (type != null){
+			this.castType = type;
+		}
+		for (IExpr expr : expressions){
+			expr.doTypeCasting(type);
+		}
+	}
 	
 	@Override
 	public LRValue getLRValue() {
@@ -66,6 +76,11 @@ public class FunCallFactor extends IdentFactor{
 
 	@Override
 	public Types getType() {
+		if (castType != null){
+			// type is casted
+			return castType;
+		}
+		// otherwise get real type
 		FunDecl funDecl = (FunDecl)globalRoutinesNamespace.get(ident.getIdent());
 		return funDecl.getReturnType();
 	}
@@ -103,6 +118,7 @@ public class FunCallFactor extends IdentFactor{
 	@Override
 	public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
 			throws CodeTooSmallError {
+
 		FunDecl funDecl = (FunDecl)globalRoutinesNamespace.get(ident.getIdent());
 		// initialize return value
 		if(!simulateOnly)

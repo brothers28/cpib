@@ -1,10 +1,7 @@
 package ch.fhnw.edu.cpib.absSynTree;
 
 import ch.fhnw.edu.cpib.errors.*;
-import ch.fhnw.edu.cpib.scanner.enumerations.Changemodes;
-import ch.fhnw.edu.cpib.scanner.enumerations.Flowmodes;
-import ch.fhnw.edu.cpib.scanner.enumerations.LRValue;
-import ch.fhnw.edu.cpib.scanner.enumerations.Mechmodes;
+import ch.fhnw.edu.cpib.scanner.enumerations.*;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.HashMap;
@@ -53,11 +50,16 @@ public class Param extends AbsSynTreeNode {
 	
 	@Override
 	public void doScopeChecking() throws NameNotDeclaredError {
+		// Do nothing
 	}
 	
 	@Override
 	public void doTypeChecking() throws TypeCheckError {
 		// Do nothing
+	}
+
+	@Override public void doTypeCasting(Types type) {
+		// Do nothin
 	}
 
 	@Override

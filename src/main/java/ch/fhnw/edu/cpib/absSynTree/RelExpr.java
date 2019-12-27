@@ -14,6 +14,7 @@ public class RelExpr extends AbsSynTreeNode implements IExpr {
 	private Operators relOpr;
 	private IExpr exprLeft;
 	private IExpr exprRight;
+	private Types castType;
 	
 	public RelExpr(Operators relOpr, IExpr exprLeft, IExpr exprRight) {
 		this.relOpr = relOpr;
@@ -33,6 +34,14 @@ public class RelExpr extends AbsSynTreeNode implements IExpr {
 	public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
 		exprLeft.doScopeChecking();
 		exprRight.doScopeChecking();
+	}
+
+	@Override public void doTypeCasting(Types type) {
+		if (type != null){
+			this.castType = type;
+		}
+		exprLeft.doTypeCasting(type);
+		exprRight.doTypeCasting(type);
 	}
 	
 	@Override
@@ -55,6 +64,11 @@ public class RelExpr extends AbsSynTreeNode implements IExpr {
 
 	@Override
 	public Types getType() {
+		if (castType != null){
+			// type is casted
+			return castType;
+		}
+		// otherwise get real type
 		return Types.BOOL;
 	}
 

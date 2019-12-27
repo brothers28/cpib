@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class InitFactor extends IdentFactor{
 	private boolean init;
+	private Types castType;
 
 	public InitFactor(Ident ident, boolean init) {
 		this.ident = ident;
@@ -36,6 +37,12 @@ public class InitFactor extends IdentFactor{
 			throw new NameNotDeclaredError(ident.getIdent());
 	}
 
+	@Override public void doTypeCasting(Types type) {
+		if (type != null){
+			this.castType = type;
+		}
+	}
+
 	@Override
 	public LRValue getLRValue() {
 		return LRValue.LVALUE;
@@ -43,6 +50,11 @@ public class InitFactor extends IdentFactor{
 
 	@Override
 	public Types getType() {
+		if (castType != null){
+			// type is casted
+			return castType;
+		}
+		// otherwise get real type
 		TypeIdent typeIdent;
 		if(localStoresNamespace.containsKey(ident.getIdent())) {
 			typeIdent = localStoresNamespace.get(ident.getIdent());
@@ -134,5 +146,6 @@ public class InitFactor extends IdentFactor{
 		s += argumentIndent + "<init>: " + init + "\n";
 		
 		return s;
-	}	
+	}
+
 }

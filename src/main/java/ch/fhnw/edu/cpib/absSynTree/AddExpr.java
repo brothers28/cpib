@@ -5,6 +5,7 @@ import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.scanner.enumerations.LRValue;
 import ch.fhnw.edu.cpib.scanner.enumerations.Operators;
 import ch.fhnw.edu.cpib.scanner.enumerations.Types;
+import ch.fhnw.edu.cpib.scanner.keywords.Type;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import ch.fhnw.edu.cpib.vm.IInstructions;
 
@@ -15,6 +16,7 @@ public class AddExpr extends AbsSynTreeNode implements IExpr {
     private Operators addOpr;
     private IExpr exprLeft;
     private IExpr exprRight;
+    private Types castType;
 
     public AddExpr(Operators addOpr, IExpr exprLeft, IExpr exprRight) {
         this.addOpr = addOpr;
@@ -35,11 +37,24 @@ public class AddExpr extends AbsSynTreeNode implements IExpr {
         exprRight.doScopeChecking();
     }
 
+    @Override public void doTypeCasting(Types type) {
+        if (type != null){
+            this.castType = type;
+        }
+        exprLeft.doTypeCasting(type);
+        exprRight.doTypeCasting(type);
+    }
+
     @Override public LRValue getLRValue() {
         return LRValue.RVALUE;
     }
 
     @Override public Types getType() {
+        if (castType != null){
+            // type is casted
+            return castType;
+        }
+        // otherwise get real type
         return exprLeft.getType();
     }
 

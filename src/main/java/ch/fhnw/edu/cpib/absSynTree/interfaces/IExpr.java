@@ -8,4 +8,5 @@ public interface IExpr extends IAbsSynTreeNode {
 	public Types getType();
 
 	public LRValue getLRValue();
+
 }

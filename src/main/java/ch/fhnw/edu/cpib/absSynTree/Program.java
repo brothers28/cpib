@@ -3,6 +3,7 @@ package ch.fhnw.edu.cpib.absSynTree;
 import ch.fhnw.edu.cpib.absSynTree.interfaces.IDecl;
 import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.scanner.Ident;
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import ch.fhnw.edu.cpib.vm.IInstructions;
 import java.util.ArrayList;
@@ -44,6 +45,15 @@ public class Program extends AbsSynTreeNode {
 		}
 		
 		cpsCmd.doScopeChecking();
+	}
+
+	@Override public void doTypeCasting(Types type) {
+		for(IDecl decl : globalDeclarations) {
+			if(!(decl instanceof StoDecl))
+				decl.doTypeCasting(type);
+		}
+
+		cpsCmd.doTypeCasting(type);
 	}
 	
 	@Override

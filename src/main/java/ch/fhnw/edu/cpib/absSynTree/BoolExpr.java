@@ -14,6 +14,7 @@ public class BoolExpr extends AbsSynTreeNode implements IExpr {
 	private Operators boolOpr;
 	private IExpr exprLeft;
 	private IExpr exprRight;
+	private Types castType;
 	
 	public BoolExpr(Operators boolOpr, IExpr exprLeft, IExpr exprRight) {
 		this.boolOpr = boolOpr;
@@ -36,6 +37,14 @@ public class BoolExpr extends AbsSynTreeNode implements IExpr {
 		exprRight.doScopeChecking();
 	}
 
+	@Override public void doTypeCasting(Types type) {
+		if (type != null){
+			this.castType = type;
+		}
+		exprLeft.doTypeCasting(type);
+		exprRight.doTypeCasting(type);
+	}
+
 	@Override
 	public LRValue getLRValue() {
 		return LRValue.RVALUE;
@@ -54,6 +63,11 @@ public class BoolExpr extends AbsSynTreeNode implements IExpr {
 
 	@Override
 	public Types getType() {
+		if (castType != null){
+			// type is casted
+			return castType;
+		}
+		// otherwise get real type
 		return Types.BOOL;
 	}
 
