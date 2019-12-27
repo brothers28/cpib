@@ -1,8 +1,11 @@
 program progFactorial
 global
-  const test1:int64;
-  const test2:bool
+  var test1:int64;
+  var test2:bool;
+  var test3:nat64
 do
-  //test2 init := 4 > 5;
-  test1 init := [nat64] (4 + 4)
+  test2 init := 4 > 5;
+  test3 init := [nat64] 8;
+  test1 init := [int64] (4+5);
+  test3 := [nat64] test1
 endprogram
