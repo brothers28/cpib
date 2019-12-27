@@ -2,5 +2,5 @@ program progDouble
 global
   var value:int64
 do
-  value init := [int64] [nat64] ((4 + 1) + 1)
+  value init := [int64] [nat64] (4 + 1)
 endprogram

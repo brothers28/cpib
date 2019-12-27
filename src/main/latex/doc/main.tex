@@ -59,6 +59,7 @@ Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
 
 \subsection{Statische Analyse}
 % TODO: Namespaces
+% TODO: Beschreiben, dass && und || implementiert wurden
 
 Bei \textit{FunCall, ProcCall, DebugIn} und \textit{AssignCmd} muss überprüft werden, ob die Parameter den richtigen \texttt{LValue}, resp. \texttt{RValue} besitzen.
 Folgende Kombinationen sind dabei allgemein erlaubt:
@@ -87,6 +88,17 @@ Bei einem \textit{AssignCmd} muss der Ausdruck links zudem zwingend ein \texttt{
 
 Bei einem \textit{DebugIn} muss es sich ebenfalls um einen \texttt{LValue} handeln, damit der Input-Wert dieser Variable zugewiesen werden kann.
 
+\subsection{Virtuelle Maschine}
+Grundlage für die Code-Generierung ist der Abstract Syntax Tree (AST).
+Vom Root-Knoten ausgehend fügt jeder Knoten seinen Code zum Code-Array.
+
+Im Falle eines Castings zwischen zwei Datentypen befindet sich an mindestens einer Stelle in der AST Struktur ein \texttt{CastFactor}-Element.
+% TODO: Irgendwo vorher beschreiben, dass castOpr in cst zu CastFactor in ast wird
+Von diesem Element aus wird der Datentyp des zugehörigen \texttt{factor} geändert, indem dessen Attribut \texttt{castFactor} geändert wird.
+Dieses Attribut übersteuert den eigentlichen Datentyp des Elements innerhalb des AST.
+Weil der \texttt{factor} gemäss Grammatik unterschiedliche Produktionen besitzt (vgl. Änderungen an der Grammatik), muss die Typanpassung rekursiv weitergegeben werden.
+Die Rekursion wird durch Literale oder Expressions unterbrochen, wie am Beispiel in Anhang \ref{bsp_casting} aufgezeigt.
+
 \section{Erweiterung}
 \subsection{Einleitung}
 Unter natürlichen Zahlen werden die positiven, ganzen Zahlen und 0 verstanden.
@@ -102,7 +114,7 @@ Für den neuen Datentyp wird das Keyword \texttt{(TYPE, NAT64)} und ein Castingo
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
 xleftmargin = 0.05cm,
 framexleftmargin = 0.05em]
-    Datentyp: nat64     (TYPE, NAT64)
+    Datentyp:     nat64     (TYPE, NAT64)
     Brackets:     [ ]       LBRACKET, RBRACKET
 \end{lstlisting}
 
@@ -292,9 +304,47 @@ Casting:
     \bibitem{wikipedia}
     Wikipedia: Natural numbers (engl.),
     \url{https://en.wikipedia.org/wiki/Natural_number}
-
-
 \end{thebibliography}
+
+%----------------------------------------------------------------------------------------
+%	APPENDIX
+%----------------------------------------------------------------------------------------
+\newpage
+\appendix
+\section{Beispiel Typecasting}
+\label{bsp_casting}
+IML:
+\begin{lstlisting}
+    program progDouble
+    global
+    var value:int64
+    do
+    value init := [int64] [nat64] ((4 + 1) + 1)
+    endprogram
+\end{lstlisting}
+
+Code-Array:
+\begin{lstlisting}
+    0: AllocBlock(1)
+    1: UncondJump(2)
+    2: LoadAddrAbs(0)
+    3: LoadImInt(4)
+    4: LoadImInt(1)
+    5: AddInt
+    6: LoadImInt(1)
+    7: AddInt
+    8: Store
+    9: Stop
+\end{lstlisting}
+
+UML:
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{uml_casting.png} % Figure image
+    \caption{Auszug aus AST } % Figure caption
+    \label{casting}
+\end{figure}
+
+
 %----------------------------------------------------------------------------------------
 
 \end{document}
