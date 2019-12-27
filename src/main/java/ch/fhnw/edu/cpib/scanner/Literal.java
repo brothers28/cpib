@@ -48,11 +48,11 @@ public class Literal extends Base {
         return value > 0 ? true : false;
     }
 
-    public int getIntValue() throws ExecutionControl.NotImplementedException {
+    public long getIntValue() throws ExecutionControl.NotImplementedException {
         if (isBoolean)
             throw new ExecutionControl.NotImplementedException("Gagu 2"); // FIXME: WTF?
 
-        return (int) value;
+        return (long) value;
     }
 
     public long getNatValue() throws ExecutionControl.NotImplementedException {

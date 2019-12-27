@@ -109,9 +109,9 @@ public interface IInstructions {
 
     // load immediate value (value -> stack)
     class LoadImInt implements IInstr {
-        protected int value;
+        protected long value;
 
-        public LoadImInt(int value) {
+        public LoadImInt(long value) {
             this.value = value;
         }
 

@@ -135,13 +135,10 @@ public class Scanner {
                     state = 2;
                     int digit = Character.digit(c, 10);
                     numAccu = numAccu * 10 + digit;
-                    if (numAccu > Integer.MAX_VALUE) {
-                        throw new LexicalError("Integer literal too large!");
-                    }
                 } else {
                     state = 0;
                     i = i - 1; // one back for next lexeme
-                    result.add(new Literal(Terminals.LITERAL, (int) numAccu));
+                    result.add(new Literal(Terminals.LITERAL, numAccu));
                 }
                 break;
             case 3:

@@ -163,7 +163,7 @@ public class VirtualMachine implements IVirtualMachine {
 
     // load immediate value (value -> stack)
     public class LoadImIntExec extends LoadImInt implements IExecInstr {
-        public LoadImIntExec(int value) {
+        public LoadImIntExec(long value) {
             super(value);
         }
 
