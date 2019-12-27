@@ -28,6 +28,6 @@ public class TypeCheckError extends Exception{
 	} 
 	
 	private static String setupMessage(Types expected, Types found) {
-		return "Expected [" + expected.name() + "] but found [" + found.name() + "]";
+		return "Expected type [" + expected.name() + "] or casteable to [" + expected.name() + "] but found [" + found.name() + "]";
 	}
 }
