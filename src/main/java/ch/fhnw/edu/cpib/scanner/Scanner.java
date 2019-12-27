@@ -2,6 +2,7 @@ package ch.fhnw.edu.cpib.scanner;
 
 import ch.fhnw.edu.cpib.errors.LexicalError;
 import ch.fhnw.edu.cpib.scanner.enumerations.*;
+import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 import ch.fhnw.edu.cpib.scanner.keywords.Changemode;
 import ch.fhnw.edu.cpib.scanner.keywords.Flowmode;
 import ch.fhnw.edu.cpib.scanner.keywords.Mechmode;
@@ -20,8 +21,8 @@ public class Scanner {
     public static final char UNDERSCORE_SYMBOL = '_';
     public static final char SINGLE_QUOTE_SYMBOL = '\'';
 
-    public static final Map<String, Token> keywords;
-    public static final Map<String, Token> symbols;
+    public static final Map<String, IToken> keywords;
+    public static final Map<String, IToken> symbols;
 
     static {
         // Build symbols map
@@ -136,7 +137,7 @@ public class Scanner {
                     state = 0;
                     syAcc.append(c);
 
-                    Token token = symbols.get(syAcc.toString());
+                    IToken token = symbols.get(syAcc.toString());
                     result.add(token);
                 } else if (isCommentSymbol(c)){
                         state = 0;
@@ -151,7 +152,7 @@ public class Scanner {
                     state = 0;
                     i = i - 1; // one back for next lexeme
 
-                    Token token = symbols.get(syAcc.toString());
+                    IToken token = symbols.get(syAcc.toString());
                     result.add(token);
                 }
                 break;
@@ -183,7 +184,7 @@ public class Scanner {
                     state = 0;
                     i = i - 1; // one back for next lexeme
                     if (isKeyword(lexAcc)) {
-                        Token token = keywords.get(lexAcc.toString());
+                        IToken token = keywords.get(lexAcc.toString());
                         result.add(token);
                     } else {
                         result.add(new Ident(Terminals.IDENT, lexAcc.toString()));

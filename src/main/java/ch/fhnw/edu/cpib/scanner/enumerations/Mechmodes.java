@@ -1,8 +1,8 @@
 package ch.fhnw.edu.cpib.scanner.enumerations;
 
-import ch.fhnw.edu.cpib.scanner.Token;
+import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
-public enum Mechmodes implements Token {
+public enum Mechmodes implements IToken {
     COPY,
     REF
 }

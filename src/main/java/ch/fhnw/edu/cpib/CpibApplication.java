@@ -1,6 +1,6 @@
 package ch.fhnw.edu.cpib;
 
-import ch.fhnw.edu.cpib.absSynTree.AbsSynTree;
+import ch.fhnw.edu.cpib.ast.AbsSynTree;
 import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.parser.Parser;
 import ch.fhnw.edu.cpib.scanner.Scanner;

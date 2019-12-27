@@ -1,12 +1,14 @@
 package ch.fhnw.edu.cpib.scanner;
 
+import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
+
 import java.util.ArrayList;
 
 public class TokenList {
-    private ArrayList<Token> tokenList = new ArrayList<>();
+    private ArrayList<IToken> tokenList = new ArrayList<>();
     private int position = 0;
 
-    public void add(Token token){
+    public void add(IToken token){
         tokenList.add(token);
     }
 
@@ -14,11 +16,11 @@ public class TokenList {
         position = 0;
     }
 
-    public Token nextToken() {
+    public IToken nextToken() {
         return tokenList.get(position++);
     }
 
-    public Token get(int index){
+    public IToken get(int index){
         position = index + 1;
         return tokenList.get(index);
     }
@@ -26,7 +28,7 @@ public class TokenList {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for (Token t : tokenList){
+        for (IToken t : tokenList){
             sb.append(t.toString());
             sb.append(", ");
         }

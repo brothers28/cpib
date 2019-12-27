@@ -1,0 +1,95 @@
+package ch.fhnw.edu.cpib.ast;
+
+import ch.fhnw.edu.cpib.errors.*;
+import ch.fhnw.edu.cpib.scanner.enumerations.*;
+import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
+import ch.fhnw.edu.cpib.vm.IInstructions;
+import java.util.HashMap;
+import java.util.stream.Collectors;
+
+public class Param extends AbsSynTreeNode {
+	private Flowmodes flowMode;
+	private Mechmodes mechMode;
+	private Changemodes changeMode;
+	private TypeIdent typeIdent;
+	private LRValue lrValue;
+	
+	public Param(Flowmodes flowMode, Mechmodes mechMode, Changemodes changeMode, TypeIdent typeIdent) {
+		this.flowMode = flowMode != null ? flowMode : Flowmodes.IN;
+		this.mechMode = mechMode != null ? mechMode : Mechmodes.COPY;
+		this.changeMode = changeMode != null ? changeMode : Changemodes.CONST;
+		this.typeIdent = typeIdent;
+		this.typeIdent.setInit();
+		// Set the const boolean value on the typeIdent to true
+		if(changeMode == Changemodes.CONST)
+			this.typeIdent.setConst();
+		lrValue = this.mechMode == Mechmodes.COPY ? LRValue.RVALUE : LRValue.LVALUE;
+	}	
+	
+	public String getIdentString() {
+		return typeIdent.getValue();
+	}
+	
+	public TypeIdent getTypeIdent() {
+		return typeIdent;
+	}
+	
+	public LRValue getLRValue() {
+		return lrValue;
+	}
+	
+	public Mechmodes getMechMode() {
+		return mechMode;
+	}
+
+	@Override
+	public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
+			throws NameAlreadyDeclaredError, AlreadyInitializedError {
+		this.localStoresNamespace = localStoresNamespace;
+	}
+	
+	@Override
+	public void doScopeChecking() throws NameNotDeclaredError {
+		// Do nothing
+	}
+	
+	@Override
+	public void doTypeChecking() throws TypeCheckError {
+		// Do nothing
+	}
+
+	@Override
+	public void doInitChecking(boolean globalProtected) throws NotInitializedError,
+			AlreadyInitializedError, GlobalInitializationProhibitedError, CannotAssignToConstError {
+		// Do nothing
+	}
+
+	@Override
+	public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+			throws CodeTooSmallError {
+		if(!simulateOnly)
+			codeArray.put(codeArrayPointer, new IInstructions.AllocBlock(1));
+		codeArrayPointer++;		
+	}
+
+	@Override
+	public String toString(String indent) {
+		String nameIndent = indent;
+		String argumentIndent = indent + " ";
+		String subIndent = indent + "  ";
+		String s = "";
+		s += nameIndent + this.getClass().getName() + "\n";
+		if(localStoresNamespace != null)
+			s += argumentIndent + "[localStoresNamespace]: " + localStoresNamespace.keySet().stream().map(Object::toString).collect(Collectors.joining(",")) + "\n";
+		if (flowMode != null)
+			s += argumentIndent + "<flowMode>: " + flowMode.toString() + "\n";
+		if(mechMode != null)
+			s += argumentIndent + "<mechMode>: " + mechMode.toString() + "\n";
+		if(changeMode != null)
+			s += argumentIndent + "<changeMode>: " + changeMode.toString() + "\n";
+		s += argumentIndent + "<typeIdent>:\n";
+		s += typeIdent.toString(subIndent);
+		
+		return s;
+	}	
+}

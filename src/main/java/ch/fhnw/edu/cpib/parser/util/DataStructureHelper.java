@@ -1,6 +1,6 @@
 package ch.fhnw.edu.cpib.parser.util;
 
-import ch.fhnw.edu.cpib.absSynTree.TypeIdent;
+import ch.fhnw.edu.cpib.ast.TypeIdent;
 
 import java.util.HashMap;
 import java.util.Map;

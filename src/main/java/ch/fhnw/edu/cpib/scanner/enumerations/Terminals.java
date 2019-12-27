@@ -1,8 +1,8 @@
 package ch.fhnw.edu.cpib.scanner.enumerations;
 
-import ch.fhnw.edu.cpib.scanner.Token;
+import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
-public enum Terminals implements Token {
+public enum Terminals implements IToken {
     WHILE, IDENT, RELOPR, LITERAL, SENTINEL, ADDOPR, MULTOPR, BOOLOPR, TYPE, CALL, // call
     CHANGEMOD, MECHMOD, DEBUGIN, DEBUGOUT, DO, ELSE, ENDFUN, ENDIF, ENDPROC, ENDPROGRAM, ENDWHILE, FUN, // fun
     GLOBAL, IF, FLOWMODE, INIT, LOCAL, NOTOPR, // not
