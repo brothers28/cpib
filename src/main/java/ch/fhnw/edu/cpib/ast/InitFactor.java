@@ -20,20 +20,22 @@ public class InitFactor extends IdentFactor {
     }
 
     @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
-            throws NameAlreadyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
     }
 
-    @Override public void doScopeChecking() throws NameNotDeclaredError {
-        // Check if this variable identifier is declared in the local or global namespace
+    @Override public void doScopeChecking() throws NotDeclaredError {
         boolean declared = false;
         if (localStoresNamespace.containsKey(ident.getIdent()))
+            // Variable is declared in local namespace
             declared = true;
         if (globalStoresNamespace.containsKey(ident.getIdent()))
+            // Variable is declared in global namespace
             declared = true;
-        // If variable is not declared in local or global namespace, throw exception
-        if (!declared)
-            throw new NameNotDeclaredError(ident.getIdent());
+        if (!declared) {
+            // Variable is not declared
+            throw new NotDeclaredError(ident.getIdent());
+        }
     }
 
     @Override public void doTypeCasting(Types type) {
@@ -107,7 +109,7 @@ public class InitFactor extends IdentFactor {
                 address = localLocations.get(ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrRel(address));
             } else {
-                throw new RuntimeException("No location found for variable " + ident.getIdent() + " !!");
+                throw new RuntimeException("No address found for variable " + ident.getIdent() + " !!");
             }
         }
         codeArrayPointer++;

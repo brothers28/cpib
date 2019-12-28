@@ -16,14 +16,14 @@ public class CpsCmd extends AstNode implements ICmd {
     }
 
     @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
-            throws NameAlreadyDeclaredError, NameAlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
         for (ICmd command : commands) {
             command.saveNamespaceInfoToNode(this.localStoresNamespace);
         }
     }
 
-    @Override public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
         for (ICmd command : commands) {
             command.doScopeChecking();
         }

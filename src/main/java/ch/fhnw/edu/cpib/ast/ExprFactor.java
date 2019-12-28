@@ -19,12 +19,12 @@ public class ExprFactor extends AstNode implements IFactor {
     }
 
     @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
-            throws NameAlreadyDeclaredError, NameAlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
         expr.saveNamespaceInfoToNode(this.localStoresNamespace);
     }
 
-    @Override public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
         expr.doScopeChecking();
     }
 

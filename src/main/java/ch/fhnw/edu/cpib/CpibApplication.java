@@ -46,13 +46,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         } catch (GrammarError e) {
             System.out.println("\nParser error...\n");
             e.printStackTrace();
-        } catch (NameAlreadyDeclaredError e) {
+        } catch (AlreadyDeclaredError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
-        } catch (NameNotDeclaredError e) {
+        } catch (NotDeclaredError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
-        } catch (NameAlreadyGloballyDeclaredError e) {
+        } catch (AlreadyGloballyDeclaredError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
         } catch (LRValueError e) {

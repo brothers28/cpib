@@ -21,14 +21,14 @@ public class WhileCmd extends AstNode implements ICmd {
     }
 
     @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
-            throws NameAlreadyDeclaredError, NameAlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
         expr.saveNamespaceInfoToNode(this.localStoresNamespace);
         // inner while body with deepCopy from localStorage
         cpsCmd.saveNamespaceInfoToNode(DataStructureHelper.deepCopy(this.localStoresNamespace));
     }
 
-    @Override public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
         expr.doScopeChecking();
         cpsCmd.doScopeChecking();
     }

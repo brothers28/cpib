@@ -23,14 +23,14 @@ public class IfCmd extends AstNode implements ICmd {
     }
 
     @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
-            throws NameAlreadyDeclaredError, NameAlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
         expr.saveNamespaceInfoToNode(this.localStoresNamespace);
         ifCpsCmd.saveNamespaceInfoToNode(DataStructureHelper.deepCopy(this.localStoresNamespace));
         elseCpsCmd.saveNamespaceInfoToNode(DataStructureHelper.deepCopy(this.localStoresNamespace));
     }
 
-    @Override public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
         expr.doScopeChecking();
         ifCpsCmd.doScopeChecking();
         elseCpsCmd.doScopeChecking();

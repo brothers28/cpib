@@ -1,21 +1,21 @@
 package ch.fhnw.edu.cpib.errors;
 
-public class NameNotDeclaredError extends Exception {
+public class NotDeclaredError extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public NameNotDeclaredError() {
+    public NotDeclaredError() {
 
     }
 
-    public NameNotDeclaredError(String errorMessage) {
+    public NotDeclaredError(String errorMessage) {
         super(setupMessage(errorMessage));
     }
 
-    public NameNotDeclaredError(String message, Throwable cause) {
+    public NotDeclaredError(String message, Throwable cause) {
         super(setupMessage(message), cause);
     }
 
-    public NameNotDeclaredError(Throwable cause) {
+    public NotDeclaredError(Throwable cause) {
         super(cause);
     }
 

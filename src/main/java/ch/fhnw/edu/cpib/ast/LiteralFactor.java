@@ -20,11 +20,11 @@ public class LiteralFactor extends AstNode implements IFactor {
     }
 
     @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
-            throws NameAlreadyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
     }
 
-    @Override public void doScopeChecking() throws NameNotDeclaredError {
+    @Override public void doScopeChecking() throws NotDeclaredError {
     }
 
     @Override public void doTypeCasting(Types type) {

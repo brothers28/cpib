@@ -25,7 +25,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
     }
 
     @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
-            throws NameAlreadyDeclaredError, NameAlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
 
         // add local storage on everery case
@@ -33,32 +33,32 @@ public class ProcCallCmd extends AstNode implements ICmd {
             ie.saveNamespaceInfoToNode(this.localStoresNamespace);
     }
 
-    @Override public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
-        // Check if this procedure identifier is declared in the global namespace
-        boolean declared = globalRoutinesNamespace.containsKey(ident.getIdent());
-        // If procedure is not declared in global namespace, throw exception
-        if (!declared)
-            throw new NameNotDeclaredError(ident.getIdent());
+    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+        if (!globalRoutinesNamespace.containsKey(ident.getIdent())) {
+            // Function not declared in global namespace
+            throw new NotDeclaredError(ident.getIdent());
+        }
 
-        // check scope for each expression
+        // Check scope
         for (IExpr expr : expressions) {
             expr.doScopeChecking();
         }
 
-        // Param check
-        // Same number of parameters as in declaration?
+        // Check param
         ProcDecl procDecl = (ProcDecl) globalRoutinesNamespace.get(ident.getIdent());
-        int sizeFound = expressions.size();
-        int sizeExpected = procDecl.getParams().size();
-        if (sizeExpected != sizeFound)
-            throw new InvalidParamCountError(sizeExpected, sizeFound);
+        int realSize = expressions.size();
+        int expectedSize = procDecl.getParams().size();
+        if (expectedSize != realSize)
+            // Not same number of parameters as declared
+            throw new InvalidParamCountError(expectedSize, realSize);
 
-        // Check if r- and l-value of parameters are correct
+        // Check LRValue
         for (int i = 0; i < procDecl.getParams().size(); i++) {
-            LRValue lrValueExpected = procDecl.getParams().get(i).getLRValue();
-            LRValue lrValFound = expressions.get(i).getLRValue();
-            if (lrValueExpected == LRValue.LVALUE && lrValFound == LRValue.RVALUE)
-                throw new LRValueError(lrValueExpected, lrValFound);
+            LRValue expectedLRValue = procDecl.getParams().get(i).getLRValue();
+            LRValue realRLValue = expressions.get(i).getLRValue();
+            if (expectedLRValue == LRValue.LVALUE && realRLValue == LRValue.RVALUE)
+                // We expect LVALUE, but get RVALUE (invalid)
+                throw new LRValueError(expectedLRValue, realRLValue);
         }
     }
 
@@ -96,16 +96,17 @@ public class ProcCallCmd extends AstNode implements ICmd {
             throws CodeTooSmallError {
         ProcDecl procDecl = (ProcDecl) globalRoutinesNamespace.get(ident.getIdent());
 
+        // LR checking
         for (int i = 0; i < expressions.size(); i++) {
-            LRValue callerLRVal = expressions.get(i).getLRValue();
-            LRValue calleeLRVal = procDecl.getParams().get(i).getLRValue();
-            // callee wants a RVAL, so we can pass either an RVAL or LVAL (will be used as value)
-            if (calleeLRVal == LRValue.RVALUE) {
+            LRValue realLRValue = expressions.get(i).getLRValue();
+            LRValue expectedLRValue = procDecl.getParams().get(i).getLRValue();
+            if (expectedLRValue == LRValue.RVALUE) {
+                // We expect RVALUE, pass RVALUE or LVALUE
                 expressions.get(i).addIInstrToCodeArray(localLocations, simulateOnly);
+            } else if (realLRValue == LRValue.LVALUE && expectedLRValue == LRValue.LVALUE) {
+                // We expect RVALUE, pass RVALUE or LVALUE
 
-                // calee wants a LVAL, so it's only valid to pass an LVAL
-            } else if (callerLRVal == LRValue.LVALUE && calleeLRVal == LRValue.LVALUE) {
-                // Only LVal we have is a InitFactor
+                // Get InitFactor
                 InitFactor factor = (InitFactor) expressions.get(i);
                 // Get the address
                 if (!simulateOnly) {
@@ -117,12 +118,12 @@ public class ProcCallCmd extends AstNode implements ICmd {
                         address = localLocations.get(factor.ident.getIdent());
                         codeArray.put(codeArrayPointer, new IInstructions.LoadAddrRel(address));
                     } else {
-                        throw new RuntimeException("No location found for variable " + factor.ident.getIdent() + " !!");
+                        throw new RuntimeException("No address found for variable " + factor.ident.getIdent() + " !!");
                     }
                 }
                 codeArrayPointer++;
 
-                // If this needs to be dereferenced (=Param), dereference it once more
+                // Deref
                 TypeIdent variableIdent = null;
                 if (globalStoresNamespace.containsKey(factor.ident.getIdent())) {
                     variableIdent = globalStoresNamespace.get(factor.ident.getIdent());
@@ -134,10 +135,9 @@ public class ProcCallCmd extends AstNode implements ICmd {
                         codeArray.put(codeArrayPointer, new IInstructions.Deref());
                     codeArrayPointer++;
                 }
-
-                // callee wants an LVAL, but an RVAL is passed (invalid)
             } else {
-                throw new RuntimeException("caller.RVAL not supported for callee.LVAL");
+                // We expect LVALUE, but get RVALUE (invalid)
+                throw new RuntimeException("LValue expected but RValue given");
             }
         }
 

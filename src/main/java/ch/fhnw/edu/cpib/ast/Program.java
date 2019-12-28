@@ -21,23 +21,22 @@ public class Program extends AstNode {
         this.cpsCmd = cpsCmd;
     }
 
-    private void analyzeGlobalDeclarations() throws NameAlreadyDeclaredError {
+    private void analyzeGlobalDeclarations() throws AlreadyDeclaredError {
         for (IDecl decl : globalDeclarations) {
             if (decl instanceof StoDecl) {
                 if (AstNode.globalStoresNamespace.containsKey(decl.getIdentString()))
-                    throw new NameAlreadyDeclaredError(decl.getIdentString());
+                    throw new AlreadyDeclaredError(decl.getIdentString());
                 AstNode.globalStoresNamespace.put(decl.getIdentString(), ((StoDecl) decl).getTypeIdent());
             } else {
                 if (AstNode.globalRoutinesNamespace.containsKey(decl.getIdentString()))
-                    throw new NameAlreadyDeclaredError(decl.getIdentString());
+                    throw new AlreadyDeclaredError(decl.getIdentString());
                 AstNode.globalRoutinesNamespace.put(decl.getIdentString(), decl);
             }
         }
     }
 
-    @Override public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
         for (IDecl decl : globalDeclarations) {
-            // For funDecl and procDecl, do the scope checking
             if (!(decl instanceof StoDecl))
                 decl.doScopeChecking();
         }
@@ -56,7 +55,7 @@ public class Program extends AstNode {
     }
 
     @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
-            throws NameAlreadyDeclaredError, NameAlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         // Ignore the passed namespaces
         analyzeGlobalDeclarations();
 

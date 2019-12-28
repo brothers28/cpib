@@ -1,5 +1,6 @@
 package ch.fhnw.edu.cpib.cst;
 
+import ch.fhnw.edu.cpib.ast.ProcCallCmd;
 import ch.fhnw.edu.cpib.cst.interfaces.ICmd;
 import ch.fhnw.edu.cpib.cst.interfaces.IExprList;
 import ch.fhnw.edu.cpib.scanner.Ident;
@@ -18,6 +19,6 @@ public class CmdCallIdentExprList extends Production implements ICmd {
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyn() {
-        return new ch.fhnw.edu.cpib.ast.ProcCallCmd((Ident) T_ident, N_exprList.toAbsSyn());
+        return new ProcCallCmd((Ident) T_ident, N_exprList.toAbsSyn());
     }
 }

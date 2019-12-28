@@ -19,7 +19,7 @@ public class AstTree {
     }
 
     public void doScopeChecking()
-            throws NameAlreadyDeclaredError, NameNotDeclaredError, NameAlreadyGloballyDeclaredError, LRValueError,
+            throws AlreadyDeclaredError, NotDeclaredError, AlreadyGloballyDeclaredError, LRValueError,
             AlreadyInitializedError, InvalidParamCountError {
         root.saveNamespaceInfoToNode(null);
         root.doScopeChecking();

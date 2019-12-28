@@ -11,9 +11,9 @@ public interface IAbsSynTreeNode {
     public abstract String toString(String indent);
 
     public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
-            throws NameAlreadyDeclaredError, NameAlreadyGloballyDeclaredError, AlreadyInitializedError;
+            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError;
 
-    public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError;
+    public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError;
 
     public void doTypeChecking() throws TypeCheckError, CastError;
 

@@ -21,12 +21,12 @@ public class CastFactor extends AstNode implements IFactor {
     }
 
     @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
-            throws NameAlreadyDeclaredError, NameAlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
         factor.saveNamespaceInfoToNode(this.localStoresNamespace);
     }
 
-    @Override public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
         factor.doScopeChecking();
     }
 
@@ -49,7 +49,6 @@ public class CastFactor extends AstNode implements IFactor {
     @Override public void doTypeChecking() throws CastError, TypeCheckError {
         factor.doTypeChecking();
 
-        // TODO: Type Checking
         if (!isCastable(factor.getType(), getType()))
             throw new CastError(getType(), factor.getType());
     }

@@ -1,21 +1,21 @@
 package ch.fhnw.edu.cpib.errors;
 
-public class NameAlreadyDeclaredError extends Exception {
+public class AlreadyDeclaredError extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public NameAlreadyDeclaredError() {
+    public AlreadyDeclaredError() {
 
     }
 
-    public NameAlreadyDeclaredError(String errorMessage) {
+    public AlreadyDeclaredError(String errorMessage) {
         super(setupMessage(errorMessage));
     }
 
-    public NameAlreadyDeclaredError(String message, Throwable cause) {
+    public AlreadyDeclaredError(String message, Throwable cause) {
         super(setupMessage(message), cause);
     }
 
-    public NameAlreadyDeclaredError(Throwable cause) {
+    public AlreadyDeclaredError(Throwable cause) {
         super(cause);
     }
 

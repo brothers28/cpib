@@ -54,61 +54,6 @@
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
 
-\section{Aufbau Compiler}
-Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
-
-\subsection{Statische Analyse}
-% TODO: Namespaces
-% TODO: Beschreiben, dass && und || implementiert wurden
-
-Bei \textit{FunCall, ProcCall, DebugIn} und \textit{AssignCmd} muss überprüft werden, ob die Parameter den richtigen \texttt{LValue}, resp. \texttt{RValue} besitzen.
-Folgende Kombinationen sind dabei allgemein erlaubt:
-
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
-% \usepackage{graphicx}
-\begin{table}[h]
-    \centering
-    \tiny
-    \caption{LRValue-Kombinationen}
-    \label{tab:lrvalues}
-    \resizebox{\columnwidth}{!}{%
-    \begin{tabular}{@{}lll@{}}
-        \toprule
-        Callee & Caller & Resultat                       \\ \midrule
-        LValue & LValue & Valid                          \\
-        RValue & LValue & Valid (LValue dereferenzieren) \\
-        RValue & RValue & Valid                          \\
-        LValue & RValue & LRValueError \Lightning         \\ \bottomrule
-    \end{tabular}%
-    }
-\end{table}
-
-Bei einem \textit{AssignCmd} muss der Ausdruck links zudem zwingend ein \texttt{LValue} sein.
-
-Bei einem \textit{DebugIn} muss es sich ebenfalls um einen \texttt{LValue} handeln, damit der Input-Wert dieser Variable zugewiesen werden kann.
-
-\subsection{Virtuelle Maschine}
-Grundlage für die Code-Generierung ist der Abstract Syntax Tree (AST).
-Vom Root-Knoten ausgehend fügt jeder Knoten seinen Code zum Code-Array.
-
-Im Falle eines Castings zwischen zwei Datentypen befindet sich an mindestens einer Stelle in der AST Struktur ein \texttt{CastFactor}-Element.
-% TODO: Irgendwo vorher beschreiben, dass castOpr in cst zu CastFactor in ast wird
-Von diesem Element aus wird der Datentyp des zugehörigen \texttt{factor} geändert, indem dessen Attribut \texttt{castFactor} geändert wird.
-Dieses Attribut übersteuert den eigentlichen Datentyp des Elements innerhalb des AST.
-Weil der \texttt{factor} gemäss Grammatik unterschiedliche Produktionen besitzt (vgl. Änderungen an der Grammatik), muss die Typanpassung rekursiv weitergegeben werden.
-Die Rekursion wird durch Literale oder Expressions unterbrochen, wie am Beispiel in Anhang \ref{bsp_casting} aufgezeigt.
-
-In der virtuellen Maschine wurde ein neuer generischer Typ \texttt{NumData} eingeführt.
-Dieser wird für die Konversion zwischen Daten vom Typ \texttt{IntData}\footnote{für den Datentyp \texttt{int64}} und \texttt{NatData}\footnote{für den Datentyp \texttt{nat64}} verwendet.
-Abbildung \ref{data_hierarchy} zeigt die Klassenhierarchie dieser Typen.
-
-\begin{figure}[H]
-    \includegraphics[width=\linewidth]{uml_data_hierarchy.png} % Figure image
-    \caption{Daten in VM} % Figure caption
-    \label{data_hierarchy}
-\end{figure}
-
 \section{Erweiterung}
 \subsection{Einleitung}
 Unter natürlichen Zahlen werden die positiven, ganzen Zahlen und 0 verstanden.
@@ -216,6 +161,56 @@ Falls Werte von \texttt{int64} nach \texttt{nat64} umgewandelt werden, geht die 
     }
 \end{table}
 
+\section{Aufbau Compiler}
+Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
+
+\subsection{Statische Analyse}
+% TODO: Namespaces
+% TODO: Beschreiben, dass && und || implementiert wurden
+
+Bei \textit{FunCallFactor, ProcCallCmd, DebugIn} und \textit{AssignCmd} muss überprüft werden, ob die Parameter den richtigen \texttt{LValue}, resp. \texttt{RValue} besitzen.
+Folgende Kombinationen sind dabei allgemein erlaubt:
+
+\begin{table}[h]
+    \centering
+    \tiny
+    \caption{LRValue-Kombinationen}
+    \label{tab:lrvalues}
+    \resizebox{\columnwidth}{!}{%
+    \begin{tabular}{@{}lll@{}}
+        \toprule
+        Callee & Caller & Resultat                       \\ \midrule
+        LValue & LValue & Valid                          \\
+        RValue & LValue & Valid (LValue dereferenzieren) \\
+        RValue & RValue & Valid                          \\
+        LValue & RValue & LRValueError \Lightning         \\ \bottomrule
+    \end{tabular}%
+    }
+\end{table}
+Bei einem \textit{AssignCmd} muss der Ausdruck links zudem zwingend ein \texttt{LValue} sein.
+Bei einem \textit{DebugIn} muss es sich ebenfalls um einen \texttt{LValue} handeln, damit der Input-Wert dieser Variable zugewiesen werden kann.
+
+\subsection{Virtuelle Maschine}
+Grundlage für die Code-Generierung ist der Abstract Syntax Tree (AST).
+Vom Root-Knoten ausgehend fügt jeder Knoten seinen Code zum Code-Array.
+
+Im Falle eines Castings zwischen zwei Datentypen befindet sich an mindestens einer Stelle in der AST Struktur ein \texttt{CastFactor}-Element.
+% TODO: Irgendwo vorher beschreiben, dass castOpr in cst zu CastFactor in ast wird
+Von diesem Element aus wird der Datentyp des zugehörigen \texttt{factor} geändert, indem dessen Attribut \texttt{castFactor} geändert wird.
+Dieses Attribut übersteuert den eigentlichen Datentyp des Elements innerhalb des AST.
+Weil der \texttt{factor} gemäss Grammatik unterschiedliche Produktionen besitzt (vgl. Änderungen an der Grammatik), muss die Typanpassung rekursiv weitergegeben werden.
+Die Rekursion wird durch Literale oder Expressions unterbrochen, wie am Beispiel in Anhang \ref{bsp_casting} aufgezeigt.
+
+In der virtuellen Maschine wurde ein neuer generischer Typ \texttt{NumData} eingeführt.
+Dieser wird für die Konversion zwischen Daten vom Typ \texttt{IntData}\footnote{für den Datentyp \texttt{int64}} und \texttt{NatData}\footnote{für den Datentyp \texttt{nat64}} verwendet.
+Abbildung \ref{data_hierarchy} zeigt die Klassenhierarchie dieser Typen.
+
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{uml_data_hierarchy.png} % Figure image
+    \caption{Daten in VM} % Figure caption
+    \label{data_hierarchy}
+\end{figure}
+
 \section{Vergleich mit anderen Programmiersprachen (am Beispiel von Java)}
 \subsection{Ganzzahlige Werte}
 In Java wird bei Zuweisungen die Länge einer Zahl in Bitdarstellung überprüft:
@@ -318,7 +313,7 @@ Casting:
 %----------------------------------------------------------------------------------------
 %	APPENDIX
 %----------------------------------------------------------------------------------------
-\newpage
+\clearpage
 \appendix
 \section{Vollständige Grammatik}
 % TODO

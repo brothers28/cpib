@@ -41,7 +41,7 @@ public class ProcDecl extends AstNode implements IDecl {
         return ident.getIdent();
     }
 
-    @Override public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
         cpsCmd.doScopeChecking();
     }
 
@@ -50,7 +50,7 @@ public class ProcDecl extends AstNode implements IDecl {
     }
 
     @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
-            throws NameAlreadyDeclaredError, NameAlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
 
         // Save the given namespace into the local namespace
         this.localStoresNamespace = new HashMap<>();
@@ -58,9 +58,9 @@ public class ProcDecl extends AstNode implements IDecl {
         // Save param list variables into local namespace
         for (Param param : params) {
             if (globalStoresNamespace.containsKey(param.getIdentString()))
-                throw new NameAlreadyGloballyDeclaredError(param.getIdentString());
+                throw new AlreadyGloballyDeclaredError(param.getIdentString());
             if (this.localStoresNamespace.containsKey(param.getIdentString()))
-                throw new NameAlreadyDeclaredError(param.getIdentString());
+                throw new AlreadyDeclaredError(param.getIdentString());
             if (param.getMechMode() == Mechmodes.REF)
                 param.getTypeIdent().setNeedToDeref();
             this.localStoresNamespace.put(param.getIdentString(), param.getTypeIdent());
@@ -69,9 +69,9 @@ public class ProcDecl extends AstNode implements IDecl {
         // Save local variables into local namespace
         for (StoDecl stoDecl : stoDecls) {
             if (globalStoresNamespace.containsKey(stoDecl.getIdentString()))
-                throw new NameAlreadyGloballyDeclaredError(stoDecl.getIdentString());
+                throw new AlreadyGloballyDeclaredError(stoDecl.getIdentString());
             if (this.localStoresNamespace.containsKey(stoDecl.getIdentString()))
-                throw new NameAlreadyDeclaredError(stoDecl.getIdentString());
+                throw new AlreadyDeclaredError(stoDecl.getIdentString());
             this.localStoresNamespace.put(stoDecl.getIdentString(), stoDecl.getTypeIdent());
         }
 

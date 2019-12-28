@@ -20,17 +20,18 @@ public class AssignCmd extends AstNode implements ICmd {
     }
 
     @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
-            throws NameAlreadyDeclaredError, NameAlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
         exprLeft.saveNamespaceInfoToNode(this.localStoresNamespace);
         exprRight.saveNamespaceInfoToNode(this.localStoresNamespace);
 
     }
 
-    @Override public void doScopeChecking() throws NameNotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
         exprLeft.doScopeChecking();
         exprRight.doScopeChecking();
 
+        // Has to be LVALUE
         if (exprLeft.getLRValue() == LRValue.RVALUE)
             throw new LRValueError(LRValue.LVALUE, exprLeft.getLRValue());
     }
@@ -78,7 +79,7 @@ public class AssignCmd extends AstNode implements ICmd {
                 address = localLocations.get(factor.ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrRel(address));
             } else {
-                throw new RuntimeException("No location found for variable " + factor.ident.getIdent() + " ?");
+                throw new RuntimeException("No address found for variable " + factor.ident.getIdent() + " ?");
             }
         }
         codeArrayPointer++;
