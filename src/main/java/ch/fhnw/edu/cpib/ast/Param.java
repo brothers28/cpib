@@ -65,7 +65,7 @@ public class Param extends AstNode {
         //
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.AllocBlock(1));

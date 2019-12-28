@@ -17,10 +17,10 @@ public class ParamListNTS extends Production implements IParamListNTS {
 
     }
 
-    @Override public ArrayList<ch.fhnw.edu.cpib.ast.Param> toAbsSyn() {
+    @Override public ArrayList<ch.fhnw.edu.cpib.ast.Param> toAbsSyntax() {
         ArrayList<ch.fhnw.edu.cpib.ast.Param> temp = new ArrayList<>();
-        temp.add(N_param.toAbsSyn());
+        temp.add(N_param.toAbsSyntax());
 
-        return N_paramNTS.toAbsSyn(temp);
+        return N_paramNTS.toAbsSyntax(temp);
     }
 }

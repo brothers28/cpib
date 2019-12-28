@@ -19,7 +19,7 @@ public class ParamList extends Production implements IParamList {
 
     }
 
-    @Override public ArrayList<ch.fhnw.edu.cpib.ast.Param> toAbsSyn() {
-        return N_paramListNTS.toAbsSyn();
+    @Override public ArrayList<ch.fhnw.edu.cpib.ast.Param> toAbsSyntax() {
+        return N_paramListNTS.toAbsSyntax();
     }
 }

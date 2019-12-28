@@ -12,7 +12,7 @@ public class FactorLiteral extends Production implements IFactor {
         T_literal = t_literal;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyn() {
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyntax() {
         return new ch.fhnw.edu.cpib.ast.LiteralFactor((Literal) T_literal);
     }
 }

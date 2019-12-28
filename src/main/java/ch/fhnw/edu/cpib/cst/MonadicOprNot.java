@@ -12,7 +12,7 @@ public class MonadicOprNot extends Production implements IMonadicOpr {
         T_not = t_not;
     }
 
-    @Override public Operator toAbsSyn() {
+    @Override public Operator toAbsSyntax() {
         return (Operator) T_not;
     }
 }

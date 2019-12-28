@@ -16,9 +16,9 @@ public class CpsStoDecl extends Production implements ICpsStoDecl {
         N_cpsStoDeclNTS = n_cpsStoDeclNTS;
     }
 
-    @Override public ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> toAbsSyn() {
+    @Override public ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> toAbsSyntax() {
         ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> temp = new ArrayList<>();
-        temp.add(N_stoDecl.toAbsSyn());
-        return N_cpsStoDeclNTS.toAbsSyn(temp);
+        temp.add(N_stoDecl.toAbsSyntax());
+        return N_cpsStoDeclNTS.toAbsSyntax(temp);
     }
 }

@@ -14,7 +14,7 @@ public class CmdDebugIn extends Production implements ICmd {
         this.N_expr = N_expr;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyn() {
-        return new ch.fhnw.edu.cpib.ast.DebugInCmd(N_expr.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyntax() {
+        return new ch.fhnw.edu.cpib.ast.DebugInCmd(N_expr.toAbsSyntax());
     }
 }

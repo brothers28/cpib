@@ -16,7 +16,7 @@ public class ProcDeclNTS extends Production implements IProcDeclNTS {
         N_cpsStoDecl = n_cpsStoDecl;
     }
 
-    @Override public ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> toAbsSyn() {
-        return N_cpsStoDecl.toAbsSyn();
+    @Override public ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> toAbsSyntax() {
+        return N_cpsStoDecl.toAbsSyntax();
     }
 }

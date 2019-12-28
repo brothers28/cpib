@@ -17,8 +17,8 @@ public class Param extends Production implements IParam {
         this.N_typedIdent = N_typedIdent;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.Param toAbsSyn() {
-        return new ch.fhnw.edu.cpib.ast.Param(N_flowModeNTS.toAbsSyn(), N_mechModeNTS.toAbsSyn(),
-                N_changeModeNTS.toAbySyn(), N_typedIdent.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.Param toAbsSyntax() {
+        return new ch.fhnw.edu.cpib.ast.Param(N_flowModeNTS.toAbsSyntax(), N_mechModeNTS.toAbsSyntax(),
+                N_changeModeNTS.toAbsSyntax(), N_typedIdent.toAbsSyntax());
     }
 }

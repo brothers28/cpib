@@ -11,7 +11,7 @@ public class DeclProcDecl extends Production implements IDecl {
         this.N_procDecl = N_procDecl;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyn() {
-        return N_procDecl.toAbsSyn();
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyntax() {
+        return N_procDecl.toAbsSyntax();
     }
 }

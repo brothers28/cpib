@@ -23,6 +23,6 @@ public interface IAstNode {
 
     public void setInit(TypeIdent ident);
 
-    public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError;
 }

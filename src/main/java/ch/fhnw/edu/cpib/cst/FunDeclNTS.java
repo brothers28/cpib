@@ -16,7 +16,7 @@ public class FunDeclNTS extends Production implements IFunDeclNTS {
         this.N_cpsStoDecl = N_cpsStoDecl;
     }
 
-    @Override public ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> toAbsSyn() {
-        return N_cpsStoDecl.toAbsSyn();
+    @Override public ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> toAbsSyntax() {
+        return N_cpsStoDecl.toAbsSyntax();
     }
 }

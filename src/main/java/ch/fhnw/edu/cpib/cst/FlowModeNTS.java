@@ -13,7 +13,7 @@ public class FlowModeNTS extends Production implements IFlowModeNTS {
         T_flowMode = t_flowMode;
     }
 
-    @Override public Flowmodes toAbsSyn() {
+    @Override public Flowmodes toAbsSyntax() {
         return ((Flowmode) T_flowMode).getFlowmode();
     }
 }

@@ -19,8 +19,8 @@ public class ParamNTS extends Production implements IParamNTS {
 
     }
 
-    @Override public ArrayList<ch.fhnw.edu.cpib.ast.Param> toAbsSyn(ArrayList<ch.fhnw.edu.cpib.ast.Param> temp) {
-        temp.add(N_param.toAbsSyn());
-        return N_paramNTS.toAbsSyn(temp);
+    @Override public ArrayList<ch.fhnw.edu.cpib.ast.Param> toAbsSyntax(ArrayList<ch.fhnw.edu.cpib.ast.Param> temp) {
+        temp.add(N_param.toAbsSyntax());
+        return N_paramNTS.toAbsSyntax(temp);
     }
 }

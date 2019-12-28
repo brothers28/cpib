@@ -97,7 +97,7 @@ public class InitFactor extends IdentFactor {
         }
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         // Only LVal we have is a InitFactor
         // Get the address

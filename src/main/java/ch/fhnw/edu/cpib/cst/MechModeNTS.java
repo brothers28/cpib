@@ -13,7 +13,7 @@ public class MechModeNTS extends Production implements IMechModeNTS {
         this.T_mechMode = T_mechMode;
     }
 
-    @Override public Mechmodes toAbsSyn() {
+    @Override public Mechmodes toAbsSyntax() {
         return ((Mechmode) T_mechMode).getMechmode();
     }
 }

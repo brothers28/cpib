@@ -14,7 +14,7 @@ public class Expr extends Production implements IExpr {
         N_exprNTS = n_exprNTS;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IExpr toAbsSyn() {
-        return N_exprNTS.toAbsSyn(N_term1.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IExpr toAbsSyntax() {
+        return N_exprNTS.toAbsSyntax(N_term1.toAbsSyntax());
     }
 }

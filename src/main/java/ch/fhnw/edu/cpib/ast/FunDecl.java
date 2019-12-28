@@ -106,7 +106,7 @@ public class FunDecl extends AstNode implements IDecl {
         cpsCmd.doInitChecking(globalProtected);
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         localLocations = new HashMap<>();
 
@@ -123,11 +123,11 @@ public class FunDecl extends AstNode implements IDecl {
         // add addresses of local variables to localLocations-map
         // first local variable is at relAddress 3
         for (int i = 0; i < stoDecls.size(); i++) {
-            stoDecls.get(i).addIInstrToCodeArray(localLocations, simulateOnly);
+            stoDecls.get(i).addInstructionToCodeArray(localLocations, simulateOnly);
             localLocations.put(stoDecls.get(i).getIdentString(), i + 3);
         }
 
-        cpsCmd.addIInstrToCodeArray(localLocations, simulateOnly);
+        cpsCmd.addInstructionToCodeArray(localLocations, simulateOnly);
 
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.Return(params.size()));

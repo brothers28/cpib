@@ -18,9 +18,9 @@ public class Term1NTS extends Production implements ITerm1NTS {
         N_term1NTS = n_term1NTS;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IExpr toAbsSyn(IExpr expr) {
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IExpr toAbsSyntax(IExpr expr) {
         ch.fhnw.edu.cpib.ast.interfaces.IExpr temp = new ch.fhnw.edu.cpib.ast.RelExpr(
-                ((Operator) T_relOpr).getOperator(), expr, N_term2.toAbsSyn());
-        return N_term1NTS.toAbsSyn(temp);
+                ((Operator) T_relOpr).getOperator(), expr, N_term2.toAbsSyntax());
+        return N_term1NTS.toAbsSyntax(temp);
     }
 }

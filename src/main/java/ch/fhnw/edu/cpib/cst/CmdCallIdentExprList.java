@@ -18,7 +18,7 @@ public class CmdCallIdentExprList extends Production implements ICmd {
         this.N_exprList = N_exprList;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyn() {
-        return new ProcCallCmd((Ident) T_ident, N_exprList.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyntax() {
+        return new ProcCallCmd((Ident) T_ident, N_exprList.toAbsSyntax());
     }
 }

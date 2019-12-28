@@ -16,7 +16,7 @@ public class GlobalNTS extends Production implements IGlobalNTS {
         N_cpsDecl = n_cpsDecl;
     }
 
-    @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IDecl> toAbsSyn() {
-        return N_cpsDecl.toAbsSyn();
+    @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IDecl> toAbsSyntax() {
+        return N_cpsDecl.toAbsSyntax();
     }
 }

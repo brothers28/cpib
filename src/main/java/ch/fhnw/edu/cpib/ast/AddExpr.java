@@ -73,11 +73,11 @@ public class AddExpr extends AstNode implements IExpr {
         exprRight.doInitChecking(globalProtected);
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
-        exprLeft.addIInstrToCodeArray(localLocations, simulateOnly);
-        exprRight.addIInstrToCodeArray(localLocations, simulateOnly);
+        exprLeft.addInstructionToCodeArray(localLocations, simulateOnly);
+        exprRight.addInstructionToCodeArray(localLocations, simulateOnly);
 
         if (!simulateOnly) {
             switch (addOpr) {

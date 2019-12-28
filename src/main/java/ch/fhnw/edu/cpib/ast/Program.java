@@ -74,13 +74,13 @@ public class Program extends AstNode {
         cpsCmd.doInitChecking(globalProtected);
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         // For all global storage declarations, allocate blocks and save addresses to globalStoresLocation-map
         for (IDecl decl : globalDeclarations) {
             if (decl instanceof StoDecl) {
                 globalVarAdresses.put(decl.getIdentString(), codeArrayPointer);
-                decl.addIInstrToCodeArray(localLocations, simulateOnly);
+                decl.addInstructionToCodeArray(localLocations, simulateOnly);
             }
         }
 
@@ -91,7 +91,7 @@ public class Program extends AstNode {
             if (!(decl instanceof StoDecl)) {
                 globalRoutAdresses.put(decl.getIdentString(), codeArrayPointer
                         + 1); // + 1 because we will have a conditional jump before the declaration block (see below)
-                decl.addIInstrToCodeArray(localLocations, true);
+                decl.addInstructionToCodeArray(localLocations, true);
             }
         }
         // after going through all declarations, the pointer is at the position after the declaration (= start of programm)
@@ -108,11 +108,11 @@ public class Program extends AstNode {
         // For all global function and procedure declarations, now really add IInstr and save addresses to globalRoutinesLocation-map
         for (IDecl decl : globalDeclarations) {
             if (!(decl instanceof StoDecl)) {
-                decl.addIInstrToCodeArray(localLocations, simulateOnly);
+                decl.addInstructionToCodeArray(localLocations, simulateOnly);
             }
         }
         // For cpsCommand
-        cpsCmd.addIInstrToCodeArray(localLocations, simulateOnly);
+        cpsCmd.addInstructionToCodeArray(localLocations, simulateOnly);
 
         // Add stop exec
         if (!simulateOnly)

@@ -11,7 +11,7 @@ public class AstTree {
     private AstNode root;
 
     public AstTree(IProgram concSynTreeRoot) {
-        this.root = concSynTreeRoot.toAbsSyn();
+        this.root = concSynTreeRoot.toAbsSyntax();
     }
 
     @Override public String toString() {
@@ -36,7 +36,7 @@ public class AstTree {
     }
 
     public ICodeArray getCodeArray() throws CodeTooSmallError {
-        root.addIInstrToCodeArray(new HashMap<String, Integer>(), false);
+        root.addInstructionToCodeArray(new HashMap<String, Integer>(), false);
         AstNode.codeArray.resize();
         return AstNode.codeArray;
     }

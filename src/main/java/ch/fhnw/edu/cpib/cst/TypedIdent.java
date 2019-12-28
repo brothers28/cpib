@@ -18,7 +18,7 @@ public class TypedIdent extends Production implements ITypedIdent {
         T_type = t_type;
     }
 
-    @Override public TypeIdent toAbsSyn() {
+    @Override public TypeIdent toAbsSyntax() {
         return new TypeIdent((Ident) T_ident, ((Type) T_type).getType());
     }
 }

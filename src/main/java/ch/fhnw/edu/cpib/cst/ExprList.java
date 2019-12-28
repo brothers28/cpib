@@ -19,7 +19,7 @@ public class ExprList extends Production implements IExprList {
         N_exprListLparenNTS = n_exprListLparenNTS;
     }
 
-    @Override public ArrayList<IExpr> toAbsSyn() {
-        return N_exprListLparenNTS.toAbsSyn();
+    @Override public ArrayList<IExpr> toAbsSyntax() {
+        return N_exprListLparenNTS.toAbsSyntax();
     }
 }

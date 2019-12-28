@@ -13,7 +13,7 @@ public class FactorNTSExprList extends Production implements IFactorNTS {
         N_exprList = n_exprList;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyn(Ident ident) {
-        return new ch.fhnw.edu.cpib.ast.FunCallFactor(ident, N_exprList.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyntax(Ident ident) {
+        return new ch.fhnw.edu.cpib.ast.FunCallFactor(ident, N_exprList.toAbsSyntax());
     }
 }

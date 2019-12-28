@@ -12,7 +12,7 @@ public class MonadicOprAddOpr extends Production implements IMonadicOpr {
         T_addOpr = t_addOpr;
     }
 
-    @Override public Operator toAbsSyn() {
+    @Override public Operator toAbsSyntax() {
         return (Operator) T_addOpr;
     }
 }

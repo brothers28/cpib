@@ -57,12 +57,12 @@ public class WhileCmd extends AstNode implements ICmd {
         cpsCmd.doInitChecking(true);
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         // get the size of cpsCmd by simulating the add action
         int codeArrayPointerBefore = codeArrayPointer;
 
-        cpsCmd.addIInstrToCodeArray(localLocations, true);
+        cpsCmd.addInstructionToCodeArray(localLocations, true);
         int cpsCmdSize = codeArrayPointer - codeArrayPointerBefore + 1; // + 1 for unconditional jump after exprFalse
 
         // reset pointer
@@ -72,13 +72,13 @@ public class WhileCmd extends AstNode implements ICmd {
         int loopStartAddress = codeArrayPointer;
 
         // add the boolean for the conditional check onto the stack
-        expr.addIInstrToCodeArray(localLocations, simulateOnly);
+        expr.addInstructionToCodeArray(localLocations, simulateOnly);
         // now add the jump condition to see if we had to continue (loop part) or to jump (after the loop part)
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.CondJump(codeArrayPointer + 1 + cpsCmdSize));
         codeArrayPointer++;
         // now add the loop part
-        cpsCmd.addIInstrToCodeArray(localLocations, simulateOnly);
+        cpsCmd.addInstructionToCodeArray(localLocations, simulateOnly);
         // now add the unconditional jump to jump back to the jump condition (we already processed the loop part ...)
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.UncondJump(loopStartAddress));

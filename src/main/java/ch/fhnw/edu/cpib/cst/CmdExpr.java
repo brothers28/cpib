@@ -16,7 +16,7 @@ public class CmdExpr extends Production implements ICmd {
         this.N_expr2 = N_expr2;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyn() {
-        return new ch.fhnw.edu.cpib.ast.AssignCmd(N_expr1.toAbsSyn(), N_expr2.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyntax() {
+        return new ch.fhnw.edu.cpib.ast.AssignCmd(N_expr1.toAbsSyntax(), N_expr2.toAbsSyntax());
     }
 }
