@@ -18,8 +18,6 @@ public class CastOpr extends Production implements ICastOpr {
     }
 
     @Override public Types toAbsSyntax() {
-        // return new Operator((Token) T_lBracket, ((Type) T_type).getType()) {
-        // FIXME: Was muss hier als Abstract Object zurückgegeben werden
         return ((Type) T_type).getType();
     }
 }

@@ -696,7 +696,7 @@ public class VirtualMachine implements IVirtualMachine {
 
         public void execute() {
             sp = sp - 1;
-            int output = Data.intGet(store[sp]);
+            long output = Data.numGet(store[sp]);
             System.out.println("! " + indicator + " : int = " + output);
             pc = pc + 1;
         }
@@ -710,7 +710,7 @@ public class VirtualMachine implements IVirtualMachine {
 
         public void execute() {
             sp = sp - 1;
-            long output = Data.natGet(store[sp]);
+            long output = Data.numGet(store[sp]);
             System.out.println("! " + indicator + " : nat = " + output);
             pc = pc + 1;
         }
