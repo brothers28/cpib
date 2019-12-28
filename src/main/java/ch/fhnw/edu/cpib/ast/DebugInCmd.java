@@ -31,7 +31,7 @@ public class DebugInCmd extends AstNode implements ICmd {
             throw new LRValueError(LRValue.LVALUE, expr.getLRValue());
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
         expr.doTypeChecking();
     }
 

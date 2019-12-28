@@ -55,14 +55,15 @@ public class AddExpr extends AstNode implements IExpr {
         return exprLeft.getType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
         exprLeft.doTypeChecking();
         exprRight.doTypeChecking();
 
+        // Check allowed types
         if (exprLeft.getType() == Types.BOOL)
-            throw new TypeCheckError(Types.INT64, exprLeft.getType());
+            throw new TypeCheckingError(Types.INT64, exprLeft.getType());
         if (exprLeft.getType() != exprRight.getType())
-            throw new TypeCheckError(exprLeft.getType(), exprRight.getType());
+            throw new TypeCheckingError(exprLeft.getType(), exprRight.getType());
     }
 
     @Override public void doInitChecking(boolean globalProtected)

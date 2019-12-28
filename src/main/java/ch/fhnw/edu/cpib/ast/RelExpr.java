@@ -45,15 +45,16 @@ public class RelExpr extends AstNode implements IExpr {
         return LRValue.RVALUE;
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
+        // Check allowed types
         if (exprLeft instanceof ch.fhnw.edu.cpib.ast.RelExpr) {
             ((RelExpr) exprLeft).exprLeft.doTypeChecking();
             ((RelExpr) exprLeft).exprRight.doTypeChecking();
         } else {
             if (exprLeft.getType() == Types.BOOL)
-                throw new TypeCheckError(Types.INT64, exprLeft.getType());
+                throw new TypeCheckingError(Types.INT64, exprLeft.getType());
             if (exprLeft.getType() != exprRight.getType())
-                throw new TypeCheckError(exprLeft.getType(), exprRight.getType());
+                throw new TypeCheckingError(exprLeft.getType(), exprRight.getType());
         }
     }
 

@@ -46,9 +46,10 @@ public class CastFactor extends AstNode implements IFactor {
         return castType;
     }
 
-    @Override public void doTypeChecking() throws CastError, TypeCheckError {
+    @Override public void doTypeChecking() throws CastError, TypeCheckingError {
         factor.doTypeChecking();
 
+        // Check if casteable
         if (!isCastable(factor.getType(), getType()))
             throw new CastError(getType(), factor.getType());
     }

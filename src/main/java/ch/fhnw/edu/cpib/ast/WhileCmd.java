@@ -33,12 +33,13 @@ public class WhileCmd extends AstNode implements ICmd {
         cpsCmd.doScopeChecking();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
         expr.doTypeChecking();
         cpsCmd.doTypeChecking();
 
+        // Check allowed types
         if (expr.getType() != Types.BOOL)
-            throw new TypeCheckError(Types.BOOL, expr.getType());
+            throw new TypeCheckingError(Types.BOOL, expr.getType());
     }
 
     @Override public void doInitChecking(boolean globalProtected)

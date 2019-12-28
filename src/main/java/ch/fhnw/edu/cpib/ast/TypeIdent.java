@@ -69,7 +69,7 @@ public class TypeIdent extends AstNode implements Cloneable {
         //
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError {
+    @Override public void doTypeChecking() throws TypeCheckingError {
         //
     }
 

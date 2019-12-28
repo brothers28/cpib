@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class SkipCmd extends AstNode implements ICmd {
     public SkipCmd() {
-        // Nothing to do
+        //
     }
 
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
@@ -21,7 +21,7 @@ public class SkipCmd extends AstNode implements ICmd {
         //
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError {
+    @Override public void doTypeChecking() throws TypeCheckingError {
         //
     }
 

@@ -57,15 +57,16 @@ public class MonadicFactor extends AstNode implements IFactor {
         return factor.getType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
         factor.doTypeChecking();
 
+        // Check allowed types
         if (Terminals.NOTOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.BOOL)
-            throw new TypeCheckError(Types.BOOL, factor.getType());
+            throw new TypeCheckingError(Types.BOOL, factor.getType());
         if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.INT64)
-            throw new TypeCheckError(Types.INT64, factor.getType());
+            throw new TypeCheckingError(Types.INT64, factor.getType());
         if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.NAT64)
-            throw new TypeCheckError(Types.NAT64, factor.getType());
+            throw new TypeCheckingError(Types.NAT64, factor.getType());
     }
 
     @Override public void doInitChecking(boolean globalProtected)

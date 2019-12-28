@@ -25,7 +25,7 @@ public class AstTree {
         root.doScopeChecking();
     }
 
-    public void doTypeChecking() throws TypeCheckError, CastError {
+    public void doTypeChecking() throws TypeCheckingError, CastError {
         root.doTypeChecking();
     }
 

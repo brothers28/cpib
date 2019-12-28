@@ -81,17 +81,18 @@ public class FunCallFactor extends IdentFactor {
         return funDecl.getReturnType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
         for (IExpr expr : expressions) {
             expr.doTypeChecking();
         }
 
+        // Check allowed types
         FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
         for (int i = 0; i < funDecl.getParams().size(); i++) {
-            Types typeExpected = funDecl.getParams().get(i).getTypeIdent().getType();
-            Types typeFound = expressions.get(i).getType();
-            if (typeExpected != typeFound)
-                throw new TypeCheckError(typeExpected, typeFound);
+            Types expectedType = funDecl.getParams().get(i).getTypeIdent().getType();
+            Types realType = expressions.get(i).getType();
+            if (expectedType != realType)
+                throw new TypeCheckingError(expectedType, realType);
         }
     }
 

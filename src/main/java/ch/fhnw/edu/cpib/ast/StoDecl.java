@@ -42,7 +42,7 @@ public class StoDecl extends AstNode implements IDecl {
         //
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError {
+    @Override public void doTypeChecking() throws TypeCheckingError {
         //
     }
 

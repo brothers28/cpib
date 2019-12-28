@@ -2,29 +2,29 @@ package ch.fhnw.edu.cpib.errors;
 
 import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 
-public class TypeCheckError extends Exception {
+public class TypeCheckingError extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public TypeCheckError() {
+    public TypeCheckingError() {
     }
 
-    public TypeCheckError(String errorMessage) {
+    public TypeCheckingError(String errorMessage) {
         super(errorMessage);
     }
 
-    public TypeCheckError(Types expected, Types found) {
+    public TypeCheckingError(Types expected, Types found) {
         super(setupMessage(expected, found));
     }
 
-    public TypeCheckError(String message, Throwable cause) {
+    public TypeCheckingError(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public TypeCheckError(Types expected, Types found, Throwable cause) {
+    public TypeCheckingError(Types expected, Types found, Throwable cause) {
         super(setupMessage(expected, found), cause);
     }
 
-    public TypeCheckError(Throwable cause) {
+    public TypeCheckingError(Throwable cause) {
         super(cause);
     }
 

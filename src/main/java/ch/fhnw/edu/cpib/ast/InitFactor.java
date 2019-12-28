@@ -64,7 +64,7 @@ public class InitFactor extends IdentFactor {
         return typeIdent.getType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError {
+    @Override public void doTypeChecking() throws TypeCheckingError {
         //
     }
 

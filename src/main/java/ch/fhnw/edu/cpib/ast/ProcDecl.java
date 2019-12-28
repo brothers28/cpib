@@ -45,7 +45,7 @@ public class ProcDecl extends AstNode implements IDecl {
         cpsCmd.doScopeChecking();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
         cpsCmd.doTypeChecking();
     }
 

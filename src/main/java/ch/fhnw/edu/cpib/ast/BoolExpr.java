@@ -45,14 +45,15 @@ public class BoolExpr extends AstNode implements IExpr {
         return LRValue.RVALUE;
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
         exprLeft.doTypeChecking();
         exprRight.doTypeChecking();
 
+        // Check allowed types
         if (exprLeft.getType() != Types.BOOL)
-            throw new TypeCheckError(Types.BOOL, exprLeft.getType());
+            throw new TypeCheckingError(Types.BOOL, exprLeft.getType());
         if (exprRight.getType() != Types.BOOL)
-            throw new TypeCheckError(Types.BOOL, exprRight.getType());
+            throw new TypeCheckingError(Types.BOOL, exprRight.getType());
     }
 
     @Override public Types getType() {

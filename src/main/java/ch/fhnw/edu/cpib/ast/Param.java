@@ -55,7 +55,7 @@ public class Param extends AstNode {
         //
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError {
+    @Override public void doTypeChecking() throws TypeCheckingError {
         //
     }
 

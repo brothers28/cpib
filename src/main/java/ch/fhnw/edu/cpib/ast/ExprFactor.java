@@ -48,7 +48,7 @@ public class ExprFactor extends AstNode implements IFactor {
         return expr.getType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
         expr.doTypeChecking();
     }
 

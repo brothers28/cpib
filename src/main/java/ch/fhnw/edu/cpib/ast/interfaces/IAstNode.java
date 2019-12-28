@@ -15,7 +15,7 @@ public interface IAstNode {
 
     public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError;
 
-    public void doTypeChecking() throws TypeCheckError, CastError;
+    public void doTypeChecking() throws TypeCheckingError, CastError;
 
     public void doInitChecking(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,

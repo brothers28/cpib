@@ -18,35 +18,35 @@ public class CpsCmd extends AstNode implements ICmd {
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
-        for (ICmd command : commands) {
-            command.saveNamespaceInfo(this.localVarNamespace);
+        for (ICmd cmd : commands) {
+            cmd.saveNamespaceInfo(this.localVarNamespace);
         }
     }
 
     @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        for (ICmd command : commands) {
-            command.doScopeChecking();
+        for (ICmd cmd : commands) {
+            cmd.doScopeChecking();
         }
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
-        for (ICmd command : commands) {
-            command.doTypeChecking();
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
+        for (ICmd cmd : commands) {
+            cmd.doTypeChecking();
         }
     }
 
     @Override public void doInitChecking(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
-        for (ICmd command : commands) {
-            command.doInitChecking(globalProtected);
+        for (ICmd cmd : commands) {
+            cmd.doInitChecking(globalProtected);
         }
     }
 
     @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
-        for (ICmd command : commands) {
-            command.addIInstrToCodeArray(localLocations, simulateOnly);
+        for (ICmd cmd : commands) {
+            cmd.addIInstrToCodeArray(localLocations, simulateOnly);
         }
     }
 

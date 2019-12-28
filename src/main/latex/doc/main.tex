@@ -74,7 +74,7 @@ framexleftmargin = 0.05em]
 \end{lstlisting}
 
 Casting ist nur von \texttt{(TYPE, INT64)} zu \texttt{(TYPE, NAT64)} und umgekehrt möglich.
-Als Castingoperator wird die rechtekige Klammern (nachfolgend Brackets gennant) verwendet.
+Als Castingoperator werden rechteckige Klammern (nachfolgend Brackets gennant) verwendet.
 Innerhalb der Brakets befindet sich der Zieldatentyp \footnote{zum Beispiel \texttt{[int64]}}.
 
 \subsection{Grammatikalische Syntax}
@@ -197,10 +197,39 @@ Bei einem \textit{AssignCmd} muss der Ausdruck links zudem zwingend ein \texttt{
 Bei einem \textit{DebugIn} muss es sich ebenfalls um einen \texttt{LValue} handeln, damit der Input-Wert dieser Variable zugewiesen werden kann.
 
 Innerhalb des Scope checkings wird zudem überprüft, ob die Anzahl der erwarteten Parameter mit der Anzahl übergebener Parameter übereinstimmt.
+
 \subsubsection*{Type checking}
+Das Casten zwischen zwei Datentypen ist nur für bestimmte Typen erlaubt (vgl. Tabelle \ref{tab:Casting}).
+Zusätzlich sind bei der Abarbeitung des AST nur die folgenden Typen erlaubt:
+
+\begin{table}[h]
+    \centering
+    \tiny
+    \caption{Erlaubte Typen}
+    \label{tab:types}
+    \resizebox{\columnwidth}{!}{%
+    \begin{tabular}{@{}ll@{}}
+        \toprule
+        Klasse & Types \\ \midrule
+        AddExpr, MultExpr, RelExpr      & \texttt{int64, nat64} * \\
+        BoolExpr, IfCmd                 & \texttt{bool} \\
+        AssignCmd                       & \texttt{int64, nat64, bool} * \\
+        FunCallFactor, ProcCallFactor   & Typ von Caller muss \\
+                                        & Typ von Callee entsprechen \\
+        MonadicFactor                   & NOTOPR: \texttt{bool} \\
+                                        & ADDOPR: \texttt{int64, nat64} \\
+        CastFactor                      & Typ von Factor und \\
+                                        & Typ von CastFactor \\
+                                        & müssen castable sein\\ \bottomrule
+    \end{tabular}%
+    }
+\end{table}
+Bei Einträgen, die mit * gekennzeichnet sind, müssen \texttt{LValue} und \texttt{RValue} vom selben Typ sein.
+Beim der Typenüberprüfung innerhalb vom \texttt{CastFactor} wird überprüft, ob der Typ vom \texttt{CastFactor} und jener des zugehörigen \texttt{factors} gecasted werden können (vgl. Tabelle \ref{tab:Casting}).
+Die effektive Typ-Konversion wird erst bei der Code-Generierung durchgeführt.
 
 \subsubsection*{Initalization checking}
-
+% TODO: Beschreiben anhand von Methode doInitChecking und Code in den ensprechenden Klassen refactoren und Variabeln umbenennen etc.
 
 \subsection{Virtuelle Maschine}
 Grundlage für die Code-Generierung ist der Abstract Syntax Tree (AST).
@@ -331,7 +360,7 @@ Casting:
 % TODO
 
 \clearpage
-\section{Beispiel Typecasting}
+\section{Beispiel doppeltes Casting}
 \label{bsp_casting}
 IML:
 \begin{lstlisting}

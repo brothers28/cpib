@@ -47,7 +47,7 @@ public class LiteralFactor extends AstNode implements IFactor {
         return literal.getType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError {
+    @Override public void doTypeChecking() throws TypeCheckingError {
         //
     }
 

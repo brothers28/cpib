@@ -64,7 +64,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         } catch (AlreadyInitializedError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
-        } catch (TypeCheckError e) {
+        } catch (TypeCheckingError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
         } catch (NotInitializedError e) {

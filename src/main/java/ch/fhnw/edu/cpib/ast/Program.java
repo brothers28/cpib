@@ -30,9 +30,8 @@ public class Program extends AstNode {
         cpsCmd.doScopeChecking();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
         for (IDecl decl : globalDeclarations) {
-            // For funDecl and procDecl, do the type checking
             if (!(decl instanceof StoDecl))
                 decl.doTypeChecking();
         }

@@ -63,17 +63,18 @@ public class ProcCallCmd extends AstNode implements ICmd {
         }
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
         for (IExpr expr : expressions) {
             expr.doTypeChecking();
         }
 
+        // Check allowed types
         ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());
         for (int i = 0; i < procDecl.getParams().size(); i++) {
-            Types typeExpected = procDecl.getParams().get(i).getTypeIdent().getType();
-            Types typeFound = expressions.get(i).getType();
-            if (typeExpected != typeFound && !isCastable(typeExpected, typeFound))
-                throw new TypeCheckError(typeExpected, typeFound);
+            Types expectedType = procDecl.getParams().get(i).getTypeIdent().getType();
+            Types realType = expressions.get(i).getType();
+            if (expectedType != realType && !isCastable(expectedType, realType)) // TODO: Uncomment isCastable like in AssignCmd?
+                throw new TypeCheckingError(expectedType, realType);
         }
     }
 

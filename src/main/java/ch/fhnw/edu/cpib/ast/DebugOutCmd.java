@@ -27,7 +27,7 @@ public class DebugOutCmd extends AstNode implements ICmd {
         expr.doScopeChecking();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
         expr.doTypeChecking();
     }
 

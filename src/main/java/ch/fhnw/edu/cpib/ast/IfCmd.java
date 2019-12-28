@@ -36,13 +36,13 @@ public class IfCmd extends AstNode implements ICmd {
         elseCpsCmd.doScopeChecking();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckError, CastError {
+    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
         expr.doTypeChecking();
         ifCpsCmd.doTypeChecking();
         elseCpsCmd.doTypeChecking();
 
         if (expr.getType() != Types.BOOL)
-            throw new TypeCheckError(Types.BOOL, expr.getType());
+            throw new TypeCheckingError(Types.BOOL, expr.getType());
     }
 
     @Override public void doInitChecking(boolean globalProtected)
