@@ -32,7 +32,7 @@
 \authorstyle{Marco Romanutti\textsuperscript{1,2} und Benjamin Meyer\textsuperscript{1,2}} % Authors
 \newline\newline % Space before institutions
 \textsuperscript{1}\institution{Fachhochschule Nordwestschweiz FHNW, Brugg}\\ % Institution
-\textsuperscript{2}\texttt{Zwischenbericht} % Module
+\textsuperscript{2}\texttt{Schlussbericht} % Module
 }
 
 \date{}
@@ -127,7 +127,7 @@ Zusätzlich zu den bestehende Operatoren wurde ein neuer \texttt{castOpr} erstel
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
 xleftmargin = 0.05cm,
 framexleftmargin = 0.05em]
-    castOpr := LBRACKET ATOMTYPE RBRACKET
+    castOpr := LBRACKET TYPE RBRACKET
 \end{lstlisting}
 Das bestehende Nichtterminal-Symbol \texttt{factor} wird um diese neue Produktion ergänzt:
 % Neue Produktionen
@@ -142,7 +142,7 @@ framexleftmargin = 0.05em]
 \end{lstlisting}
 
 \subsection{Kontext- und Typen-Einschränkungen}
-Der \texttt{ATOMTYPE} zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss vom Datentyp \texttt{int64} oder \texttt{nat64} sein.
+Der \texttt{TYPE} zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss vom Datentyp \texttt{int64} oder \texttt{nat64} sein.
 Ein Casting zum Typ \texttt{bool} oder vom Typ \texttt{bool} zu \texttt{int64} resp. \texttt{nat64} führt zu einem Kompilierungsfehler.
 
 Tabelle \ref{tab:Casting} zeigt die unterstützen Typumwandlungen der verschiedenen Datentypen.
@@ -179,8 +179,14 @@ Dieser kann Werte von $-9223372036854775808$ bis $9223372036854775808$ annehmen 
 Die Überprüfung, ob der Wert innerhalb des gültigen Wertebereichs des jeweiligen Datentyps liegt, erfolgt zum Zeitpunkt der Code-Generierung.
 
 \subsection{Parser}
-% TODO: Anpassungen inkl. CastFactor beschreiben
+Der neu eingeführte \texttt{castOpr} und die neue Produktion \texttt{factor := castOpr factor} müssen im Abstrakten Syntax Tree (AST) abgebildet werden.
+Abbildung \ref{ast} zeigt die Umwandlung von der konkreten in die abstrakte Syntax.
 
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{uml_ast.png} % Figure image
+    \caption{Umwandlung von der konkreten in die abstrakte Syntax} % Figure caption
+    \label{ast}
+\end{figure}
 \subsection{Statische Analyse}
 % TODO: Beschreiben, dass && und || implementiert wurden
 

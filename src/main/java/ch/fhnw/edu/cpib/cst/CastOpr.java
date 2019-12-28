@@ -17,7 +17,7 @@ public class CastOpr extends Production implements ICastOpr {
         T_rBracket = t_rBracket;
     }
 
-    @Override public Types toAbsSyn() {
+    @Override public Types toAbsSyntax() {
         return ((Type) T_type).getType();
     }
 }
