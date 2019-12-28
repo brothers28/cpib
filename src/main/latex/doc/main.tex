@@ -61,7 +61,7 @@ Unter natürlichen Zahlen werden die positiven, ganzen Zahlen und 0 verstanden:
 $$ \mathbb{N} = \{0; 1; 2; 3; \ldots\} $$
 
 Die IML soll um einen neuen Datentyp \texttt{nat64} erweitert werden.
-Der neue Datentyp soll solche positiven, ganzen Zahlen mit bis Länge 64 in Binärdarstellung abbilden können.
+Der neue Datentyp soll solche positiven, ganzen Zahlen bis Länge 64 in Binärdarstellung abbilden können.
 Es sollen die bestehenden Operationen unterstützt werden.
 Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp \texttt{int64} und dem neuen Datentyp \texttt{nat64} möglich sein.
 
@@ -78,7 +78,7 @@ framexleftmargin = 0.05em]
 
 Casting ist nur von \texttt{(TYPE, INT64)} zu \texttt{(TYPE, NAT64)} und umgekehrt möglich.
 Als Castingoperator werden rechteckige Klammern (nachfolgend Brackets gennant) verwendet.
-Innerhalb der Brakets befindet sich der Zieldatentyp \footnote{zum Beispiel \texttt{[int64]}}.
+Innerhalb der Brackets befindet sich der Zieldatentyp \footnote{zum Beispiel \texttt{[int64]}}.
 
 \subsection{Grammatikalische Syntax}
 Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{nat64} eingesetzt werden kann.
@@ -89,8 +89,8 @@ Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{nat64} einges
     var natIdent3 : nat64;
 
     // Initialisierung
-    natIdent1 init := 50;
-    natIdent2 init := 10;
+    natIdent1 init := [nat64] 50;
+    natIdent2 init := [nat64] 10;
     natIdent3 init := natIdent1 + natIdent2;
 
     // Casting von int64 nach nat64
@@ -106,6 +106,7 @@ Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{nat64} einges
 
     call functionWithIntParam([int64] natIdent3);
 \end{lstlisting}
+Literale werden standardmässig als \texttt{int64} interpretiert - ein \texttt{nat64}-Literal bedingt vorab deshalb den Castingoperator.
 Falls zwei Datentypen nicht gecastet werden können, wird ein Kompilierungsfehler geworfen.
 Folgendes Code-Listing zeigt ein solches Beispiel mit dem bestehenden Datentyp \texttt{bool}:
 \begin{lstlisting}
@@ -113,11 +114,11 @@ Folgendes Code-Listing zeigt ein solches Beispiel mit dem bestehenden Datentyp \
     var boolIdent : bool;
     boolIdent init := false;
     var natIdent : nat64;
-    // Throws type checker error:
+    // Throws type checking error:
     natIdent init := [nat64] boolIdent
 \end{lstlisting}
 Unsere Erweiterung unterstützt keine impliziten Castings.
-Weitere Code-Beispiele sind in Kapitel \ref{sec:prog} zu finden.
+Weitere Code-Beispiele sind im Anhang zu finden.
 
 \subsection{Änderungen an der Grammatik}
 
@@ -145,9 +146,13 @@ Der \texttt{ATOMTYPE} zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss vom 
 Ein Casting zum Typ \texttt{bool} oder vom Typ \texttt{bool} zu \texttt{int64} resp. \texttt{nat64} führt zu einem Kompilierungsfehler.
 
 Tabelle \ref{tab:Casting} zeigt die unterstützen Typumwandlungen der verschiedenen Datentypen.
-Typumwandlungen, welche zu potentiellem Informationsverlust führen, sind mit mit \texttt{*} gekennzeichnet.
-Bei der Umwandlung von \texttt{nat64} nach \texttt{int64} kann ein Informationsverlust resultieren, weil beim Datentyp \texttt{int64} das Most Significant Bit (MSB) für das Vorzeichen verwendet wird (vgl. Kapitel 4). % TODO: Kapitel verifizieren
-Falls Werte von \texttt{int64} nach \texttt{nat64} umgewandelt werden, geht die Information zum Vorzeichen verloren und der Wert wird als absoluter Wert interpretiert.
+Typumwandlungen, welche zu potentiellen Laufzeitfehler führen, sind mit mit \texttt{*} gekennzeichnet.
+Der Datentyp \texttt{int64} umfasst einen Wertebereich von $-2147483648$ bis $2147483647$, wobei das Most Significant Bit (MSB) für das Vorzeichen verwendet wird.
+Weil der Datentyp \texttt{nat64} nur positive, ganze Zahlen und die Zahl 0 darstellt, wird kein Vorzeichenbit benötigt.
+Der Wertebereich verschiebt sich dadurch auf $0$ bis $4294967295$.
+Falls bei Typumwandlungen der Wert ausserhalb des Wertebereichs des Zieldatentyps liegt, führt dies zu einem Laufzeitfehler.
+Bei der Umwandlung von \texttt{nat64} nach \texttt{int64} kann ein solcher Laufzeitfehler beispielsweise auftreten, falls es sich um einen Wert $> 2147483647$ handelt.
+Falls negative Werte von \texttt{int64} nach \texttt{nat64} umgewandelt werden, resultiert ebenfalls ein Laufzeitfehler.
 \begin{table}[h]
     \tiny
     \centering
@@ -168,7 +173,10 @@ Falls Werte von \texttt{int64} nach \texttt{nat64} umgewandelt werden, geht die 
 Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
 
 \subsection{Scanner}
-% TODO: Einlesen als long beschreiben
+Literale werden standardmässig als \texttt{int64} interpretiert - ein \texttt{nat64}-Literal bedingt vorab deshalb den Castingoperator.
+Vom Scanner werden Literale als \texttt{long} in Java eingelesen.
+Dieser kann Werte von $-9223372036854775808$ bis $9223372036854775808$ annehmen und deckt somit den gesamten Wertebereich der beiden Datentypen \texttt{int64} und \texttt{nat64} ab.
+Die Überprüfung, ob der Wert innerhalb des gültigen Wertebereichs des jeweiligen Datentyps liegt, erfolgt zum Zeitpunkt der Code-Generierung.
 
 \subsection{Parser}
 % TODO: Anpassungen inkl. CastFactor beschreiben
