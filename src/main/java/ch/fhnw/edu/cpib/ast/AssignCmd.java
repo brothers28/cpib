@@ -21,9 +21,9 @@ public class AssignCmd extends AstNode implements ICmd {
 
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
-        this.localStoresNamespace = localStoresNamespace;
-        exprLeft.saveNamespaceInfo(this.localStoresNamespace);
-        exprRight.saveNamespaceInfo(this.localStoresNamespace);
+        this.localVarNamespace = localStoresNamespace;
+        exprLeft.saveNamespaceInfo(this.localVarNamespace);
+        exprRight.saveNamespaceInfo(this.localVarNamespace);
 
     }
 
@@ -45,7 +45,7 @@ public class AssignCmd extends AstNode implements ICmd {
     }
 
     @Override public void doInitChecking(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalInitializationProhibitedError,
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         // lets check if we try to write something into an already written constant
         // exprLeft can only be an Init-Factor
@@ -53,10 +53,10 @@ public class AssignCmd extends AstNode implements ICmd {
         // is the variable already initialized (= written once) and is a constant?
         // if yes, we are writing to an already initialized constant --> not allowed
         TypeIdent typeIdent = null;
-        if (this.localStoresNamespace.containsKey(factor.ident.getIdent()))
-            typeIdent = this.localStoresNamespace.get(factor.ident.getIdent());
-        if (globalStoresNamespace.containsKey(factor.ident.getIdent())) {
-            typeIdent = globalStoresNamespace.get(factor.ident.getIdent());
+        if (this.localVarNamespace.containsKey(factor.ident.getIdent()))
+            typeIdent = this.localVarNamespace.get(factor.ident.getIdent());
+        if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
+            typeIdent = globalVarNamespace.get(factor.ident.getIdent());
         }
         // If this is a const and it is already initialized (once written to), throw an error
         if (typeIdent.getConst() && typeIdent.getInit())
@@ -72,8 +72,8 @@ public class AssignCmd extends AstNode implements ICmd {
         InitFactor factor = (InitFactor) exprLeft;
         int address;
         if (!simulateOnly) {
-            if (globalStoresLocation.containsKey(factor.ident.getIdent())) {
-                address = globalStoresLocation.get(factor.ident.getIdent());
+            if (globalVarAdresses.containsKey(factor.ident.getIdent())) {
+                address = globalVarAdresses.get(factor.ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrAbs(address));
             } else if (localLocations.containsKey(factor.ident.getIdent())) {
                 address = localLocations.get(factor.ident.getIdent());
@@ -86,10 +86,10 @@ public class AssignCmd extends AstNode implements ICmd {
 
         // If this needs to be dereferenced (=Param), dereference it once more
         TypeIdent variableIdent = null;
-        if (globalStoresNamespace.containsKey(factor.ident.getIdent())) {
-            variableIdent = globalStoresNamespace.get(factor.ident.getIdent());
+        if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
+            variableIdent = globalVarNamespace.get(factor.ident.getIdent());
         } else {
-            variableIdent = localStoresNamespace.get(factor.ident.getIdent());
+            variableIdent = localVarNamespace.get(factor.ident.getIdent());
         }
         if (variableIdent.getNeedToDeref()) {
             if (!simulateOnly)
@@ -112,8 +112,8 @@ public class AssignCmd extends AstNode implements ICmd {
         String subIndent = indent + "  ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
-        if (localStoresNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localStoresNamespace.keySet().stream()
+        if (localVarNamespace != null)
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<exprLeft>:\n";
         s += exprLeft.toString(subIndent);

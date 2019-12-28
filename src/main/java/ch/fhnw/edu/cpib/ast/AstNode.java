@@ -9,23 +9,22 @@ import java.util.HashMap;
 
 public abstract class AstNode implements IAstNode {
 
-    static HashMap<String, TypeIdent> globalStoresNamespace = new HashMap<>();
+    // Namespaces
+    static HashMap<String, TypeIdent> globalVarNamespace = new HashMap<>();
+    static HashMap<String, IDecl> globalRoutNamespace = new HashMap<>();
+    HashMap<String, TypeIdent> localVarNamespace = new HashMap<>();
 
-    static HashMap<String, IDecl> globalRoutinesNamespace = new HashMap<>();
+    // Adresses
+    static HashMap<String, Integer> globalVarAdresses = new HashMap<>();
+    static HashMap<String, Integer> globalRoutAdresses = new HashMap<>();
 
-    HashMap<String, TypeIdent> localStoresNamespace = new HashMap<>();
-
-    static HashMap<String, Integer> globalStoresLocation = new HashMap<>();
-
-    static HashMap<String, Integer> globalRoutinesLocation = new HashMap<>();
-
+    // Code array
     static int codeArrayPointer = 0;
-
     static ICodeArray codeArray = new CodeArray(1024);
 
     public void setInit(TypeIdent ident) {
-        if (localStoresNamespace.containsKey(ident.getValue()))
-            localStoresNamespace.get(ident.getValue()).setInit();
+        if (localVarNamespace.containsKey(ident.getValue()))
+            localVarNamespace.get(ident.getValue()).setInit();
     }
 
 }

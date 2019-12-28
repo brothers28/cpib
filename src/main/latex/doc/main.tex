@@ -165,11 +165,14 @@ Falls Werte von \texttt{int64} nach \texttt{nat64} umgewandelt werden, geht die 
 Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
 
 \subsection{Statische Analyse}
-% TODO: Namespaces
 % TODO: Beschreiben, dass && und || implementiert wurden
 
 \subsubsection*{Scope checking}
-% TODO Namespace checking
+Für Routinen und Variablen liegen unterschiedliche Namespaces vor.
+Namen für Routinen und Variabeln können deshalb identisch sein.
+Es wird zwischen globalen und lokalen Namespaces unterschieden: Bei lokalen Namespaces werden die Variable innerhalb einer Routine definiert und haben dort ihre Gültigkeit.
+Globale Variabeln dürfen nicht denselben Namen haben wie lokalen Variabeln.
+Überladene Signaturen für Routinen\footnote{selber Name, unterschiedliche Parameterlisten} wurde in dieser Implementation nicht umgesetzt.
 
 Bei \textit{FunCallFactor, ProcCallCmd, DebugIn} und \textit{AssignCmd} muss überprüft werden, ob die Parameter den richtigen \texttt{LValue}, resp. \texttt{RValue} besitzen.
 Folgende Kombinationen sind dabei allgemein erlaubt:

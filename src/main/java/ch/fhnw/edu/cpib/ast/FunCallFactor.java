@@ -23,14 +23,15 @@ public class FunCallFactor extends IdentFactor {
 
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
-        this.localStoresNamespace = localStoresNamespace;
+        this.localVarNamespace = localStoresNamespace;
         for (IExpr expr : expressions) {
-            expr.saveNamespaceInfo(this.localStoresNamespace);
+            expr.saveNamespaceInfo(this.localVarNamespace);
         }
     }
 
     @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        if (!globalRoutinesNamespace.containsKey(ident.getIdent())) {
+        // Check namespace
+        if (!globalRoutNamespace.containsKey(ident.getIdent())) {
             // Function not declared in global namespace
             throw new NotDeclaredError(ident.getIdent());}
 
@@ -40,7 +41,7 @@ public class FunCallFactor extends IdentFactor {
         }
 
         // Check param
-        FunDecl funDecl = (FunDecl) globalRoutinesNamespace.get(ident.getIdent());
+        FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
         int realSize = expressions.size();
         int expectedSize = funDecl.getParams().size();
         if (expectedSize != realSize)
@@ -76,7 +77,7 @@ public class FunCallFactor extends IdentFactor {
             return castType;
         }
         // otherwise get real type
-        FunDecl funDecl = (FunDecl) globalRoutinesNamespace.get(ident.getIdent());
+        FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
         return funDecl.getReturnType();
     }
 
@@ -85,7 +86,7 @@ public class FunCallFactor extends IdentFactor {
             expr.doTypeChecking();
         }
 
-        FunDecl funDecl = (FunDecl) globalRoutinesNamespace.get(ident.getIdent());
+        FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
         for (int i = 0; i < funDecl.getParams().size(); i++) {
             Types typeExpected = funDecl.getParams().get(i).getTypeIdent().getType();
             Types typeFound = expressions.get(i).getType();
@@ -95,10 +96,10 @@ public class FunCallFactor extends IdentFactor {
     }
 
     @Override public void doInitChecking(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalInitializationProhibitedError,
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         // Run the init checking for the function declaration
-        FunDecl funDecl = (FunDecl) globalRoutinesNamespace.get(ident.getIdent());
+        FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
         // We need to run the init checking only once for the declaration
         if (!funDecl.getInitCheckDone()) {
             funDecl.setInitCheckDone();
@@ -113,7 +114,7 @@ public class FunCallFactor extends IdentFactor {
     @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
-        FunDecl funDecl = (FunDecl) globalRoutinesNamespace.get(ident.getIdent());
+        FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
         // initialize return value
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.AllocBlock(1));
@@ -134,8 +135,8 @@ public class FunCallFactor extends IdentFactor {
                 // Get address
                 if (!simulateOnly) {
                     int address;
-                    if (globalStoresLocation.containsKey(factor.ident.getIdent())) {
-                        address = globalStoresLocation.get(factor.ident.getIdent());
+                    if (globalVarAdresses.containsKey(factor.ident.getIdent())) {
+                        address = globalVarAdresses.get(factor.ident.getIdent());
                         codeArray.put(codeArrayPointer, new IInstructions.LoadAddrAbs(address));
                     } else if (localLocations.containsKey(factor.ident.getIdent())) {
                         address = localLocations.get(factor.ident.getIdent());
@@ -148,10 +149,10 @@ public class FunCallFactor extends IdentFactor {
 
                 // Deref
                 TypeIdent variableIdent = null;
-                if (globalStoresNamespace.containsKey(factor.ident.getIdent())) {
-                    variableIdent = globalStoresNamespace.get(factor.ident.getIdent());
+                if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
+                    variableIdent = globalVarNamespace.get(factor.ident.getIdent());
                 } else {
-                    variableIdent = localStoresNamespace.get(factor.ident.getIdent());
+                    variableIdent = localVarNamespace.get(factor.ident.getIdent());
                 }
                 if (variableIdent.getNeedToDeref()) {
                     if (!simulateOnly)
@@ -165,7 +166,7 @@ public class FunCallFactor extends IdentFactor {
         }
 
         if (!simulateOnly) {
-            int funAddress = globalRoutinesLocation.get(ident.getIdent());
+            int funAddress = globalRoutAdresses.get(ident.getIdent());
             codeArray.put(codeArrayPointer, new IInstructions.Call(funAddress));
         }
         codeArrayPointer++;
@@ -177,8 +178,8 @@ public class FunCallFactor extends IdentFactor {
         String subIndent = indent + "  ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
-        if (localStoresNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localStoresNamespace.keySet().stream()
+        if (localVarNamespace != null)
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<expressions>:\n";
         for (IExpr expr : expressions) {

@@ -70,7 +70,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         } catch (NotInitializedError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
-        } catch (GlobalInitializationProhibitedError e) {
+        } catch (GlobalProtectedInitializationError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
         } catch (CannotAssignToConstError e) {

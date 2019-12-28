@@ -2,30 +2,30 @@ package ch.fhnw.edu.cpib.errors;
 
 import ch.fhnw.edu.cpib.scanner.Ident;
 
-public class GlobalInitializationProhibitedError extends Exception {
+public class GlobalProtectedInitializationError extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public GlobalInitializationProhibitedError() {
+    public GlobalProtectedInitializationError() {
 
     }
 
-    public GlobalInitializationProhibitedError(String errorMessage) {
+    public GlobalProtectedInitializationError(String errorMessage) {
         super(errorMessage);
     }
 
-    public GlobalInitializationProhibitedError(Ident ident) {
+    public GlobalProtectedInitializationError(Ident ident) {
         super(setupMessage(ident));
     }
 
-    public GlobalInitializationProhibitedError(String message, Throwable cause) {
+    public GlobalProtectedInitializationError(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public GlobalInitializationProhibitedError(Ident ident, Throwable cause) {
+    public GlobalProtectedInitializationError(Ident ident, Throwable cause) {
         super(setupMessage(ident), cause);
     }
 
-    public GlobalInitializationProhibitedError(Throwable cause) {
+    public GlobalProtectedInitializationError(Throwable cause) {
         super(cause);
     }
 

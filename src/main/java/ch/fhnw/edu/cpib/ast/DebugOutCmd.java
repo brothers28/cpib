@@ -19,8 +19,8 @@ public class DebugOutCmd extends AstNode implements ICmd {
 
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
-        this.localStoresNamespace = localStoresNamespace;
-        expr.saveNamespaceInfo(this.localStoresNamespace);
+        this.localVarNamespace = localStoresNamespace;
+        expr.saveNamespaceInfo(this.localVarNamespace);
     }
 
     @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
@@ -32,7 +32,7 @@ public class DebugOutCmd extends AstNode implements ICmd {
     }
 
     @Override public void doInitChecking(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalInitializationProhibitedError,
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         expr.doInitChecking(globalProtected);
     }
@@ -69,8 +69,8 @@ public class DebugOutCmd extends AstNode implements ICmd {
         String subIndent = indent + "  ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
-        if (localStoresNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localStoresNamespace.keySet().stream()
+        if (localVarNamespace != null)
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<expr>:\n";
         s += expr.toString(subIndent);

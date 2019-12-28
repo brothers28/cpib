@@ -25,9 +25,9 @@ public class AddExpr extends AstNode implements IExpr {
 
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
-        this.localStoresNamespace = localStoresNamespace;
-        exprLeft.saveNamespaceInfo(this.localStoresNamespace);
-        exprRight.saveNamespaceInfo(this.localStoresNamespace);
+        this.localVarNamespace = localStoresNamespace;
+        exprLeft.saveNamespaceInfo(this.localVarNamespace);
+        exprRight.saveNamespaceInfo(this.localVarNamespace);
 
     }
 
@@ -66,7 +66,7 @@ public class AddExpr extends AstNode implements IExpr {
     }
 
     @Override public void doInitChecking(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalInitializationProhibitedError,
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         exprLeft.doInitChecking(globalProtected);
         exprRight.doInitChecking(globalProtected);
@@ -107,8 +107,8 @@ public class AddExpr extends AstNode implements IExpr {
         String subIndent = indent + "  ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
-        if (localStoresNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localStoresNamespace.keySet().stream()
+        if (localVarNamespace != null)
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<addOpr>: " + addOpr.toString() + "\n";
         s += argumentIndent + "<exprLeft>:\n";

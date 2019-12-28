@@ -26,15 +26,16 @@ public class ProcCallCmd extends AstNode implements ICmd {
 
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
-        this.localStoresNamespace = localStoresNamespace;
+        this.localVarNamespace = localStoresNamespace;
 
         // add local storage on everery case
         for (IExpr ie : expressions)
-            ie.saveNamespaceInfo(this.localStoresNamespace);
+            ie.saveNamespaceInfo(this.localVarNamespace);
     }
 
     @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        if (!globalRoutinesNamespace.containsKey(ident.getIdent())) {
+        // Check namespace
+        if (!globalRoutNamespace.containsKey(ident.getIdent())) {
             // Function not declared in global namespace
             throw new NotDeclaredError(ident.getIdent());
         }
@@ -45,7 +46,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
         }
 
         // Check param
-        ProcDecl procDecl = (ProcDecl) globalRoutinesNamespace.get(ident.getIdent());
+        ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());
         int realSize = expressions.size();
         int expectedSize = procDecl.getParams().size();
         if (expectedSize != realSize)
@@ -67,7 +68,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
             expr.doTypeChecking();
         }
 
-        ProcDecl procDecl = (ProcDecl) globalRoutinesNamespace.get(ident.getIdent());
+        ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());
         for (int i = 0; i < procDecl.getParams().size(); i++) {
             Types typeExpected = procDecl.getParams().get(i).getTypeIdent().getType();
             Types typeFound = expressions.get(i).getType();
@@ -77,10 +78,10 @@ public class ProcCallCmd extends AstNode implements ICmd {
     }
 
     @Override public void doInitChecking(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalInitializationProhibitedError,
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         // Run the init checking for the function declaration
-        ProcDecl procDecl = (ProcDecl) globalRoutinesNamespace.get(ident.getIdent());
+        ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());
         // We need to run the init checking only once for the declaration
         if (!procDecl.getInitCheckDone()) {
             procDecl.setInitCheckDone();
@@ -94,7 +95,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
 
     @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
-        ProcDecl procDecl = (ProcDecl) globalRoutinesNamespace.get(ident.getIdent());
+        ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());
 
         // LR checking
         for (int i = 0; i < expressions.size(); i++) {
@@ -111,8 +112,8 @@ public class ProcCallCmd extends AstNode implements ICmd {
                 // Get the address
                 if (!simulateOnly) {
                     int address;
-                    if (globalStoresLocation.containsKey(factor.ident.getIdent())) {
-                        address = globalStoresLocation.get(factor.ident.getIdent());
+                    if (globalVarAdresses.containsKey(factor.ident.getIdent())) {
+                        address = globalVarAdresses.get(factor.ident.getIdent());
                         codeArray.put(codeArrayPointer, new IInstructions.LoadAddrAbs(address));
                     } else if (localLocations.containsKey(factor.ident.getIdent())) {
                         address = localLocations.get(factor.ident.getIdent());
@@ -125,10 +126,10 @@ public class ProcCallCmd extends AstNode implements ICmd {
 
                 // Deref
                 TypeIdent variableIdent = null;
-                if (globalStoresNamespace.containsKey(factor.ident.getIdent())) {
-                    variableIdent = globalStoresNamespace.get(factor.ident.getIdent());
+                if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
+                    variableIdent = globalVarNamespace.get(factor.ident.getIdent());
                 } else {
-                    variableIdent = localStoresNamespace.get(factor.ident.getIdent());
+                    variableIdent = localVarNamespace.get(factor.ident.getIdent());
                 }
                 if (variableIdent.getNeedToDeref()) {
                     if (!simulateOnly)
@@ -142,7 +143,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
         }
 
         if (!simulateOnly) {
-            int funAddress = globalRoutinesLocation.get(ident.getIdent());
+            int funAddress = globalRoutAdresses.get(ident.getIdent());
             codeArray.put(codeArrayPointer, new IInstructions.Call(funAddress));
         }
         codeArrayPointer++;
@@ -154,8 +155,8 @@ public class ProcCallCmd extends AstNode implements ICmd {
         String subIndent = indent + "  ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
-        if (localStoresNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localStoresNamespace.keySet().stream()
+        if (localVarNamespace != null)
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<ident>: " + ident.toString() + "\n";
         s += argumentIndent + "<expressions>:\n";

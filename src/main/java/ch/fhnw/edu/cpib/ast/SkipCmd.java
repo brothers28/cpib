@@ -14,7 +14,7 @@ public class SkipCmd extends AstNode implements ICmd {
 
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
-        this.localStoresNamespace = localStoresNamespace;
+        this.localVarNamespace = localStoresNamespace;
     }
 
     @Override public void doScopeChecking() throws NotDeclaredError {
@@ -26,7 +26,7 @@ public class SkipCmd extends AstNode implements ICmd {
     }
 
     @Override public void doInitChecking(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalInitializationProhibitedError,
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         //
     }
@@ -41,8 +41,8 @@ public class SkipCmd extends AstNode implements ICmd {
         String argumentIndent = indent + " ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
-        if (localStoresNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localStoresNamespace.keySet().stream()
+        if (localVarNamespace != null)
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
 
         return s;

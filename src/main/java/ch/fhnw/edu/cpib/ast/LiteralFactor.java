@@ -21,7 +21,7 @@ public class LiteralFactor extends AstNode implements IFactor {
 
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
-        this.localStoresNamespace = localStoresNamespace;
+        this.localVarNamespace = localStoresNamespace;
     }
 
     @Override public void doScopeChecking() throws NotDeclaredError {
@@ -52,7 +52,7 @@ public class LiteralFactor extends AstNode implements IFactor {
     }
 
     @Override public void doInitChecking(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalInitializationProhibitedError,
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         //
     }
@@ -84,8 +84,8 @@ public class LiteralFactor extends AstNode implements IFactor {
         String argumentIndent = indent + " ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
-        if (localStoresNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localStoresNamespace.keySet().stream()
+        if (localVarNamespace != null)
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<literal>: " + literal.toString() + "\n";
 

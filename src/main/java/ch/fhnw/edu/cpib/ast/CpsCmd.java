@@ -17,9 +17,9 @@ public class CpsCmd extends AstNode implements ICmd {
 
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
-        this.localStoresNamespace = localStoresNamespace;
+        this.localVarNamespace = localStoresNamespace;
         for (ICmd command : commands) {
-            command.saveNamespaceInfo(this.localStoresNamespace);
+            command.saveNamespaceInfo(this.localVarNamespace);
         }
     }
 
@@ -36,7 +36,7 @@ public class CpsCmd extends AstNode implements ICmd {
     }
 
     @Override public void doInitChecking(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalInitializationProhibitedError,
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         for (ICmd command : commands) {
             command.doInitChecking(globalProtected);
@@ -56,8 +56,8 @@ public class CpsCmd extends AstNode implements ICmd {
         String subIndent = indent + "  ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
-        if (localStoresNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localStoresNamespace.keySet().stream()
+        if (localVarNamespace != null)
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<commands>:\n";
         for (ICmd cmd : commands) {

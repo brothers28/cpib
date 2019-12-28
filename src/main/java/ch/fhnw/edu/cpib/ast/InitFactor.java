@@ -21,15 +21,16 @@ public class InitFactor extends IdentFactor {
 
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
-        this.localStoresNamespace = localStoresNamespace;
+        this.localVarNamespace = localStoresNamespace;
     }
 
     @Override public void doScopeChecking() throws NotDeclaredError {
+        // Check namespace
         boolean declared = false;
-        if (localStoresNamespace.containsKey(ident.getIdent()))
+        if (localVarNamespace.containsKey(ident.getIdent()))
             // Variable is declared in local namespace
             declared = true;
-        if (globalStoresNamespace.containsKey(ident.getIdent()))
+        if (globalVarNamespace.containsKey(ident.getIdent()))
             // Variable is declared in global namespace
             declared = true;
         if (!declared) {
@@ -55,10 +56,10 @@ public class InitFactor extends IdentFactor {
         }
         // otherwise get real type
         TypeIdent typeIdent;
-        if (localStoresNamespace.containsKey(ident.getIdent())) {
-            typeIdent = localStoresNamespace.get(ident.getIdent());
+        if (localVarNamespace.containsKey(ident.getIdent())) {
+            typeIdent = localVarNamespace.get(ident.getIdent());
         } else {
-            typeIdent = globalStoresNamespace.get(ident.getIdent());
+            typeIdent = globalVarNamespace.get(ident.getIdent());
         }
         return typeIdent.getType();
     }
@@ -68,30 +69,30 @@ public class InitFactor extends IdentFactor {
     }
 
     @Override public void doInitChecking(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalInitializationProhibitedError,
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         // Get the typeIdent for this factor
         TypeIdent typeIdent = null;
         boolean isGlobal = false;
-        if (this.localStoresNamespace.containsKey(ident.getIdent()))
-            typeIdent = this.localStoresNamespace.get(ident.getIdent());
-        if (globalStoresNamespace.containsKey(ident.getIdent())) {
-            typeIdent = globalStoresNamespace.get(ident.getIdent());
+        if (this.localVarNamespace.containsKey(ident.getIdent()))
+            typeIdent = this.localVarNamespace.get(ident.getIdent());
+        if (globalVarNamespace.containsKey(ident.getIdent())) {
+            typeIdent = globalVarNamespace.get(ident.getIdent());
             isGlobal = true;
         }
         if (init) {
-            // If this is a global variable, and we try to initialize it in a protected scope, throw an error
             if (globalProtected && isGlobal)
-                throw new GlobalInitializationProhibitedError(typeIdent.getIdent());
-            // Throw an error if this typeIdent is already initialized
+                // Global and protected variable cannot be initialized
+                throw new GlobalProtectedInitializationError(typeIdent.getIdent());
             if (typeIdent.getInit()) {
+                // Already inizialized
                 throw new AlreadyInitializedError(typeIdent.getIdent());
             } else {
                 typeIdent.setInit();
             }
         } else {
-            // Throw an error if this typeIdent is not yet initialized and we try to use it
             if (!typeIdent.getInit())
+                // Not initialized
                 throw new NotInitializedError(typeIdent.getIdent());
         }
     }
@@ -102,8 +103,8 @@ public class InitFactor extends IdentFactor {
         // Get the address
         if (!simulateOnly) {
             int address;
-            if (globalStoresLocation.containsKey(ident.getIdent())) {
-                address = globalStoresLocation.get(ident.getIdent());
+            if (globalVarAdresses.containsKey(ident.getIdent())) {
+                address = globalVarAdresses.get(ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrAbs(address));
             } else if (localLocations.containsKey(ident.getIdent())) {
                 address = localLocations.get(ident.getIdent());
@@ -121,10 +122,10 @@ public class InitFactor extends IdentFactor {
 
         // If this needs to be dereferenced (=Param), dereference it once more
         TypeIdent variableIdent = null;
-        if (globalStoresNamespace.containsKey(ident.getIdent())) {
-            variableIdent = globalStoresNamespace.get(ident.getIdent());
+        if (globalVarNamespace.containsKey(ident.getIdent())) {
+            variableIdent = globalVarNamespace.get(ident.getIdent());
         } else {
-            variableIdent = localStoresNamespace.get(ident.getIdent());
+            variableIdent = localVarNamespace.get(ident.getIdent());
         }
         if (variableIdent.getNeedToDeref()) {
             if (!simulateOnly)
@@ -138,8 +139,8 @@ public class InitFactor extends IdentFactor {
         String argumentIndent = indent + " ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
-        if (localStoresNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localStoresNamespace.keySet().stream()
+        if (localVarNamespace != null)
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<init>: " + init + "\n";
 

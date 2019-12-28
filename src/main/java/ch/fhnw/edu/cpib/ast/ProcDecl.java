@@ -52,34 +52,41 @@ public class ProcDecl extends AstNode implements IDecl {
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
 
-        // Save the given namespace into the local namespace
-        this.localStoresNamespace = new HashMap<>();
-
-        // Save param list variables into local namespace
+        // Create local namespace
+        this.localVarNamespace = new HashMap<>();
         for (Param param : params) {
-            if (globalStoresNamespace.containsKey(param.getIdentString()))
+            if (globalVarNamespace.containsKey(param.getIdentString()))
+                // Already declared (globally)
                 throw new AlreadyGloballyDeclaredError(param.getIdentString());
-            if (this.localStoresNamespace.containsKey(param.getIdentString()))
+            if (this.localVarNamespace.containsKey(param.getIdentString()))
+                // Already declared
                 throw new AlreadyDeclaredError(param.getIdentString());
             if (param.getMechMode() == Mechmodes.REF)
+                // Deref
                 param.getTypeIdent().setNeedToDeref();
-            this.localStoresNamespace.put(param.getIdentString(), param.getTypeIdent());
+
+            // Save to local namespace
+            this.localVarNamespace.put(param.getIdentString(), param.getTypeIdent());
         }
 
-        // Save local variables into local namespace
+        // Save variables in local namespace
         for (StoDecl stoDecl : stoDecls) {
-            if (globalStoresNamespace.containsKey(stoDecl.getIdentString()))
+            if (globalVarNamespace.containsKey(stoDecl.getIdentString()))
+                // Already declared (globally)
                 throw new AlreadyGloballyDeclaredError(stoDecl.getIdentString());
-            if (this.localStoresNamespace.containsKey(stoDecl.getIdentString()))
+            if (this.localVarNamespace.containsKey(stoDecl.getIdentString()))
+                // Already declared
                 throw new AlreadyDeclaredError(stoDecl.getIdentString());
-            this.localStoresNamespace.put(stoDecl.getIdentString(), stoDecl.getTypeIdent());
+
+            // Save to local namespace
+            this.localVarNamespace.put(stoDecl.getIdentString(), stoDecl.getTypeIdent());
         }
 
-        cpsCmd.saveNamespaceInfo(this.localStoresNamespace);
+        cpsCmd.saveNamespaceInfo(this.localVarNamespace);
     }
 
     @Override public void doInitChecking(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalInitializationProhibitedError,
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         cpsCmd.doInitChecking(globalProtected);
     }
@@ -114,8 +121,8 @@ public class ProcDecl extends AstNode implements IDecl {
         String subIndent = indent + "  ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
-        if (localStoresNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localStoresNamespace.keySet().stream()
+        if (localVarNamespace != null)
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<ident>: " + ident.toString() + "\n";
         s += argumentIndent + "<cpsCmd>:";
