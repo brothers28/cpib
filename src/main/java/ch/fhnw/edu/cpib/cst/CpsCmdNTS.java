@@ -18,9 +18,9 @@ public class CpsCmdNTS extends Production implements ICpsCmdNTS {
         this.N_cpsCmdNTS = N_cpsCmdNTS;
     }
 
-    @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.ICmd> toAbsSyn(
+    @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.ICmd> toAbsSyntax(
             ArrayList<ch.fhnw.edu.cpib.ast.interfaces.ICmd> temp) {
-        temp.add(N_cmd.toAbsSyn());
-        return N_cpsCmdNTS.toAbsSyn(temp);
+        temp.add(N_cmd.toAbsSyntax());
+        return N_cpsCmdNTS.toAbsSyntax(temp);
     }
 }

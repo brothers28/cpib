@@ -11,7 +11,7 @@ public class DeclFunDecl extends Production implements IDecl {
         this.N_funDecl = N_funDecl;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyn() {
-        return N_funDecl.toAbsSyn();
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyntax() {
+        return N_funDecl.toAbsSyntax();
     }
 }

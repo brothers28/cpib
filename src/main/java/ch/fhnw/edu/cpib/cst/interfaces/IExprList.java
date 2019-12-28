@@ -5,5 +5,5 @@ import ch.fhnw.edu.cpib.ast.interfaces.IExpr;
 import java.util.ArrayList;
 
 public interface IExprList extends IProduction {
-    public ArrayList<IExpr> toAbsSyn();
+    public ArrayList<IExpr> toAbsSyntax();
 }

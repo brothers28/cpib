@@ -14,7 +14,7 @@ public class IfElseNTS extends Production implements IIfElseNTS {
         this.N_cpsCmd = N_cpsCmd;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.CpsCmd toAbsSyn() {
-        return N_cpsCmd.toAbsSyn();
+    @Override public ch.fhnw.edu.cpib.ast.CpsCmd toAbsSyntax() {
+        return N_cpsCmd.toAbsSyntax();
     }
 }

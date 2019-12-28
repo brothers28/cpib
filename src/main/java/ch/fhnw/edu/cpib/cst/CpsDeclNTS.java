@@ -18,9 +18,9 @@ public class CpsDeclNTS extends Production implements ICpsDeclNTS {
         N_cpsDeclNTS = n_cpsDeclNTS;
     }
 
-    @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IDecl> toAbsSyn(
+    @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IDecl> toAbsSyntax(
             ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IDecl> temp) {
-        temp.add(N_decl.toAbsSyn());
-        return N_cpsDeclNTS.toAbsSyn(temp);
+        temp.add(N_decl.toAbsSyntax());
+        return N_cpsDeclNTS.toAbsSyntax(temp);
     }
 }

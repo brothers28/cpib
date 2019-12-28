@@ -22,7 +22,7 @@ public class CmdWhileDo extends Production implements ICmd {
         this.T_endWhile = T_endWhile;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyn() {
-        return new ch.fhnw.edu.cpib.ast.WhileCmd(N_expr.toAbsSyn(), N_cpsCmd.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyntax() {
+        return new ch.fhnw.edu.cpib.ast.WhileCmd(N_expr.toAbsSyntax(), N_cpsCmd.toAbsSyntax());
     }
 }

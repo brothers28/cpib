@@ -16,7 +16,7 @@ public class FactorLParen extends Production implements IFactor {
         N_expr = n_expr;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyn() {
-        return new ch.fhnw.edu.cpib.ast.ExprFactor(N_expr.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyntax() {
+        return new ch.fhnw.edu.cpib.ast.ExprFactor(N_expr.toAbsSyntax());
     }
 }

@@ -25,7 +25,7 @@ public class Program extends Production implements IProgram {
         T_endprogram = t_endprogram;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.Program toAbsSyn() {
-        return new ch.fhnw.edu.cpib.ast.Program((Ident) T_ident, N_globalNTS.toAbsSyn(), N_cpsCmd.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.Program toAbsSyntax() {
+        return new ch.fhnw.edu.cpib.ast.Program((Ident) T_ident, N_globalNTS.toAbsSyntax(), N_cpsCmd.toAbsSyntax());
     }
 }

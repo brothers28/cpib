@@ -18,9 +18,9 @@ public class ExprNTS extends Production implements IExprNTS {
         N_exprNTS = n_exprNTS;
     }
 
-    @Override public IExpr toAbsSyn(IExpr expr) {
+    @Override public IExpr toAbsSyntax(IExpr expr) {
         ch.fhnw.edu.cpib.ast.interfaces.IExpr temp = new ch.fhnw.edu.cpib.ast.BoolExpr(
-                ((Operator) T_boolOpr).getOperator(), expr, N_term1.toAbsSyn());
-        return N_exprNTS.toAbsSyn(temp);
+                ((Operator) T_boolOpr).getOperator(), expr, N_term1.toAbsSyntax());
+        return N_exprNTS.toAbsSyntax(temp);
     }
 }

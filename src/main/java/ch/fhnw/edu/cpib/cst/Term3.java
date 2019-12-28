@@ -14,7 +14,7 @@ public class Term3 extends Production implements ITerm3 {
         N_term3NTS = n_term3NTS;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IExpr toAbsSyn() {
-        return N_term3NTS.toAbsSyn(N_factor.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IExpr toAbsSyntax() {
+        return N_term3NTS.toAbsSyntax(N_factor.toAbsSyntax());
     }
 }

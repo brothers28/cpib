@@ -25,7 +25,7 @@ public class CmdIfThen extends Production implements ICmd {
         this.T_endIf = T_endIf;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyn() {
-        return new ch.fhnw.edu.cpib.ast.IfCmd(N_expr.toAbsSyn(), N_cpsCmd.toAbsSyn(), N_ifelseNTS.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyntax() {
+        return new ch.fhnw.edu.cpib.ast.IfCmd(N_expr.toAbsSyntax(), N_cpsCmd.toAbsSyntax(), N_ifelseNTS.toAbsSyntax());
     }
 }

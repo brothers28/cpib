@@ -30,8 +30,8 @@ public class FunDecl extends Production implements IFunDecl {
         this.T_endFun = T_endFun;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyn() {
-        return new ch.fhnw.edu.cpib.ast.FunDecl((Ident) T_ident, N_paramList.toAbsSyn(), N_stoDecl.toAbsSyn(),
-                N_funDeclNTS.toAbsSyn(), N_cpsCmd.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyntax() {
+        return new ch.fhnw.edu.cpib.ast.FunDecl((Ident) T_ident, N_paramList.toAbsSyntax(), N_stoDecl.toAbsSyntax(),
+                N_funDeclNTS.toAbsSyntax(), N_cpsCmd.toAbsSyntax());
     }
 }

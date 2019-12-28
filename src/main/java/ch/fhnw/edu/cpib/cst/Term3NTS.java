@@ -18,9 +18,9 @@ public class Term3NTS extends Production implements ITerm3NTS {
         N_term3NTS = n_term3NTS;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IExpr toAbsSyn(IExpr expr) {
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IExpr toAbsSyntax(IExpr expr) {
         ch.fhnw.edu.cpib.ast.interfaces.IExpr temp = new ch.fhnw.edu.cpib.ast.MultExpr(
-                ((Operator) T_multOpr).getOperator(), expr, N_factor.toAbsSyn());
-        return N_term3NTS.toAbsSyn(temp);
+                ((Operator) T_multOpr).getOperator(), expr, N_factor.toAbsSyntax());
+        return N_term3NTS.toAbsSyntax(temp);
     }
 }

@@ -13,7 +13,7 @@ public class ChangeModeNTS extends Production implements IChangeModeNTS {
         T_changeModeNTS = t_changeModeNTS;
     }
 
-    @Override public Changemodes toAbySyn() {
+    @Override public Changemodes toAbsSyntax() {
         return ((Changemode) T_changeModeNTS).getChangemode();
     }
 }

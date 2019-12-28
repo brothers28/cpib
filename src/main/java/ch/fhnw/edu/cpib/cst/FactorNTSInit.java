@@ -12,7 +12,7 @@ public class FactorNTSInit extends Production implements IFactorNTS {
         T_init = t_init;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyn(Ident ident) {
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyntax(Ident ident) {
         return new ch.fhnw.edu.cpib.ast.InitFactor(ident, true);
     }
 }

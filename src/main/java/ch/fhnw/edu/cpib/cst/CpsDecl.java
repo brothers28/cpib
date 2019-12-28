@@ -16,10 +16,10 @@ public class CpsDecl extends Production implements ICpsDecl {
         this.N_cpsDeclNTS = N_cpsDeclNTS;
     }
 
-    @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IDecl> toAbsSyn() {
+    @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IDecl> toAbsSyntax() {
         ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IDecl> temp = new ArrayList<>();
-        temp.add(N_decl.toAbsSyn());
+        temp.add(N_decl.toAbsSyntax());
 
-        return N_cpsDeclNTS.toAbsSyn(temp);
+        return N_cpsDeclNTS.toAbsSyntax(temp);
     }
 }

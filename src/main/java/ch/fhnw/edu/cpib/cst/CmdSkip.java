@@ -11,7 +11,7 @@ public class CmdSkip extends Production implements ICmd {
         this.T_skip = T_skip;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyn() {
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyntax() {
         return new ch.fhnw.edu.cpib.ast.SkipCmd();
     }
 }

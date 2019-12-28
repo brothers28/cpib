@@ -16,9 +16,9 @@ public class ExprListLParenNTS extends Production implements IExprListLparenNTS 
         N_exprListNTS = n_exprListNTS;
     }
 
-    @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IExpr> toAbsSyn() {
+    @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IExpr> toAbsSyntax() {
         ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IExpr> temp = new ArrayList<>();
-        temp.add(N_expr.toAbsSyn());
-        return N_exprListNTS.toAbsSyn(temp);
+        temp.add(N_expr.toAbsSyntax());
+        return N_exprListNTS.toAbsSyntax(temp);
     }
 }

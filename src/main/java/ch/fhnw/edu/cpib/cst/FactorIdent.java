@@ -15,7 +15,7 @@ public class FactorIdent extends Production implements IFactor {
         N_factorNTS = n_factorNTS;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyn() {
-        return N_factorNTS.toAbsSyn((Ident) T_ident);
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyntax() {
+        return N_factorNTS.toAbsSyntax((Ident) T_ident);
     }
 }

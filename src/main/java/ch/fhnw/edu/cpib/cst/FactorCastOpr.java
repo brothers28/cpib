@@ -13,7 +13,7 @@ public class FactorCastOpr extends Production implements IFactor {
         N_mfactor = n_mfactor;
     }
 
-    @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyn() {
-        return new ch.fhnw.edu.cpib.ast.CastFactor(N_castOpr.toAbsSyn(), N_mfactor.toAbsSyn());
+    @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyntax() {
+        return new ch.fhnw.edu.cpib.ast.CastFactor(N_castOpr.toAbsSyntax(), N_mfactor.toAbsSyntax());
     }
 }

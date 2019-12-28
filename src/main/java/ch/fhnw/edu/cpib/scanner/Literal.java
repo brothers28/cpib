@@ -43,21 +43,21 @@ public class Literal extends Base {
 
     public boolean getBoolValue() throws ExecutionControl.NotImplementedException {
         if (!isBoolean)
-            throw new ExecutionControl.NotImplementedException("Gagu"); // FIXME: WTF?
+            throw new ExecutionControl.NotImplementedException("Type is not bool");
 
         return value > 0 ? true : false;
     }
 
     public long getIntValue() throws ExecutionControl.NotImplementedException {
         if (isBoolean)
-            throw new ExecutionControl.NotImplementedException("Gagu 2"); // FIXME: WTF?
+            throw new ExecutionControl.NotImplementedException("Type is bool");
 
         return (long) value;
     }
 
     public long getNatValue() throws ExecutionControl.NotImplementedException {
         if (isBoolean)
-            throw new ExecutionControl.NotImplementedException("sdfsdf"); // FIXME: WTF?
+            throw new ExecutionControl.NotImplementedException("Type is bool");
 
         return value;
     }
