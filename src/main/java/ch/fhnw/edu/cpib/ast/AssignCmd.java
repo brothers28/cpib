@@ -67,7 +67,7 @@ public class AssignCmd extends AstNode implements ICmd {
         exprRight.doInitChecking(globalProtected);
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         // Get the address of the left expression
         InitFactor factor = (InitFactor) exprLeft;
@@ -99,7 +99,7 @@ public class AssignCmd extends AstNode implements ICmd {
         }
 
         // Get the value of the exprRight (RVal)
-        exprRight.addIInstrToCodeArray(localLocations, simulateOnly);
+        exprRight.addInstructionToCodeArray(localLocations, simulateOnly);
 
         // Now copy our value to the "remote" stack place (store)
         if (!simulateOnly)

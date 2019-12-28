@@ -112,7 +112,7 @@ public class FunCallFactor extends IdentFactor {
         }
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
         FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
@@ -127,7 +127,7 @@ public class FunCallFactor extends IdentFactor {
             LRValue expectedLRValue = funDecl.getParams().get(i).getLRValue();
             if (expectedLRValue == LRValue.RVALUE) {
                 // We expect RVALUE, pass RVALUE or LVALUE
-                expressions.get(i).addIInstrToCodeArray(localLocations, simulateOnly);
+                expressions.get(i).addInstructionToCodeArray(localLocations, simulateOnly);
             } else if (realLRValue == LRValue.LVALUE && expectedLRValue == LRValue.LVALUE) {
                 // We expect RVALUE, pass RVALUE or LVALUE
 

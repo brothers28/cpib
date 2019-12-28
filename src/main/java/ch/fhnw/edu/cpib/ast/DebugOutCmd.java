@@ -37,10 +37,10 @@ public class DebugOutCmd extends AstNode implements ICmd {
         expr.doInitChecking(globalProtected);
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
-        expr.addIInstrToCodeArray(localLocations, simulateOnly);
+        expr.addInstructionToCodeArray(localLocations, simulateOnly);
 
         String indicator;
         if (expr instanceof InitFactor) {

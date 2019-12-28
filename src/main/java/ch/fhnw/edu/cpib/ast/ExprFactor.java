@@ -58,11 +58,11 @@ public class ExprFactor extends AstNode implements IFactor {
         expr.doInitChecking(globalProtected);
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
         // Add the value on top of stack
-        expr.addIInstrToCodeArray(localLocations, simulateOnly);
+        expr.addInstructionToCodeArray(localLocations, simulateOnly);
     }
 
     @Override public String toString(String indent) {

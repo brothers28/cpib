@@ -74,37 +74,37 @@ public class RelExpr extends AstNode implements IExpr {
         exprRight.doInitChecking(globalProtected);
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
         if (exprLeft instanceof RelExpr) {
             int codeArrayPointerBefore = codeArrayPointer;
             RelExpr temp = new RelExpr(relOpr, ((RelExpr) exprLeft).exprRight, exprRight);
-            temp.addIInstrToCodeArray(localLocations, true);
+            temp.addInstructionToCodeArray(localLocations, true);
             int exprRightSize = codeArrayPointer - codeArrayPointerBefore + 1;
             codeArrayPointer = codeArrayPointerBefore;
 
-            exprLeft.addIInstrToCodeArray(localLocations, true);
+            exprLeft.addInstructionToCodeArray(localLocations, true);
             int exprLeftSize = codeArrayPointer - codeArrayPointerBefore;
             codeArrayPointer = codeArrayPointerBefore;
 
-            exprLeft.addIInstrToCodeArray(localLocations, simulateOnly);
+            exprLeft.addInstructionToCodeArray(localLocations, simulateOnly);
             if (!simulateOnly) {
                 codeArray.put(codeArrayPointer, new IInstructions.CondJump(codeArrayPointer + 1 + exprRightSize));
             }
             codeArrayPointer++;
 
-            temp.addIInstrToCodeArray(localLocations, simulateOnly);
+            temp.addInstructionToCodeArray(localLocations, simulateOnly);
             if (!simulateOnly) {
                 codeArray.put(codeArrayPointer, new IInstructions.UncondJump(codeArrayPointer + 1 + exprLeftSize));
             }
             codeArrayPointer++;
 
-            exprLeft.addIInstrToCodeArray(localLocations, simulateOnly);
+            exprLeft.addInstructionToCodeArray(localLocations, simulateOnly);
 
         } else {
-            exprLeft.addIInstrToCodeArray(localLocations, simulateOnly);
-            exprRight.addIInstrToCodeArray(localLocations, simulateOnly);
+            exprLeft.addInstructionToCodeArray(localLocations, simulateOnly);
+            exprRight.addInstructionToCodeArray(localLocations, simulateOnly);
 
             Types t = getType();
 

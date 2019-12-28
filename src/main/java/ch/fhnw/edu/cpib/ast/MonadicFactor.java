@@ -75,11 +75,11 @@ public class MonadicFactor extends AstNode implements IFactor {
         factor.doInitChecking(globalProtected);
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
         // Add the value on top of stack
-        factor.addIInstrToCodeArray(localLocations, simulateOnly);
+        factor.addInstructionToCodeArray(localLocations, simulateOnly);
 
         // Negate it
         if (!simulateOnly) {

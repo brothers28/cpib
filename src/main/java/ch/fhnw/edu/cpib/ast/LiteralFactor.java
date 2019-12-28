@@ -57,7 +57,7 @@ public class LiteralFactor extends AstNode implements IFactor {
         //
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
         // Add the value on top of stack

@@ -94,7 +94,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
         }
     }
 
-    @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());
 
@@ -104,7 +104,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
             LRValue expectedLRValue = procDecl.getParams().get(i).getLRValue();
             if (expectedLRValue == LRValue.RVALUE) {
                 // We expect RVALUE, pass RVALUE or LVALUE
-                expressions.get(i).addIInstrToCodeArray(localLocations, simulateOnly);
+                expressions.get(i).addInstructionToCodeArray(localLocations, simulateOnly);
             } else if (realLRValue == LRValue.LVALUE && expectedLRValue == LRValue.LVALUE) {
                 // We expect RVALUE, pass RVALUE or LVALUE
 
