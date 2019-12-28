@@ -167,6 +167,12 @@ Falls Werte von \texttt{int64} nach \texttt{nat64} umgewandelt werden, geht die 
 \section{Aufbau Compiler}
 Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
 
+\subsection{Scanner}
+% TODO: Einlesen als long beschreiben
+
+\subsection{Parser}
+% TODO: Anpassungen inkl. CastFactor beschreiben
+
 \subsection{Statische Analyse}
 % TODO: Beschreiben, dass && und || implementiert wurden
 
@@ -249,14 +255,14 @@ In der virtuellen Maschine wurde ein neuer generischer Typ \texttt{NumData} eing
 Dieser wird für die Konversion zwischen Daten vom Typ \texttt{IntData}\footnote{für den Datentyp \texttt{int64}} und \texttt{NatData}\footnote{für den Datentyp \texttt{nat64}} verwendet.
 Abbildung \ref{data_hierarchy} zeigt die Klassenhierarchie dieser Typen.
 
-\subsection{Code Generierung}
-% TODO
-
 \begin{figure}[H]
     \includegraphics[width=\linewidth]{uml_data_hierarchy.png} % Figure image
     \caption{Daten in VM} % Figure caption
     \label{data_hierarchy}
 \end{figure}
+
+\subsection{Code Generierung}
+% TODO Eigentlich kein separates Kapitel
 
 \section{Vergleich mit anderen Programmiersprachen (am Beispiel von Java)}
 \subsection{Ganzzahlige Werte}
