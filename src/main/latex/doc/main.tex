@@ -168,6 +168,9 @@ Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
 % TODO: Namespaces
 % TODO: Beschreiben, dass && und || implementiert wurden
 
+\subsubsection*{Scope checking}
+% TODO Namespace checking
+
 Bei \textit{FunCallFactor, ProcCallCmd, DebugIn} und \textit{AssignCmd} muss überprüft werden, ob die Parameter den richtigen \texttt{LValue}, resp. \texttt{RValue} besitzen.
 Folgende Kombinationen sind dabei allgemein erlaubt:
 
@@ -189,6 +192,12 @@ Folgende Kombinationen sind dabei allgemein erlaubt:
 \end{table}
 Bei einem \textit{AssignCmd} muss der Ausdruck links zudem zwingend ein \texttt{LValue} sein.
 Bei einem \textit{DebugIn} muss es sich ebenfalls um einen \texttt{LValue} handeln, damit der Input-Wert dieser Variable zugewiesen werden kann.
+
+Innerhalb des Scope checkings wird zudem überprüft, ob die Anzahl der erwarteten Parameter mit der Anzahl übergebener Parameter übereinstimmt.
+\subsubsection*{Type checking}
+
+\subsubsection*{Initalization checking}
+
 
 \subsection{Virtuelle Maschine}
 Grundlage für die Code-Generierung ist der Abstract Syntax Tree (AST).

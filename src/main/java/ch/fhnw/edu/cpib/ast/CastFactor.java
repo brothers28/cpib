@@ -20,10 +20,10 @@ public class CastFactor extends AstNode implements IFactor {
         this.factor = factor;
     }
 
-    @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
-        factor.saveNamespaceInfoToNode(this.localStoresNamespace);
+        factor.saveNamespaceInfo(this.localStoresNamespace);
     }
 
     @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {

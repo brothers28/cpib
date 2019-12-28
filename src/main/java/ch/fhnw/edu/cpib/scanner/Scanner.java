@@ -130,7 +130,7 @@ public class Scanner {
             case 2:
                 // State: Scanning literal
                 if (c == SINGLE_QUOTE_SYMBOL) {
-                    // Do nothing
+                    //
                 } else if (Character.isDigit(c)) {
                     state = 2;
                     int digit = Character.digit(c, 10);
@@ -144,7 +144,7 @@ public class Scanner {
             case 3:
                 // State: Scanning identifier
                 if (c == SINGLE_QUOTE_SYMBOL) {
-                    // Do nothing
+                    //
                 } else if (Character.isAlphabetic(c) || Character.isDigit(c) || c == UNDERSCORE_SYMBOL) {
                     state = 3;
                     lexAcc.append(c);

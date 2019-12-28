@@ -23,11 +23,11 @@ public class MultExpr extends AstNode implements IExpr {
         this.exprRight = exprRight;
     }
 
-    @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
-        exprLeft.saveNamespaceInfoToNode(this.localStoresNamespace);
-        exprRight.saveNamespaceInfoToNode(this.localStoresNamespace);
+        exprLeft.saveNamespaceInfo(this.localStoresNamespace);
+        exprRight.saveNamespaceInfo(this.localStoresNamespace);
     }
 
     @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {

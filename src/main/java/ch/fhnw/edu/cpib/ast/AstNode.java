@@ -1,13 +1,13 @@
 package ch.fhnw.edu.cpib.ast;
 
-import ch.fhnw.edu.cpib.ast.interfaces.IAbsSynTreeNode;
+import ch.fhnw.edu.cpib.ast.interfaces.IAstNode;
 import ch.fhnw.edu.cpib.ast.interfaces.IDecl;
 import ch.fhnw.edu.cpib.vm.CodeArray;
 import ch.fhnw.edu.cpib.vm.ICodeArray;
 
 import java.util.HashMap;
 
-public abstract class AstNode implements IAbsSynTreeNode {
+public abstract class AstNode implements IAstNode {
 
     static HashMap<String, TypeIdent> globalStoresNamespace = new HashMap<>();
 

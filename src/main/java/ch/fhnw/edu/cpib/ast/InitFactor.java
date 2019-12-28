@@ -19,7 +19,7 @@ public class InitFactor extends IdentFactor {
         this.init = init;
     }
 
-    @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
     }
@@ -64,7 +64,7 @@ public class InitFactor extends IdentFactor {
     }
 
     @Override public void doTypeChecking() throws TypeCheckError {
-        // Do nothing
+        //
     }
 
     @Override public void doInitChecking(boolean globalProtected)

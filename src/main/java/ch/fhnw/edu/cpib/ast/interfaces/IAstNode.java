@@ -6,11 +6,11 @@ import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 
 import java.util.HashMap;
 
-public interface IAbsSynTreeNode {
+public interface IAstNode {
 
     public abstract String toString(String indent);
 
-    public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
+    public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError;
 
     public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError;

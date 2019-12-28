@@ -49,7 +49,7 @@ public class ProcDecl extends AstNode implements IDecl {
         cpsCmd.doTypeChecking();
     }
 
-    @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
 
         // Save the given namespace into the local namespace
@@ -75,7 +75,7 @@ public class ProcDecl extends AstNode implements IDecl {
             this.localStoresNamespace.put(stoDecl.getIdentString(), stoDecl.getTypeIdent());
         }
 
-        cpsCmd.saveNamespaceInfoToNode(this.localStoresNamespace);
+        cpsCmd.saveNamespaceInfo(this.localStoresNamespace);
     }
 
     @Override public void doInitChecking(boolean globalProtected)

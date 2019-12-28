@@ -33,23 +33,23 @@ public class StoDecl extends AstNode implements IDecl {
         return typeIdent.getValue();
     }
 
-    @Override public void saveNamespaceInfoToNode(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localStoresNamespace = localStoresNamespace;
     }
 
     @Override public void doScopeChecking() throws NotDeclaredError {
-        // Do nothing
+        //
     }
 
     @Override public void doTypeChecking() throws TypeCheckError {
-        // Do nothing
+        //
     }
 
     @Override public void doInitChecking(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalInitializationProhibitedError,
             CannotAssignToConstError {
-        // Do nothing
+        //
     }
 
     @Override public void addIInstrToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

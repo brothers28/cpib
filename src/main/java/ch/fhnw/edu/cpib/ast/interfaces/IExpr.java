@@ -3,7 +3,7 @@ package ch.fhnw.edu.cpib.ast.interfaces;
 import ch.fhnw.edu.cpib.scanner.enumerations.LRValue;
 import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 
-public interface IExpr extends IAbsSynTreeNode {
+public interface IExpr extends IAstNode {
 
     public Types getType();
 

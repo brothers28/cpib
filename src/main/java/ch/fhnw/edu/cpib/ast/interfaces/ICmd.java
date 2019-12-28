@@ -1,5 +1,5 @@
 package ch.fhnw.edu.cpib.ast.interfaces;
 
-public interface ICmd extends IAbsSynTreeNode {
+public interface ICmd extends IAstNode {
 
 }
