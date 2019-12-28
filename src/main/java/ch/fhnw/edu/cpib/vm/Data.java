@@ -29,10 +29,10 @@ public class Data {
     }
 
     static class IntData extends NumData {
-        public static final long MAX_VALUE = 2147483647L; // FIXME: According to https://de.wikipedia.org/wiki/Integer_(Datentyp) should be twice as big -> biginteger
-        public static final long MIN_VALUE = -2147483648L;
+        public static final long MAX_VALUE = Integer.MAX_VALUE;
+        public static final long MIN_VALUE = Integer.MIN_VALUE;
 
-        private long i; // FIXME: According to https://de.wikipedia.org/wiki/Integer_(Datentyp) should be twice as big -> long
+        private long i;
 
         IntData(long i) {
             // Check boundaries
@@ -59,7 +59,7 @@ public class Data {
 
     // nat extension
     static class NatData extends NumData {
-        public static final long MAX_VALUE = 9223372036854775807L; // FIXME: According to https://de.wikipedia.org/wiki/Integer_(Datentyp) should be twice as big -> biginteger
+        public static final long MAX_VALUE = 4294967295L;
         public static final long MIN_VALUE = 0L;
 
         private long i;
