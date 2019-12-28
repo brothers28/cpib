@@ -56,7 +56,10 @@
 
 \section{Erweiterung}
 \subsection{Einleitung}
-Unter natürlichen Zahlen werden die positiven, ganzen Zahlen und 0 verstanden.
+Unter natürlichen Zahlen werden die positiven, ganzen Zahlen und 0 verstanden:
+
+$$ \mathbb{N} = \{0; 1; 2; 3; \ldots\} $$
+
 Die IML soll um einen neuen Datentyp \texttt{nat64} erweitert werden.
 Der neue Datentyp soll solche positiven, ganzen Zahlen mit bis Länge 64 in Binärdarstellung abbilden können.
 Es sollen die bestehenden Operationen unterstützt werden.
@@ -245,6 +248,9 @@ Die Rekursion wird durch Literale oder Expressions unterbrochen, wie am Beispiel
 In der virtuellen Maschine wurde ein neuer generischer Typ \texttt{NumData} eingeführt.
 Dieser wird für die Konversion zwischen Daten vom Typ \texttt{IntData}\footnote{für den Datentyp \texttt{int64}} und \texttt{NatData}\footnote{für den Datentyp \texttt{nat64}} verwendet.
 Abbildung \ref{data_hierarchy} zeigt die Klassenhierarchie dieser Typen.
+
+\subsection{Code Generierung}
+% TODO
 
 \begin{figure}[H]
     \includegraphics[width=\linewidth]{uml_data_hierarchy.png} % Figure image
