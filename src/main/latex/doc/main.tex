@@ -67,6 +67,7 @@ Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp \texttt{
 
 \subsection{Lexikalische Syntax}
 Für den neuen Datentyp wird das Keyword \texttt{(TYPE, NAT64)} und ein Castingoperator hinzugefügt.
+% TODO: ATOMTYPE in Code noch durch TYPE ersetzen
 
 % Listing mit neuen Elementen
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
@@ -278,12 +279,12 @@ Abbildung \ref{data_hierarchy} zeigt die Klassenhierarchie dieser Typen.
 \subsection{Code Generierung}
 % TODO Eigentlich kein separates Kapitel
 
-\section{Vergleich mit anderen Programmiersprachen (am Beispiel von Java)}
+\section{Vergleich mit anderen Programmiersprachen}
 \subsection{Ganzzahlige Werte}
 In Java wird bei Zuweisungen die Länge einer Zahl in Bitdarstellung überprüft:
 Beim Datentyp \texttt{long} wird beispielsweise geprüft, ob der Wert als ganzzahliger Wert von 64-bit Länge dargestellt werden kann.
 Falls dies nicht der Fall ist, wird ein Fehler zur Kompilierungszeit geworfen.
-Das MSB wird als Vorzeichenbit verwendet, womit rund die Hälfte der vorzeichenlos darstellbaren Long-Werte entfällt, resp. zur Darstellung von negativen Zahlen eingesetzt wird.
+Das MSB wird als Vorzeichenbit verwendet, womit rund die Hälfte der vorzeichenlos darstellbaren \texttt{long}-Werte entfällt, resp. zur Darstellung von negativen Zahlen eingesetzt wird.
 Falls bei fortlaufenden Berechnungen Wertebereiche unter- resp. überschritten werden, führt dies zu einem arithmetischen Überlauf.
 Abbildung \ref{zahlenkreis} %TODO: Abbildung-Nr.verifizieren
 zeigt den Überlauf bei ganzzahligen, vorzeichenbehafteten Datentypen (am Beispiel von Bitlänge 3 + 1).
@@ -302,26 +303,29 @@ Dies kann dazu führen, dass mit \glqq falschen\grqq \ Werten gerechnet wird, oh
 \subsection{Fliesskommazahlen}
 % TODO: Zweierkomplement oben noch nicht beschrieben
 Im Gegensatz zur Darstellung im Zweierkomplement, welche für Integer-Typen in Java verwendet werden, werden Fliesskommazahlen intern nach IEEE Standard dargestellt.
-Anders als bei der Zweierkomplement-Darstellung sieht dieses Format spezielle Werte für \texttt{POSITIVE\_INFINITY} und \texttt{NEGATIVE\_INFINITY} vor.
+Anders als bei der Zweierkomplement-Darstellung sieht dieses Format spezielle, konstante Werte vor.
+So sind in Java beispielsweise Konstanten für \texttt{Double.POSITIVE\_INFINITY}, \texttt{Double.NEGATIVE\_INFINITY} und \texttt{Double.NaN} definiert.
 %  Quelle: https://stackoverflow.com/questions/41312477/purpose-of-defining-positive-infinity-negative-infinity-nan-constants-only-for
 
 \section{Designentscheidungen}
 \subsection{Spezifiziertes Verhalten}
 Der neue Datentyp \texttt{nat64} unterstützt die bestehenden Operationen aus IML\footnote{Aktuell sind dies \begin{itemize}
-                                                                                                                \item MULTOPR(*, divE, modE) \item ADDOPR(+, -) \item RELOPR(<, <=, >, >=, =, /=) \item BOOLOPR(/\textbackslash? \textbackslash/?)
+                                                                                                                \item MULTOPR(*, divE, modE) \item ADDOPR(+, -) \item RELOPR(<, <=, >, >=, =, /=) \item BOOLOPR(&&, ||, &, |)
 \end{itemize}}.
-Sofern sich die einzelnen Operanden und auch das Resulat im Wertebereich ($\in \mathbb{N}$) befinden, %TODO: + länge max 64-bit
+Sofern sich die einzelnen Operanden und auch das Resulat im Wertebereich\footnote{$[0,4294967295]$} befinden,
 entspricht das Verhalten vom Datentyp \texttt{nat64} jenem vom Datentyp \texttt{int64}.
 Andernfalls wird folgendes Verhalten festgelegt:
 
-\begin{itemize} % TODO: Effektives Verhalten anpassen gemäss Entscheidung
-    \item \textbf{Wertebereich}: Bei einem Überlauf wird jeweils mit dem maximalen Wert weitergerechnet. Dieser entspricht dem maximalen Wert von \texttt{int64}\footnote{9,223,372,036,854,775,807}.
-    \item \textbf{Negative Werte}: Werte werden jeweils als absolute Werte Betrachtet. Ein negativer Wert $-5$ entspricht beispielsweise dem Betrag, also $|-5| = 5$.
-    \item \textbf{Rest bei Division}: Wird analog \texttt{int64} behandelt und Nachkommastellen werden abgeschnitten.
+\begin{itemize}
+    \item \textbf{Wertebereich}: Wertebereichsüber- resp. Unterschreitungen resultieren in einem Laufzeitfehler\footnote{Negative Zahlen entsprechen Wertebereichsunterschreitungen}. Dies erhöht die Typsicherheit beim Einsatz der verschiedenen Datentypen.
+    \item \textbf{Nachkommastellen}: Gemäss IML-Spezifikation sind als Literale nur ganzzahlige Werte erlaubt. Falls z.B. bei einer Division ein Rest resultiert, wird ein ganzzahliges Resultat zurückgegeben. Der Wert des Resultats ist abhängig von der gewählten Operation (\texttt{DivFloor, \texttt{DivTrunc}, etc.).}
 \end{itemize}
 
 \subsection{Alternative Ansätze}
-
+% TODO: Alternativen beschreiben
+% a) Arithmetischer Überlauf ohne Anzeigen, Doppelt soviele Werte wie int
+% c) Inf. wie bei Double
+% d) Unser Ansatz (negative Werte als Abosulte Werte, bei Überschreitungen mit max weiterrechnen)
 % TODO: Downsides z.B. gemäss %  Quelle: https://stackoverflow.com/questions/41312477/purpose-of-defining-positive-infinity-negative-infinity-nan-constants-only-for
 
 \section{Beispielprogramme}
