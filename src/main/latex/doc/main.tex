@@ -276,6 +276,9 @@ Abbildung \ref{data_hierarchy} zeigt die Klassenhierarchie dieser Typen.
     \label{data_hierarchy}
 \end{figure}
 
+Beim Dereferenzieren muss im Falle eines Castings der Datentyp von bereits typisierten Daten auf dem Stack geändert werden.
+Anhang \ref{bsp_deref} zeigt ein Beispiel, bei welchem der Datentyp aufgrund des neu propagierten Attributs \texttt{castType} erfolgreich umgewandelt wird.
+
 \subsection{Code Generierung}
 % TODO Eigentlich kein separates Kapitel
 
@@ -425,6 +428,89 @@ UML:
     \caption{Auszug aus AST } % Figure caption
     \label{casting}
 \end{figure}
+
+\clearpage
+\section{Beispiel \texttt{Deref}}
+\label{bsp_deref}
+IML:
+\begin{lstlisting}
+    program exampleCasting
+    global
+    var x:int64;
+    var y:nat64
+    do
+    x init := [int64] 4;
+    y init := [nat64] 3;
+    x := [int64] y
+    endprogram
+\end{lstlisting}
+
+Code-Array:
+\begin{lstlisting}
+    codeArrayPoiner: 14
+    0: AllocBlock(1)
+    1: AllocBlock(1)
+    2: UncondJump(3)
+    3: LoadAddrAbs(0)
+    4: LoadImInt(4)
+    5: Store
+    6: LoadAddrAbs(1)
+    7: LoadImNat(3)
+    8: Store
+    9: LoadAddrAbs(0)
+    10: LoadAddrAbs(1)
+    11: Deref
+    12: Store
+    13: Stop
+\end{lstlisting}
+
+Stack:
+\begin{lstlisting}
+    ...
+
+    (8) Executing instruction Store
+    pc: 8
+    sp: 4
+    Stack content:
+    0: IntData: 4
+    1: NatData: 3
+
+    (9) Executing instruction LoadAddrAbs(0)
+    pc: 9
+    sp: 2
+    Stack content:
+    0: IntData: 4
+    1: NatData: 3
+    2: IntData: 0
+
+    (10) Executing instruction LoadAddrAbs(1)
+    pc: 10
+    sp: 3
+    Stack content:
+    0: IntData: 4
+    1: NatData: 3
+    2: IntData: 0
+    3: IntData: 1
+
+    (11) Executing instruction Deref
+    pc: 11
+    sp: 4
+    Stack content:
+    0: IntData: 4
+    1: NatData: 3
+    2: IntData: 0
+    3: IntData: 3
+
+    (12) Executing instruction Store
+    pc: 12
+    sp: 4
+    Stack content:
+    0: IntData: 3
+    1: NatData: 3
+
+    ...
+\end{lstlisting}
+
 
 
 %----------------------------------------------------------------------------------------

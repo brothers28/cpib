@@ -63,8 +63,10 @@ public class VirtualMachine implements IVirtualMachine {
         ep = 0;
         hp = store.length - 1;
         fp = 0;
+        System.out.println("Execution:");
+        System.out.println("");
         while (pc > -1) {
-            System.out.println("### Executing instruction " + code[pc] + " ###");
+            System.out.println("(" + pc + ") Executing instruction " + code[pc]);
             System.out.println("pc: " + pc);
             System.out.println("sp: " + sp);
             code[pc].execute();
@@ -72,7 +74,7 @@ public class VirtualMachine implements IVirtualMachine {
             for (int i = 0; i < sp; i++) {
                 System.out.println(i + ": " + store[i]);
             }
-            System.out.println("#################################");
+            System.out.println("");
         }
     }
 
