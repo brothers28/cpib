@@ -63,11 +63,21 @@ public class LiteralFactor extends AstNode implements IFactor {
         // Add the value on top of stack
         if (!simulateOnly) {
             try {
-                if (literal.getType() == Types.BOOL) {
+                if(castType == null) {
+                    if (literal.getType() == Types.BOOL) {
+                        codeArray.put(codeArrayPointer, new IInstructions.LoadImBool(literal.getBoolValue()));
+                    } else if (literal.getType() == Types.INT64) {
+                        codeArray.put(codeArrayPointer, new IInstructions.LoadImInt(literal.getIntValue()));
+                    } else if (literal.getType() == Types.NAT64) {
+                        codeArray.put(codeArrayPointer, new IInstructions.LoadImNat(literal.getNatValue()));
+                    } else {
+                        throw new RuntimeException("Unknown type!");
+                    }
+                } else if (castType == Types.BOOL) {
                     codeArray.put(codeArrayPointer, new IInstructions.LoadImBool(literal.getBoolValue()));
-                } else if (literal.getType() == Types.INT64) {
+                } else if (castType == Types.INT64) {
                     codeArray.put(codeArrayPointer, new IInstructions.LoadImInt(literal.getIntValue()));
-                } else if (literal.getType() == Types.NAT64) {
+                } else if (castType == Types.NAT64) {
                     codeArray.put(codeArrayPointer, new IInstructions.LoadImNat(literal.getNatValue()));
                 } else {
                     throw new RuntimeException("Unknown type!");
