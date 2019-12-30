@@ -3,6 +3,7 @@
 
 package ch.fhnw.edu.cpib.vm;
 
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.IInstructions.*;
 
 public class VirtualMachine implements IVirtualMachine {
@@ -251,9 +252,27 @@ public class VirtualMachine implements IVirtualMachine {
     // load instruction with address on stack
     // load (inside stack -> top of stack) operation
     public class DerefExec extends Deref implements IExecInstr {
+
+        DerefExec(){
+            super();
+        }
+
+        DerefExec(Types type){
+            super(type);
+        }
+
         public void execute() {
             int address = Data.intGet(store[sp - 1]);
-            store[sp - 1] = store[address];
+            Data.IBaseData data = store[address];
+            if (castType != null){
+                if (castType == Types.INT64) {
+                    store[sp - 1] = Data.intNew((Data.NumData) data);
+                } else if (castType == Types.NAT64) {
+                    store[sp - 1] = Data.natNew((Data.NumData) data);
+                }
+            } else {
+                store[sp - 1] = data;
+            }
             pc = pc + 1;
         }
     }

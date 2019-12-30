@@ -1,6 +1,9 @@
-program progDouble
+program exampleCasting
 global
-  var value:int64
+   var x:int64;
+   var y:nat64
 do
-  value init := [int64] [nat64] ((4 + 1) + 1)
+   x init := [int64] 4;
+   y init := [nat64] 3;
+   x := [int64] y
 endprogram

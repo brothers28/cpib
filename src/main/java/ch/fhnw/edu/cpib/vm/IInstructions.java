@@ -3,6 +3,7 @@
 
 package ch.fhnw.edu.cpib.vm;
 
+import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 import ch.fhnw.edu.cpib.vm.IVirtualMachine.ExecutionError;
 
 // idea: the compiler should not need a reference to the VM object
@@ -196,12 +197,19 @@ public interface IInstructions {
     // load instruction with address on stack
     // load (inside stack -> top of stack) operation
     class Deref implements IInstr {
+        Types castType;
+
+        public Deref(){}
+
+        public Deref(Types type){
+            castType = type;
+        }
         public String toString() {
             return "Deref";
         }
 
         public IExecInstr toExecInstr(VirtualMachine vm) {
-            return vm.new DerefExec();
+            return vm.new DerefExec(castType);
         }
     }
 

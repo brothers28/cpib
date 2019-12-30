@@ -117,7 +117,7 @@ public class InitFactor extends IdentFactor {
 
         // Now copy the real value to this stack place (dereference)
         if (!simulateOnly)
-            codeArray.put(codeArrayPointer, new IInstructions.Deref());
+            codeArray.put(codeArrayPointer, new IInstructions.Deref(getType()));
         codeArrayPointer++;
 
         // If this needs to be dereferenced (=Param), dereference it once more
@@ -129,7 +129,7 @@ public class InitFactor extends IdentFactor {
         }
         if (variableIdent.getNeedToDeref()) {
             if (!simulateOnly)
-                codeArray.put(codeArrayPointer, new IInstructions.Deref());
+                codeArray.put(codeArrayPointer, new IInstructions.Deref(getType()));
             codeArrayPointer++;
         }
     }

@@ -121,6 +121,10 @@ public class Data {
         return new IntData(i);
     }
 
+    static IntData intNew(NumData data) {
+        return new IntData(data.getData());
+    }
+
     static int intGet(IBaseData a) {
         return (int) ((IntData) a).getData();
     }
@@ -226,6 +230,10 @@ public class Data {
     // nat extension
     static NatData natNew(long i) {
         return new NatData(i);
+    }
+
+    static NatData natNew(NumData data) {
+        return new NatData(data.getData());
     }
 
     static long natGet(IBaseData a) {
