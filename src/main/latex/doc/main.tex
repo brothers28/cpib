@@ -301,6 +301,7 @@ Dadurch führt z.B. beim Datentyp \texttt{int} der Ausdruck \texttt{Integer.MAX\
 Dies kann dazu führen, dass mit \glqq falschen\grqq \ Werten gerechnet wird, ohne dass der Entwickler dies bemerkt.
 
 \subsection{Fliesskommazahlen}
+\label{ieee}
 % TODO: Zweierkomplement oben noch nicht beschrieben
 Im Gegensatz zur Darstellung im Zweierkomplement, welche für Integer-Typen in Java verwendet werden, werden Fliesskommazahlen intern nach IEEE Standard dargestellt.
 Anders als bei der Zweierkomplement-Darstellung sieht dieses Format spezielle, konstante Werte vor.
@@ -322,11 +323,13 @@ Andernfalls wird folgendes Verhalten festgelegt:
 \end{itemize}
 
 \subsection{Alternative Ansätze}
-% TODO: Alternativen beschreiben
-% a) Arithmetischer Überlauf ohne Anzeigen, Doppelt soviele Werte wie int
-% c) Inf. wie bei Double
-% d) Unser Ansatz (negative Werte als Abosulte Werte, bei Überschreitungen mit max weiterrechnen)
-% TODO: Downsides z.B. gemäss %  Quelle: https://stackoverflow.com/questions/41312477/purpose-of-defining-positive-infinity-negative-infinity-nan-constants-only-for
+Folgende weiteren Ansätze wurden für die Umsetzung der Erweiterung in Betracht gezogen:
+
+\begin{itemize}
+    \item \textbf{Arithmetischer Überlauf:} Wertebereisüber- resp. unterschreitungen resultieren in einem arithmetischen Überlauf. Gegenüber der Darstellung in Abbildung \ref{zahlenkreis} müsste kein negativer Wertebereich verwendet werden und das Addieren von $+ 1$ zum grössten Darstellbaren Wert des Datentyps \texttt{nat64} führt zum Wert $0$. Weil auf ein Vorzeichenbit verzichtet werden kann, verdoppelt sich der Wertebereich gegenüber dem Datentyp \texttt{int64}. Nachteilig ist dabei, dass der Entwickler verantwortlich ist für das Einhalten der Wertebereichsgrenzen.
+    \item \textbf{Vordefinierte Konstanten:} Ähnlich wie bei Fliesskommazahlen (vgl. Kapitel \ref{ieee}) könnten konstante Werte für z.B. \texttt{POSITIVE\_INFINITY} und \texttt{NEGATIVE\_INFINITY} vorgesehen werden. Das Verhalten bei Wertebereichsüberschreitungen müsste definiert werden. Nachteilig bei dieser Variante ist, dass der Wertebereich um die Anzahl solcher konstante Werte verringert wird.
+    \item \textbf{Absolute Werte:} Bei dieser Variante wird bei negativen Werten deren Absolutwert verwendet. Von dieser initial angedachten Variante wurde abgesehen, weil das Verhalten schnell zu ungewollten Resultaten führen kann.
+\end{itemize}
 
 \section{Beispielprogramme}
 \label{sec:prog}
