@@ -30,12 +30,12 @@ public class RelExpr extends AstNode implements IExpr {
         exprRight.saveNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        exprLeft.doScopeChecking();
-        exprRight.doScopeChecking();
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+        exprLeft.executeScopeCheck();
+        exprRight.executeScopeCheck();
     }
 
-    @Override public void doTypeCasting(Types type) {
+    @Override public void executeTypeCast(Types type) {
         if (type != null) {
             this.castType = type;
         }
@@ -45,11 +45,11 @@ public class RelExpr extends AstNode implements IExpr {
         return LRValue.RVALUE;
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
         // Check allowed types
         if (exprLeft instanceof ch.fhnw.edu.cpib.ast.RelExpr) {
-            ((RelExpr) exprLeft).exprLeft.doTypeChecking();
-            ((RelExpr) exprLeft).exprRight.doTypeChecking();
+            ((RelExpr) exprLeft).exprLeft.executeTypeCheck();
+            ((RelExpr) exprLeft).exprRight.executeTypeCheck();
         } else {
             if (exprLeft.getType() == Types.BOOL)
                 throw new TypeCheckingError(Types.INT32, exprLeft.getType());
@@ -67,11 +67,11 @@ public class RelExpr extends AstNode implements IExpr {
         return Types.BOOL;
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
-        exprLeft.doInitChecking(globalProtected);
-        exprRight.doInitChecking(globalProtected);
+        exprLeft.executeInitCheck(globalProtected);
+        exprRight.executeInitCheck(globalProtected);
     }
 
     @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

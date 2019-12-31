@@ -21,22 +21,22 @@ public class Program extends AstNode {
         this.cpsCmd = cpsCmd;
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
         for (IDecl decl : globalDeclarations) {
             if (!(decl instanceof StoDecl))
-                decl.doScopeChecking();
+                decl.executeScopeCheck();
         }
 
-        cpsCmd.doScopeChecking();
+        cpsCmd.executeScopeCheck();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
         for (IDecl decl : globalDeclarations) {
             if (!(decl instanceof StoDecl))
-                decl.doTypeChecking();
+                decl.executeTypeCheck();
         }
 
-        cpsCmd.doTypeChecking();
+        cpsCmd.executeTypeCheck();
     }
 
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
@@ -67,11 +67,11 @@ public class Program extends AstNode {
         }
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         // We check only the cpsCmd, as the globalDeclarations (e.g. FunDecl) will be checked at the call location
-        cpsCmd.doInitChecking(globalProtected);
+        cpsCmd.executeInitCheck(globalProtected);
     }
 
     @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

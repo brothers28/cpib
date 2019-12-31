@@ -1,0 +1,17 @@
+program exampleCastExpression
+global
+   var x:int32;
+   var y:int32;
+   var z:nat32;
+   var b:bool;
+   var c:bool
+do
+   x init := [int32] 4;
+   y init := [int32] 2;
+   z init := [nat32] (x * y + y + x);
+   b init := x >= y;
+   c init := x >= [int32] z;
+   debugout z;
+   debugout b;
+   debugout c
+endprogram

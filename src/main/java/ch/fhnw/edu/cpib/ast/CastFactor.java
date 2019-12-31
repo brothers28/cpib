@@ -26,16 +26,16 @@ public class CastFactor extends AstNode implements IFactor {
         factor.saveNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        factor.doScopeChecking();
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+        factor.executeScopeCheck();
     }
 
-    @Override public void doTypeCasting(Types type) {
+    @Override public void executeTypeCast(Types type) {
         if (type != null) {
             this.castType = type;
         }
         // Change unerlying factors
-        factor.doTypeCasting(castType);
+        factor.executeTypeCast(castType);
     }
 
     @Override public LRValue getLRValue() {
@@ -46,25 +46,25 @@ public class CastFactor extends AstNode implements IFactor {
         return castType;
     }
 
-    @Override public void doTypeChecking() throws CastError, TypeCheckingError {
-        factor.doTypeChecking();
+    @Override public void executeTypeCheck() throws CastError, TypeCheckingError {
+        factor.executeTypeCheck();
 
         // Check if casteable
         if (!isCastable(factor.getType(), getType()))
             throw new CastError(getType(), factor.getType());
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
-        factor.doInitChecking(globalProtected);
+        factor.executeInitCheck(globalProtected);
     }
 
     @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
         // Cast factor
-        factor.doTypeCasting(castType);
+        factor.executeTypeCast(castType);
 
         // Add the value on top of stack
         factor.addInstructionToCodeArray(localLocations, simulateOnly);

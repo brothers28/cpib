@@ -24,7 +24,7 @@ public class InitFactor extends IdentFactor {
         this.localVarNamespace = localStoresNamespace;
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError {
+    @Override public void executeScopeCheck() throws NotDeclaredError {
         // Check namespace
         boolean declared = false;
         if (localVarNamespace.containsKey(ident.getIdent()))
@@ -39,7 +39,7 @@ public class InitFactor extends IdentFactor {
         }
     }
 
-    @Override public void doTypeCasting(Types type) {
+    @Override public void executeTypeCast(Types type) {
         if (type != null) {
             this.castType = type;
         }
@@ -64,11 +64,11 @@ public class InitFactor extends IdentFactor {
         return typeIdent.getType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError {
+    @Override public void executeTypeCheck() throws TypeCheckingError {
         //
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         // Get the typeIdent for this factor

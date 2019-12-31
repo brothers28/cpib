@@ -41,12 +41,12 @@ public class ProcDecl extends AstNode implements IDecl {
         return ident.getIdent();
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        cpsCmd.doScopeChecking();
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+        cpsCmd.executeScopeCheck();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
-        cpsCmd.doTypeChecking();
+    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+        cpsCmd.executeTypeCheck();
     }
 
     @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
@@ -85,10 +85,10 @@ public class ProcDecl extends AstNode implements IDecl {
         cpsCmd.saveNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
-        cpsCmd.doInitChecking(globalProtected);
+        cpsCmd.executeInitCheck(globalProtected);
     }
 
     @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

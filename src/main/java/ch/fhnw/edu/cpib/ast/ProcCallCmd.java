@@ -33,7 +33,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
             ie.saveNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
         // Check namespace
         if (!globalRoutNamespace.containsKey(ident.getIdent())) {
             // Function not declared in global namespace
@@ -42,7 +42,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
 
         // Check scope
         for (IExpr expr : expressions) {
-            expr.doScopeChecking();
+            expr.executeScopeCheck();
         }
 
         // Check param
@@ -63,9 +63,9 @@ public class ProcCallCmd extends AstNode implements ICmd {
         }
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
         for (IExpr expr : expressions) {
-            expr.doTypeChecking();
+            expr.executeTypeCheck();
         }
 
         // Check allowed types
@@ -78,7 +78,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
         }
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         // Run the init checking for the function declaration
@@ -86,11 +86,11 @@ public class ProcCallCmd extends AstNode implements ICmd {
         // We need to run the init checking only once for the declaration
         if (!procDecl.getInitCheckDone()) {
             procDecl.setInitCheckDone();
-            procDecl.doInitChecking(globalProtected);
+            procDecl.executeInitCheck(globalProtected);
         }
 
         for (IExpr expr : expressions) {
-            expr.doInitChecking(globalProtected);
+            expr.executeInitCheck(globalProtected);
         }
     }
 

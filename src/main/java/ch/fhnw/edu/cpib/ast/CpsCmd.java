@@ -23,23 +23,23 @@ public class CpsCmd extends AstNode implements ICmd {
         }
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
         for (ICmd cmd : commands) {
-            cmd.doScopeChecking();
+            cmd.executeScopeCheck();
         }
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
         for (ICmd cmd : commands) {
-            cmd.doTypeChecking();
+            cmd.executeTypeCheck();
         }
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         for (ICmd cmd : commands) {
-            cmd.doInitChecking(globalProtected);
+            cmd.executeInitCheck(globalProtected);
         }
     }
 

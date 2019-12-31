@@ -18,21 +18,21 @@ public class AstTree {
         return root.toString("");
     }
 
-    public void doScopeChecking()
+    public void executeScopeCheck()
             throws AlreadyDeclaredError, NotDeclaredError, AlreadyGloballyDeclaredError, LRValueError,
             AlreadyInitializedError, InvalidParamCountError {
         root.saveNamespaceInfo(null);
-        root.doScopeChecking();
+        root.executeScopeCheck();
     }
 
-    public void doTypeChecking() throws TypeCheckingError, CastError {
-        root.doTypeChecking();
+    public void executeTypeCheck() throws TypeCheckingError, CastError {
+        root.executeTypeCheck();
     }
 
-    public void doInitChecking()
+    public void executeInitCheck()
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
-        root.doInitChecking(false);
+        root.executeInitCheck(false);
     }
 
     public ICodeArray getCodeArray() throws CodeTooSmallError {

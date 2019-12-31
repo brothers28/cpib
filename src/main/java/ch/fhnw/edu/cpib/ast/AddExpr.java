@@ -31,12 +31,12 @@ public class AddExpr extends AstNode implements IExpr {
 
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        exprLeft.doScopeChecking();
-        exprRight.doScopeChecking();
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+        exprLeft.executeScopeCheck();
+        exprRight.executeScopeCheck();
     }
 
-    @Override public void doTypeCasting(Types type) {
+    @Override public void executeTypeCast(Types type) {
         if (type != null) {
             this.castType = type;
         }
@@ -55,9 +55,9 @@ public class AddExpr extends AstNode implements IExpr {
         return exprLeft.getType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
-        exprLeft.doTypeChecking();
-        exprRight.doTypeChecking();
+    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+        exprLeft.executeTypeCheck();
+        exprRight.executeTypeCheck();
 
         // Check allowed types
         if (exprLeft.getType() == Types.BOOL)
@@ -66,11 +66,11 @@ public class AddExpr extends AstNode implements IExpr {
             throw new TypeCheckingError(exprLeft.getType(), exprRight.getType());
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
-        exprLeft.doInitChecking(globalProtected);
-        exprRight.doInitChecking(globalProtected);
+        exprLeft.executeInitCheck(globalProtected);
+        exprRight.executeInitCheck(globalProtected);
     }
 
     @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

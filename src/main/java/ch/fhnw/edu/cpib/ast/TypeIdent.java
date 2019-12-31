@@ -65,15 +65,15 @@ public class TypeIdent extends AstNode implements Cloneable {
         this.localVarNamespace = localStoresNamespace;
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError {
+    @Override public void executeScopeCheck() throws NotDeclaredError {
         //
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError {
+    @Override public void executeTypeCheck() throws TypeCheckingError {
         //
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         //

@@ -24,15 +24,15 @@ public class ExprFactor extends AstNode implements IFactor {
         expr.saveNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        expr.doScopeChecking();
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+        expr.executeScopeCheck();
     }
 
-    @Override public void doTypeCasting(Types type) {
+    @Override public void executeTypeCast(Types type) {
         if (type != null) {
             this.castType = type;
         }
-        expr.doTypeCasting(type);
+        expr.executeTypeCast(type);
     }
 
     @Override public LRValue getLRValue() {
@@ -48,14 +48,14 @@ public class ExprFactor extends AstNode implements IFactor {
         return expr.getType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
-        expr.doTypeChecking();
+    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+        expr.executeTypeCheck();
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
-        expr.doInitChecking(globalProtected);
+        expr.executeInitCheck(globalProtected);
     }
 
     @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

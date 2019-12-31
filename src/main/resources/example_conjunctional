@@ -1,19 +1,19 @@
 program progConjunctional
 global
-   var x:NAT32;
-   var y:INT32;
-   var z:INT32;
+   var x:nat32;
+   var y:int32;
+   var z:int32;
    var b:bool
 do
    x init := 4;
    y init := 4;
    z init := 0;
    if x > y = 4  then
-      z := ([INT32] x * y)
+      z := ([int32] x * y)
    else
-      z := ([INT32] x + y)
+      z := ([int32] x + y)
    endif;
-   b init := [INT32] x >= y;
+   b init := [int32] x >= y;
    debugout z;
    debugout b
 endprogram

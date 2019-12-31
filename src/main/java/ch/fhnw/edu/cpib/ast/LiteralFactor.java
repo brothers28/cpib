@@ -24,10 +24,10 @@ public class LiteralFactor extends AstNode implements IFactor {
         this.localVarNamespace = localStoresNamespace;
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError {
+    @Override public void executeScopeCheck() throws NotDeclaredError {
     }
 
-    @Override public void doTypeCasting(Types type) {
+    @Override public void executeTypeCast(Types type) {
         if (type != null) {
             this.castType = type;
         }
@@ -47,11 +47,11 @@ public class LiteralFactor extends AstNode implements IFactor {
         return literal.getType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError {
+    @Override public void executeTypeCheck() throws TypeCheckingError {
         //
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         //

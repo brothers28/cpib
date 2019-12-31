@@ -9,6 +9,6 @@ public interface IExpr extends IAstNode {
 
     public LRValue getLRValue();
 
-    public void doTypeCasting(Types type);
+    public void executeTypeCast(Types type);
 
 }

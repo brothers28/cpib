@@ -1,9 +1,9 @@
 program exampleCasting
 global
-   var x:INT32;
-   var y:NAT32
+   var x:int32;
+   var y:nat32
 do
-   x init := [INT32] 4;
-   y init := [NAT32] 3;
-   x := [INT32] y
+   x init := [int32] 4;
+   y init := [nat32] 3;
+   x := [int32] y
 endprogram

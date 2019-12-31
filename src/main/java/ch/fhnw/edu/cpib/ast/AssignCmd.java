@@ -27,25 +27,25 @@ public class AssignCmd extends AstNode implements ICmd {
 
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        exprLeft.doScopeChecking();
-        exprRight.doScopeChecking();
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+        exprLeft.executeScopeCheck();
+        exprRight.executeScopeCheck();
 
         // Has to be LVALUE
         if (exprLeft.getLRValue() == LRValue.RVALUE)
             throw new LRValueError(LRValue.LVALUE, exprLeft.getLRValue());
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
-        exprLeft.doTypeChecking();
-        exprRight.doTypeChecking();
+    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+        exprLeft.executeTypeCheck();
+        exprRight.executeTypeCheck();
 
         // Check allowed types
         if (exprLeft.getType() != exprRight.getType()) //&& !isCastable(exprLeft.getType(), exprRight.getType()))
             throw new TypeCheckingError(exprLeft.getType(), exprRight.getType());
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         // lets check if we try to write something into an already written constant
@@ -63,8 +63,8 @@ public class AssignCmd extends AstNode implements ICmd {
         if (typeIdent.getConst() && typeIdent.getInit())
             throw new CannotAssignToConstError(factor.ident);
 
-        exprLeft.doInitChecking(globalProtected);
-        exprRight.doInitChecking(globalProtected);
+        exprLeft.executeInitCheck(globalProtected);
+        exprRight.executeInitCheck(globalProtected);
     }
 
     @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

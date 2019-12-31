@@ -13,11 +13,11 @@ public interface IAstNode {
     public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError;
 
-    public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError;
+    public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError;
 
-    public void doTypeChecking() throws TypeCheckingError, CastError;
+    public void executeTypeCheck() throws TypeCheckingError, CastError;
 
-    public void doInitChecking(boolean globalProtected)
+    public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError;
 

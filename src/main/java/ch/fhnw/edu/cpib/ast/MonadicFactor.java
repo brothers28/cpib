@@ -33,15 +33,15 @@ public class MonadicFactor extends AstNode implements IFactor {
         factor.saveNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        factor.doScopeChecking();
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+        factor.executeScopeCheck();
     }
 
-    @Override public void doTypeCasting(Types type) {
+    @Override public void executeTypeCast(Types type) {
         if (type != null) {
             this.castType = type;
         }
-        factor.doTypeCasting(type);
+        factor.executeTypeCast(type);
     }
 
     @Override public LRValue getLRValue() {
@@ -57,8 +57,8 @@ public class MonadicFactor extends AstNode implements IFactor {
         return factor.getType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
-        factor.doTypeChecking();
+    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+        factor.executeTypeCheck();
 
         // Check allowed types
         if (Terminals.NOTOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.BOOL)
@@ -69,10 +69,10 @@ public class MonadicFactor extends AstNode implements IFactor {
             throw new TypeCheckingError(Types.NAT32, factor.getType());
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
-        factor.doInitChecking(globalProtected);
+        factor.executeInitCheck(globalProtected);
     }
 
     @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

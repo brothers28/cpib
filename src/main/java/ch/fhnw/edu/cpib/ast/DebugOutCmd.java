@@ -23,18 +23,18 @@ public class DebugOutCmd extends AstNode implements ICmd {
         expr.saveNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        expr.doScopeChecking();
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+        expr.executeScopeCheck();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
-        expr.doTypeChecking();
+    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+        expr.executeTypeCheck();
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
-        expr.doInitChecking(globalProtected);
+        expr.executeInitCheck(globalProtected);
     }
 
     @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

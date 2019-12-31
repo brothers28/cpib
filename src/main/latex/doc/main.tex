@@ -67,7 +67,6 @@ Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp \texttt{
 
 \subsection{Lexikalische Syntax}
 Für den neuen Datentyp wird das Keyword \texttt{(TYPE, NAT32)} und ein Castingoperator hinzugefügt.
-% TODO: ATOMTYPE in Code noch durch TYPE ersetzen
 
 % Listing mit neuen Elementen
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
@@ -85,27 +84,27 @@ Innerhalb der Brackets befindet sich der Zieldatentyp \footnote{zum Beispiel \te
 Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{NAT32} eingesetzt werden kann.
 \begin{lstlisting}
     // Deklaration
-    var natIdent1 : NAT32;
-    var natIdent2 : NAT32;
-    var natIdent3 : NAT32;
+    var natIdent1 : nat32;
+    var natIdent2 : nat32;
+    var natIdent3 : nat32;
 
     // Initialisierung
-    natIdent1 init := [NAT32] 50;
-    natIdent2 init := [NAT32] 10;
+    natIdent1 init := [nat32] 50;
+    natIdent2 init := [nat32] 10;
     natIdent3 init := natIdent1 + natIdent2;
 
     // Casting von INT32 nach NAT32
-    var intIdent1 : INT32;
+    var intIdent1 : int32;
     intIdent1 init := 30;
-    natIdent3 := [NAT32] intIdent1;
+    natIdent3 := [nat32] intIdent1;
 
-    call functionWithNatParam([NAT32] intIdent1);
+    call functionWithNatParam([nat32] intIdent1);
 
     // Casting von NAT32 nach INT32
-    var intIdent2 : INT32;
-    intIdent2 init := [INT32] natIdent3;
+    var intIdent2 : int32;
+    intIdent2 init := [int32] natIdent3;
 
-    call functionWithIntParam([INT32] natIdent3);
+    call functionWithIntParam([int32] natIdent3);
 \end{lstlisting}
 Literale werden standardmässig als \texttt{INT32} interpretiert - ein \texttt{NAT32}-Literal bedingt vorab deshalb den Castingoperator.
 Falls zwei Datentypen nicht gecastet werden können, wird ein Kompilierungsfehler geworfen.
@@ -114,9 +113,9 @@ Folgendes Code-Listing zeigt ein solches Beispiel mit dem bestehenden Datentyp \
     // Deklaration
     var boolIdent : bool;
     boolIdent init := false;
-    var natIdent : NAT32;
+    var natIdent : nat32;
     // Throws type checking error:
-    natIdent init := [NAT32] boolIdent
+    natIdent init := [nat32] boolIdent
 \end{lstlisting}
 Unsere Erweiterung unterstützt keine impliziten Castings.
 Weitere Code-Beispiele sind im Anhang zu finden.
@@ -162,9 +161,9 @@ Falls negative Werte von \texttt{INT32} nach \texttt{NAT32} umgewandelt werden, 
     \resizebox{\columnwidth}{!}{%
     \begin{tabular}{rlll}
         \hline
-        Quell- \textbackslash \ Zieldatentyp & INT32 & NAT32 & bool \\ \hline
-        INT32 & \cmark        & \cmark *       & \xmark      \\
-        NAT32 & \cmark *      & \cmark         & \xmark     \\
+        Quell- \textbackslash \ Zieldatentyp & int32 & nat32 & bool \\ \hline
+        int32 & \cmark        & \cmark *       & \xmark      \\
+        nat32 & \cmark *      & \cmark         & \xmark     \\
         bool & \xmark        & \xmark         & \xmark     \\ \hline
     \end{tabular}%
     }
@@ -180,7 +179,7 @@ Dieser kann Werte von $-9223372036854775808$ bis $9223372036854775808$ annehmen 
 Die Überprüfung, ob der Wert innerhalb des gültigen Wertebereichs des jeweiligen Datentyps liegt, erfolgt zum Zeitpunkt der Code-Generierung.
 
 \subsection{Parser}
-Der neu eingeführte \texttt{castOpr} und die neue Produktion \texttt{factor := castOpr factor} müssen im Abstrakten Syntax Tree (AST) abgebildet werden.
+Der neu eingeführte \texttt{castOpr} und die neue Produktion \texttt{factor := castOpr factor} sind im Abstrakten Syntax Tree (AST) abgebildet.
 Abbildung \ref{ast} zeigt die Umwandlung von der konkreten in die abstrakte Syntax.
 
 \begin{figure}[H]
@@ -235,13 +234,13 @@ Zusätzlich sind bei der Abarbeitung des AST nur die folgenden Typen erlaubt:
     \begin{tabular}{@{}ll@{}}
         \toprule
         Klasse & Types \\ \midrule
-        AddExpr, MultExpr, RelExpr      & \texttt{INT32, NAT32} * \\
+        AddExpr, MultExpr, RelExpr      & \texttt{int32, nat32} * \\
         BoolExpr, IfCmd                 & \texttt{bool} \\
-        AssignCmd                       & \texttt{INT32, NAT32, bool} * \\
+        AssignCmd                       & \texttt{int32, nat32, bool} * \\
         FunCallFactor, ProcCallFactor   & Typ von Caller muss \\
                                         & Typ von Callee entsprechen \\
         MonadicFactor                   & NOTOPR: \texttt{bool} \\
-                                        & ADDOPR: \texttt{INT32, NAT32} \\
+                                        & ADDOPR: \texttt{int32, nat32} \\
         CastFactor                      & Typ von Factor und \\
                                         & Typ von CastFactor \\
                                         & müssen castable sein\\ \bottomrule
@@ -253,7 +252,7 @@ Beim der Typenüberprüfung innerhalb vom \texttt{CastFactor} wird überprüft, 
 Die effektive Typ-Konversion wird erst bei der Code-Generierung durchgeführt.
 
 \subsubsection*{Initalization checking}
-% TODO: Beschreiben anhand von Methode doInitChecking und Code in den ensprechenden Klassen refactoren und Variabeln umbenennen etc.
+% TODO: Beschreiben anhand von Methode executeInitCheck und Code in den ensprechenden Klassen refactoren und Variabeln umbenennen etc.
 
 \subsection{Virtuelle Maschine}
 Grundlage für die Code-Generierung ist der Abstract Syntax Tree (AST).
@@ -277,7 +276,7 @@ Abbildung \ref{data_hierarchy} zeigt die Klassenhierarchie dieser Typen.
 \end{figure}
 
 Beim Dereferenzieren muss im Falle eines Castings der Datentyp von bereits typisierten Daten auf dem Stack geändert werden.
-Anhang \ref{bsp_deref} zeigt ein Beispiel, bei welchem der Datentyp aufgrund des neu propagierten Attributs \texttt{castType} erfolgreich umgewandelt wird.
+Anhang \ref{bsp_deref} zeigt ein Beispiel, bei welchem der Datentyp aufgrund des neu propagierten Attributs \texttt{castType} umgewandelt wird.
 
 \subsection{Code Generierung}
 % TODO Eigentlich kein separates Kapitel
@@ -289,14 +288,14 @@ Beim Datentyp \texttt{long} wird beispielsweise geprüft, ob der Wert als ganzza
 Falls dies nicht der Fall ist, wird ein Fehler zur Kompilierungszeit geworfen.
 Das MSB wird als Vorzeichenbit verwendet, womit rund die Hälfte der vorzeichenlos darstellbaren \texttt{long}-Werte entfällt, resp. zur Darstellung von negativen Zahlen eingesetzt wird.
 Falls bei fortlaufenden Berechnungen Wertebereiche unter- resp. überschritten werden, führt dies zu einem arithmetischen Überlauf.
-Abbildung \ref{zahlenkreis} %TODO: Abbildung-Nr.verifizieren
+Abbildung \ref{zahlenkreis} % TODO: doesnt work... %
 zeigt den Überlauf bei ganzzahligen, vorzeichenbehafteten Datentypen (am Beispiel von Bitlänge 3 + 1).
 
 \begin{figure}[H]
     \includegraphics[width=\linewidth]{zahlenkreis_int3.jpg} % Figure image
-    \caption{Überlauf mit Integerzahlen } % Figure caption
-    % TODO: Ref: https://de.wikipedia.org/wiki/Integer_(Datentyp)#/media/Datei:Zahlenkreis_sint3.jpg
+    \caption{Überlauf mit Integerzahlen} % Figure caption
     \label{zahlenkreis}
+    % TODO: Ref: https://de.wikipedia.org/wiki/Integer_(Datentyp)#/media/Datei:Zahlenkreis_sint3.jpg
 \end{figure}
 
 
@@ -340,9 +339,9 @@ Operation:
 \begin{lstlisting}
     program progAddition
     global
-    var x:NAT32;
-    var y:NAT32;
-    var r:NAT32;
+    var x:nat32;
+    var y:nat32;
+    var r:nat32;
     var b:bool
     do
     x init := 4;
@@ -358,14 +357,14 @@ Casting:
 \begin{lstlisting}
     program progCasting
     global
-    var x:NAT32;
-    var y:INT32;
-    var r:NAT32;
+    var x:nat32;
+    var y:int32;
+    var r:nat32;
     var b:bool
     do
     x init := 4;
     y init := 3;
-    r init := x + [NAT32] y;
+    r init := x + [nat32] y;
     b init := r = 7;
 
     debugout r;
@@ -378,13 +377,17 @@ Casting:
 %----------------------------------------------------------------------------------------
 
 \begin{thebibliography}{9}
-    \bibitem{wikipedia}
+    \bibitem{wikipedia_natNumDe}
     Wikipedia: Natürliche Zahl,
     \url{https://de.wikipedia.org/wiki/Nat\%C3\%BCrliche_Zahl}
 
-    \bibitem{wikipedia}
+    \bibitem{wikipedia_natNumEN}
     Wikipedia: Natural numbers (engl.),
     \url{https://en.wikipedia.org/wiki/Natural_number}
+
+    \bibitem{wikipedia_int}
+    Wikipedia: Integer (Datentyp)
+    \url{https://de.wikipedia.org/wiki/Integer_(Datentyp)}
 \end{thebibliography}
 
 %----------------------------------------------------------------------------------------
@@ -436,12 +439,12 @@ IML:
 \begin{lstlisting}
     program exampleCasting
     global
-    var x:INT32;
-    var y:NAT32
+    var x:int32;
+    var y:nat32
     do
-    x init := [INT32] 4;
-    y init := [NAT32] 3;
-    x := [INT32] y
+    x init := [int32] 4;
+    y init := [nat32] 3;
+    x := [int32] y
     endprogram
 \end{lstlisting}
 

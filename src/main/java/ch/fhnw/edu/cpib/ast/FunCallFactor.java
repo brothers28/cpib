@@ -29,7 +29,7 @@ public class FunCallFactor extends IdentFactor {
         }
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
         // Check namespace
         if (!globalRoutNamespace.containsKey(ident.getIdent())) {
             // Function not declared in global namespace
@@ -37,7 +37,7 @@ public class FunCallFactor extends IdentFactor {
 
         // Check scope
         for (IExpr expr : expressions) {
-            expr.doScopeChecking();
+            expr.executeScopeCheck();
         }
 
         // Check param
@@ -58,12 +58,12 @@ public class FunCallFactor extends IdentFactor {
         }
     }
 
-    @Override public void doTypeCasting(Types type) {
+    @Override public void executeTypeCast(Types type) {
         if (type != null) {
             this.castType = type;
         }
         for (IExpr expr : expressions) {
-            expr.doTypeCasting(type);
+            expr.executeTypeCast(type);
         }
     }
 
@@ -81,9 +81,9 @@ public class FunCallFactor extends IdentFactor {
         return funDecl.getReturnType();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
         for (IExpr expr : expressions) {
-            expr.doTypeChecking();
+            expr.executeTypeCheck();
         }
 
         // Check allowed types
@@ -96,7 +96,7 @@ public class FunCallFactor extends IdentFactor {
         }
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
         // Run the init checking for the function declaration
@@ -104,11 +104,11 @@ public class FunCallFactor extends IdentFactor {
         // We need to run the init checking only once for the declaration
         if (!funDecl.getInitCheckDone()) {
             funDecl.setInitCheckDone();
-            funDecl.doInitChecking(globalProtected);
+            funDecl.executeInitCheck(globalProtected);
         }
 
         for (IExpr expr : expressions) {
-            expr.doInitChecking(globalProtected);
+            expr.executeInitCheck(globalProtected);
         }
     }
 
