@@ -63,10 +63,10 @@ public class MonadicFactor extends AstNode implements IFactor {
         // Check allowed types
         if (Terminals.NOTOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.BOOL)
             throw new TypeCheckingError(Types.BOOL, factor.getType());
-        if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.INT64)
-            throw new TypeCheckingError(Types.INT64, factor.getType());
-        if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.NAT64)
-            throw new TypeCheckingError(Types.NAT64, factor.getType());
+        if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.INT32)
+            throw new TypeCheckingError(Types.INT32, factor.getType());
+        if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.NAT32)
+            throw new TypeCheckingError(Types.NAT32, factor.getType());
     }
 
     @Override public void doInitChecking(boolean globalProtected)
@@ -86,9 +86,9 @@ public class MonadicFactor extends AstNode implements IFactor {
             if (Terminals.NOTOPR.equals(monadicOpr.getOperator())) {
                 codeArray.put(codeArrayPointer, new IInstructions.NegBool());
             } else if (Operators.MINUS.equals(monadicOpr.getOperator())) {
-                if (Types.INT64.equals(getType())) {
+                if (Types.INT32.equals(getType())) {
                     codeArray.put(codeArrayPointer, new IInstructions.NegInt());
-                } else if (Types.NAT64.equals(getType())) {
+                } else if (Types.NAT32.equals(getType())) {
                     codeArray.put(codeArrayPointer, new IInstructions.NegNat());
                 } else {
                     throw new RuntimeException("Unknown Type!");

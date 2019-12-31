@@ -1,6 +1,6 @@
 program progFactorial
 global
-  const test:nat64
+  const test:NAT32
 do
-  test init := [nat64] (4 + 5)
+  test init := [NAT32] (4 + 5)
 endprogram

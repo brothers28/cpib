@@ -1,6 +1,6 @@
 program progDouble
 global
-  var value:int64
+  var value:INT32
 do
-  value init := [int64] [nat64] (4 + 1)
+  value init := [INT32] [NAT32] (4 + 1)
 endprogram

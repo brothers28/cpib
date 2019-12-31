@@ -719,10 +719,10 @@ public class Parser {
         }
     }
 
-    // castOpr ::= LBRACKET ATOMTYPE RBRACKET // FIXME: ATOMTYPE oder Type?
+    // castOpr ::= LBRACKET TYPE RBRACKET
     private ICastOpr castOpr() throws GrammarError {
         if (currentTerminal == Terminals.LBRACKET) {
-            System.out.println("castOpr ::= LBRACKET ATOMTYPE RPAREN");
+            System.out.println("castOpr ::= LBRACKET TYPE RPAREN");
             IToken T_lBracket = consume(Terminals.LBRACKET);
             IToken T_type = consume(Terminals.TYPE);
             IToken T_rBracket = consume(Terminals.RBRACKET);

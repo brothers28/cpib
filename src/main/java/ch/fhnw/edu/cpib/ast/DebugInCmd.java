@@ -77,9 +77,9 @@ public class DebugInCmd extends AstNode implements ICmd {
         if (!simulateOnly) {
             if (factor.getType() == Types.BOOL) {
                 codeArray.put(codeArrayPointer, new IInstructions.InputBool(factor.ident.getIdent()));
-            } else if (factor.getType() == Types.INT64) {
+            } else if (factor.getType() == Types.INT32) {
                 codeArray.put(codeArrayPointer, new IInstructions.InputInt(factor.ident.getIdent()));
-            } else if (factor.getType() == Types.NAT64) {
+            } else if (factor.getType() == Types.NAT32) {
                 codeArray.put(codeArrayPointer, new IInstructions.InputNat(factor.ident.getIdent()));
             } else {
                 throw new RuntimeException("Unknown Type!");

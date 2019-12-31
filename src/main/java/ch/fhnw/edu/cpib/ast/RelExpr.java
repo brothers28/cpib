@@ -52,7 +52,7 @@ public class RelExpr extends AstNode implements IExpr {
             ((RelExpr) exprLeft).exprRight.doTypeChecking();
         } else {
             if (exprLeft.getType() == Types.BOOL)
-                throw new TypeCheckingError(Types.INT64, exprLeft.getType());
+                throw new TypeCheckingError(Types.INT32, exprLeft.getType());
             if (exprLeft.getType() != exprRight.getType())
                 throw new TypeCheckingError(exprLeft.getType(), exprRight.getType());
         }
@@ -111,49 +111,49 @@ public class RelExpr extends AstNode implements IExpr {
             if (!simulateOnly) {
                 switch (relOpr) {
                 case EQ:
-                    if (Types.INT64.equals(exprLeft.getType())) {
+                    if (Types.INT32.equals(exprLeft.getType())) {
                         codeArray.put(codeArrayPointer, new IInstructions.EqInt());
-                    } else if (Types.NAT64.equals(exprLeft.getType())) {
+                    } else if (Types.NAT32.equals(exprLeft.getType())) {
                         codeArray.put(codeArrayPointer, new IInstructions.EqNat());
                     } else
                         throw new RuntimeException("Unknown Type!");
                     break;
                 case GE:
-                    if (Types.INT64.equals(exprLeft.getType())) {
+                    if (Types.INT32.equals(exprLeft.getType())) {
                         codeArray.put(codeArrayPointer, new IInstructions.GeInt());
-                    } else if (Types.NAT64.equals(exprLeft.getType())) {
+                    } else if (Types.NAT32.equals(exprLeft.getType())) {
                         codeArray.put(codeArrayPointer, new IInstructions.GeNat());
                     } else
                         throw new RuntimeException("Unknown Type!");
                     break;
                 case GT:
-                    if (Types.INT64.equals(exprLeft.getType())) {
+                    if (Types.INT32.equals(exprLeft.getType())) {
                         codeArray.put(codeArrayPointer, new IInstructions.GtInt());
-                    } else if (Types.NAT64.equals(exprLeft.getType())) {
+                    } else if (Types.NAT32.equals(exprLeft.getType())) {
                         codeArray.put(codeArrayPointer, new IInstructions.GtNat());
                     } else
                         throw new RuntimeException("Unknown Type!");
                     break;
                 case LE:
-                    if (Types.INT64.equals(exprLeft.getType())) {
+                    if (Types.INT32.equals(exprLeft.getType())) {
                         codeArray.put(codeArrayPointer, new IInstructions.LeInt());
-                    } else if (Types.NAT64.equals(exprLeft.getType())) {
+                    } else if (Types.NAT32.equals(exprLeft.getType())) {
                         codeArray.put(codeArrayPointer, new IInstructions.LeNat());
                     } else
                         throw new RuntimeException("Unknown Type!");
                     break;
                 case LT:
-                    if (Types.INT64.equals(exprLeft.getType())) {
+                    if (Types.INT32.equals(exprLeft.getType())) {
                         codeArray.put(codeArrayPointer, new IInstructions.LtInt());
-                    } else if (Types.NAT64.equals(exprLeft.getType())) {
+                    } else if (Types.NAT32.equals(exprLeft.getType())) {
                         codeArray.put(codeArrayPointer, new IInstructions.LtNat());
                     } else
                         throw new RuntimeException("Unknown Type!");
                     break;
                 case NE:
-                    if (Types.INT64.equals(exprLeft.getType())) {
+                    if (Types.INT32.equals(exprLeft.getType())) {
                         codeArray.put(codeArrayPointer, new IInstructions.NegInt());
-                    } else if (Types.NAT64.equals(exprLeft.getType())) {
+                    } else if (Types.NAT32.equals(exprLeft.getType())) {
                         codeArray.put(codeArrayPointer, new IInstructions.NeNat());
                     } else
                         throw new RuntimeException("Unknown Type!");

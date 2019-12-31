@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Nat64 support for IML
+% NAT32 support for IML
 % Module cpib
 %
 % This template was downloaded from:
@@ -26,7 +26,7 @@
 %	ARTICLE INFORMATION
 %----------------------------------------------------------------------------------------
 
-\title{Nat64 und Casting für IML} % The article title
+\title{NAT32 und Casting für IML} % The article title
 
 \author{
 \authorstyle{Marco Romanutti\textsuperscript{1,2} und Benjamin Meyer\textsuperscript{1,2}} % Authors
@@ -49,7 +49,7 @@
 %	ABSTRACT
 %----------------------------------------------------------------------------------------
 
-\lettrineabstract{Im Modul Compilerbau wird eine Erweiterung für die bestehende Sprache IML spezifiziert und implementiert. Die Implementierung beinhaltet einen neuen Datentyp für natürliche Zahlen, sowie eine Möglichkeit den Datentyp int64 in den neuen Datentypen zu casten und umgekehrt.}
+\lettrineabstract{Im Modul Compilerbau wird eine Erweiterung für die bestehende Sprache IML spezifiziert und implementiert. Die Implementierung beinhaltet einen neuen Datentyp für natürliche Zahlen, sowie eine Möglichkeit den Datentyp INT32 in den neuen Datentypen zu casten und umgekehrt.}
 %----------------------------------------------------------------------------------------
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
@@ -60,63 +60,63 @@ Unter natürlichen Zahlen werden die positiven, ganzen Zahlen und 0 verstanden:
 
 $$ \mathbb{N} = \{0; 1; 2; 3; \ldots\} $$
 
-Die IML soll um einen neuen Datentyp \texttt{nat64} erweitert werden.
-Der neue Datentyp soll solche positiven, ganzen Zahlen bis Länge 64 in Binärdarstellung abbilden können.
+Die IML soll um einen neuen Datentyp \texttt{NAT32} erweitert werden.
+Der neue Datentyp soll solche positiven, ganzen Zahlen bis Länge 32 in Binärdarstellung abbilden können.
 Es sollen die bestehenden Operationen unterstützt werden.
-Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp \texttt{int64} und dem neuen Datentyp \texttt{nat64} möglich sein.
+Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp \texttt{INT32} und dem neuen Datentyp \texttt{NAT32} möglich sein.
 
 \subsection{Lexikalische Syntax}
-Für den neuen Datentyp wird das Keyword \texttt{(TYPE, NAT64)} und ein Castingoperator hinzugefügt.
+Für den neuen Datentyp wird das Keyword \texttt{(TYPE, NAT32)} und ein Castingoperator hinzugefügt.
 % TODO: ATOMTYPE in Code noch durch TYPE ersetzen
 
 % Listing mit neuen Elementen
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
 xleftmargin = 0.05cm,
 framexleftmargin = 0.05em]
-    Datentyp:     nat64     (TYPE, NAT64)
+    Datentyp:     NAT32     (TYPE, NAT32)
     Brackets:     [ ]       LBRACKET, RBRACKET
 \end{lstlisting}
 
-Casting ist nur von \texttt{(TYPE, INT64)} zu \texttt{(TYPE, NAT64)} und umgekehrt möglich.
+Casting ist nur von \texttt{(TYPE, INT32)} zu \texttt{(TYPE, NAT32)} und umgekehrt möglich.
 Als Castingoperator werden rechteckige Klammern (nachfolgend Brackets gennant) verwendet.
-Innerhalb der Brackets befindet sich der Zieldatentyp \footnote{zum Beispiel \texttt{[int64]}}.
+Innerhalb der Brackets befindet sich der Zieldatentyp \footnote{zum Beispiel \texttt{[INT32]}}.
 
 \subsection{Grammatikalische Syntax}
-Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{nat64} eingesetzt werden kann.
+Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{NAT32} eingesetzt werden kann.
 \begin{lstlisting}
     // Deklaration
-    var natIdent1 : nat64;
-    var natIdent2 : nat64;
-    var natIdent3 : nat64;
+    var natIdent1 : NAT32;
+    var natIdent2 : NAT32;
+    var natIdent3 : NAT32;
 
     // Initialisierung
-    natIdent1 init := [nat64] 50;
-    natIdent2 init := [nat64] 10;
+    natIdent1 init := [NAT32] 50;
+    natIdent2 init := [NAT32] 10;
     natIdent3 init := natIdent1 + natIdent2;
 
-    // Casting von int64 nach nat64
-    var intIdent1 : int64;
+    // Casting von INT32 nach NAT32
+    var intIdent1 : INT32;
     intIdent1 init := 30;
-    natIdent3 := [nat64] intIdent1;
+    natIdent3 := [NAT32] intIdent1;
 
-    call functionWithNatParam([nat64] intIdent1);
+    call functionWithNatParam([NAT32] intIdent1);
 
-    // Casting von nat64 nach int64
-    var intIdent2 : int64;
-    intIdent2 init := [int64] natIdent3;
+    // Casting von NAT32 nach INT32
+    var intIdent2 : INT32;
+    intIdent2 init := [INT32] natIdent3;
 
-    call functionWithIntParam([int64] natIdent3);
+    call functionWithIntParam([INT32] natIdent3);
 \end{lstlisting}
-Literale werden standardmässig als \texttt{int64} interpretiert - ein \texttt{nat64}-Literal bedingt vorab deshalb den Castingoperator.
+Literale werden standardmässig als \texttt{INT32} interpretiert - ein \texttt{NAT32}-Literal bedingt vorab deshalb den Castingoperator.
 Falls zwei Datentypen nicht gecastet werden können, wird ein Kompilierungsfehler geworfen.
 Folgendes Code-Listing zeigt ein solches Beispiel mit dem bestehenden Datentyp \texttt{bool}:
 \begin{lstlisting}
     // Deklaration
     var boolIdent : bool;
     boolIdent init := false;
-    var natIdent : nat64;
+    var natIdent : NAT32;
     // Throws type checking error:
-    natIdent init := [nat64] boolIdent
+    natIdent init := [NAT32] boolIdent
 \end{lstlisting}
 Unsere Erweiterung unterstützt keine impliziten Castings.
 Weitere Code-Beispiele sind im Anhang zu finden.
@@ -143,17 +143,17 @@ framexleftmargin = 0.05em]
 \end{lstlisting}
 
 \subsection{Kontext- und Typen-Einschränkungen}
-Der \texttt{TYPE} zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss vom Datentyp \texttt{int64} oder \texttt{nat64} sein.
-Ein Casting zum Typ \texttt{bool} oder vom Typ \texttt{bool} zu \texttt{int64} resp. \texttt{nat64} führt zu einem Kompilierungsfehler.
+Der \texttt{TYPE} zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss vom Datentyp \texttt{INT32} oder \texttt{NAT32} sein.
+Ein Casting zum Typ \texttt{bool} oder vom Typ \texttt{bool} zu \texttt{INT32} resp. \texttt{NAT32} führt zu einem Kompilierungsfehler.
 
 Tabelle \ref{tab:Casting} zeigt die unterstützen Typumwandlungen der verschiedenen Datentypen.
 Typumwandlungen, welche zu potentiellen Laufzeitfehler führen, sind mit mit \texttt{*} gekennzeichnet.
-Der Datentyp \texttt{int64} umfasst einen Wertebereich von $-2147483648$ bis $2147483647$, wobei das Most Significant Bit (MSB) für das Vorzeichen verwendet wird.
-Weil der Datentyp \texttt{nat64} nur positive, ganze Zahlen und die Zahl 0 darstellt, wird kein Vorzeichenbit benötigt.
+Der Datentyp \texttt{INT32} umfasst einen Wertebereich von $-2147483648$ bis $2147483647$, wobei das Most Significant Bit (MSB) für das Vorzeichen verwendet wird.
+Weil der Datentyp \texttt{NAT32} nur positive, ganze Zahlen und die Zahl 0 darstellt, wird kein Vorzeichenbit benötigt.
 Der Wertebereich verschiebt sich dadurch auf $0$ bis $4294967295$.
 Falls bei Typumwandlungen der Wert ausserhalb des Wertebereichs des Zieldatentyps liegt, führt dies zu einem Laufzeitfehler.
-Bei der Umwandlung von \texttt{nat64} nach \texttt{int64} kann ein solcher Laufzeitfehler beispielsweise auftreten, falls es sich um einen Wert $> 2147483647$ handelt.
-Falls negative Werte von \texttt{int64} nach \texttt{nat64} umgewandelt werden, resultiert ebenfalls ein Laufzeitfehler.
+Bei der Umwandlung von \texttt{NAT32} nach \texttt{INT32} kann ein solcher Laufzeitfehler beispielsweise auftreten, falls es sich um einen Wert $> 2147483647$ handelt.
+Falls negative Werte von \texttt{INT32} nach \texttt{NAT32} umgewandelt werden, resultiert ebenfalls ein Laufzeitfehler.
 \begin{table}[h]
     \tiny
     \centering
@@ -162,9 +162,9 @@ Falls negative Werte von \texttt{int64} nach \texttt{nat64} umgewandelt werden, 
     \resizebox{\columnwidth}{!}{%
     \begin{tabular}{rlll}
         \hline
-        Quell- \textbackslash \ Zieldatentyp & int64 & nat64 & bool \\ \hline
-        int64 & \cmark        & \cmark *       & \xmark      \\
-        nat64 & \cmark *      & \cmark         & \xmark     \\
+        Quell- \textbackslash \ Zieldatentyp & INT32 & NAT32 & bool \\ \hline
+        INT32 & \cmark        & \cmark *       & \xmark      \\
+        NAT32 & \cmark *      & \cmark         & \xmark     \\
         bool & \xmark        & \xmark         & \xmark     \\ \hline
     \end{tabular}%
     }
@@ -174,9 +174,9 @@ Falls negative Werte von \texttt{int64} nach \texttt{nat64} umgewandelt werden, 
 Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
 
 \subsection{Scanner}
-Literale werden standardmässig als \texttt{int64} interpretiert - ein \texttt{nat64}-Literal bedingt vorab deshalb den Castingoperator.
+Literale werden standardmässig als \texttt{INT32} interpretiert - ein \texttt{NAT32}-Literal bedingt vorab deshalb den Castingoperator.
 Vom Scanner werden Literale als \texttt{long} in Java eingelesen.
-Dieser kann Werte von $-9223372036854775808$ bis $9223372036854775808$ annehmen und deckt somit den gesamten Wertebereich der beiden Datentypen \texttt{int64} und \texttt{nat64} ab.
+Dieser kann Werte von $-9223372036854775808$ bis $9223372036854775808$ annehmen und deckt somit den gesamten Wertebereich der beiden Datentypen \texttt{INT32} und \texttt{NAT32} ab.
 Die Überprüfung, ob der Wert innerhalb des gültigen Wertebereichs des jeweiligen Datentyps liegt, erfolgt zum Zeitpunkt der Code-Generierung.
 
 \subsection{Parser}
@@ -235,13 +235,13 @@ Zusätzlich sind bei der Abarbeitung des AST nur die folgenden Typen erlaubt:
     \begin{tabular}{@{}ll@{}}
         \toprule
         Klasse & Types \\ \midrule
-        AddExpr, MultExpr, RelExpr      & \texttt{int64, nat64} * \\
+        AddExpr, MultExpr, RelExpr      & \texttt{INT32, NAT32} * \\
         BoolExpr, IfCmd                 & \texttt{bool} \\
-        AssignCmd                       & \texttt{int64, nat64, bool} * \\
+        AssignCmd                       & \texttt{INT32, NAT32, bool} * \\
         FunCallFactor, ProcCallFactor   & Typ von Caller muss \\
                                         & Typ von Callee entsprechen \\
         MonadicFactor                   & NOTOPR: \texttt{bool} \\
-                                        & ADDOPR: \texttt{int64, nat64} \\
+                                        & ADDOPR: \texttt{INT32, NAT32} \\
         CastFactor                      & Typ von Factor und \\
                                         & Typ von CastFactor \\
                                         & müssen castable sein\\ \bottomrule
@@ -267,7 +267,7 @@ Weil der \texttt{factor} gemäss Grammatik unterschiedliche Produktionen besitzt
 Die Rekursion wird durch Literale oder Expressions unterbrochen, wie am Beispiel in Anhang \ref{bsp_casting} aufgezeigt.
 
 In der virtuellen Maschine wurde ein neuer generischer Typ \texttt{NumData} eingeführt.
-Dieser wird für die Konversion zwischen Daten vom Typ \texttt{IntData}\footnote{für den Datentyp \texttt{int64}} und \texttt{NatData}\footnote{für den Datentyp \texttt{nat64}} verwendet.
+Dieser wird für die Konversion zwischen Daten vom Typ \texttt{IntData}\footnote{für den Datentyp \texttt{INT32}} und \texttt{NatData}\footnote{für den Datentyp \texttt{NAT32}} verwendet.
 Abbildung \ref{data_hierarchy} zeigt die Klassenhierarchie dieser Typen.
 
 \begin{figure}[H]
@@ -285,7 +285,7 @@ Anhang \ref{bsp_deref} zeigt ein Beispiel, bei welchem der Datentyp aufgrund des
 \section{Vergleich mit anderen Programmiersprachen}
 \subsection{Ganzzahlige Werte}
 In Java wird bei Zuweisungen die Länge einer Zahl in Bitdarstellung überprüft:
-Beim Datentyp \texttt{long} wird beispielsweise geprüft, ob der Wert als ganzzahliger Wert von 64-bit Länge dargestellt werden kann.
+Beim Datentyp \texttt{long} wird beispielsweise geprüft, ob der Wert als ganzzahliger Wert von 32-bit Länge dargestellt werden kann.
 Falls dies nicht der Fall ist, wird ein Fehler zur Kompilierungszeit geworfen.
 Das MSB wird als Vorzeichenbit verwendet, womit rund die Hälfte der vorzeichenlos darstellbaren \texttt{long}-Werte entfällt, resp. zur Darstellung von negativen Zahlen eingesetzt wird.
 Falls bei fortlaufenden Berechnungen Wertebereiche unter- resp. überschritten werden, führt dies zu einem arithmetischen Überlauf.
@@ -313,11 +313,11 @@ So sind in Java beispielsweise Konstanten für \texttt{Double.POSITIVE\_INFINITY
 
 \section{Designentscheidungen}
 \subsection{Spezifiziertes Verhalten}
-Der neue Datentyp \texttt{nat64} unterstützt die bestehenden Operationen aus IML\footnote{Aktuell sind dies \begin{itemize}
+Der neue Datentyp \texttt{NAT32} unterstützt die bestehenden Operationen aus IML\footnote{Aktuell sind dies \begin{itemize}
                                                                                                                 \item MULTOPR(*, divE, modE) \item ADDOPR(+, -) \item RELOPR(<, <=, >, >=, =, /=) \item BOOLOPR(&&, ||, &, |)
 \end{itemize}}.
 Sofern sich die einzelnen Operanden und auch das Resulat im Wertebereich\footnote{$[0,4294967295]$} befinden,
-entspricht das Verhalten vom Datentyp \texttt{nat64} jenem vom Datentyp \texttt{int64}.
+entspricht das Verhalten vom Datentyp \texttt{NAT32} jenem vom Datentyp \texttt{INT32}.
 Andernfalls wird folgendes Verhalten festgelegt:
 
 \begin{itemize}
@@ -329,7 +329,7 @@ Andernfalls wird folgendes Verhalten festgelegt:
 Folgende weiteren Ansätze wurden für die Umsetzung der Erweiterung in Betracht gezogen:
 
 \begin{itemize}
-    \item \textbf{Arithmetischer Überlauf:} Wertebereisüber- resp. unterschreitungen resultieren in einem arithmetischen Überlauf. Gegenüber der Darstellung in Abbildung \ref{zahlenkreis} müsste kein negativer Wertebereich verwendet werden und das Addieren von $+ 1$ zum grössten Darstellbaren Wert des Datentyps \texttt{nat64} führt zum Wert $0$. Weil auf ein Vorzeichenbit verzichtet werden kann, verdoppelt sich der Wertebereich gegenüber dem Datentyp \texttt{int64}. Nachteilig ist dabei, dass der Entwickler verantwortlich ist für das Einhalten der Wertebereichsgrenzen.
+    \item \textbf{Arithmetischer Überlauf:} Wertebereisüber- resp. unterschreitungen resultieren in einem arithmetischen Überlauf. Gegenüber der Darstellung in Abbildung \ref{zahlenkreis} müsste kein negativer Wertebereich verwendet werden und das Addieren von $+ 1$ zum grössten Darstellbaren Wert des Datentyps \texttt{NAT32} führt zum Wert $0$. Weil auf ein Vorzeichenbit verzichtet werden kann, verdoppelt sich der Wertebereich gegenüber dem Datentyp \texttt{INT32}. Nachteilig ist dabei, dass der Entwickler verantwortlich ist für das Einhalten der Wertebereichsgrenzen.
     \item \textbf{Vordefinierte Konstanten:} Ähnlich wie bei Fliesskommazahlen (vgl. Kapitel \ref{ieee}) könnten konstante Werte für z.B. \texttt{POSITIVE\_INFINITY} und \texttt{NEGATIVE\_INFINITY} vorgesehen werden. Das Verhalten bei Wertebereichsüberschreitungen müsste definiert werden. Nachteilig bei dieser Variante ist, dass der Wertebereich um die Anzahl solcher konstante Werte verringert wird.
     \item \textbf{Absolute Werte:} Bei dieser Variante wird bei negativen Werten deren Absolutwert verwendet. Von dieser initial angedachten Variante wurde abgesehen, weil das Verhalten schnell zu ungewollten Resultaten führen kann.
 \end{itemize}
@@ -340,9 +340,9 @@ Operation:
 \begin{lstlisting}
     program progAddition
     global
-    var x:nat64;
-    var y:nat64;
-    var r:nat64;
+    var x:NAT32;
+    var y:NAT32;
+    var r:NAT32;
     var b:bool
     do
     x init := 4;
@@ -358,14 +358,14 @@ Casting:
 \begin{lstlisting}
     program progCasting
     global
-    var x:nat64;
-    var y:int64;
-    var r:nat64;
+    var x:NAT32;
+    var y:INT32;
+    var r:NAT32;
     var b:bool
     do
     x init := 4;
     y init := 3;
-    r init := x + [nat64] y;
+    r init := x + [NAT32] y;
     b init := r = 7;
 
     debugout r;
@@ -402,9 +402,9 @@ IML:
 \begin{lstlisting}
     program progDouble
     global
-    var value:int64
+    var value:INT32
     do
-    value init := [int64] [nat64] ((4 + 1) + 1)
+    value init := [INT32] [NAT32] ((4 + 1) + 1)
     endprogram
 \end{lstlisting}
 
@@ -436,12 +436,12 @@ IML:
 \begin{lstlisting}
     program exampleCasting
     global
-    var x:int64;
-    var y:nat64
+    var x:INT32;
+    var y:NAT32
     do
-    x init := [int64] 4;
-    y init := [nat64] 3;
-    x := [int64] y
+    x init := [INT32] 4;
+    y init := [NAT32] 3;
+    x := [INT32] y
     endprogram
 \end{lstlisting}
 

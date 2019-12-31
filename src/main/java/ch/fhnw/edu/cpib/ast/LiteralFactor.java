@@ -65,9 +65,9 @@ public class LiteralFactor extends AstNode implements IFactor {
             try {
                 if (literal.getType() == Types.BOOL) {
                     codeArray.put(codeArrayPointer, new IInstructions.LoadImBool(literal.getBoolValue()));
-                } else if (literal.getType() == Types.INT64) {
+                } else if (literal.getType() == Types.INT32) {
                     codeArray.put(codeArrayPointer, new IInstructions.LoadImInt(literal.getIntValue()));
-                } else if (literal.getType() == Types.NAT64) {
+                } else if (literal.getType() == Types.NAT32) {
                     codeArray.put(codeArrayPointer, new IInstructions.LoadImNat(literal.getNatValue()));
                 } else {
                     throw new RuntimeException("Unknown type!");

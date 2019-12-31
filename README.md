@@ -1,4 +1,4 @@
-# Nat64 support for IML
+# NAT32 support for IML
 
 Extended compiler for IML, Module *cpib*@FHNW
 

@@ -51,7 +51,7 @@ public class MultExpr extends AstNode implements IExpr {
 
         // Check allowed types
         if (exprLeft.getType() == Types.BOOL)
-            throw new TypeCheckingError(Types.INT64, exprLeft.getType());
+            throw new TypeCheckingError(Types.INT32, exprLeft.getType());
         if (exprLeft.getType() != exprRight.getType())
             throw new TypeCheckingError(exprLeft.getType(), exprRight.getType());
     }
@@ -81,25 +81,25 @@ public class MultExpr extends AstNode implements IExpr {
         if (!simulateOnly) {
             switch (multOpr) {
             case TIMES:
-                if (Types.INT64.equals(getType())) {
+                if (Types.INT32.equals(getType())) {
                     codeArray.put(codeArrayPointer, new IInstructions.MultInt());
-                } else if (Types.NAT64.equals(getType())) {
+                } else if (Types.NAT32.equals(getType())) {
                     codeArray.put(codeArrayPointer, new IInstructions.MultNat());
                 } else
                     throw new RuntimeException("Unknown Type!");
                 break;
             case DIV_E:
-                if (Types.INT64.equals(getType())) {
+                if (Types.INT32.equals(getType())) {
                     codeArray.put(codeArrayPointer, new IInstructions.DivEuclInt());
-                } else if (Types.NAT64.equals(getType())) {
+                } else if (Types.NAT32.equals(getType())) {
                     codeArray.put(codeArrayPointer, new IInstructions.DivEuclNat());
                 } else
                     throw new RuntimeException("Unknown Type!");
                 break;
             case MOD_E:
-                if (Types.INT64.equals(getType())) {
+                if (Types.INT32.equals(getType())) {
                     codeArray.put(codeArrayPointer, new IInstructions.ModEuclInt());
-                } else if (Types.NAT64.equals(getType())) {
+                } else if (Types.NAT32.equals(getType())) {
                     codeArray.put(codeArrayPointer, new IInstructions.ModEuclNat());
                 } else
                     throw new RuntimeException("Unknown Type!");

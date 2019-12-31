@@ -267,9 +267,9 @@ public class VirtualMachine implements IVirtualMachine {
             int address = Data.intGet(store[sp - 1]);
             Data.IBaseData data = store[address];
             if (castType != null){
-                if (castType == Types.INT64) {
+                if (castType == Types.INT32) {
                     store[sp - 1] = Data.intNew((Data.NumData) data);
-                } else if (castType == Types.NAT64) {
+                } else if (castType == Types.NAT32) {
                     store[sp - 1] = Data.natNew((Data.NumData) data);
                 }
             } else {

@@ -12,18 +12,18 @@ public class CastChecker {
     private static Map<Types, List<Types>> possibleCasts = new HashMap<>();
 
     static {
-        // INT64 -> INT64:  possible
-        // INT64 -> NAT64:  possible
-        // INT64 -> BOOL:   not possible
-        possibleCasts.put(Types.INT64, Arrays.asList(Types.INT64, Types.NAT64));
+        // INT32 -> INT32:  possible
+        // INT32 -> NAT32:  possible
+        // INT32 -> BOOL:   not possible
+        possibleCasts.put(Types.INT32, Arrays.asList(Types.INT32, Types.NAT32));
 
-        // NAT64 -> INT64:  possible
-        // NAT64 -> NAT64:  possible
-        // NAT64 -> BOOL:   not possible
-        possibleCasts.put(Types.NAT64, Arrays.asList(Types.INT64, Types.NAT64));
+        // NAT32 -> INT32:  possible
+        // NAT32 -> NAT32:  possible
+        // NAT32 -> BOOL:   not possible
+        possibleCasts.put(Types.NAT32, Arrays.asList(Types.INT32, Types.NAT32));
 
-        // BOOL -> INT64:   not possible
-        // BOOL -> NAT64:   not possible
+        // BOOL -> INT32:   not possible
+        // BOOL -> NAT32:   not possible
         // BOOL -> BOOL:    not possible
         possibleCasts.put(Types.BOOL, Arrays.asList());
     }

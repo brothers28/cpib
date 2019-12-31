@@ -52,9 +52,9 @@ public class DebugOutCmd extends AstNode implements ICmd {
         if (!simulateOnly) {
             if (expr.getType() == Types.BOOL) {
                 codeArray.put(codeArrayPointer, new IInstructions.OutputBool(indicator));
-            } else if (expr.getType() == Types.INT64) {
+            } else if (expr.getType() == Types.INT32) {
                 codeArray.put(codeArrayPointer, new IInstructions.OutputInt(indicator));
-            } else if (expr.getType() == Types.NAT64) {
+            } else if (expr.getType() == Types.NAT32) {
                 codeArray.put(codeArrayPointer, new IInstructions.OutputNat(indicator));
             } else {
                 throw new RuntimeException("Unknown Type!");

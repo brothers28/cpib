@@ -61,7 +61,7 @@ public class AddExpr extends AstNode implements IExpr {
 
         // Check allowed types
         if (exprLeft.getType() == Types.BOOL)
-            throw new TypeCheckingError(Types.INT64, exprLeft.getType());
+            throw new TypeCheckingError(Types.INT32, exprLeft.getType());
         if (exprLeft.getType() != exprRight.getType())
             throw new TypeCheckingError(exprLeft.getType(), exprRight.getType());
     }
@@ -82,17 +82,17 @@ public class AddExpr extends AstNode implements IExpr {
         if (!simulateOnly) {
             switch (addOpr) {
             case PLUS:
-                if (Types.INT64.equals(getType())) {
+                if (Types.INT32.equals(getType())) {
                     codeArray.put(codeArrayPointer, new IInstructions.AddInt());
-                } else if (Types.NAT64.equals(getType())) {
+                } else if (Types.NAT32.equals(getType())) {
                     codeArray.put(codeArrayPointer, new IInstructions.AddNat());
                 } else
                     throw new RuntimeException("Unknown Type!");
                 break;
             case MINUS:
-                if (Types.INT64.equals(getType())) {
+                if (Types.INT32.equals(getType())) {
                     codeArray.put(codeArrayPointer, new IInstructions.SubInt());
-                } else if (Types.NAT64.equals(getType())) {
+                } else if (Types.NAT32.equals(getType())) {
                     codeArray.put(codeArrayPointer, new IInstructions.SubNat());
                 } else
                     throw new RuntimeException("Unknown Type!");
