@@ -28,24 +28,24 @@ public class WhileCmd extends AstNode implements ICmd {
         cpsCmd.saveNamespaceInfo(DataStructureHelper.deepCopy(this.localVarNamespace));
     }
 
-    @Override public void doScopeChecking() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        expr.doScopeChecking();
-        cpsCmd.doScopeChecking();
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+        expr.executeScopeCheck();
+        cpsCmd.executeScopeCheck();
     }
 
-    @Override public void doTypeChecking() throws TypeCheckingError, CastError {
-        expr.doTypeChecking();
-        cpsCmd.doTypeChecking();
+    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+        expr.executeTypeCheck();
+        cpsCmd.executeTypeCheck();
 
         // Check allowed types
         if (expr.getType() != Types.BOOL)
             throw new TypeCheckingError(Types.BOOL, expr.getType());
     }
 
-    @Override public void doInitChecking(boolean globalProtected)
+    @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             CannotAssignToConstError {
-        expr.doInitChecking(globalProtected);
+        expr.executeInitCheck(globalProtected);
         // set recursively all initialized variables also on the child-nodes to init
         for (TypeIdent ident : localVarNamespace.values()) {
             if (ident.getInit()) {
@@ -54,7 +54,7 @@ public class WhileCmd extends AstNode implements ICmd {
         }
         // Do the init checking
         // Global variables cannot be initialized from now on
-        cpsCmd.doInitChecking(true);
+        cpsCmd.executeInitCheck(true);
     }
 
     @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
