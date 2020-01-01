@@ -6,12 +6,9 @@ global
    var b:bool;
    var c:bool
 do
-   x init := [int32] 4;
-   y init := [int32] 2;
+   x init := 4;
+   y init := 2;
    z init := [nat32] (x * y + y + x);
    b init := x >= y;
-   c init := x >= [int32] z;
-   debugout z;
-   debugout b;
-   debugout c
+   c init := x >= [int32] z
 endprogram

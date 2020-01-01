@@ -29,7 +29,7 @@ paramList ::= LPAREN [param {COMMA param}] RPAREN
 
 param ::= [FLOWMODE] [MECHMODE] [CHANGEMODE] typedIdent
 
-typedIdent ::= IDENT COLON ATOMTYPE
+typedIdent ::= IDENT COLON TYPE
 
 // Commands
 cmd ::= SKIP
@@ -61,7 +61,7 @@ factor ::= LITERAL
 	| LPAREN expr RPAREN
 	| castOpr factor
 
-castOpr ::= LBRACKET ATOMTYPE RBRACKET
+castOpr ::= LBRACKET TYPE RBRACKET
 
 exprList ::= LPAREN [expr {COMMA expr}] RPAREN
 

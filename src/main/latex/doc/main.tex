@@ -120,8 +120,11 @@ Folgendes Code-Listing zeigt ein solches Beispiel mit dem bestehenden Datentyp \
 Unsere Erweiterung unterstützt keine impliziten Castings.
 Weitere Code-Beispiele sind im Anhang zu finden.
 
-\subsection{Änderungen an der Grammatik}
+% TODO: Macht es sinn, dass und was hier zu && und || beschrieben wurde
+Ebenfalls haben wir in unserer IML Syntax das logische Symbol für \texttt{AND: /\textbackslash{}} sowie \texttt{OR: \textbackslash{}/} durch \texttt{AND: \&\&} resp. \texttt{OR: ||} ersetzt.
+Nach unserem Erachten, ist die Bedeutung von \texttt{\&\&} und \texttt{||} den meisten Programmierern besser bekannt, als \texttt{/\textbackslash{}} oder \texttt{\textbackslash{}/}.
 
+\subsection{Änderungen an der Grammatik}
 Zusätzlich zu den bestehende Operatoren wurde ein neuer \texttt{castOpr} erstellt, welcher anstelle des Nichtterminal-Symbol \texttt{factor} verwendet werden kann.
 % Neuer Operator
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
@@ -180,6 +183,7 @@ Die Überprüfung, ob der Wert innerhalb des gültigen Wertebereichs des jeweili
 
 \subsection{Parser}
 Der neu eingeführte \texttt{castOpr} und die neue Produktion \texttt{factor := castOpr factor} sind im Abstrakten Syntax Tree (AST) abgebildet.
+Dabei wird der Typ \texttt{CastOpr} zum Typ \texttt{CastFactor} welcher Teil des AST ist.
 Abbildung \ref{ast} zeigt die Umwandlung von der konkreten in die abstrakte Syntax.
 
 \begin{figure}[H]
@@ -187,8 +191,8 @@ Abbildung \ref{ast} zeigt die Umwandlung von der konkreten in die abstrakte Synt
     \caption{Umwandlung von der konkreten in die abstrakte Syntax} % Figure caption
     \label{ast}
 \end{figure}
+
 \subsection{Statische Analyse}
-% TODO: Beschreiben, dass && und || implementiert wurden
 
 \subsubsection*{Scope checking}
 Für Routinen und Variablen liegen unterschiedliche Namespaces vor.
@@ -252,6 +256,7 @@ Beim der Typenüberprüfung innerhalb vom \texttt{CastFactor} wird überprüft, 
 Die effektive Typ-Konversion wird erst bei der Code-Generierung durchgeführt.
 
 \subsubsection*{Initalization checking}
+
 % TODO: Beschreiben anhand von Methode executeInitCheck und Code in den ensprechenden Klassen refactoren und Variabeln umbenennen etc.
 
 \subsection{Virtuelle Maschine}
@@ -259,7 +264,6 @@ Grundlage für die Code-Generierung ist der Abstract Syntax Tree (AST).
 Vom Root-Knoten ausgehend fügt jeder Knoten seinen Code zum Code-Array.
 
 Im Falle eines Castings zwischen zwei Datentypen befindet sich an mindestens einer Stelle in der AST Struktur ein \texttt{CastFactor}-Element.
-% TODO: Irgendwo vorher beschreiben, dass castOpr in cst zu CastFactor in ast wird
 Von diesem Element aus wird der Datentyp des zugehörigen \texttt{factor} geändert, indem dessen Attribut \texttt{castFactor} geändert wird.
 Dieses Attribut übersteuert den eigentlichen Datentyp des Elements innerhalb des AST.
 Weil der \texttt{factor} gemäss Grammatik unterschiedliche Produktionen besitzt (vgl. Änderungen an der Grammatik), muss die Typanpassung rekursiv weitergegeben werden.
@@ -288,24 +292,24 @@ Beim Datentyp \texttt{long} wird beispielsweise geprüft, ob der Wert als ganzza
 Falls dies nicht der Fall ist, wird ein Fehler zur Kompilierungszeit geworfen.
 Das MSB wird als Vorzeichenbit verwendet, womit rund die Hälfte der vorzeichenlos darstellbaren \texttt{long}-Werte entfällt, resp. zur Darstellung von negativen Zahlen eingesetzt wird.
 Falls bei fortlaufenden Berechnungen Wertebereiche unter- resp. überschritten werden, führt dies zu einem arithmetischen Überlauf.
-Abbildung \ref{zahlenkreis} % TODO: doesnt work... %
+Abbildung \ref{zahlenkreis}
+% TODO: Somehow doesnt work... %
 zeigt den Überlauf bei ganzzahligen, vorzeichenbehafteten Datentypen (am Beispiel von Bitlänge 3 + 1).
 
 \begin{figure}[H]
-    \includegraphics[width=\linewidth]{zahlenkreis_int3.jpg} % Figure image
-    \caption{Überlauf mit Integerzahlen} % Figure caption
+    \includegraphics[width=\linewidth]{zahlenkreis_int3.jpg}
+    \caption{Überlauf mit Integerzahlen}
     \label{zahlenkreis}
-    % TODO: Ref: https://de.wikipedia.org/wiki/Integer_(Datentyp)#/media/Datei:Zahlenkreis_sint3.jpg
 \end{figure}
-
+% TODO: Ref: https://de.wikipedia.org/wiki/Integer_(Datentyp)#/media/Datei:Zahlenkreis_sint3.jpg
 
 Dadurch führt z.B. beim Datentyp \texttt{int} der Ausdruck \texttt{Integer.MAX\_VALUE + 1} zum Wert \texttt{Integer.MIN\_VALUE}.
 Dies kann dazu führen, dass mit \glqq falschen\grqq \ Werten gerechnet wird, ohne dass der Entwickler dies bemerkt.
 
 \subsection{Fliesskommazahlen}
 \label{ieee}
-% TODO: Zweierkomplement oben noch nicht beschrieben
-Im Gegensatz zur Darstellung im Zweierkomplement, welche für Integer-Typen in Java verwendet werden, werden Fliesskommazahlen intern nach IEEE Standard dargestellt.
+% TODO: Zweierkomplement oben noch nicht beschrieben. Bem: Muss das gemacht werden? Es sollte doch Hr. Lederer bekannt sein, was das Zweierkomplement ist.
+Im Gegensatz zur Darstellung im Zweierkomplement, welches für Integer-Typen in Java verwendet werden, werden Fliesskommazahlen intern nach IEEE Standard dargestellt.
 Anders als bei der Zweierkomplement-Darstellung sieht dieses Format spezielle, konstante Werte vor.
 So sind in Java beispielsweise Konstanten für \texttt{Double.POSITIVE\_INFINITY}, \texttt{Double.NEGATIVE\_INFINITY} und \texttt{Double.NaN} definiert.
 %  Quelle: https://stackoverflow.com/questions/41312477/purpose-of-defining-positive-infinity-negative-infinity-nan-constants-only-for
@@ -337,39 +341,37 @@ Folgende weiteren Ansätze wurden für die Umsetzung der Erweiterung in Betracht
 \label{sec:prog}
 Operation:
 \begin{lstlisting}
-    program progAddition
-    global
+program progAddition
+global
     var x:nat32;
     var y:nat32;
     var r:nat32;
     var b:bool
-    do
+do
     x init := 4;
     y init := 3;
     r init := x + y;
     b init := r = 7;
-
     debugout r;
     debugout b
-    endprogram
+endprogram
 \end{lstlisting}
 Casting:
 \begin{lstlisting}
-    program progCasting
-    global
+program progCasting
+global
     var x:nat32;
     var y:int32;
     var r:nat32;
     var b:bool
-    do
+do
     x init := 4;
     y init := 3;
     r init := x + [nat32] y;
     b init := r = 7;
-
     debugout r;
     debugout b
-    endprogram
+endprogram
 \end{lstlisting}
 
 %----------------------------------------------------------------------------------------
@@ -397,32 +399,97 @@ Casting:
 \appendix
 \section{Vollständige Grammatik}
 % TODO
+\begin{lstlisting}
+program ::= PROGRAM IDENT progParamList [GLOBAL cpsDecl] DO cpsCmd ENDPROGRAM
+
+decl ::= stoDecl
+        | funDecl
+        | procDecl
+
+stoDecl ::= [CHANGEMODE] typedIdent
+
+funDecl ::= FUN IDENT paramList RETURNS stoDecl [GLOBAL globImps] [LOCAL cpsStoDecl] DO cpsCmd ENDFUN
+
+procDecl ::= PROC IDENT paramList [GLOBAL globImps] [LOCAL cpsStoDecl] DO cpsCmd ENDPROC
+
+globImps ::= globImp {COMMA globImp}
+
+globImp ::= [FLOWMODE] [CHANGEMODE] IDENT
+
+cpsDecl ::= decl {SEMICOLON decl}
+
+cpsStoDecl ::= stoDecl {SEMICOLON stoDecl}
+
+progParamList ::= LPAREN [progParam {COMMA progParam}] RPAREN
+
+progParam ::= [FLOWMODE] [CHANGEMODE] typedIdent
+
+paramList ::= LPAREN [param {COMMA param}] RPAREN
+
+param ::= [FLOWMODE] [MECHMODE] [CHANGEMODE] typedIdent
+
+typedIdent ::= IDENT COLON TYPE
+
+cmd ::= SKIP
+        | expr BECOMES expr
+        | IF expr THEN cpsCmd ELSE cpsCmd ENDIF
+        | WHILE expr DO cpsCmd ENDWHILE
+        | CALL IDENT exprList [globInits]
+        | DEBUGIN expr
+        | DEBUGOUT expr
+
+cpsCmd ::= cmd {SEMICOLON cmd}
+
+globInits ::= INIT idents
+
+idents ::= IDENT {COMMA IDENT}
+
+expr ::= term1 {BOOLOPR term1}
+
+term1 ::= term2 [RELOPR term2]
+
+term2 ::= term3 {ADDOPR term3}
+
+term3 ::= factor {MULTOPR factor}
+
+factor ::= LITERAL
+        | IDENT [INIT | exprList]
+        | monadicOpr factor
+        | LPAREN expr RPAREN
+        | castOpr factor
+
+castOpr ::= LBRACKET TYPE RBRACKET
+
+exprList ::= LPAREN [expr {COMMA expr}] RPAREN
+
+monadicOpr ::= NOT | ADDOPR
+\end{lstlisting}
 
 \clearpage
 \section{Beispiel doppeltes Casting}
 \label{bsp_casting}
 IML:
 \begin{lstlisting}
-    program progDouble
-    global
-    var value:INT32
-    do
-    value init := [INT32] [NAT32] ((4 + 1) + 1)
-    endprogram
+program progDouble
+global
+    var value:int32
+do
+    value init := [int32] [nat32] ((4 + 1) + 1)
+endprogram
 \end{lstlisting}
 
 Code-Array:
 \begin{lstlisting}
-    0: AllocBlock(1)
-    1: UncondJump(2)
-    2: LoadAddrAbs(0)
-    3: LoadImInt(4)
-    4: LoadImInt(1)
-    5: AddInt
-    6: LoadImInt(1)
-    7: AddInt
-    8: Store
-    9: Stop
+0: AllocBlock(1)
+1: UncondJump(2)
+2: LoadAddrAbs(0)
+3: LoadImInt(4)
+4: LoadImInt(1)
+5: AddInt
+6: LoadImInt(1)
+7: AddInt
+8: Store
+9: Stop
 \end{lstlisting}
 
 UML:
@@ -437,83 +504,314 @@ UML:
 \label{bsp_deref}
 IML:
 \begin{lstlisting}
-    program exampleCasting
-    global
+program exampleCasting
+global
     var x:int32;
     var y:nat32
-    do
+do
     x init := [int32] 4;
     y init := [nat32] 3;
     x := [int32] y
-    endprogram
+endprogram
 \end{lstlisting}
 
 Code-Array:
 \begin{lstlisting}
-    codeArrayPoiner: 14
-    0: AllocBlock(1)
-    1: AllocBlock(1)
-    2: UncondJump(3)
-    3: LoadAddrAbs(0)
-    4: LoadImInt(4)
-    5: Store
-    6: LoadAddrAbs(1)
-    7: LoadImNat(3)
-    8: Store
-    9: LoadAddrAbs(0)
-    10: LoadAddrAbs(1)
-    11: Deref
-    12: Store
-    13: Stop
+codeArrayPoiner: 14
+0: AllocBlock(1)
+1: AllocBlock(1)
+2: UncondJump(3)
+3: LoadAddrAbs(0)
+4: LoadImInt(4)
+5: Store
+6: LoadAddrAbs(1)
+7: LoadImNat(3)
+8: Store
+9: LoadAddrAbs(0)
+10: LoadAddrAbs(1)
+11: Deref
+12: Store
+13: Stop
 \end{lstlisting}
 
 Stack:
 \begin{lstlisting}
     ...
 
-    (8) Executing instruction Store
-    pc: 8
-    sp: 4
-    Stack content:
-    0: IntData: 4
-    1: NatData: 3
+(8) Executing instruction Store
+pc: 8
+sp: 4
+Stack content:
+0: IntData: 4
+1: NatData: 3
 
-    (9) Executing instruction LoadAddrAbs(0)
-    pc: 9
-    sp: 2
-    Stack content:
-    0: IntData: 4
-    1: NatData: 3
-    2: IntData: 0
+(9) Executing instruction LoadAddrAbs(0)
+pc: 9
+sp: 2
+Stack content:
+0: IntData: 4
+1: NatData: 3
+2: IntData: 0
 
-    (10) Executing instruction LoadAddrAbs(1)
-    pc: 10
-    sp: 3
-    Stack content:
-    0: IntData: 4
-    1: NatData: 3
-    2: IntData: 0
-    3: IntData: 1
+(10) Executing instruction LoadAddrAbs(1)
+pc: 10
+sp: 3
+Stack content:
+0: IntData: 4
+1: NatData: 3
+2: IntData: 0
+3: IntData: 1
 
-    (11) Executing instruction Deref
-    pc: 11
-    sp: 4
-    Stack content:
-    0: IntData: 4
-    1: NatData: 3
-    2: IntData: 0
-    3: IntData: 3
+(11) Executing instruction Deref
+pc: 11
+sp: 4
+Stack content:
+0: IntData: 4
+1: NatData: 3
+2: IntData: 0
+3: IntData: 3
 
-    (12) Executing instruction Store
-    pc: 12
-    sp: 4
-    Stack content:
-    0: IntData: 3
-    1: NatData: 3
+(12) Executing instruction Store
+pc: 12
+sp: 4
+Stack content:
+0: IntData: 3
+1: NatData: 3
 
     ...
 \end{lstlisting}
 
+\clearpage
+\section{Beispiel casting einer expression}
+\label{bsp_casting_expr}
+IML:
+\begin{lstlisting}
+program exampleCastExpression
+global
+    var x:int32;
+    var y:int32;
+    var z:nat32;
+    var b:bool;
+    var c:bool
+do
+    x init := 4;
+    y init := 2;
+    z init := [nat32] (x * y + y + x);
+    b init := x >= y;
+    c init := x >= [int32] z
+endprogram
+\end{lstlisting}
+
+
+Code-Array:
+\begin{lstlisting}
+codeArrayPoiner: 40
+0: AllocBlock(1)
+1: AllocBlock(1)
+2: AllocBlock(1)
+3: AllocBlock(1)
+4: AllocBlock(1)
+5: UncondJump(6)
+6: LoadAddrAbs(0)
+7: LoadImInt(4)
+8: Store
+9: LoadAddrAbs(1)
+10: LoadImInt(2)
+11: Store
+12: LoadAddrAbs(2)
+13: LoadAddrAbs(0)
+14: Deref
+15: LoadAddrAbs(1)
+16: Deref
+17: MultInt
+18: LoadAddrAbs(1)
+19: Deref
+20: AddInt
+21: LoadAddrAbs(0)
+22: Deref
+23: AddNat
+24: Store
+25: LoadAddrAbs(3)
+26: LoadAddrAbs(0)
+27: Deref
+28: LoadAddrAbs(1)
+29: Deref
+30: GeInt
+31: Store
+32: LoadAddrAbs(4)
+33: LoadAddrAbs(0)
+34: Deref
+35: LoadAddrAbs(2)
+36: Deref
+37: GeInt
+38: Store
+39: Stop
+\end{lstlisting}
+
+Stack:
+\begin{lstlisting}
+    ...
+(12) Executing instruction LoadAddrAbs(2)
+pc: 12
+sp: 5
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: null
+3: null
+4: null
+5: IntData: 2
+
+(13) Executing instruction LoadAddrAbs(0)
+pc: 13
+sp: 6
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: null
+3: null
+4: null
+5: IntData: 2
+6: IntData: 0
+
+(14) Executing instruction Deref
+pc: 14
+sp: 7
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: null
+3: null
+4: null
+5: IntData: 2
+6: IntData: 4
+
+(15) Executing instruction LoadAddrAbs(1)
+pc: 15
+sp: 7
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: null
+3: null
+4: null
+5: IntData: 2
+6: IntData: 4
+7: IntData: 1
+
+(16) Executing instruction Deref
+pc: 16
+sp: 8
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: null
+3: null
+4: null
+5: IntData: 2
+6: IntData: 4
+7: IntData: 2
+
+(17) Executing instruction MultInt
+pc: 17
+sp: 8
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: null
+3: null
+4: null
+5: IntData: 2
+6: IntData: 8
+
+(18) Executing instruction LoadAddrAbs(1)
+pc: 18
+sp: 7
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: null
+3: null
+4: null
+5: IntData: 2
+6: IntData: 8
+7: IntData: 1
+
+(19) Executing instruction Deref
+pc: 19
+sp: 8
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: null
+3: null
+4: null
+5: IntData: 2
+6: IntData: 8
+7: IntData: 2
+
+(20) Executing instruction AddInt
+pc: 20
+sp: 8
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: null
+3: null
+4: null
+5: IntData: 2
+6: IntData: 10
+
+(21) Executing instruction LoadAddrAbs(0)
+pc: 21
+sp: 7
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: null
+3: null
+4: null
+5: IntData: 2
+6: IntData: 10
+7: IntData: 0
+
+(22) Executing instruction Deref
+pc: 22
+sp: 8
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: null
+3: null
+4: null
+5: IntData: 2
+6: IntData: 10
+7: IntData: 4
+
+(23) Executing instruction AddNat
+pc: 23
+sp: 8
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: null
+3: null
+4: null
+5: IntData: 2
+6: NatData: 14
+
+(24) Executing instruction Store
+pc: 24
+sp: 7
+Stack content:
+0: IntData: 4
+1: IntData: 2
+2: NatData: 14
+3: null
+4: null
+
+    ...
+\end{lstlisting}
 
 
 %----------------------------------------------------------------------------------------
