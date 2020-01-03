@@ -1,14 +1,20 @@
-program exampleCastExpression
+program progFactorial
 global
-   var x:int32;
-   var y:int32;
-   var z:nat32;
-   var b:bool;
-   var c:bool
+   const input:int32;
+   const result:int32;
+   proc factorial(copy const value:int32, ref var factorial:int32)
+   local
+    var counter:int32
+   do
+    counter init := value;
+    factorial := 1;
+   while counter > 1 do
+    factorial := factorial * counter;
+    counter := counter - 1
+   endwhile
+  endproc
 do
-   x init := 4;
-   y init := 2;
-   z init := [nat32] (x * y + y + x);
-   b init := x >= y;
-   c init := x >= [int32] z
+  debugin input init;
+  call factorial([nat32] input, result init);
+  debugout result
 endprogram
