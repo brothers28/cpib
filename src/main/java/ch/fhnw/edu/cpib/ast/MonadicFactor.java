@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class MonadicFactor extends AstNode implements IFactor {
-    private Operator monadicOpr;
-    private IFactor factor;
-    private Types castType;
+    protected Operator monadicOpr;
+    protected IFactor factor;
+    protected Types castType;
 
     public MonadicFactor(Operator monadicOpr, IFactor factor) {
         this.monadicOpr = monadicOpr;

@@ -6,8 +6,8 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= DEBUGIN expr
 public class CmdDebugIn extends Production implements ICmd {
-    private IToken ts_debugIn;
-    private IExpr nts_expr;
+    protected IToken ts_debugIn;
+    protected IExpr nts_expr;
 
     public CmdDebugIn(IToken ts_debugIn, IExpr nts_expr) {
         this.ts_debugIn = ts_debugIn;

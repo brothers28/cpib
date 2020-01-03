@@ -9,13 +9,13 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // procDecl ::= PROC IDENT paramList procDeclNTS DO cpsCmd ENDPROC
 public class ProcDecl extends Production implements IProcDecl {
-    private IToken ts_proc;
-    private IToken ts_ident;
-    private IParamList nts_paramList;
-    private IProcDeclNTS nts_procDeclNTS;
-    private IToken ts_do;
-    private ICpsCmd nts_cpsCmd;
-    private IToken ts_endProc;
+    protected IToken ts_proc;
+    protected IToken ts_ident;
+    protected IParamList nts_paramList;
+    protected IProcDeclNTS nts_procDeclNTS;
+    protected IToken ts_do;
+    protected ICpsCmd nts_cpsCmd;
+    protected IToken ts_endProc;
 
     public ProcDecl(IToken ts_proc, IToken ts_ident, IParamList nts_paramList,
             IProcDeclNTS nts_procDeclNTS, IToken ts_do, ICpsCmd nts_cpsCmd, IToken ts_endProc) {

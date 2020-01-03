@@ -7,7 +7,7 @@ import ch.fhnw.edu.cpib.scanner.Ident;
 // factorNTS ::= exprList
 public class FactorNTSExprList extends Production implements IFactorNTS {
 
-    private IExprList nts_exprList;
+    protected IExprList nts_exprList;
 
     public FactorNTSExprList(IExprList nts_exprList) {
         this.nts_exprList = nts_exprList;

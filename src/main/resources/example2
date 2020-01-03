@@ -1,11 +1,20 @@
-program exampleInitErrors
+program progFactorial
 global
-    var x:int32;
-    const y:int32
+   const input:int32;
+   const result:int32;
+   proc factorial(copy const value:int32, ref var factorial:int32)
+   local
+    var counter:int32
+   do
+    counter init := value;
+    factorial := 1;
+   while counter > 1 do
+    factorial := factorial * counter;
+    counter := counter - 1
+   endwhile
+  endproc
 do
-    x := 7;
-    x init := 4;
-    x init := 3;
-    y init := 1;
-    y := 2
+  debugin input init;
+  call factorial([nat32] input, result init);
+  debugout result
 endprogram

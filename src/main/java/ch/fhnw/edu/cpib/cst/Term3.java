@@ -6,8 +6,8 @@ import ch.fhnw.edu.cpib.cst.interfaces.ITerm3NTS;
 
 // term3 ::= factor term3NTS
 public class Term3 extends Production implements ITerm3 {
-    private IFactor nts_factor;
-    private ITerm3NTS nts_term3NTS;
+    protected IFactor nts_factor;
+    protected ITerm3NTS nts_term3NTS;
 
     public Term3(IFactor nts_factor, ITerm3NTS nts_term3NTS) {
         this.nts_factor = nts_factor;

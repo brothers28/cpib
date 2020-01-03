@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class DebugOutCmd extends AstNode implements ICmd {
-    private IExpr expr;
+    protected IExpr expr;
 
     public DebugOutCmd(IExpr expr) {
         this.expr = expr;

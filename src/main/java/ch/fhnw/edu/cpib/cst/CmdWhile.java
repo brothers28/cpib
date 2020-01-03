@@ -7,11 +7,11 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= WHILE expr DO cpsCmd ENDWHILE
 public class CmdWhile extends Production implements ICmd {
-    private IToken ts_while;
-    private IExpr nts_expr;
-    private IToken ts_do;
-    private ICpsCmd nts_cpsCmd;
-    private IToken ts_endWhile;
+    protected IToken ts_while;
+    protected IExpr nts_expr;
+    protected IToken ts_do;
+    protected ICpsCmd nts_cpsCmd;
+    protected IToken ts_endWhile;
 
     public CmdWhile(IToken ts_while, IExpr nts_expr, IToken ts_do, ICpsCmd nts_cpsCmd,
             IToken ts_endWhile) {

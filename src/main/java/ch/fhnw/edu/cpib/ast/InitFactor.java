@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class InitFactor extends IdentFactor {
-    private boolean init;
-    private Types castType;
+    protected boolean init;
+    protected Types castType;
 
     public InitFactor(Ident ident, boolean init) {
         this.ident = ident;

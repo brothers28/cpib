@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 // cpsStoDeclNTS ::= SEMICOLON stoDecl cpsStoDeclNTS
 public class CpsStoDeclNTS extends Production implements ICpsStoDeclNTS {
-    private IToken ts_semicolon;
-    private IStoDecl nts_stoDecl;
-    private ICpsStoDeclNTS nts_cpsStoDeclNTS;
+    protected IToken ts_semicolon;
+    protected IStoDecl nts_stoDecl;
+    protected ICpsStoDeclNTS nts_cpsStoDeclNTS;
 
     public CpsStoDeclNTS(IToken ts_semicolon, IStoDecl nts_stoDecl, ICpsStoDeclNTS nts_cpsStoDeclNTS) {
         this.ts_semicolon = ts_semicolon;

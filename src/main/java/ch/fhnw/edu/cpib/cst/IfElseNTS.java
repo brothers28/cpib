@@ -6,8 +6,8 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // ifelseNTS ::= ELSE cpsCmd
 public class IfElseNTS extends Production implements IIfElseNTS {
-    private IToken ts_else;
-    private ICpsCmd nts_cpsCmd;
+    protected IToken ts_else;
+    protected ICpsCmd nts_cpsCmd;
 
     public IfElseNTS(IToken ts_else, ICpsCmd nts_cpsCmd) {
         this.ts_else = ts_else;

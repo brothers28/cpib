@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 // exprListNTS ::= COMMA expr exprListNTS
 public class ExprListNTS extends Production implements IExprListNTS {
-    private IToken ts_comma;
-    private IExpr nts_expr;
-    private IExprListNTS nts_exprListNTS;
+    protected IToken ts_comma;
+    protected IExpr nts_expr;
+    protected IExprListNTS nts_exprListNTS;
 
     public ExprListNTS(IToken ts_comma, IExpr nts_expr, IExprListNTS nts_exprListNTS) {
         this.ts_comma = ts_comma;

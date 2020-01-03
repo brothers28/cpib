@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 import static ch.fhnw.edu.cpib.parser.util.CastChecker.isCastable;
 
 public class ProcCallCmd extends AstNode implements ICmd {
-    private Ident ident;
-    private ArrayList<IExpr> expressions = new ArrayList<>();
+    protected Ident ident;
+    protected ArrayList<IExpr> expressions = new ArrayList<>();
 
     public ProcCallCmd(Ident ident, ArrayList<IExpr> expressions) {
         this.ident = ident;

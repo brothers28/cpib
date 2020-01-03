@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class IfCmd extends AstNode implements ICmd {
-    private IExpr expr;
-    private CpsCmd ifCpsCmd;
-    private CpsCmd elseCpsCmd;
+    protected IExpr expr;
+    protected CpsCmd ifCpsCmd;
+    protected CpsCmd elseCpsCmd;
 
     public IfCmd(IExpr expr, CpsCmd ifCpsCmd, CpsCmd elseCpsCmd) {
         this.expr = expr;

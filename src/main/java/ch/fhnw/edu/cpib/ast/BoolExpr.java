@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class BoolExpr extends AstNode implements IExpr {
-    private Operators boolOpr;
-    private IExpr exprLeft;
-    private IExpr exprRight;
-    private Types castType;
+    protected Operators boolOpr;
+    protected IExpr exprLeft;
+    protected IExpr exprRight;
+    protected Types castType;
 
     public BoolExpr(Operators boolOpr, IExpr exprLeft, IExpr exprRight) {
         this.boolOpr = boolOpr;

@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class ExprFactor extends AstNode implements IFactor {
-    private IExpr expr;
-    private Types castType;
+    protected IExpr expr;
+    protected Types castType;
 
     public ExprFactor(IExpr expr) {
         this.expr = expr;

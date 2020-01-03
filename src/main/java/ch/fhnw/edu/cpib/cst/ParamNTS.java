@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 // paramNTS ::= COMMA param paramNTS
 public class ParamNTS extends Production implements IParamNTS {
-    private IToken ts_comma;
-    private IParam nts_param;
-    private IParamNTS nts_paramNTS;
+    protected IToken ts_comma;
+    protected IParam nts_param;
+    protected IParamNTS nts_paramNTS;
 
     public ParamNTS(IToken ts_comma, IParam nts_param, IParamNTS nts_paramNTS) {
         this.ts_comma = ts_comma;

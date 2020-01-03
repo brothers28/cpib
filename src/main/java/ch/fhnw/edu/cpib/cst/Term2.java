@@ -6,8 +6,8 @@ import ch.fhnw.edu.cpib.cst.interfaces.ITerm3;
 
 // term2 ::= term3 term2NTS
 public class Term2 extends Production implements ITerm2 {
-    private ITerm3 nts_term3;
-    private ITerm2NTS nts_term2NTS;
+    protected ITerm3 nts_term3;
+    protected ITerm2NTS nts_term2NTS;
 
     public Term2(ITerm3 nts_term3, ITerm2NTS nts_term2NTS) {
         this.nts_term3 = nts_term3;

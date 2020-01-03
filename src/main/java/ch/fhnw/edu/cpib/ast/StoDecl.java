@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class StoDecl extends AstNode implements IDecl {
-    private Changemodes changeMode;
-    private TypedIdent typedIdent;
+    protected Changemodes changeMode;
+    protected TypedIdent typedIdent;
 
     public StoDecl(Changemodes changeMode, TypedIdent typedIdent) {
         this.changeMode = changeMode;

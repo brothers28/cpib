@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class DebugInCmd extends AstNode implements ICmd {
-    private IExpr expr;
+    protected IExpr expr;
 
     public DebugInCmd(IExpr expr) {
         this.expr = expr;

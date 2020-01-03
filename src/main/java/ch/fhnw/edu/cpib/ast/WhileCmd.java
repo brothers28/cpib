@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class WhileCmd extends AstNode implements ICmd {
-    private IExpr expr;
-    private CpsCmd cpsCmd;
+    protected IExpr expr;
+    protected CpsCmd cpsCmd;
 
     public WhileCmd(IExpr expr, CpsCmd cpsCmd) {
         this.expr = expr;

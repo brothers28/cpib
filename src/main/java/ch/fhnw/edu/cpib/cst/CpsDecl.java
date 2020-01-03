@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 // cpsDecl ::= decl cpsDeclNTS
 public class CpsDecl extends Production implements ICpsDecl {
-    private IDecl nts_decl;
-    private ICpsDeclNTS nts_cpsDeclNTS;
+    protected IDecl nts_decl;
+    protected ICpsDeclNTS nts_cpsDeclNTS;
 
     public CpsDecl(IDecl nts_decl, ICpsDeclNTS nts_cpsDeclNTS) {
         this.nts_decl = nts_decl;

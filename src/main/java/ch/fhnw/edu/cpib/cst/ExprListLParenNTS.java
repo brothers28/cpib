@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 // exprListLparenNTS ::= expr exprListNTS
 public class ExprListLParenNTS extends Production implements IExprListLparenNTS {
-    private IExpr nts_expr;
-    private IExprListNTS nts_exprListNTS;
+    protected IExpr nts_expr;
+    protected IExprListNTS nts_exprListNTS;
 
     public ExprListLParenNTS(IExpr nts_expr, IExprListNTS nts_exprListNTS) {
         this.nts_expr = nts_expr;

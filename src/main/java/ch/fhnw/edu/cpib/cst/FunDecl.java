@@ -6,15 +6,15 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // funDecl ::= FUN IDENT paramList RETURNS stoDecl funDeclNTS DO cpsCmd ENDFUN
 public class FunDecl extends Production implements IFunDecl {
-    private IToken ts_fun;
-    private IToken ts_ident;
-    private IParamList nts_paramList;
-    private IToken ts_returns;
-    private IStoDecl nts_stoDecl;
-    private IFunDeclNTS nts_funDeclNTS;
-    private IToken ts_do;
-    private ICpsCmd nts_cpsCmd;
-    private IToken ts_endFun;
+    protected IToken ts_fun;
+    protected IToken ts_ident;
+    protected IParamList nts_paramList;
+    protected IToken ts_returns;
+    protected IStoDecl nts_stoDecl;
+    protected IFunDeclNTS nts_funDeclNTS;
+    protected IToken ts_do;
+    protected ICpsCmd nts_cpsCmd;
+    protected IToken ts_endFun;
 
     public FunDecl(IToken ts_fun, IToken ts_ident, IParamList nts_paramList, IToken ts_returns,
             IStoDecl nts_stoDecl, IFunDeclNTS nts_funDeclNTS, IToken ts_do, ICpsCmd nts_cpsCmd,

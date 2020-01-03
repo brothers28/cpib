@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 import static ch.fhnw.edu.cpib.parser.util.CastChecker.isCastable;
 
 public class CastFactor extends AstNode implements IFactor {
-    private Types castType;
-    private IFactor factor;
+    protected Types castType;
+    protected IFactor factor;
 
     public CastFactor(Types castType, IFactor factor) {
         this.castType = castType;

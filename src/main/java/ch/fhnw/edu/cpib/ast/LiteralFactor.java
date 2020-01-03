@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class LiteralFactor extends AstNode implements IFactor {
-    private Literal literal;
-    private Types castType;
+    protected Literal literal;
+    protected Types castType;
 
     public LiteralFactor(Literal literal) {
         this.literal = literal;

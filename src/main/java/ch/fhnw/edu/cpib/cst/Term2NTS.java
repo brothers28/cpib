@@ -8,9 +8,9 @@ import ch.fhnw.edu.cpib.scanner.symbols.Operator;
 
 // term2NTS ::= ADDOPR term3 term2NTS
 public class Term2NTS extends Production implements ITerm2NTS {
-    private IToken ts_addOpr;
-    private ITerm3 nts_term3;
-    private ITerm2NTS nts_term2NTS;
+    protected IToken ts_addOpr;
+    protected ITerm3 nts_term3;
+    protected ITerm2NTS nts_term2NTS;
 
     public Term2NTS(IToken ts_addOpr, ITerm3 nts_term3, ITerm2NTS nts_term2NTS) {
         this.ts_addOpr = ts_addOpr;

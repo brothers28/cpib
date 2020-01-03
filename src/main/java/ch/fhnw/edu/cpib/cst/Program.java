@@ -8,12 +8,12 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // program ::= PROGRAM IDENT globalNTS DO cpsCmd ENDPROGRAM
 public class Program extends Production implements IProgram {
-    private IToken ts_program;
-    private IToken ts_ident;
-    private IGlobalNTS nts_globalNTS;
-    private IToken ts_do;
-    private ICpsCmd nts_cpsCmd;
-    private IToken ts_endprogram;
+    protected IToken ts_program;
+    protected IToken ts_ident;
+    protected IGlobalNTS nts_globalNTS;
+    protected IToken ts_do;
+    protected ICpsCmd nts_cpsCmd;
+    protected IToken ts_endprogram;
 
     public Program(IToken ts_program, IToken ts_ident, IGlobalNTS nts_globalNTS, IToken ts_do,
             ICpsCmd nts_cpsCmd, IToken ts_endprogram) {
