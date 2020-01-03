@@ -18,7 +18,7 @@ public class ExprFactor extends AstNode implements IFactor {
         this.expr = expr;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         expr.saveNamespaceInfo(this.localVarNamespace);
@@ -26,6 +26,16 @@ public class ExprFactor extends AstNode implements IFactor {
 
     @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         expr.executeScopeCheck();
+    }
+
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
+        expr.executeTypeCheck();
+    }
+
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            AssignToConstError {
+        expr.executeInitCheck(globalProtected);
     }
 
     @Override public void executeTypeCast(Types type) {
@@ -46,16 +56,6 @@ public class ExprFactor extends AstNode implements IFactor {
         }
         // otherwise get real type
         return expr.getType();
-    }
-
-    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
-        expr.executeTypeCheck();
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            AssignToConstError {
-        expr.executeInitCheck(globalProtected);
     }
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

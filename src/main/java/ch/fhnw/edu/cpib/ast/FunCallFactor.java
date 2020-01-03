@@ -21,7 +21,7 @@ public class FunCallFactor extends IdentFactor {
         this.expressions = expressions;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         for (IExpr expr : expressions) {
@@ -59,6 +59,37 @@ public class FunCallFactor extends IdentFactor {
         }
     }
 
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
+        for (IExpr expr : expressions) {
+            expr.executeTypeCheck();
+        }
+
+        // Check allowed types
+        FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
+        for (int i = 0; i < funDecl.getParams().size(); i++) {
+            Types expectedType = funDecl.getParams().get(i).getTypedIdent().getType();
+            Types realType = expressions.get(i).getType();
+            if (expectedType != realType)
+                throw new TypeCheckError(expectedType, realType);
+        }
+    }
+
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            AssignToConstError {
+        // Run the init checking for the function declaration
+        FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
+        // We need to run the init checking only once for the declaration
+        if (!funDecl.getInitCheckDone()) {
+            funDecl.setInitCheckDone();
+            funDecl.executeInitCheck(globalProtected);
+        }
+
+        for (IExpr expr : expressions) {
+            expr.executeInitCheck(globalProtected);
+        }
+    }
+
     @Override public void executeTypeCast(Types type) {
         if (type != null) {
             this.castType = type;
@@ -80,37 +111,6 @@ public class FunCallFactor extends IdentFactor {
         // otherwise get real type
         FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
         return funDecl.getReturnType();
-    }
-
-    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
-        for (IExpr expr : expressions) {
-            expr.executeTypeCheck();
-        }
-
-        // Check allowed types
-        FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
-        for (int i = 0; i < funDecl.getParams().size(); i++) {
-            Types expectedType = funDecl.getParams().get(i).getTypeIdent().getType();
-            Types realType = expressions.get(i).getType();
-            if (expectedType != realType)
-                throw new TypeCheckError(expectedType, realType);
-        }
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            AssignToConstError {
-        // Run the init checking for the function declaration
-        FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
-        // We need to run the init checking only once for the declaration
-        if (!funDecl.getInitCheckDone()) {
-            funDecl.setInitCheckDone();
-            funDecl.executeInitCheck(globalProtected);
-        }
-
-        for (IExpr expr : expressions) {
-            expr.executeInitCheck(globalProtected);
-        }
     }
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
@@ -150,7 +150,7 @@ public class FunCallFactor extends IdentFactor {
                 codeArrayPointer++;
 
                 // Deref
-                TypeIdent variableIdent = null;
+                TypedIdent variableIdent = null;
                 if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
                     variableIdent = globalVarNamespace.get(factor.ident.getIdent());
                 } else {

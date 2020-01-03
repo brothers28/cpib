@@ -10,7 +10,7 @@ import java.util.HashMap;
 public abstract class AstNode implements IAstNode {
 
     // Namespaces
-    static HashMap<String, TypeIdent> globalVarNamespace = new HashMap<>();
+    static HashMap<String, TypedIdent> globalVarNamespace = new HashMap<>();
     static HashMap<String, IDecl> globalRoutNamespace = new HashMap<>();
     // Adresses
     static HashMap<String, Integer> globalVarAdresses = new HashMap<>();
@@ -18,9 +18,9 @@ public abstract class AstNode implements IAstNode {
     // Code array
     static int codeArrayPointer = 0;
     static ICodeArray codeArray = new CodeArray(1024);
-    HashMap<String, TypeIdent> localVarNamespace = new HashMap<>();
+    HashMap<String, TypedIdent> localVarNamespace = new HashMap<>();
 
-    public void setInit(TypeIdent ident) {
+    public void setInit(TypedIdent ident) {
         if (localVarNamespace.containsKey(ident.getValue()))
             localVarNamespace.get(ident.getValue()).setInit();
     }

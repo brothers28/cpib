@@ -15,27 +15,27 @@ public class Param extends AstNode {
     private Flowmodes flowMode;
     private Mechmodes mechMode;
     private Changemodes changeMode;
-    private TypeIdent typeIdent;
+    private TypedIdent typedIdent;
     private LRValue lrValue;
 
-    public Param(Flowmodes flowMode, Mechmodes mechMode, Changemodes changeMode, TypeIdent typeIdent) {
+    public Param(Flowmodes flowMode, Mechmodes mechMode, Changemodes changeMode, TypedIdent typedIdent) {
         this.flowMode = flowMode != null ? flowMode : Flowmodes.IN;
         this.mechMode = mechMode != null ? mechMode : Mechmodes.COPY;
         this.changeMode = changeMode != null ? changeMode : Changemodes.CONST;
-        this.typeIdent = typeIdent;
-        this.typeIdent.setInit();
+        this.typedIdent = typedIdent;
+        this.typedIdent.setInit();
         // Set the const boolean value on the typeIdent to true
         if (changeMode == Changemodes.CONST)
-            this.typeIdent.setConst();
+            this.typedIdent.setConst();
         lrValue = this.mechMode == Mechmodes.COPY ? LRValue.RVALUE : LRValue.LVALUE;
     }
 
     public String getIdentString() {
-        return typeIdent.getValue();
+        return typedIdent.getValue();
     }
 
-    public TypeIdent getTypeIdent() {
-        return typeIdent;
+    public TypedIdent getTypedIdent() {
+        return typedIdent;
     }
 
     public LRValue getLRValue() {
@@ -46,7 +46,7 @@ public class Param extends AstNode {
         return mechMode;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
     }
@@ -88,7 +88,7 @@ public class Param extends AstNode {
         if (changeMode != null)
             s += argumentIndent + "<changeMode>: " + changeMode.toString() + "\n";
         s += argumentIndent + "<typeIdent>:\n";
-        s += typeIdent.toString(subIndent);
+        s += typedIdent.toString(subIndent);
 
         return s;
     }

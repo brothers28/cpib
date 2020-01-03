@@ -19,7 +19,7 @@ public class InitFactor extends IdentFactor {
         this.init = init;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
     }
@@ -39,6 +39,39 @@ public class InitFactor extends IdentFactor {
         }
     }
 
+    @Override public void executeTypeCheck() throws TypeCheckError {
+        //
+    }
+
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            AssignToConstError {
+        // Get the typeIdent for this factor
+        TypedIdent typedIdent = null;
+        boolean isGlobal = false;
+        if (this.localVarNamespace.containsKey(ident.getIdent()))
+            typedIdent = this.localVarNamespace.get(ident.getIdent());
+        if (globalVarNamespace.containsKey(ident.getIdent())) {
+            typedIdent = globalVarNamespace.get(ident.getIdent());
+            isGlobal = true;
+        }
+        if (init) {
+            if (globalProtected && isGlobal)
+                // Global and protected variable cannot be initialized
+                throw new GlobalProtectedInitializationError(typedIdent.getIdent());
+            if (typedIdent.getInit()) {
+                // Already inizialized
+                throw new AlreadyInitializedError(typedIdent.getIdent());
+            } else {
+                typedIdent.setInit();
+            }
+        } else {
+            if (!typedIdent.getInit())
+                // Not initialized
+                throw new NotInitializedError(typedIdent.getIdent());
+        }
+    }
+
     @Override public void executeTypeCast(Types type) {
         if (type != null) {
             this.castType = type;
@@ -55,46 +88,13 @@ public class InitFactor extends IdentFactor {
             return castType;
         }
         // otherwise get real type
-        TypeIdent typeIdent;
+        TypedIdent typedIdent;
         if (localVarNamespace.containsKey(ident.getIdent())) {
-            typeIdent = localVarNamespace.get(ident.getIdent());
+            typedIdent = localVarNamespace.get(ident.getIdent());
         } else {
-            typeIdent = globalVarNamespace.get(ident.getIdent());
+            typedIdent = globalVarNamespace.get(ident.getIdent());
         }
-        return typeIdent.getType();
-    }
-
-    @Override public void executeTypeCheck() throws TypeCheckError {
-        //
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            AssignToConstError {
-        // Get the typeIdent for this factor
-        TypeIdent typeIdent = null;
-        boolean isGlobal = false;
-        if (this.localVarNamespace.containsKey(ident.getIdent()))
-            typeIdent = this.localVarNamespace.get(ident.getIdent());
-        if (globalVarNamespace.containsKey(ident.getIdent())) {
-            typeIdent = globalVarNamespace.get(ident.getIdent());
-            isGlobal = true;
-        }
-        if (init) {
-            if (globalProtected && isGlobal)
-                // Global and protected variable cannot be initialized
-                throw new GlobalProtectedInitializationError(typeIdent.getIdent());
-            if (typeIdent.getInit()) {
-                // Already inizialized
-                throw new AlreadyInitializedError(typeIdent.getIdent());
-            } else {
-                typeIdent.setInit();
-            }
-        } else {
-            if (!typeIdent.getInit())
-                // Not initialized
-                throw new NotInitializedError(typeIdent.getIdent());
-        }
+        return typedIdent.getType();
     }
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
@@ -121,7 +121,7 @@ public class InitFactor extends IdentFactor {
         codeArrayPointer++;
 
         // If this needs to be dereferenced (=Param), dereference it once more
-        TypeIdent variableIdent = null;
+        TypedIdent variableIdent = null;
         if (globalVarNamespace.containsKey(ident.getIdent())) {
             variableIdent = globalVarNamespace.get(ident.getIdent());
         } else {

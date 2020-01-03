@@ -23,7 +23,7 @@ public class AddExpr extends AstNode implements IExpr {
         this.exprRight = exprRight;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         exprLeft.saveNamespaceInfo(this.localVarNamespace);
@@ -34,6 +34,24 @@ public class AddExpr extends AstNode implements IExpr {
     @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         exprLeft.executeScopeCheck();
         exprRight.executeScopeCheck();
+    }
+
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
+        exprLeft.executeTypeCheck();
+        exprRight.executeTypeCheck();
+
+        // Check allowed types
+        if (exprLeft.getType() == Types.BOOL)
+            throw new TypeCheckError(Types.INT32, exprLeft.getType());
+        if (exprLeft.getType() != exprRight.getType())
+            throw new TypeCheckError(exprLeft.getType(), exprRight.getType());
+    }
+
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            AssignToConstError {
+        exprLeft.executeInitCheck(globalProtected);
+        exprRight.executeInitCheck(globalProtected);
     }
 
     @Override public void executeTypeCast(Types type) {
@@ -53,24 +71,6 @@ public class AddExpr extends AstNode implements IExpr {
         }
         // otherwise get real type
         return exprLeft.getType();
-    }
-
-    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
-        exprLeft.executeTypeCheck();
-        exprRight.executeTypeCheck();
-
-        // Check allowed types
-        if (exprLeft.getType() == Types.BOOL)
-            throw new TypeCheckError(Types.INT32, exprLeft.getType());
-        if (exprLeft.getType() != exprRight.getType())
-            throw new TypeCheckError(exprLeft.getType(), exprRight.getType());
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            AssignToConstError {
-        exprLeft.executeInitCheck(globalProtected);
-        exprRight.executeInitCheck(globalProtected);
     }
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

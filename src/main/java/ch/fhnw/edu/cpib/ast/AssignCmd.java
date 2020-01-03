@@ -19,7 +19,7 @@ public class AssignCmd extends AstNode implements ICmd {
         this.exprRight = exprRight;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         exprLeft.saveNamespaceInfo(this.localVarNamespace);
@@ -53,14 +53,14 @@ public class AssignCmd extends AstNode implements ICmd {
         InitFactor factor = (InitFactor) exprLeft;
         // is the variable already initialized (= written once) and is a constant?
         // if yes, we are writing to an already initialized constant --> not allowed
-        TypeIdent typeIdent = null;
+        TypedIdent typedIdent = null;
         if (this.localVarNamespace.containsKey(factor.ident.getIdent()))
-            typeIdent = this.localVarNamespace.get(factor.ident.getIdent());
+            typedIdent = this.localVarNamespace.get(factor.ident.getIdent());
         if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
-            typeIdent = globalVarNamespace.get(factor.ident.getIdent());
+            typedIdent = globalVarNamespace.get(factor.ident.getIdent());
         }
         // If this is a const and it is already initialized (once written to), throw an error
-        if (typeIdent.getConst() && typeIdent.getInit())
+        if (typedIdent.getConst() && typedIdent.getInit())
             throw new AssignToConstError(factor.ident);
 
         exprLeft.executeInitCheck(globalProtected);
@@ -86,7 +86,7 @@ public class AssignCmd extends AstNode implements ICmd {
         codeArrayPointer++;
 
         // If this needs to be dereferenced (=Param), dereference it once more
-        TypeIdent variableIdent = null;
+        TypedIdent variableIdent = null;
         if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
             variableIdent = globalVarNamespace.get(factor.ident.getIdent());
         } else {

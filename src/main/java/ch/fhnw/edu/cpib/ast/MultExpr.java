@@ -23,7 +23,7 @@ public class MultExpr extends AstNode implements IExpr {
         this.exprRight = exprRight;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         exprLeft.saveNamespaceInfo(this.localVarNamespace);
@@ -41,8 +41,11 @@ public class MultExpr extends AstNode implements IExpr {
         }
     }
 
-    @Override public LRValue getLRValue() {
-        return LRValue.RVALUE;
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            AssignToConstError {
+        exprLeft.executeInitCheck(globalProtected);
+        exprRight.executeInitCheck(globalProtected);
     }
 
     @Override public void executeTypeCheck() throws TypeCheckError, CastError {
@@ -56,6 +59,10 @@ public class MultExpr extends AstNode implements IExpr {
             throw new TypeCheckError(exprLeft.getType(), exprRight.getType());
     }
 
+    @Override public LRValue getLRValue() {
+        return LRValue.RVALUE;
+    }
+
     @Override public Types getType() {
         if (castType != null) {
             // type is casted
@@ -63,13 +70,6 @@ public class MultExpr extends AstNode implements IExpr {
         }
         // otherwise get real type
         return exprLeft.getType();
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            AssignToConstError {
-        exprLeft.executeInitCheck(globalProtected);
-        exprRight.executeInitCheck(globalProtected);
     }
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

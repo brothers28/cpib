@@ -1,6 +1,5 @@
 package ch.fhnw.edu.cpib.cst;
 
-import ch.fhnw.edu.cpib.ast.TypeIdent;
 import ch.fhnw.edu.cpib.cst.interfaces.ITypedIdent;
 import ch.fhnw.edu.cpib.scanner.Ident;
 import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
@@ -18,7 +17,7 @@ public class TypedIdent extends Production implements ITypedIdent {
         T_type = t_type;
     }
 
-    @Override public TypeIdent toAbsSyntax() {
-        return new TypeIdent((Ident) T_ident, ((Type) T_type).getType());
+    @Override public ch.fhnw.edu.cpib.ast.TypedIdent toAbsSyntax() {
+        return new ch.fhnw.edu.cpib.ast.TypedIdent((Ident) T_ident, ((Type) T_type).getType());
     }
 }

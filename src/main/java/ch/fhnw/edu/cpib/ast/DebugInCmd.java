@@ -18,7 +18,7 @@ public class DebugInCmd extends AstNode implements ICmd {
         this.expr = expr;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         expr.saveNamespaceInfo(this.localVarNamespace);
@@ -43,14 +43,14 @@ public class DebugInCmd extends AstNode implements ICmd {
         InitFactor factor = (InitFactor) expr;
         // is the variable already initialized (= written once) and is a constant?
         // if yes, we are writing to an already initialized constant --> not allowed
-        TypeIdent typeIdent = null;
+        TypedIdent typedIdent = null;
         if (this.localVarNamespace.containsKey(factor.ident.getIdent()))
-            typeIdent = this.localVarNamespace.get(factor.ident.getIdent());
+            typedIdent = this.localVarNamespace.get(factor.ident.getIdent());
         if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
-            typeIdent = globalVarNamespace.get(factor.ident.getIdent());
+            typedIdent = globalVarNamespace.get(factor.ident.getIdent());
         }
         // If this is a const and it is already initialized (once written to), throw an error
-        if (typeIdent.getConst() && typeIdent.getInit())
+        if (typedIdent.getConst() && typedIdent.getInit())
             throw new AssignToConstError(factor.ident);
 
         expr.executeInitCheck(globalProtected);

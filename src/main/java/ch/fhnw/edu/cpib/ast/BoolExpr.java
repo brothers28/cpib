@@ -23,7 +23,7 @@ public class BoolExpr extends AstNode implements IExpr {
         this.exprRight = exprRight;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         exprLeft.saveNamespaceInfo(this.localVarNamespace);
@@ -33,16 +33,6 @@ public class BoolExpr extends AstNode implements IExpr {
     @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         exprLeft.executeScopeCheck();
         exprRight.executeScopeCheck();
-    }
-
-    @Override public void executeTypeCast(Types type) {
-        if (type != null) {
-            this.castType = type;
-        }
-    }
-
-    @Override public LRValue getLRValue() {
-        return LRValue.RVALUE;
     }
 
     @Override public void executeTypeCheck() throws TypeCheckError, CastError {
@@ -56,6 +46,23 @@ public class BoolExpr extends AstNode implements IExpr {
             throw new TypeCheckError(Types.BOOL, exprRight.getType());
     }
 
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            AssignToConstError {
+        exprLeft.executeInitCheck(globalProtected);
+        exprRight.executeInitCheck(globalProtected);
+    }
+
+    @Override public void executeTypeCast(Types type) {
+        if (type != null) {
+            this.castType = type;
+        }
+    }
+
+    @Override public LRValue getLRValue() {
+        return LRValue.RVALUE;
+    }
+
     @Override public Types getType() {
         if (castType != null) {
             // type is casted
@@ -63,13 +70,6 @@ public class BoolExpr extends AstNode implements IExpr {
         }
         // otherwise get real type
         return Types.BOOL;
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            AssignToConstError {
-        exprLeft.executeInitCheck(globalProtected);
-        exprRight.executeInitCheck(globalProtected);
     }
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

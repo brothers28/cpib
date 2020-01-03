@@ -20,7 +20,7 @@ public class CastFactor extends AstNode implements IFactor {
         this.factor = factor;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         factor.saveNamespaceInfo(this.localVarNamespace);

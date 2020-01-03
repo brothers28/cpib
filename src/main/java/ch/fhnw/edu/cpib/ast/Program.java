@@ -21,6 +21,34 @@ public class Program extends AstNode {
         this.cpsCmd = cpsCmd;
     }
 
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+        // Check namespaces
+        for (IDecl decl : globalDeclarations) {
+            if (decl instanceof StoDecl) {
+                if (AstNode.globalVarNamespace.containsKey(decl.getIdentString()))
+                    // Already declared (globally)
+                    throw new AlreadyDeclaredError(decl.getIdentString());
+
+                // Save to global namespace
+                AstNode.globalVarNamespace.put(decl.getIdentString(), ((StoDecl) decl).getTypedIdent());
+            } else {
+                if (AstNode.globalRoutNamespace.containsKey(decl.getIdentString()))
+                    // Already declared
+                    throw new AlreadyDeclaredError(decl.getIdentString());
+
+                // Save to global namespace
+                AstNode.globalRoutNamespace.put(decl.getIdentString(), decl);
+            }
+        }
+
+        for (IDecl decl : globalDeclarations) {
+            // For funDecl and procDecl, store the local variables into the nodes and child nodes
+            if (!(decl instanceof StoDecl))
+                decl.saveNamespaceInfo(new HashMap<String, TypedIdent>());
+        }
+    }
+
     @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         for (IDecl decl : globalDeclarations) {
             if (!(decl instanceof StoDecl))
@@ -37,34 +65,6 @@ public class Program extends AstNode {
         }
 
         cpsCmd.executeTypeCheck();
-    }
-
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
-        // Check namespaces
-        for (IDecl decl : globalDeclarations) {
-            if (decl instanceof StoDecl) {
-                if (AstNode.globalVarNamespace.containsKey(decl.getIdentString()))
-                    // Already declared (globally)
-                    throw new AlreadyDeclaredError(decl.getIdentString());
-
-                // Save to global namespace
-                AstNode.globalVarNamespace.put(decl.getIdentString(), ((StoDecl) decl).getTypeIdent());
-            } else {
-                if (AstNode.globalRoutNamespace.containsKey(decl.getIdentString()))
-                    // Already declared
-                    throw new AlreadyDeclaredError(decl.getIdentString());
-
-                // Save to global namespace
-                AstNode.globalRoutNamespace.put(decl.getIdentString(), decl);
-            }
-        }
-
-        for (IDecl decl : globalDeclarations) {
-            // For funDecl and procDecl, store the local variables into the nodes and child nodes
-            if (!(decl instanceof StoDecl))
-                decl.saveNamespaceInfo(new HashMap<String, TypeIdent>());
-        }
     }
 
     @Override public void executeInitCheck(boolean globalProtected)

@@ -8,14 +8,14 @@ import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class TypeIdent extends AstNode implements Cloneable {
+public class TypedIdent extends AstNode implements Cloneable {
     private Ident ident;
     private Types type;
     private boolean isInit;
     private boolean isConst;
     private boolean needToDeref;
 
-    public TypeIdent(Ident ident, Types type) {
+    public TypedIdent(Ident ident, Types type) {
         this.ident = ident;
         this.type = type;
     }
@@ -60,7 +60,7 @@ public class TypeIdent extends AstNode implements Cloneable {
         return needToDeref;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
     }

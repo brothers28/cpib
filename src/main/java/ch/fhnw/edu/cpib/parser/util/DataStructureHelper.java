@@ -1,17 +1,17 @@
 package ch.fhnw.edu.cpib.parser.util;
 
-import ch.fhnw.edu.cpib.ast.TypeIdent;
+import ch.fhnw.edu.cpib.ast.TypedIdent;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class DataStructureHelper {
 
-    public static HashMap<String, TypeIdent> deepCopy(HashMap<String, TypeIdent> map) {
-        HashMap<String, TypeIdent> tmp = new HashMap<>();
-        for (Map.Entry<String, TypeIdent> entry : map.entrySet()) {
+    public static HashMap<String, TypedIdent> deepCopy(HashMap<String, TypedIdent> map) {
+        HashMap<String, TypedIdent> tmp = new HashMap<>();
+        for (Map.Entry<String, TypedIdent> entry : map.entrySet()) {
             try {
-                tmp.put(entry.getKey(), (TypeIdent) entry.getValue().clone());
+                tmp.put(entry.getKey(), (TypedIdent) entry.getValue().clone());
             } catch (CloneNotSupportedException e) {
                 System.out.println("Clone error");
                 e.printStackTrace();

@@ -20,7 +20,7 @@ public class WhileCmd extends AstNode implements ICmd {
         this.cpsCmd = cpsCmd;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         expr.saveNamespaceInfo(this.localVarNamespace);
@@ -47,7 +47,7 @@ public class WhileCmd extends AstNode implements ICmd {
             AssignToConstError {
         expr.executeInitCheck(globalProtected);
         // set recursively all initialized variables also on the child-nodes to init
-        for (TypeIdent ident : localVarNamespace.values()) {
+        for (TypedIdent ident : localVarNamespace.values()) {
             if (ident.getInit()) {
                 cpsCmd.setInit(ident);
             }

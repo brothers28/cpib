@@ -24,7 +24,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
         this.expressions = expressions;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
 
@@ -71,7 +71,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
         // Check allowed types
         ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());
         for (int i = 0; i < procDecl.getParams().size(); i++) {
-            Types expectedType = procDecl.getParams().get(i).getTypeIdent().getType();
+            Types expectedType = procDecl.getParams().get(i).getTypedIdent().getType();
             Types realType = expressions.get(i).getType();
             if (expectedType != realType && !isCastable(expectedType,
                     realType)) // TODO: Uncomment isCastable like in AssignCmd?
@@ -127,7 +127,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
                 codeArrayPointer++;
 
                 // Deref
-                TypeIdent variableIdent = null;
+                TypedIdent variableIdent = null;
                 if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
                     variableIdent = globalVarNamespace.get(factor.ident.getIdent());
                 } else {

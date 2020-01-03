@@ -27,7 +27,7 @@ public class MonadicFactor extends AstNode implements IFactor {
         this.monadicOpr = monadicOpr;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         factor.saveNamespaceInfo(this.localVarNamespace);
@@ -35,6 +35,24 @@ public class MonadicFactor extends AstNode implements IFactor {
 
     @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         factor.executeScopeCheck();
+    }
+
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
+        factor.executeTypeCheck();
+
+        // Check allowed types
+        if (Terminals.NOTOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.BOOL)
+            throw new TypeCheckError(Types.BOOL, factor.getType());
+        if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.INT32)
+            throw new TypeCheckError(Types.INT32, factor.getType());
+        if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.NAT32)
+            throw new TypeCheckError(Types.NAT32, factor.getType());
+    }
+
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            AssignToConstError {
+        factor.executeInitCheck(globalProtected);
     }
 
     @Override public void executeTypeCast(Types type) {
@@ -55,24 +73,6 @@ public class MonadicFactor extends AstNode implements IFactor {
         }
         // otherwise get real type
         return factor.getType();
-    }
-
-    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
-        factor.executeTypeCheck();
-
-        // Check allowed types
-        if (Terminals.NOTOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.BOOL)
-            throw new TypeCheckError(Types.BOOL, factor.getType());
-        if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.INT32)
-            throw new TypeCheckError(Types.INT32, factor.getType());
-        if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.NAT32)
-            throw new TypeCheckError(Types.NAT32, factor.getType());
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            AssignToConstError {
-        factor.executeInitCheck(globalProtected);
     }
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

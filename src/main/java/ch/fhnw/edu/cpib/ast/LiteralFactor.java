@@ -19,12 +19,22 @@ public class LiteralFactor extends AstNode implements IFactor {
         this.literal = literal;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
     }
 
     @Override public void executeScopeCheck() throws NotDeclaredError {
+    }
+
+    @Override public void executeTypeCheck() throws TypeCheckError {
+        //
+    }
+
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            AssignToConstError {
+        //
     }
 
     @Override public void executeTypeCast(Types type) {
@@ -45,16 +55,6 @@ public class LiteralFactor extends AstNode implements IFactor {
         }
         // otherwise get real type
         return literal.getType();
-    }
-
-    @Override public void executeTypeCheck() throws TypeCheckError {
-        //
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            AssignToConstError {
-        //
     }
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

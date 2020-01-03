@@ -41,15 +41,7 @@ public class ProcDecl extends AstNode implements IDecl {
         return ident.getIdent();
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
-        cpsCmd.executeScopeCheck();
-    }
-
-    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
-        cpsCmd.executeTypeCheck();
-    }
-
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
 
         // Create local namespace
@@ -63,10 +55,10 @@ public class ProcDecl extends AstNode implements IDecl {
                 throw new AlreadyDeclaredError(param.getIdentString());
             if (param.getMechMode() == Mechmodes.REF)
                 // Deref
-                param.getTypeIdent().setNeedToDeref();
+                param.getTypedIdent().setNeedToDeref();
 
             // Save to local namespace
-            this.localVarNamespace.put(param.getIdentString(), param.getTypeIdent());
+            this.localVarNamespace.put(param.getIdentString(), param.getTypedIdent());
         }
 
         // Save variables in local namespace
@@ -79,10 +71,18 @@ public class ProcDecl extends AstNode implements IDecl {
                 throw new AlreadyDeclaredError(stoDecl.getIdentString());
 
             // Save to local namespace
-            this.localVarNamespace.put(stoDecl.getIdentString(), stoDecl.getTypeIdent());
+            this.localVarNamespace.put(stoDecl.getIdentString(), stoDecl.getTypedIdent());
         }
 
         cpsCmd.saveNamespaceInfo(this.localVarNamespace);
+    }
+
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
+        cpsCmd.executeScopeCheck();
+    }
+
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
+        cpsCmd.executeTypeCheck();
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
