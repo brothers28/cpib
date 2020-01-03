@@ -114,8 +114,8 @@ public class AssignCmd extends AstNode implements ICmd {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<exprLeft>:\n";
         s += exprLeft.toString(subIndent);
         s += argumentIndent + "<exprRight>:\n";

@@ -116,8 +116,8 @@ public class MultExpr extends AstNode implements IExpr {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<multOpr>: " + multOpr.toString() + "\n";
         s += argumentIndent + "<exprLeft>:\n";
         s += exprLeft.toString(subIndent);

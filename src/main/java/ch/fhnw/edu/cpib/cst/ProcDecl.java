@@ -29,7 +29,7 @@ public class ProcDecl extends Production implements IProcDecl {
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.ProcDecl((Ident) T_ident, N_paramList.toAbsSyntax(), N_procDeclNTS.toAbsSyntax(),
-                N_cpsCmd.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.ProcDecl((Ident) T_ident, N_paramList.toAbsSyntax(),
+                N_procDeclNTS.toAbsSyntax(), N_cpsCmd.toAbsSyntax());
     }
 }

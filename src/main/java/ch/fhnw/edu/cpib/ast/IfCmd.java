@@ -105,8 +105,8 @@ public class IfCmd extends AstNode implements ICmd {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<expr>:\n";
         s += expr.toString(subIndent);
         s += argumentIndent + "<ifCpsCmd>:\n";

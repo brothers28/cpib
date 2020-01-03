@@ -73,7 +73,8 @@ public class ProcCallCmd extends AstNode implements ICmd {
         for (int i = 0; i < procDecl.getParams().size(); i++) {
             Types expectedType = procDecl.getParams().get(i).getTypeIdent().getType();
             Types realType = expressions.get(i).getType();
-            if (expectedType != realType && !isCastable(expectedType, realType)) // TODO: Uncomment isCastable like in AssignCmd?
+            if (expectedType != realType && !isCastable(expectedType,
+                    realType)) // TODO: Uncomment isCastable like in AssignCmd?
                 throw new TypeCheckError(expectedType, realType);
         }
     }
@@ -157,8 +158,8 @@ public class ProcCallCmd extends AstNode implements ICmd {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<ident>: " + ident.toString() + "\n";
         s += argumentIndent + "<expressions>:\n";
         for (IExpr expr : expressions) {

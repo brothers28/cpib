@@ -4,105 +4,6 @@
 package ch.fhnw.edu.cpib.vm;
 
 public class Data {
-    static interface IBaseData {
-        IBaseData copy();
-    }
-
-    // nat extension
-    static class NumData implements IBaseData {
-        private long i;
-
-        NumData() {
-        }
-
-        NumData(long i) {
-            this.i = i;
-        }
-
-        long getData() {
-            return i;
-        }
-
-        public NumData copy() {
-            return numCopy(this);
-        }
-    }
-
-    static class IntData extends NumData {
-        public static final long MAX_VALUE = Integer.MAX_VALUE;
-        public static final long MIN_VALUE = Integer.MIN_VALUE;
-
-        private long i;
-
-        IntData(long i) {
-            // Check boundaries
-            if (i > MAX_VALUE)
-                throw new RuntimeException("Int overflow.");
-            if (i < MIN_VALUE)
-                throw new RuntimeException("Int underflow.");
-
-            this.i = i;
-        }
-
-        long getData() {
-            return i;
-        }
-
-        public IntData copy() {
-            return intCopy(this);
-        }
-
-        @Override public String toString() {
-            return "IntData: " + i;
-        }
-    }
-
-    // nat extension
-    static class NatData extends NumData {
-        public static final long MAX_VALUE = 4294967295L;
-        public static final long MIN_VALUE = 0L;
-
-        private long i;
-
-        NatData(long i) {
-            // Check boundaries
-            if (i > MAX_VALUE)
-                throw new RuntimeException("Nat overflow.");
-            if (i < MIN_VALUE)
-                throw new RuntimeException("Nat underflow.");
-
-            this.i = i;
-        }
-
-        long getData() {
-            return i;
-        }
-
-        public NatData copy() {
-            return natCopy(this);
-        }
-
-        @Override public String toString() {
-            return "NatData: " + i;
-        }
-    }
-
-    static class FloatData implements IBaseData {
-        private float f;
-
-        FloatData(float f) {
-            this.f = f;
-        }
-
-        float getData() {
-            return f;
-        }
-
-        public FloatData copy() {
-            return floatCopy(this);
-        }
-    }
-
     // num data
     static NumData numNew(long i) {
         return new NumData(i);
@@ -373,7 +274,7 @@ public class Data {
     }
 
     static IntData boolInv(IBaseData a) {
-        return boolNew(numGet(a) == 1 ? false : true);
+        return boolNew(numGet(a) != 1);
     }
 
     static IntData boolAnd(IBaseData a, IBaseData b) {
@@ -407,5 +308,104 @@ public class Data {
 
     static FloatData floatInv(IBaseData a) {
         return floatNew(-floatGet(a));
+    }
+
+    interface IBaseData {
+        IBaseData copy();
+    }
+
+    // nat extension
+    static class NumData implements IBaseData {
+        private long i;
+
+        NumData() {
+        }
+
+        NumData(long i) {
+            this.i = i;
+        }
+
+        long getData() {
+            return i;
+        }
+
+        public NumData copy() {
+            return numCopy(this);
+        }
+    }
+
+    static class IntData extends NumData {
+        public static final long MAX_VALUE = Integer.MAX_VALUE;
+        public static final long MIN_VALUE = Integer.MIN_VALUE;
+
+        private long i;
+
+        IntData(long i) {
+            // Check boundaries
+            if (i > MAX_VALUE)
+                throw new RuntimeException("Int overflow.");
+            if (i < MIN_VALUE)
+                throw new RuntimeException("Int underflow.");
+
+            this.i = i;
+        }
+
+        long getData() {
+            return i;
+        }
+
+        public IntData copy() {
+            return intCopy(this);
+        }
+
+        @Override public String toString() {
+            return "IntData: " + i;
+        }
+    }
+
+    // nat extension
+    static class NatData extends NumData {
+        public static final long MAX_VALUE = 4294967295L;
+        public static final long MIN_VALUE = 0L;
+
+        private long i;
+
+        NatData(long i) {
+            // Check boundaries
+            if (i > MAX_VALUE)
+                throw new RuntimeException("Nat overflow.");
+            if (i < MIN_VALUE)
+                throw new RuntimeException("Nat underflow.");
+
+            this.i = i;
+        }
+
+        long getData() {
+            return i;
+        }
+
+        public NatData copy() {
+            return natCopy(this);
+        }
+
+        @Override public String toString() {
+            return "NatData: " + i;
+        }
+    }
+
+    static class FloatData implements IBaseData {
+        private float f;
+
+        FloatData(float f) {
+            this.f = f;
+        }
+
+        float getData() {
+            return f;
+        }
+
+        public FloatData copy() {
+            return floatCopy(this);
+        }
     }
 }

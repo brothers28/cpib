@@ -78,8 +78,8 @@ public class CastFactor extends AstNode implements IFactor {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<CastType>: " + castType.toString() + "\n";
         s += argumentIndent + "<factor>:\n";
         s += factor.toString(subIndent);

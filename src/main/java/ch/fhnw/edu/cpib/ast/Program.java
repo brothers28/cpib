@@ -130,8 +130,8 @@ public class Program extends AstNode {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         if (AstNode.globalVarNamespace != null)
             s += argumentIndent + "[globalStoresNamespace]: " + globalVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";

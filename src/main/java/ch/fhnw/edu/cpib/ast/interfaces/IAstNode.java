@@ -8,20 +8,19 @@ import java.util.HashMap;
 
 public interface IAstNode {
 
-    public abstract String toString(String indent);
+    String toString(String indent);
 
-    public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError;
 
-    public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError;
+    void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError;
 
-    public void executeTypeCheck() throws TypeCheckError, CastError;
+    void executeTypeCheck() throws TypeCheckError, CastError;
 
-    public void executeInitCheck(boolean globalProtected)
+    void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError, AssignToConstError;
 
-    public void setInit(TypeIdent ident);
+    void setInit(TypeIdent ident);
 
-    public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
-            throws CodeTooSmallError;
+    void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly) throws CodeTooSmallError;
 }

@@ -52,7 +52,7 @@ public class Scanner {
                         entry("not", new Base(Terminals.NOTOPR)), entry("returns", new Base(Terminals.RETURNS)),
                         entry("skip", new Base(Terminals.SKIP)), entry("then", new Base(Terminals.THEN)),
                         entry("bool", new Type(Types.BOOL)), entry("int32", new Type(Types.INT32)),
-                        entry("nat32", new Type(Types.NAT32)), entry("const", new Changemode(Changemodes.CONST.CONST)),
+                        entry("nat32", new Type(Types.NAT32)), entry("const", new Changemode(Changemodes.CONST)),
                         entry("var", new Changemode(Changemodes.VAR)), entry("copy", new Mechmode(Mechmodes.COPY)),
                         entry("ref", new Mechmode(Mechmodes.REF)), entry("div", new MultOpr(Operators.DIV)),
                         entry("divE", new MultOpr(Operators.DIV_E)), entry("mod", new MultOpr(Operators.MOD)),

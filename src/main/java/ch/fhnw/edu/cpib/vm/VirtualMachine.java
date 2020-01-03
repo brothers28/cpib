@@ -64,7 +64,7 @@ public class VirtualMachine implements IVirtualMachine {
         hp = store.length - 1;
         fp = 0;
         System.out.println("Execution:");
-        System.out.println("");
+        System.out.println();
         while (pc > -1) {
             System.out.println("(" + pc + ") Executing instruction " + code[pc]);
             System.out.println("pc: " + pc);
@@ -74,7 +74,7 @@ public class VirtualMachine implements IVirtualMachine {
             for (int i = 0; i < sp; i++) {
                 System.out.println(i + ": " + store[i]);
             }
-            System.out.println("");
+            System.out.println();
         }
     }
 
@@ -255,18 +255,18 @@ public class VirtualMachine implements IVirtualMachine {
     // load (inside stack -> top of stack) operation
     public class DerefExec extends Deref implements IExecInstr {
 
-        DerefExec(){
+        DerefExec() {
             super();
         }
 
-        DerefExec(Types type){
+        DerefExec(Types type) {
             super(type);
         }
 
         public void execute() {
             int address = Data.intGet(store[sp - 1]);
             Data.IBaseData data = store[address];
-            if (castType != null){
+            if (castType != null) {
                 if (castType == Types.INT32) {
                     store[sp - 1] = Data.intNew((Data.NumData) data);
                 } else if (castType == Types.NAT32) {

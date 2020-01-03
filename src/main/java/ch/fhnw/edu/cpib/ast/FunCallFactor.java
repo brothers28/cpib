@@ -33,7 +33,8 @@ public class FunCallFactor extends IdentFactor {
         // Check namespace
         if (!globalRoutNamespace.containsKey(ident.getIdent())) {
             // Function not declared in global namespace
-            throw new NotDeclaredError(ident.getIdent());}
+            throw new NotDeclaredError(ident.getIdent());
+        }
 
         // Check scope
         for (IExpr expr : expressions) {
@@ -180,8 +181,8 @@ public class FunCallFactor extends IdentFactor {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<expressions>:\n";
         for (IExpr expr : expressions) {
             s += expr.toString(subIndent);

@@ -16,6 +16,7 @@ public class StoDeclChangeMode extends Production implements IStoDecl {
     }
 
     @Override public ch.fhnw.edu.cpib.ast.StoDecl toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.StoDecl(((Changemode) T_changeMode).getChangemode(), N_typedIdent.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.StoDecl(((Changemode) T_changeMode).getChangemode(),
+                N_typedIdent.toAbsSyntax());
     }
 }
