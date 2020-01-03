@@ -36,7 +36,7 @@ public class DebugInCmd extends AstNode implements ICmd {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             AssignToConstError {
         // exprLeft has to be InitFactor
         InitFactor factor = (InitFactor) expr;

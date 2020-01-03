@@ -74,7 +74,7 @@ public class TypedIdent extends AstNode implements Cloneable {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             AssignToConstError {
         //
     }

@@ -33,7 +33,7 @@ public class ExprFactor extends AstNode implements IFactor {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             AssignToConstError {
         expr.executeInitCheck(globalProtected);
     }

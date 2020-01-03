@@ -75,7 +75,7 @@ public class FunCallFactor extends IdentFactor {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             AssignToConstError {
         // Check function declaration
         FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());

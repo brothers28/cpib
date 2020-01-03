@@ -30,7 +30,7 @@ public class AstTree {
     }
 
     public void executeInitCheck()
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             AssignToConstError {
         root.executeInitCheck(false);
     }

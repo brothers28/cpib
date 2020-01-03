@@ -18,7 +18,7 @@ public interface IAstNode {
     void executeTypeCheck() throws TypeCheckError, CastError;
 
     void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError, AssignToConstError;
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError;
 
     void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec) throws CodeTooSmallError;
 

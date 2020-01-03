@@ -47,7 +47,7 @@ public class BoolExpr extends AstNode implements IExpr {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             AssignToConstError {
         exprLeft.executeInitCheck(globalProtected);
         exprRight.executeInitCheck(globalProtected);
