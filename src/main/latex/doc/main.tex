@@ -120,7 +120,6 @@ Folgendes Code-Listing zeigt ein solches Beispiel mit dem bestehenden Datentyp \
 Unsere Erweiterung unterstützt keine impliziten Castings.
 Weitere Code-Beispiele sind im Anhang zu finden.
 
-% TODO: Macht es sinn, dass und was hier zu && und || beschrieben wurde
 Ebenfalls haben wir in unserer IML Syntax das logische Symbol für \texttt{AND: /\textbackslash{}} sowie \texttt{OR: \textbackslash{}/} durch \texttt{AND: \&\&} resp. \texttt{OR: ||} ersetzt.
 Nach unserem Erachten, ist die Bedeutung von \texttt{\&\&} und \texttt{||} den meisten Programmierern besser bekannt, als \texttt{/\textbackslash{}} oder \texttt{\textbackslash{}/}.
 
@@ -257,10 +256,7 @@ Die effektive Typ-Konversion wird erst bei der Code-Generierung durchgeführt.
 
 \subsubsection*{Initalization checking}
 Über das Interface \texttt{IAstNode} müssen alle Knotenpunkte vom AST, die Methode \texttt{executeInitCheck} implementieren.
-Der AST wird dabei von unten nach oben überprüft.
-
-Anhand nachfolgendem Besipielprogramm wird erklärt, wann welcher Fehler auftreten kann.
-Die Fehler werden unterhalb näher beschrieben:
+Anhand nachfolgendem Besipielprogramm wird erklärt, wann welcher Initialisierungsfehler auftreten kann.
 \begin{lstlisting}
 program exampleInitErrors
 global
@@ -274,14 +270,15 @@ do
     y := 2 // throws CannotAssignToConstError
 endprogram
 \end{lstlisting}
-Folgende Fehler können dabei auftreten:
+
 \begin{itemize}
     \item \texttt{\textbf{NotInitializedError}}: Die Variable wurde zuvor nicht initialisiert.
     \item \texttt{\textbf{AlreadyInitializedError}}: Die Variable wurde bereits zuvor initialisiert.
-    \item \texttt{\textbf{CannotAssignToConstError}}: Die Variable ist eine Konstante und wurde bereits einmal inizialisiert.
+    \item \texttt{\textbf{CannotAssignToConstError}}: Die Variable ist eine Konstante und wurde bereits inizialisiert.
 \end{itemize}
 
 Falls einer dieser Fehler auftritt, wird die Überprüfung sofort beendet und der Initialisierungscheck ist fehlgeschlagen.
+Der AST wird während der Validierung Knoten für Knoten durchlaufen, wobei eine "Deep-First" Baumsuche angewendet wird.
 
 \subsection{Virtuelle Maschine}
 Grundlage für die Code-Generierung ist der AST.
@@ -307,8 +304,6 @@ Beim Dereferenzieren muss im Falle eines Castings der Datentyp von bereits typis
 Anhang \ref{bsp_deref} zeigt ein Beispiel, bei welchem der Datentyp aufgrund des neu propagierten Attributs \texttt{castType} umgewandelt wird.
 
 \subsection{Code Generierung}
-% TODO Eigentlich kein separates Kapitel
-
 \section{Vergleich mit anderen Programmiersprachen}
 \subsection{Ganzzahlige Werte}
 In Java wird bei Zuweisungen die Länge einer Zahl in Bitdarstellung überprüft:
@@ -317,7 +312,6 @@ Falls dies nicht der Fall ist, wird ein Fehler zur Kompilierungszeit geworfen.
 Das MSB wird als Vorzeichenbit verwendet, womit rund die Hälfte der vorzeichenlos darstellbaren \texttt{long}-Werte entfällt, resp. zur Darstellung von negativen Zahlen eingesetzt wird.
 Falls bei fortlaufenden Berechnungen Wertebereiche unter- resp. überschritten werden, führt dies zu einem arithmetischen Überlauf.
 Abbildung \ref{zahlenkreis}
-% TODO: Somehow doesnt work... %
 zeigt den Überlauf bei ganzzahligen, vorzeichenbehafteten Datentypen (am Beispiel von Bitlänge 3 + 1).
 
 \begin{figure}[H]
@@ -325,7 +319,6 @@ zeigt den Überlauf bei ganzzahligen, vorzeichenbehafteten Datentypen (am Beispi
     \caption{Überlauf mit Integerzahlen}
     \label{zahlenkreis}
 \end{figure}
-% TODO: Ref: https://de.wikipedia.org/wiki/Integer_(Datentyp)#/media/Datei:Zahlenkreis_sint3.jpg
 
 Dadurch führt z.B. beim Datentyp \texttt{int} der Ausdruck \texttt{Integer.MAX\_VALUE + 1} zum Wert \texttt{Integer.MIN\_VALUE}.
 Dies kann dazu führen, dass mit \glqq falschen\grqq \ Werten gerechnet wird, ohne dass der Entwickler dies bemerkt.
@@ -334,8 +327,7 @@ Dies kann dazu führen, dass mit \glqq falschen\grqq \ Werten gerechnet wird, oh
 \label{ieee}
 Im Gegensatz zur Darstellung im Zweierkomplement, welches für Integer-Typen in Java verwendet werden, werden Fliesskommazahlen intern nach IEEE Standard dargestellt.
 Anders als bei der Zweierkomplement-Darstellung sieht dieses Format spezielle, konstante Werte vor.
-So sind in Java beispielsweise Konstanten für \texttt{Double.POSITIVE\_INFINITY}, \texttt{Double.NEGATIVE\_INFINITY} und \texttt{Double.NaN} definiert.
-%  Quelle: https://stackoverflow.com/questions/41312477/purpose-of-defining-positive-infinity-negative-infinity-nan-constants-only-for
+So sind in Java beispielsweise Konstanten für \texttt{Double.POSITIVE\_INFINITY}, \texttt{Double.NEGATIVE\_INFINITY} und \texttt{Double.NaN} definiert \footnote{Quelle: }.
 
 \section{Designentscheidungen}
 \subsection{Spezifiziertes Verhalten}
@@ -397,22 +389,46 @@ do
 endprogram
 \end{lstlisting}
 
+\section{Ausblick - zukünftige Erweiterungsmöglichkeiten}
+% TODO: Ist das so für dich OK?
+In einer nächsten Erweiterung des Compilers, könnten grössere NAT Datentypen oder auch Floatingdatentypen eingeführt werden.
+Ebenfalls wäre es denkbar, zusätzliche mathematische Funktionen einzubauen wie z.B. eine Funktion zur Berechnung des grössten gemeinsamen Teilers (ggT), resp. des kleinste gemeinsame Vielfache (kgV).
+
+\section {Arbeitsteilung}
+% TODO: Ist das so für dich OK?
+Der Scanner wurde grösstenteils von Marco Romanutti implementiert, während Benjamin Meyer die Grammatik für Fix und Foxi erstellte.
+Alle übrigen Arbeiten (Zwischenbericht, Parser, Code-Generierung, Schlussbericht, etc.) wurden gemeinsam durchgeführt.
+
+
+\section{Unterschrift}
+Brugg, 07.01.2020
+\\
+\\
+\\
+\\
+Marco Romanutti \hfill Benjamin Meyer
+
+
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
 %----------------------------------------------------------------------------------------
-
+\clearpage
 \begin{thebibliography}{9}
     \bibitem{wikipedia_natNumDe}
-    Wikipedia: Natürliche Zahl,
+    Wikipedia: Natürliche Zahl\\
     \url{https://de.wikipedia.org/wiki/Nat\%C3\%BCrliche_Zahl}
 
     \bibitem{wikipedia_natNumEN}
-    Wikipedia: Natural numbers (engl.),
+    Wikipedia: Natural numbers (engl.)\\
     \url{https://en.wikipedia.org/wiki/Natural_number}
 
     \bibitem{wikipedia_int}
-    Wikipedia: Integer (Datentyp)
+    Wikipedia: Integer (Datentyp)\\
     \url{https://de.wikipedia.org/wiki/Integer_(Datentyp)}
+
+    \bibitem{stack}
+    Stackoverflow: Purpose of defining POSITIVE\_INFINITY, NEGATIVE\_INFINITY, NaN constants only for floating-point data types, but not for integral data types\\
+    \url{https://stackoverflow.com/questions/41312477/}
 \end{thebibliography}
 
 %----------------------------------------------------------------------------------------

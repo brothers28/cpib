@@ -1,14 +1,11 @@
-program exampleCastExpression
+program exampleInitErrors
 global
-   var x:int32;
-   var y:int32;
-   var z:nat32;
-   var b:bool;
-   var c:bool
+    var x:int32;
+    const y:int32
 do
-   x init := 4;
-   y init := 2;
-   z init := [nat32] (x * y + y + x);
-   b init := x >= y;
-   c init := x >= [int32] z
+    x := 7;
+    x init := 4;
+    x init := 3;
+    y init := 1;
+    y := 2
 endprogram
