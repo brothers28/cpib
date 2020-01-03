@@ -79,7 +79,7 @@ public class TypedIdent extends AstNode implements Cloneable {
         //
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         //
     }

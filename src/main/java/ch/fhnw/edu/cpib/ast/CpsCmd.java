@@ -43,10 +43,10 @@ public class CpsCmd extends AstNode implements ICmd {
         }
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         for (ICmd cmd : commands) {
-            cmd.addToCodeArray(localLocations, simulateOnly);
+            cmd.addToCodeArray(localLocations, noExec);
         }
     }
 

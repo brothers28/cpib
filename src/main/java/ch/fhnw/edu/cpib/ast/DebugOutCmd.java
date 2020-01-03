@@ -37,10 +37,10 @@ public class DebugOutCmd extends AstNode implements ICmd {
         expr.executeInitCheck(globalProtected);
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
 
-        expr.addToCodeArray(localLocations, simulateOnly);
+        expr.addToCodeArray(localLocations, noExec);
 
         String indicator;
         if (expr instanceof InitFactor) {
@@ -49,7 +49,7 @@ public class DebugOutCmd extends AstNode implements ICmd {
             indicator = "<?>";
         }
 
-        if (!simulateOnly) {
+        if (!noExec) {
             if (expr.getType() == Types.BOOL) {
                 codeArray.put(codeArrayPointer, new IInstructions.OutputBool(indicator));
             } else if (expr.getType() == Types.INT32) {

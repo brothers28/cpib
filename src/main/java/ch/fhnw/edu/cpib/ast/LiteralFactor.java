@@ -57,11 +57,11 @@ public class LiteralFactor extends AstNode implements IFactor {
         return literal.getType();
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
 
         // Add to top of stack
-        if (!simulateOnly) {
+        if (!noExec) {
             try {
                 if (literal.getType() == Types.BOOL) {
                     codeArray.put(codeArrayPointer, new IInstructions.LoadImBool(literal.getBoolValue()));

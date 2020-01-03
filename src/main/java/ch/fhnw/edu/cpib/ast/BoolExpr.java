@@ -72,13 +72,13 @@ public class BoolExpr extends AstNode implements IExpr {
         return Types.BOOL;
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
-        exprLeft.addToCodeArray(localLocations, simulateOnly);
-        exprRight.addToCodeArray(localLocations, simulateOnly);
+        exprLeft.addToCodeArray(localLocations, noExec);
+        exprRight.addToCodeArray(localLocations, noExec);
 
         // Add instruction depending on (casted) type
-        if (!simulateOnly) {
+        if (!noExec) {
             switch (boolOpr) {
             case AND:
                 codeArray.put(codeArrayPointer, new IInstructions.AndBool());

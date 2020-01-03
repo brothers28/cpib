@@ -31,7 +31,7 @@ public class SkipCmd extends AstNode implements ICmd {
         //
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         //
     }

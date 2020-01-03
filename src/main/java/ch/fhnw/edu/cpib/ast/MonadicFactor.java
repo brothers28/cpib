@@ -75,14 +75,14 @@ public class MonadicFactor extends AstNode implements IFactor {
         return factor.getType();
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
 
         // Add to top of stack
-        factor.addToCodeArray(localLocations, simulateOnly);
+        factor.addToCodeArray(localLocations, noExec);
 
         // Negate
-        if (!simulateOnly) {
+        if (!noExec) {
             if (Terminals.NOTOPR.equals(monadicOpr.getOperator())) {
                 codeArray.put(codeArrayPointer, new IInstructions.NegBool());
             } else if (Operators.MINUS.equals(monadicOpr.getOperator())) {

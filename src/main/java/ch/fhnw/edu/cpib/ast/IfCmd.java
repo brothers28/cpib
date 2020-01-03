@@ -63,7 +63,7 @@ public class IfCmd extends AstNode implements ICmd {
         elseCpsCmd.executeInitCheck(true);
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         // Get size of if cmd
         // NoExec = true!
@@ -84,19 +84,19 @@ public class IfCmd extends AstNode implements ICmd {
 
         // Execute
         // Add boolean expression to sack
-        expr.addToCodeArray(localLocations, simulateOnly);
+        expr.addToCodeArray(localLocations, noExec);
         // Jump condition for true part and false part
-        if (!simulateOnly)
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.CondJump(codeArrayPointer + 1 + ifCpsCmdSize));
         codeArrayPointer++;
         // True part
-        ifCpsCmd.addToCodeArray(localLocations, simulateOnly);
+        ifCpsCmd.addToCodeArray(localLocations, noExec);
         // Overjump false part
-        if (!simulateOnly)
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.UncondJump(codeArrayPointer + 1 + elseCpsCmdSize));
         codeArrayPointer++;
         // False part
-        elseCpsCmd.addToCodeArray(localLocations, simulateOnly);
+        elseCpsCmd.addToCodeArray(localLocations, noExec);
 
     }
 

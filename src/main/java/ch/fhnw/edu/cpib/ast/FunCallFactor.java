@@ -115,12 +115,12 @@ public class FunCallFactor extends IdentFactor {
         return funDecl.getReturnType();
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
 
         FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
         // Initialize return value
-        if (!simulateOnly)
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.AllocBlock(1));
         codeArrayPointer++;
 
@@ -130,14 +130,14 @@ public class FunCallFactor extends IdentFactor {
             LRValue expectedLRValue = funDecl.getParams().get(i).getLRValue();
             if (expectedLRValue == LRValue.RVALUE) {
                 // We expect RVALUE, pass RVALUE or LVALUE
-                expressions.get(i).addToCodeArray(localLocations, simulateOnly);
+                expressions.get(i).addToCodeArray(localLocations, noExec);
             } else if (realLRValue == LRValue.LVALUE && expectedLRValue == LRValue.LVALUE) {
                 // We expect RVALUE, pass RVALUE or LVALUE
 
                 // Get InitFactor
                 InitFactor factor = (InitFactor) expressions.get(i);
                 // Get address
-                if (!simulateOnly) {
+                if (!noExec) {
                     int address;
                     if (globalVarAdresses.containsKey(factor.ident.getIdent())) {
                         address = globalVarAdresses.get(factor.ident.getIdent());
@@ -159,7 +159,7 @@ public class FunCallFactor extends IdentFactor {
                     variableIdent = localVarNamespace.get(factor.ident.getIdent());
                 }
                 if (variableIdent.getNeedToDeref()) {
-                    if (!simulateOnly)
+                    if (!noExec)
                         codeArray.put(codeArrayPointer, new IInstructions.Deref());
                     codeArrayPointer++;
                 }
@@ -169,7 +169,7 @@ public class FunCallFactor extends IdentFactor {
             }
         }
 
-        if (!simulateOnly) {
+        if (!noExec) {
             int funAddress = globalRoutAdresses.get(ident.getIdent());
             codeArray.put(codeArrayPointer, new IInstructions.Call(funAddress));
         }

@@ -60,13 +60,13 @@ public class CastFactor extends AstNode implements IFactor {
         factor.executeInitCheck(globalProtected);
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         // Cast factor
         factor.executeTypeCast(castType);
 
         // Add to top of stack
-        factor.addToCodeArray(localLocations, simulateOnly);
+        factor.addToCodeArray(localLocations, noExec);
     }
 
     @Override public String toString(String indent) {

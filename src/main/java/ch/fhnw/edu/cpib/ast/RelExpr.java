@@ -74,7 +74,7 @@ public class RelExpr extends AstNode implements IExpr {
         return Types.BOOL;
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
 
         if (exprLeft instanceof RelExpr) {
@@ -90,27 +90,27 @@ public class RelExpr extends AstNode implements IExpr {
             int exprLeftSize = codeArrayPointer - pointerBefore;
             codeArrayPointer = pointerBefore;
 
-            exprLeft.addToCodeArray(localLocations, simulateOnly);
+            exprLeft.addToCodeArray(localLocations, noExec);
             // Exec
-            if (!simulateOnly) {
+            if (!noExec) {
                 codeArray.put(codeArrayPointer, new IInstructions.CondJump(codeArrayPointer + 1 + exprRightSize));
             }
             codeArrayPointer++;
 
-            temp.addToCodeArray(localLocations, simulateOnly);
-            if (!simulateOnly) {
+            temp.addToCodeArray(localLocations, noExec);
+            if (!noExec) {
                 codeArray.put(codeArrayPointer, new IInstructions.UncondJump(codeArrayPointer + 1 + exprLeftSize));
             }
             codeArrayPointer++;
 
-            exprLeft.addToCodeArray(localLocations, simulateOnly);
+            exprLeft.addToCodeArray(localLocations, noExec);
 
         } else {
-            exprLeft.addToCodeArray(localLocations, simulateOnly);
-            exprRight.addToCodeArray(localLocations, simulateOnly);
+            exprLeft.addToCodeArray(localLocations, noExec);
+            exprRight.addToCodeArray(localLocations, noExec);
 
             // Add instruction depending on (casted) type
-            if (!simulateOnly) {
+            if (!noExec) {
                 switch (relOpr) {
                 case EQ:
                     if (Types.INT32.equals(exprLeft.getType())) {

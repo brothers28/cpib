@@ -20,7 +20,7 @@ public interface IAstNode {
     void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError, AssignToConstError;
 
-    void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly) throws CodeTooSmallError;
+    void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec) throws CodeTooSmallError;
 
     String toString(String indent);
 

@@ -56,12 +56,12 @@ public class DebugInCmd extends AstNode implements ICmd {
 
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         InitFactor factor = (InitFactor) expr;
         // Get address
         int address;
-        if (!simulateOnly) {
+        if (!noExec) {
             if (globalVarAdresses.containsKey(factor.ident.getIdent())) {
                 address = globalVarAdresses.get(factor.ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrAbs(address));
@@ -73,7 +73,7 @@ public class DebugInCmd extends AstNode implements ICmd {
             }
         }
         codeArrayPointer++;
-        if (!simulateOnly) {
+        if (!noExec) {
             if (factor.getType() == Types.BOOL) {
                 codeArray.put(codeArrayPointer, new IInstructions.InputBool(factor.ident.getIdent()));
             } else if (factor.getType() == Types.INT32) {

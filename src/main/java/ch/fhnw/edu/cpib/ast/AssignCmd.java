@@ -66,14 +66,14 @@ public class AssignCmd extends AstNode implements ICmd {
         exprRight.executeInitCheck(globalProtected);
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
 
         // Get exprLeft address and
         // add instruction depending on (casted) type
         InitFactor factor = (InitFactor) exprLeft;
         int address;
-        if (!simulateOnly) {
+        if (!noExec) {
             if (globalVarAdresses.containsKey(factor.ident.getIdent())) {
                 address = globalVarAdresses.get(factor.ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrAbs(address));
@@ -94,16 +94,16 @@ public class AssignCmd extends AstNode implements ICmd {
             variableIdent = localVarNamespace.get(factor.ident.getIdent());
         }
         if (variableIdent.getNeedToDeref()) {
-            if (!simulateOnly)
+            if (!noExec)
                 codeArray.put(codeArrayPointer, new IInstructions.Deref());
             codeArrayPointer++;
         }
 
         // Get the value of exprRight
-        exprRight.addToCodeArray(localLocations, simulateOnly);
+        exprRight.addToCodeArray(localLocations, noExec);
 
         // Copy value to new address
-        if (!simulateOnly)
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.Store());
         codeArrayPointer++;
     }

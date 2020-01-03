@@ -98,7 +98,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
         }
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());
 
@@ -108,14 +108,14 @@ public class ProcCallCmd extends AstNode implements ICmd {
             LRValue expectedLRValue = procDecl.getParams().get(i).getLRValue();
             if (expectedLRValue == LRValue.RVALUE) {
                 // We expect RVALUE, pass RVALUE or LVALUE
-                expressions.get(i).addToCodeArray(localLocations, simulateOnly);
+                expressions.get(i).addToCodeArray(localLocations, noExec);
             } else if (realLRValue == LRValue.LVALUE && expectedLRValue == LRValue.LVALUE) {
                 // We expect RVALUE, pass RVALUE or LVALUE
 
                 // Get InitFactor
                 InitFactor factor = (InitFactor) expressions.get(i);
                 // Get the address
-                if (!simulateOnly) {
+                if (!noExec) {
                     int address;
                     if (globalVarAdresses.containsKey(factor.ident.getIdent())) {
                         address = globalVarAdresses.get(factor.ident.getIdent());
@@ -137,7 +137,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
                     variableIdent = localVarNamespace.get(factor.ident.getIdent());
                 }
                 if (variableIdent.getNeedToDeref()) {
-                    if (!simulateOnly)
+                    if (!noExec)
                         codeArray.put(codeArrayPointer, new IInstructions.Deref());
                     codeArrayPointer++;
                 }
@@ -147,7 +147,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
             }
         }
 
-        if (!simulateOnly) {
+        if (!noExec) {
             int funAddress = globalRoutAdresses.get(ident.getIdent());
             codeArray.put(codeArrayPointer, new IInstructions.Call(funAddress));
         }

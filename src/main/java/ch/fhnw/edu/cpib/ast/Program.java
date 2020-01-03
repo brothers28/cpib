@@ -73,13 +73,13 @@ public class Program extends AstNode {
         cpsCmd.executeInitCheck(globalProtected);
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         // Add addresses of global declarations to global address map
         for (IDecl decl : globalDeclarations) {
             if (decl instanceof StoDecl) {
                 globalVarAdresses.put(decl.getIdentString(), codeArrayPointer);
-                decl.addToCodeArray(localLocations, simulateOnly);
+                decl.addToCodeArray(localLocations, noExec);
             }
         }
 
@@ -99,17 +99,17 @@ public class Program extends AstNode {
         codeArrayPointer = pointerBefore;
 
         // Jump to programm start
-        if (!simulateOnly)
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.UncondJump(addressAfterDeclaration));
         codeArrayPointer++;
 
         // Exec
         for (IDecl decl : globalDeclarations) {
             if (!(decl instanceof StoDecl)) {
-                decl.addToCodeArray(localLocations, simulateOnly);
+                decl.addToCodeArray(localLocations, noExec);
             }
         }
-        cpsCmd.addToCodeArray(localLocations, simulateOnly);
+        cpsCmd.addToCodeArray(localLocations, noExec);
 
         // End of programm
             codeArray.put(codeArrayPointer, new IInstructions.Stop());

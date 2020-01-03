@@ -58,7 +58,7 @@ public class WhileCmd extends AstNode implements ICmd {
         cpsCmd.executeInitCheck(true);
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         // Get size of cmd
         int pointerBefore = codeArrayPointer;
@@ -71,15 +71,15 @@ public class WhileCmd extends AstNode implements ICmd {
         // Save the start address of while loop
         int startAddress = codeArrayPointer;
         // Check condition
-        expr.addToCodeArray(localLocations, simulateOnly);
+        expr.addToCodeArray(localLocations, noExec);
         // Jump condition to check if we have to continue or to jump to the end of the loop
-        if (!simulateOnly)
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.CondJump(codeArrayPointer + 1 + cpsCmdSize));
         codeArrayPointer++;
         //  Loop part
-        cpsCmd.addToCodeArray(localLocations, simulateOnly);
+        cpsCmd.addToCodeArray(localLocations, noExec);
         // Jump back to condition
-        if (!simulateOnly)
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.UncondJump(startAddress));
         codeArrayPointer++;
     }

@@ -28,7 +28,6 @@ public class AddExpr extends AstNode implements IExpr {
         this.localVarNamespace = localStoresNamespace;
         exprLeft.setNamespaceInfo(this.localVarNamespace);
         exprRight.setNamespaceInfo(this.localVarNamespace);
-
     }
 
     @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
@@ -73,13 +72,13 @@ public class AddExpr extends AstNode implements IExpr {
         return exprLeft.getType();
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
-        exprLeft.addToCodeArray(localLocations, simulateOnly);
-        exprRight.addToCodeArray(localLocations, simulateOnly);
+        exprLeft.addToCodeArray(localLocations, noExec);
+        exprRight.addToCodeArray(localLocations, noExec);
 
         // Add instruction depending on (casted) type
-        if (!simulateOnly) {
+        if (!noExec) {
             switch (addOpr) {
             case PLUS:
                 if (Types.INT32.equals(getType())) {

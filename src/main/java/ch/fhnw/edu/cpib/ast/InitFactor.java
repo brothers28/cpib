@@ -98,10 +98,10 @@ public class InitFactor extends IdentFactor {
         return typedIdent.getType();
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         // Get address of LValue
-        if (!simulateOnly) {
+        if (!noExec) {
             int address;
             if (globalVarAdresses.containsKey(ident.getIdent())) {
                 address = globalVarAdresses.get(ident.getIdent());
@@ -116,7 +116,7 @@ public class InitFactor extends IdentFactor {
         codeArrayPointer++;
 
         // Deref
-        if (!simulateOnly)
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.Deref(getType()));
         codeArrayPointer++;
 
@@ -128,7 +128,7 @@ public class InitFactor extends IdentFactor {
             variableIdent = localVarNamespace.get(ident.getIdent());
         }
         if (variableIdent.getNeedToDeref()) {
-            if (!simulateOnly)
+            if (!noExec)
                 codeArray.put(codeArrayPointer, new IInstructions.Deref(getType()));
             codeArrayPointer++;
         }

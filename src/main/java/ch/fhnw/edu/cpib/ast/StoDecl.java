@@ -52,9 +52,9 @@ public class StoDecl extends AstNode implements IDecl {
         return typedIdent.getValue();
     }
 
-    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
-        if (!simulateOnly)
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.AllocBlock(1));
         codeArrayPointer++;
     }
