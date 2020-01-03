@@ -38,18 +38,17 @@ public class DebugInCmd extends AstNode implements ICmd {
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             AssignToConstError {
-        // now lets check if we try to write something into an already written constant
-        // expr can only be an Init-Factor
+        // exprLeft has to be InitFactor
         InitFactor factor = (InitFactor) expr;
-        // is the variable already initialized (= written once) and is a constant?
-        // if yes, we are writing to an already initialized constant --> not allowed
+
+        // Check if variable already initialized and a constant
         TypedIdent typedIdent = null;
         if (this.localVarNamespace.containsKey(factor.ident.getIdent()))
             typedIdent = this.localVarNamespace.get(factor.ident.getIdent());
         if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
             typedIdent = globalVarNamespace.get(factor.ident.getIdent());
         }
-        // If this is a const and it is already initialized (once written to), throw an error
+        // Constant and already initialized
         if (typedIdent.getConst() && typedIdent.getInit())
             throw new AssignToConstError(factor.ident);
 

@@ -16,29 +16,13 @@ public class ProcDecl extends AstNode implements IDecl {
     private CpsCmd cpsCmd;
     private ArrayList<Param> params;
     private ArrayList<StoDecl> stoDecls;
-    private boolean initCheckDone = false;
+    private boolean initChecked = false;
 
     public ProcDecl(Ident ident, ArrayList<Param> params, ArrayList<StoDecl> stoDecls, CpsCmd cpsCmd) {
         this.ident = ident;
         this.params = params;
         this.stoDecls = stoDecls;
         this.cpsCmd = cpsCmd;
-    }
-
-    public ArrayList<Param> getParams() {
-        return params;
-    }
-
-    public boolean getInitCheckDone() {
-        return initCheckDone;
-    }
-
-    public void setInitCheckDone() {
-        this.initCheckDone = true;
-    }
-
-    @Override public String getIdentString() {
-        return ident.getIdent();
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
@@ -89,6 +73,22 @@ public class ProcDecl extends AstNode implements IDecl {
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             AssignToConstError {
         cpsCmd.executeInitCheck(globalProtected);
+    }
+
+    public ArrayList<Param> getParams() {
+        return params;
+    }
+
+    public boolean getInitChecked() {
+        return initChecked;
+    }
+
+    public void setInitChecked() {
+        this.initChecked = true;
+    }
+
+    @Override public String getIdentString() {
+        return ident.getIdent();
     }
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

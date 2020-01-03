@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public interface IAstNode {
 
-    String toString(String indent);
+    void setInit(TypedIdent ident);
 
     void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError;
@@ -20,7 +20,8 @@ public interface IAstNode {
     void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError, AssignToConstError;
 
-    void setInit(TypedIdent ident);
-
     void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly) throws CodeTooSmallError;
+
+    String toString(String indent);
+
 }

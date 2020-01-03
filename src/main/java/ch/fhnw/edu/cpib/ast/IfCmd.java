@@ -49,15 +49,16 @@ public class IfCmd extends AstNode implements ICmd {
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             AssignToConstError {
         expr.executeInitCheck(globalProtected);
-        // set recursively all initialized variables also on the child-nodes to init
+
+        // Set initialized variables
         for (TypedIdent ident : localVarNamespace.values()) {
             if (ident.getInit()) {
                 ifCpsCmd.setInit(ident);
                 elseCpsCmd.setInit(ident);
             }
         }
-        // Do the init checking
-        // Global variables cannot be initialized from now on
+
+        // Prohibited to initialize global variables
         ifCpsCmd.executeInitCheck(true);
         elseCpsCmd.executeInitCheck(true);
     }

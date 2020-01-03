@@ -82,14 +82,17 @@ public class ProcCallCmd extends AstNode implements ICmd {
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             AssignToConstError {
-        // Run the init checking for the function declaration
+
+        // Init check for procedure declaration
         ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());
-        // We need to run the init checking only once for the declaration
-        if (!procDecl.getInitCheckDone()) {
-            procDecl.setInitCheckDone();
+
+        // Check only once
+        if (!procDecl.getInitChecked()) {
+            procDecl.setInitChecked();
             procDecl.executeInitCheck(globalProtected);
         }
 
+        // Run on expressions
         for (IExpr expr : expressions) {
             expr.executeInitCheck(globalProtected);
         }

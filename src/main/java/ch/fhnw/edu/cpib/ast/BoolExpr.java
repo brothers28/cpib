@@ -65,10 +65,10 @@ public class BoolExpr extends AstNode implements IExpr {
 
     @Override public Types getType() {
         if (castType != null) {
-            // type is casted
+            // Type is casted
             return castType;
         }
-        // otherwise get real type
+        // Otherwise get real type
         return Types.BOOL;
     }
 

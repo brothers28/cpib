@@ -17,7 +17,7 @@ public class FunDecl extends AstNode implements IDecl {
     private ArrayList<Param> params;
     private StoDecl stoDecl;
     private ArrayList<StoDecl> stoDecls;
-    private boolean initCheckDone = false;
+    private boolean initChecked = false;
 
     public FunDecl(Ident ident, ArrayList<Param> params, StoDecl stoDecl, ArrayList<StoDecl> stoDecls, CpsCmd cpsCmd) {
         this.ident = ident;
@@ -25,40 +25,6 @@ public class FunDecl extends AstNode implements IDecl {
         this.stoDecl = stoDecl;
         this.params = params;
         this.stoDecls = stoDecls;
-    }
-
-    public Types getReturnType() {
-        return stoDecl.getTypedIdent().getType();
-    }
-
-    public ArrayList<Param> getParams() {
-        return params;
-    }
-
-    public boolean getInitCheckDone() {
-        return initCheckDone;
-    }
-
-    public void setInitCheckDone() {
-        this.initCheckDone = true;
-    }
-
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
-        cpsCmd.executeScopeCheck();
-    }
-
-    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
-        cpsCmd.executeTypeCheck();
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            AssignToConstError {
-        cpsCmd.executeInitCheck(globalProtected);
-    }
-
-    @Override public String getIdentString() {
-        return ident.getIdent();
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
@@ -104,6 +70,40 @@ public class FunDecl extends AstNode implements IDecl {
         }
 
         cpsCmd.setNamespaceInfo(this.localVarNamespace);
+    }
+
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
+        cpsCmd.executeScopeCheck();
+    }
+
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
+        cpsCmd.executeTypeCheck();
+    }
+
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            AssignToConstError {
+        cpsCmd.executeInitCheck(globalProtected);
+    }
+
+    @Override public String getIdentString() {
+        return ident.getIdent();
+    }
+
+    public Types getReturnType() {
+        return stoDecl.getTypedIdent().getType();
+    }
+
+    public ArrayList<Param> getParams() {
+        return params;
+    }
+
+    public boolean getInitChecked() {
+        return initChecked;
+    }
+
+    public void setInitChecked() {
+        this.initChecked = true;
     }
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)

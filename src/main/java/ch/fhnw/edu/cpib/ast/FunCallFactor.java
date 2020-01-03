@@ -77,14 +77,16 @@ public class FunCallFactor extends IdentFactor {
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
             AssignToConstError {
-        // Run the init checking for the function declaration
+        // Check function declaration
         FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
-        // We need to run the init checking only once for the declaration
-        if (!funDecl.getInitCheckDone()) {
-            funDecl.setInitCheckDone();
+
+        // Check only once
+        if (!funDecl.getInitChecked()) {
+            funDecl.setInitChecked();
             funDecl.executeInitCheck(globalProtected);
         }
 
+        // Run on expressions
         for (IExpr expr : expressions) {
             expr.executeInitCheck(globalProtected);
         }

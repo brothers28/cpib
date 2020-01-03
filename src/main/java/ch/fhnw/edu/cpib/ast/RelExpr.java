@@ -41,10 +41,6 @@ public class RelExpr extends AstNode implements IExpr {
         }
     }
 
-    @Override public LRValue getLRValue() {
-        return LRValue.RVALUE;
-    }
-
     @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         // Check allowed types
         if (exprLeft instanceof ch.fhnw.edu.cpib.ast.RelExpr) {
@@ -63,6 +59,10 @@ public class RelExpr extends AstNode implements IExpr {
             AssignToConstError {
         exprLeft.executeInitCheck(globalProtected);
         exprRight.executeInitCheck(globalProtected);
+    }
+
+    @Override public LRValue getLRValue() {
+        return LRValue.RVALUE;
     }
 
     @Override public Types getType() {
