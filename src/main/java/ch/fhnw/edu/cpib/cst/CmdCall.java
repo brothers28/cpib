@@ -7,12 +7,12 @@ import ch.fhnw.edu.cpib.scanner.Ident;
 import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= CALL IDENT exprList
-public class CmdCallIdentExprList extends Production implements ICmd {
+public class CmdCall extends Production implements ICmd {
     protected final IToken T_call;
     protected final IToken T_ident;
     protected final IExprList N_exprList;
 
-    public CmdCallIdentExprList(final IToken T_call, final IToken T_ident, final IExprList N_exprList) {
+    public CmdCall(final IToken T_call, final IToken T_ident, final IExprList N_exprList) {
         this.T_call = T_call;
         this.T_ident = T_ident;
         this.N_exprList = N_exprList;

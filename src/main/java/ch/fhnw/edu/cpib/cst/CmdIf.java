@@ -7,7 +7,7 @@ import ch.fhnw.edu.cpib.cst.interfaces.IIfElseNTS;
 import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= IF expr THEN cpsCmd ifelseNTS ENDIF
-public class CmdIfThen extends Production implements ICmd {
+public class CmdIf extends Production implements ICmd {
     protected final IToken T_if;
     protected final IExpr N_expr;
     protected final IToken T_then;
@@ -15,7 +15,7 @@ public class CmdIfThen extends Production implements ICmd {
     protected final IIfElseNTS N_ifelseNTS;
     protected final IToken T_endIf;
 
-    public CmdIfThen(final IToken T_if, final IExpr N_expr, final IToken T_then, final ICpsCmd N_cpsCmd,
+    public CmdIf(final IToken T_if, final IExpr N_expr, final IToken T_then, final ICpsCmd N_cpsCmd,
             final IIfElseNTS N_ifelseNTS, final IToken T_endIf) {
         this.T_if = T_if;
         this.N_expr = N_expr;
