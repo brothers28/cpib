@@ -46,7 +46,7 @@ public class DebugOutCmd extends AstNode implements ICmd {
         if (expr instanceof InitFactor) {
             indicator = ((InitFactor) expr).ident.getIdent();
         } else {
-            indicator = "<anonymous>";
+            indicator = "<?>";
         }
 
         if (!simulateOnly) {

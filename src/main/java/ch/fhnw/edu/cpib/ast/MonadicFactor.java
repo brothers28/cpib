@@ -81,7 +81,7 @@ public class MonadicFactor extends AstNode implements IFactor {
         // Add the value on top of stack
         factor.addToCodeArray(localLocations, simulateOnly);
 
-        // Negate it
+        // Negate
         if (!simulateOnly) {
             if (Terminals.NOTOPR.equals(monadicOpr.getOperator())) {
                 codeArray.put(codeArrayPointer, new IInstructions.NegBool());
@@ -94,7 +94,7 @@ public class MonadicFactor extends AstNode implements IFactor {
                     throw new RuntimeException("Unknown Type!");
                 }
             } else {
-                throw new RuntimeException("UNSUPPORTED MONADIC OPERATOR!");
+                throw new RuntimeException("Unknown monadic operator!");
             }
         }
         codeArrayPointer++;

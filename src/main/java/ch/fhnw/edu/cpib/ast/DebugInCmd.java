@@ -69,7 +69,7 @@ public class DebugInCmd extends AstNode implements ICmd {
                 address = localLocations.get(factor.ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrRel(address));
             } else {
-                throw new RuntimeException("No address found for variable " + factor.ident.getIdent() + " !!");
+                throw new RuntimeException("No address found for " + factor.ident.getIdent() + " !!");
             }
         }
         codeArrayPointer++;

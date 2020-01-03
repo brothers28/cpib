@@ -53,36 +53,34 @@ public class WhileCmd extends AstNode implements ICmd {
                 cpsCmd.setInit(ident);
             }
         }
-        
+
         // Prohibited to initialize global variables
         cpsCmd.executeInitCheck(true);
     }
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
-        // get the size of cpsCmd by simulating the add action
-        int codeArrayPointerBefore = codeArrayPointer;
-
+        // Get size of cmd
+        int pointerBefore = codeArrayPointer;
+        // NoExec = true
         cpsCmd.addToCodeArray(localLocations, true);
-        int cpsCmdSize = codeArrayPointer - codeArrayPointerBefore + 1; // + 1 for unconditional jump after exprFalse
+        int cpsCmdSize = codeArrayPointer - pointerBefore + 1;
+        // Reset pointer
+        codeArrayPointer = pointerBefore;
 
-        // reset pointer
-        codeArrayPointer = codeArrayPointerBefore;
-
-        // save the start of the while loop (where we save the boolean onto the stack and to the jump afterwards)
-        int loopStartAddress = codeArrayPointer;
-
-        // add the boolean for the conditional check onto the stack
+        // Save the start address of while loop
+        int startAddress = codeArrayPointer;
+        // Check condition
         expr.addToCodeArray(localLocations, simulateOnly);
-        // now add the jump condition to see if we had to continue (loop part) or to jump (after the loop part)
+        // Jump condition to check if we have to continue or to jump to the end of the loop
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.CondJump(codeArrayPointer + 1 + cpsCmdSize));
         codeArrayPointer++;
-        // now add the loop part
+        //  Loop part
         cpsCmd.addToCodeArray(localLocations, simulateOnly);
-        // now add the unconditional jump to jump back to the jump condition (we already processed the loop part ...)
+        // Jump back to condition
         if (!simulateOnly)
-            codeArray.put(codeArrayPointer, new IInstructions.UncondJump(loopStartAddress));
+            codeArray.put(codeArrayPointer, new IInstructions.UncondJump(startAddress));
         codeArrayPointer++;
     }
 

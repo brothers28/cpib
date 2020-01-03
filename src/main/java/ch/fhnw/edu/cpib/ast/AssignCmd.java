@@ -68,7 +68,9 @@ public class AssignCmd extends AstNode implements ICmd {
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
-        // Get the address of the left expression
+
+        // Get exprLeft address and
+        // add instruction depending on (casted) type
         InitFactor factor = (InitFactor) exprLeft;
         int address;
         if (!simulateOnly) {
@@ -79,12 +81,12 @@ public class AssignCmd extends AstNode implements ICmd {
                 address = localLocations.get(factor.ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrRel(address));
             } else {
-                throw new RuntimeException("No address found for variable " + factor.ident.getIdent() + " ?");
+                throw new RuntimeException("No address found for " + factor.ident.getIdent() + " ?");
             }
         }
         codeArrayPointer++;
 
-        // If this needs to be dereferenced (=Param), dereference it once more
+        // Deref
         TypedIdent variableIdent = null;
         if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
             variableIdent = globalVarNamespace.get(factor.ident.getIdent());
@@ -97,10 +99,10 @@ public class AssignCmd extends AstNode implements ICmd {
             codeArrayPointer++;
         }
 
-        // Get the value of the exprRight (RVal)
+        // Get the value of exprRight
         exprRight.addToCodeArray(localLocations, simulateOnly);
 
-        // Now copy our value to the "remote" stack place (store)
+        // Copy value to new address
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.Store());
         codeArrayPointer++;

@@ -65,36 +65,37 @@ public class IfCmd extends AstNode implements ICmd {
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
-        // get the size of ifCpsCmd by simulating the add action
-        int codeArrayPointerBefore = codeArrayPointer;
-
+        // Get size of if cmd
+        // NoExec = true!
+        int pointerBefore = codeArrayPointer;
         ifCpsCmd.addToCodeArray(localLocations, true);
-        int ifCpsCmdSize = codeArrayPointer - codeArrayPointerBefore + 1; // + 1 for unconditional jump after exprFalse
+        int ifCpsCmdSize = codeArrayPointer - pointerBefore + 1; // + 1 for unconditional jump after exprFalse
 
-        // reset pointer
-        codeArrayPointer = codeArrayPointerBefore;
+        // Reset pointer
+        codeArrayPointer = pointerBefore;
 
-        // get the size of elseCpsCmd
+        // Get size of if cmd
+        // NoExec = true!
         elseCpsCmd.addToCodeArray(localLocations, true);
-        int elseCpsCmdSize = codeArrayPointer - codeArrayPointerBefore;
+        int elseCpsCmdSize = codeArrayPointer - pointerBefore;
 
-        // reset pointer
-        codeArrayPointer = codeArrayPointerBefore;
+        // Reset pointer
+        codeArrayPointer = pointerBefore;
 
-        // now really add the staff
-        // add the boolean for the conditional check onto the stack
+        // Execute
+        // Add boolean expression to sack
         expr.addToCodeArray(localLocations, simulateOnly);
-        // now add the jump condition to see if we had to continue (true part) or to jump (false part)
+        // Jump condition for true part and false part
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.CondJump(codeArrayPointer + 1 + ifCpsCmdSize));
         codeArrayPointer++;
-        // now add the true part
+        // True part
         ifCpsCmd.addToCodeArray(localLocations, simulateOnly);
-        // now add the unconditional jump to jump after the false part (we already processed the true part ...)
+        // Overjump false part
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.UncondJump(codeArrayPointer + 1 + elseCpsCmdSize));
         codeArrayPointer++;
-        // now add the false part
+        // False part
         elseCpsCmd.addToCodeArray(localLocations, simulateOnly);
 
     }

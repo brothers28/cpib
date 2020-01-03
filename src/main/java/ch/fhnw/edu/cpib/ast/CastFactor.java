@@ -62,13 +62,11 @@ public class CastFactor extends AstNode implements IFactor {
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
-
         // Cast factor
         factor.executeTypeCast(castType);
 
         // Add the value on top of stack
         factor.addToCodeArray(localLocations, simulateOnly);
-
     }
 
     @Override public String toString(String indent) {

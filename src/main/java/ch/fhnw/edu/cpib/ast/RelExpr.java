@@ -78,17 +78,20 @@ public class RelExpr extends AstNode implements IExpr {
             throws CodeTooSmallError {
 
         if (exprLeft instanceof RelExpr) {
-            int codeArrayPointerBefore = codeArrayPointer;
+            int pointerBefore = codeArrayPointer;
             RelExpr temp = new RelExpr(relOpr, ((RelExpr) exprLeft).exprRight, exprRight);
+            // NoExec = true
             temp.addToCodeArray(localLocations, true);
-            int exprRightSize = codeArrayPointer - codeArrayPointerBefore + 1;
-            codeArrayPointer = codeArrayPointerBefore;
+            int exprRightSize = codeArrayPointer - pointerBefore + 1;
+            codeArrayPointer = pointerBefore;
 
+            // NoExec = true
             exprLeft.addToCodeArray(localLocations, true);
-            int exprLeftSize = codeArrayPointer - codeArrayPointerBefore;
-            codeArrayPointer = codeArrayPointerBefore;
+            int exprLeftSize = codeArrayPointer - pointerBefore;
+            codeArrayPointer = pointerBefore;
 
             exprLeft.addToCodeArray(localLocations, simulateOnly);
+            // Exec
             if (!simulateOnly) {
                 codeArray.put(codeArrayPointer, new IInstructions.CondJump(codeArrayPointer + 1 + exprRightSize));
             }
@@ -106,8 +109,7 @@ public class RelExpr extends AstNode implements IExpr {
             exprLeft.addToCodeArray(localLocations, simulateOnly);
             exprRight.addToCodeArray(localLocations, simulateOnly);
 
-            Types t = getType();
-
+            // Add instruction depending on (casted) type
             if (!simulateOnly) {
                 switch (relOpr) {
                 case EQ:

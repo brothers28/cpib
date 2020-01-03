@@ -119,7 +119,7 @@ public class FunCallFactor extends IdentFactor {
             throws CodeTooSmallError {
 
         FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
-        // initialize return value
+        // Initialize return value
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.AllocBlock(1));
         codeArrayPointer++;

@@ -75,10 +75,10 @@ public class AddExpr extends AstNode implements IExpr {
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
-
         exprLeft.addToCodeArray(localLocations, simulateOnly);
         exprRight.addToCodeArray(localLocations, simulateOnly);
 
+        // Add instruction depending on (casted) type
         if (!simulateOnly) {
             switch (addOpr) {
             case PLUS:

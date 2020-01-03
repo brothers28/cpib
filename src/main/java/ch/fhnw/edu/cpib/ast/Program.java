@@ -75,7 +75,7 @@ public class Program extends AstNode {
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
-        // For all global storage declarations, allocate blocks and save addresses to globalStoresLocation-map
+        // Add addresses of global declarations to global address map
         for (IDecl decl : globalDeclarations) {
             if (decl instanceof StoDecl) {
                 globalVarAdresses.put(decl.getIdentString(), codeArrayPointer);
@@ -83,43 +83,37 @@ public class Program extends AstNode {
             }
         }
 
-        // save current codeArrayPointer
-        int codeArrayPointerBefore = codeArrayPointer;
-        // For all global function and procedure declarations, simulate add IInstr and save addresses to globalRoutinesLocation-map
+        // Save codeArrayPointer
+        int pointerBefore = codeArrayPointer;
+        // Try to fill stack
+        // NoExec = true
         for (IDecl decl : globalDeclarations) {
             if (!(decl instanceof StoDecl)) {
-                globalRoutAdresses.put(decl.getIdentString(), codeArrayPointer
-                        + 1); // + 1 because we will have a conditional jump before the declaration block (see below)
+                globalRoutAdresses.put(decl.getIdentString(), codeArrayPointer + 1); // Overjump conditional jump
                 decl.addToCodeArray(localLocations, true);
             }
         }
-        // after going through all declarations, the pointer is at the position after the declaration (= start of programm)
-        // +1 for the conditional jump execution
-        int addressAfterDeclaration = codeArrayPointer + 1;
-        // restore the previous codeArrayPointer
-        codeArrayPointer = codeArrayPointerBefore;
 
-        // Jump to beginning of programm
+        int addressAfterDeclaration = codeArrayPointer + 1; // Overjump conditional jump
+        // Restore pointer
+        codeArrayPointer = pointerBefore;
+
+        // Jump to programm start
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.UncondJump(addressAfterDeclaration));
         codeArrayPointer++;
 
-        // For all global function and procedure declarations, now really add IInstr and save addresses to globalRoutinesLocation-map
+        // Exec
         for (IDecl decl : globalDeclarations) {
             if (!(decl instanceof StoDecl)) {
                 decl.addToCodeArray(localLocations, simulateOnly);
             }
         }
-        // For cpsCommand
         cpsCmd.addToCodeArray(localLocations, simulateOnly);
 
-        // Add stop exec
-        if (!simulateOnly)
+        // End of programm
             codeArray.put(codeArrayPointer, new IInstructions.Stop());
         codeArrayPointer++;
-
-        System.out.println("codeArrayPoiner: " + codeArrayPointer);
-
     }
 
     @Override public String toString(String indent) {

@@ -100,8 +100,7 @@ public class InitFactor extends IdentFactor {
 
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
-        // Only LVal we have is a InitFactor
-        // Get the address
+        // Get address of LValue
         if (!simulateOnly) {
             int address;
             if (globalVarAdresses.containsKey(ident.getIdent())) {
@@ -111,17 +110,17 @@ public class InitFactor extends IdentFactor {
                 address = localLocations.get(ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrRel(address));
             } else {
-                throw new RuntimeException("No address found for variable " + ident.getIdent() + " !!");
+                throw new RuntimeException("No address found for " + ident.getIdent() + " !!");
             }
         }
         codeArrayPointer++;
 
-        // Now copy the real value to this stack place (dereference)
+        // Deref
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.Deref(getType()));
         codeArrayPointer++;
 
-        // If this needs to be dereferenced (=Param), dereference it once more
+        // Deref
         TypedIdent variableIdent = null;
         if (globalVarNamespace.containsKey(ident.getIdent())) {
             variableIdent = globalVarNamespace.get(ident.getIdent());

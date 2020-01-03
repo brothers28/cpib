@@ -110,18 +110,15 @@ public class FunDecl extends AstNode implements IDecl {
             throws CodeTooSmallError {
         localLocations = new HashMap<>();
 
-        // will be initialized from outside @ FunCallFactor
-        // return value is one below the first param
+        // Initialize return value
         localLocations.put(stoDecl.getIdentString(), -params.size() - 1);
 
-        // add addresses of params to localLocations-map
+        // Add addresses of params to local address map
         for (int i = 0; i < params.size(); i++) {
-            // will be initialized from outside @ FunCallFactor
             localLocations.put(params.get(i).getIdentString(), i - params.size());
         }
 
-        // add addresses of local variables to localLocations-map
-        // first local variable is at relAddress 3
+        // Add variables to local address map
         for (int i = 0; i < stoDecls.size(); i++) {
             stoDecls.get(i).addToCodeArray(localLocations, simulateOnly);
             localLocations.put(stoDecls.get(i).getIdentString(), i + 3);
