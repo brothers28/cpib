@@ -31,7 +31,7 @@ public class AddExpr extends AstNode implements IExpr {
 
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         exprLeft.executeScopeCheck();
         exprRight.executeScopeCheck();
     }
@@ -55,29 +55,29 @@ public class AddExpr extends AstNode implements IExpr {
         return exprLeft.getType();
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         exprLeft.executeTypeCheck();
         exprRight.executeTypeCheck();
 
         // Check allowed types
         if (exprLeft.getType() == Types.BOOL)
-            throw new TypeCheckingError(Types.INT32, exprLeft.getType());
+            throw new TypeCheckError(Types.INT32, exprLeft.getType());
         if (exprLeft.getType() != exprRight.getType())
-            throw new TypeCheckingError(exprLeft.getType(), exprRight.getType());
+            throw new TypeCheckError(exprLeft.getType(), exprRight.getType());
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         exprLeft.executeInitCheck(globalProtected);
         exprRight.executeInitCheck(globalProtected);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
-        exprLeft.addInstructionToCodeArray(localLocations, simulateOnly);
-        exprRight.addInstructionToCodeArray(localLocations, simulateOnly);
+        exprLeft.addToCodeArray(localLocations, simulateOnly);
+        exprRight.addToCodeArray(localLocations, simulateOnly);
 
         if (!simulateOnly) {
             switch (addOpr) {

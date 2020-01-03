@@ -42,17 +42,17 @@ public class StoDecl extends AstNode implements IDecl {
         //
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError {
+    @Override public void executeTypeCheck() throws TypeCheckError {
         //
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         //
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.AllocBlock(1));

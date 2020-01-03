@@ -29,7 +29,7 @@ public class FunCallFactor extends IdentFactor {
         }
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         // Check namespace
         if (!globalRoutNamespace.containsKey(ident.getIdent())) {
             // Function not declared in global namespace
@@ -54,7 +54,7 @@ public class FunCallFactor extends IdentFactor {
             LRValue realLRValue = expressions.get(i).getLRValue();
             if (expectedLRValue == LRValue.LVALUE && realLRValue == LRValue.RVALUE)
                 // We expect LVALUE, but get RVALUE (invalid)
-                throw new LRValueError(expectedLRValue, realLRValue);
+                throw new LRValError(expectedLRValue, realLRValue);
         }
     }
 
@@ -81,7 +81,7 @@ public class FunCallFactor extends IdentFactor {
         return funDecl.getReturnType();
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         for (IExpr expr : expressions) {
             expr.executeTypeCheck();
         }
@@ -92,13 +92,13 @@ public class FunCallFactor extends IdentFactor {
             Types expectedType = funDecl.getParams().get(i).getTypeIdent().getType();
             Types realType = expressions.get(i).getType();
             if (expectedType != realType)
-                throw new TypeCheckingError(expectedType, realType);
+                throw new TypeCheckError(expectedType, realType);
         }
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         // Run the init checking for the function declaration
         FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
         // We need to run the init checking only once for the declaration
@@ -112,7 +112,7 @@ public class FunCallFactor extends IdentFactor {
         }
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
         FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
@@ -127,7 +127,7 @@ public class FunCallFactor extends IdentFactor {
             LRValue expectedLRValue = funDecl.getParams().get(i).getLRValue();
             if (expectedLRValue == LRValue.RVALUE) {
                 // We expect RVALUE, pass RVALUE or LVALUE
-                expressions.get(i).addInstructionToCodeArray(localLocations, simulateOnly);
+                expressions.get(i).addToCodeArray(localLocations, simulateOnly);
             } else if (realLRValue == LRValue.LVALUE && expectedLRValue == LRValue.LVALUE) {
                 // We expect RVALUE, pass RVALUE or LVALUE
 

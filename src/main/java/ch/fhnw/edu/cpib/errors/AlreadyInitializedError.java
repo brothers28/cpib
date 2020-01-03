@@ -30,6 +30,6 @@ public class AlreadyInitializedError extends Exception {
     }
 
     private static String setupMessage(Ident ident) {
-        return "Identifier [" + ident.getIdent() + "] is already initialised.";
+        return "Identifier [" + ident.getIdent() + "] is already initialized.";
     }
 }

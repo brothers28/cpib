@@ -28,23 +28,23 @@ public class WhileCmd extends AstNode implements ICmd {
         cpsCmd.saveNamespaceInfo(DataStructureHelper.deepCopy(this.localVarNamespace));
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         expr.executeScopeCheck();
         cpsCmd.executeScopeCheck();
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         expr.executeTypeCheck();
         cpsCmd.executeTypeCheck();
 
         // Check allowed types
         if (expr.getType() != Types.BOOL)
-            throw new TypeCheckingError(Types.BOOL, expr.getType());
+            throw new TypeCheckError(Types.BOOL, expr.getType());
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         expr.executeInitCheck(globalProtected);
         // set recursively all initialized variables also on the child-nodes to init
         for (TypeIdent ident : localVarNamespace.values()) {
@@ -57,12 +57,12 @@ public class WhileCmd extends AstNode implements ICmd {
         cpsCmd.executeInitCheck(true);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         // get the size of cpsCmd by simulating the add action
         int codeArrayPointerBefore = codeArrayPointer;
 
-        cpsCmd.addInstructionToCodeArray(localLocations, true);
+        cpsCmd.addToCodeArray(localLocations, true);
         int cpsCmdSize = codeArrayPointer - codeArrayPointerBefore + 1; // + 1 for unconditional jump after exprFalse
 
         // reset pointer
@@ -72,13 +72,13 @@ public class WhileCmd extends AstNode implements ICmd {
         int loopStartAddress = codeArrayPointer;
 
         // add the boolean for the conditional check onto the stack
-        expr.addInstructionToCodeArray(localLocations, simulateOnly);
+        expr.addToCodeArray(localLocations, simulateOnly);
         // now add the jump condition to see if we had to continue (loop part) or to jump (after the loop part)
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.CondJump(codeArrayPointer + 1 + cpsCmdSize));
         codeArrayPointer++;
         // now add the loop part
-        cpsCmd.addInstructionToCodeArray(localLocations, simulateOnly);
+        cpsCmd.addToCodeArray(localLocations, simulateOnly);
         // now add the unconditional jump to jump back to the jump condition (we already processed the loop part ...)
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.UncondJump(loopStartAddress));

@@ -69,17 +69,17 @@ public class TypeIdent extends AstNode implements Cloneable {
         //
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError {
+    @Override public void executeTypeCheck() throws TypeCheckError {
         //
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         //
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         //
     }

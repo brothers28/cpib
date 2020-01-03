@@ -64,13 +64,13 @@ public class InitFactor extends IdentFactor {
         return typeIdent.getType();
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError {
+    @Override public void executeTypeCheck() throws TypeCheckError {
         //
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         // Get the typeIdent for this factor
         TypeIdent typeIdent = null;
         boolean isGlobal = false;
@@ -97,7 +97,7 @@ public class InitFactor extends IdentFactor {
         }
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         // Only LVal we have is a InitFactor
         // Get the address

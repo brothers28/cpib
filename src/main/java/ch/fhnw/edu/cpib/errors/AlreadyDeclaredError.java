@@ -20,6 +20,6 @@ public class AlreadyDeclaredError extends Exception {
     }
 
     private static String setupMessage(String string) {
-        return "Name already exists [" + string + "]";
+        return "Name already declared [" + string + "]";
     }
 }

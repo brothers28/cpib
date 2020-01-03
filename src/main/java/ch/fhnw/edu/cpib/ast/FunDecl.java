@@ -43,11 +43,11 @@ public class FunDecl extends AstNode implements IDecl {
         this.initCheckDone = true;
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         cpsCmd.executeScopeCheck();
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         cpsCmd.executeTypeCheck();
     }
 
@@ -102,11 +102,11 @@ public class FunDecl extends AstNode implements IDecl {
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         cpsCmd.executeInitCheck(globalProtected);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         localLocations = new HashMap<>();
 
@@ -123,11 +123,11 @@ public class FunDecl extends AstNode implements IDecl {
         // add addresses of local variables to localLocations-map
         // first local variable is at relAddress 3
         for (int i = 0; i < stoDecls.size(); i++) {
-            stoDecls.get(i).addInstructionToCodeArray(localLocations, simulateOnly);
+            stoDecls.get(i).addToCodeArray(localLocations, simulateOnly);
             localLocations.put(stoDecls.get(i).getIdentString(), i + 3);
         }
 
-        cpsCmd.addInstructionToCodeArray(localLocations, simulateOnly);
+        cpsCmd.addToCodeArray(localLocations, simulateOnly);
 
         if (!simulateOnly)
             codeArray.put(codeArrayPointer, new IInstructions.Return(params.size()));

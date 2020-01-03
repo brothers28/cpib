@@ -26,7 +26,7 @@ public class CastFactor extends AstNode implements IFactor {
         factor.saveNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         factor.executeScopeCheck();
     }
 
@@ -46,7 +46,7 @@ public class CastFactor extends AstNode implements IFactor {
         return castType;
     }
 
-    @Override public void executeTypeCheck() throws CastError, TypeCheckingError {
+    @Override public void executeTypeCheck() throws CastError, TypeCheckError {
         factor.executeTypeCheck();
 
         // Check if casteable
@@ -56,18 +56,18 @@ public class CastFactor extends AstNode implements IFactor {
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         factor.executeInitCheck(globalProtected);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
         // Cast factor
         factor.executeTypeCast(castType);
 
         // Add the value on top of stack
-        factor.addInstructionToCodeArray(localLocations, simulateOnly);
+        factor.addToCodeArray(localLocations, simulateOnly);
 
     }
 

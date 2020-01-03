@@ -30,6 +30,6 @@ public class GlobalProtectedInitializationError extends Exception {
     }
 
     private static String setupMessage(Ident ident) {
-        return "Global Identifier [" + ident.getIdent() + "] cannot be initialized in protected scope.";
+        return "Identifier [" + ident.getIdent() + "] is global and therefore cannot be initialized in protected scope.";
     }
 }

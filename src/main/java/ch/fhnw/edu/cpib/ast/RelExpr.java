@@ -30,7 +30,7 @@ public class RelExpr extends AstNode implements IExpr {
         exprRight.saveNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         exprLeft.executeScopeCheck();
         exprRight.executeScopeCheck();
     }
@@ -45,16 +45,16 @@ public class RelExpr extends AstNode implements IExpr {
         return LRValue.RVALUE;
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         // Check allowed types
         if (exprLeft instanceof ch.fhnw.edu.cpib.ast.RelExpr) {
             ((RelExpr) exprLeft).exprLeft.executeTypeCheck();
             ((RelExpr) exprLeft).exprRight.executeTypeCheck();
         } else {
             if (exprLeft.getType() == Types.BOOL)
-                throw new TypeCheckingError(Types.INT32, exprLeft.getType());
+                throw new TypeCheckError(Types.INT32, exprLeft.getType());
             if (exprLeft.getType() != exprRight.getType())
-                throw new TypeCheckingError(exprLeft.getType(), exprRight.getType());
+                throw new TypeCheckError(exprLeft.getType(), exprRight.getType());
         }
     }
 
@@ -69,42 +69,42 @@ public class RelExpr extends AstNode implements IExpr {
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         exprLeft.executeInitCheck(globalProtected);
         exprRight.executeInitCheck(globalProtected);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
         if (exprLeft instanceof RelExpr) {
             int codeArrayPointerBefore = codeArrayPointer;
             RelExpr temp = new RelExpr(relOpr, ((RelExpr) exprLeft).exprRight, exprRight);
-            temp.addInstructionToCodeArray(localLocations, true);
+            temp.addToCodeArray(localLocations, true);
             int exprRightSize = codeArrayPointer - codeArrayPointerBefore + 1;
             codeArrayPointer = codeArrayPointerBefore;
 
-            exprLeft.addInstructionToCodeArray(localLocations, true);
+            exprLeft.addToCodeArray(localLocations, true);
             int exprLeftSize = codeArrayPointer - codeArrayPointerBefore;
             codeArrayPointer = codeArrayPointerBefore;
 
-            exprLeft.addInstructionToCodeArray(localLocations, simulateOnly);
+            exprLeft.addToCodeArray(localLocations, simulateOnly);
             if (!simulateOnly) {
                 codeArray.put(codeArrayPointer, new IInstructions.CondJump(codeArrayPointer + 1 + exprRightSize));
             }
             codeArrayPointer++;
 
-            temp.addInstructionToCodeArray(localLocations, simulateOnly);
+            temp.addToCodeArray(localLocations, simulateOnly);
             if (!simulateOnly) {
                 codeArray.put(codeArrayPointer, new IInstructions.UncondJump(codeArrayPointer + 1 + exprLeftSize));
             }
             codeArrayPointer++;
 
-            exprLeft.addInstructionToCodeArray(localLocations, simulateOnly);
+            exprLeft.addToCodeArray(localLocations, simulateOnly);
 
         } else {
-            exprLeft.addInstructionToCodeArray(localLocations, simulateOnly);
-            exprRight.addInstructionToCodeArray(localLocations, simulateOnly);
+            exprLeft.addToCodeArray(localLocations, simulateOnly);
+            exprRight.addToCodeArray(localLocations, simulateOnly);
 
             Types t = getType();
 

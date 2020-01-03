@@ -28,6 +28,6 @@ public class InvalidParamCountError extends Exception {
     }
 
     private static String setupMessage(int expected, int found) {
-        return "Expected [" + expected + "] params but found [" + found + "] params";
+        return "Expected [" + expected + "] params but were [" + found + "] params";
     }
 }

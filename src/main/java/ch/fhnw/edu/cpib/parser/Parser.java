@@ -39,9 +39,9 @@ public class Parser {
     }
 
     public AstTree parse()
-            throws GrammarError, AlreadyDeclaredError, NotDeclaredError, AlreadyGloballyDeclaredError,
-            LRValueError, InvalidParamCountError, AlreadyInitializedError, TypeCheckingError, NotInitializedError,
-            GlobalProtectedInitializationError, CannotAssignToConstError, CastError {
+            throws GrammarError, AlreadyDeclaredError, NotDeclaredError, AlreadyGloballyDeclaredError, LRValError, InvalidParamCountError, AlreadyInitializedError,
+            TypeCheckError, NotInitializedError,
+            GlobalProtectedInitializationError, AssignToConstError, CastError {
         System.out.println("Start parsing:\n");
         IProgram program = program();
         consume(Terminals.SENTINEL);

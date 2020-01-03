@@ -20,6 +20,6 @@ public class NotDeclaredError extends Exception {
     }
 
     private static String setupMessage(String string) {
-        return "Name not declared [" + string + "]";
+        return "Name [" + string + "] not declared";
     }
 }

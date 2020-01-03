@@ -9,6 +9,6 @@ public class GrammarError extends Exception {
     }
 
     public GrammarError(Terminals expected, Terminals actual) {
-        super("terminal expected: " + expected.toString() + ", terminal found: " + actual.toString());
+        super("Terminal expected: " + expected.toString() + ", Terminal found: " + actual.toString());
     }
 }

@@ -33,7 +33,7 @@ public class MonadicFactor extends AstNode implements IFactor {
         factor.saveNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         factor.executeScopeCheck();
     }
 
@@ -57,29 +57,29 @@ public class MonadicFactor extends AstNode implements IFactor {
         return factor.getType();
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         factor.executeTypeCheck();
 
         // Check allowed types
         if (Terminals.NOTOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.BOOL)
-            throw new TypeCheckingError(Types.BOOL, factor.getType());
+            throw new TypeCheckError(Types.BOOL, factor.getType());
         if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.INT32)
-            throw new TypeCheckingError(Types.INT32, factor.getType());
+            throw new TypeCheckError(Types.INT32, factor.getType());
         if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.NAT32)
-            throw new TypeCheckingError(Types.NAT32, factor.getType());
+            throw new TypeCheckError(Types.NAT32, factor.getType());
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         factor.executeInitCheck(globalProtected);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
         // Add the value on top of stack
-        factor.addInstructionToCodeArray(localLocations, simulateOnly);
+        factor.addToCodeArray(localLocations, simulateOnly);
 
         // Negate it
         if (!simulateOnly) {

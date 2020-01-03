@@ -27,27 +27,27 @@ public class AssignCmd extends AstNode implements ICmd {
 
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         exprLeft.executeScopeCheck();
         exprRight.executeScopeCheck();
 
         // Has to be LVALUE
         if (exprLeft.getLRValue() == LRValue.RVALUE)
-            throw new LRValueError(LRValue.LVALUE, exprLeft.getLRValue());
+            throw new LRValError(LRValue.LVALUE, exprLeft.getLRValue());
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         exprLeft.executeTypeCheck();
         exprRight.executeTypeCheck();
 
         // Check allowed types
         if (exprLeft.getType() != exprRight.getType()) //&& !isCastable(exprLeft.getType(), exprRight.getType()))
-            throw new TypeCheckingError(exprLeft.getType(), exprRight.getType());
+            throw new TypeCheckError(exprLeft.getType(), exprRight.getType());
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         // lets check if we try to write something into an already written constant
         // exprLeft can only be an Init-Factor
         InitFactor factor = (InitFactor) exprLeft;
@@ -61,13 +61,13 @@ public class AssignCmd extends AstNode implements ICmd {
         }
         // If this is a const and it is already initialized (once written to), throw an error
         if (typeIdent.getConst() && typeIdent.getInit())
-            throw new CannotAssignToConstError(factor.ident);
+            throw new AssignToConstError(factor.ident);
 
         exprLeft.executeInitCheck(globalProtected);
         exprRight.executeInitCheck(globalProtected);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         // Get the address of the left expression
         InitFactor factor = (InitFactor) exprLeft;
@@ -99,7 +99,7 @@ public class AssignCmd extends AstNode implements ICmd {
         }
 
         // Get the value of the exprRight (RVal)
-        exprRight.addInstructionToCodeArray(localLocations, simulateOnly);
+        exprRight.addToCodeArray(localLocations, simulateOnly);
 
         // Now copy our value to the "remote" stack place (store)
         if (!simulateOnly)

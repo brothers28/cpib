@@ -23,13 +23,13 @@ public class CpsCmd extends AstNode implements ICmd {
         }
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         for (ICmd cmd : commands) {
             cmd.executeScopeCheck();
         }
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         for (ICmd cmd : commands) {
             cmd.executeTypeCheck();
         }
@@ -37,16 +37,16 @@ public class CpsCmd extends AstNode implements ICmd {
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         for (ICmd cmd : commands) {
             cmd.executeInitCheck(globalProtected);
         }
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         for (ICmd cmd : commands) {
-            cmd.addInstructionToCodeArray(localLocations, simulateOnly);
+            cmd.addToCodeArray(localLocations, simulateOnly);
         }
     }
 

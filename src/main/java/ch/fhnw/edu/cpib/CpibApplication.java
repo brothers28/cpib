@@ -55,7 +55,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         } catch (AlreadyGloballyDeclaredError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
-        } catch (LRValueError e) {
+        } catch (LRValError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
         } catch (InvalidParamCountError e) {
@@ -64,7 +64,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         } catch (AlreadyInitializedError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
-        } catch (TypeCheckingError e) {
+        } catch (TypeCheckError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
         } catch (NotInitializedError e) {
@@ -73,7 +73,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         } catch (GlobalProtectedInitializationError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
-        } catch (CannotAssignToConstError e) {
+        } catch (AssignToConstError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
         } catch (CastError e) {

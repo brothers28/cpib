@@ -24,20 +24,20 @@ public class DebugInCmd extends AstNode implements ICmd {
         expr.saveNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         expr.executeScopeCheck();
         // Has to be LVALUE
         if (expr.getLRValue() != LRValue.LVALUE)
-            throw new LRValueError(LRValue.LVALUE, expr.getLRValue());
+            throw new LRValError(LRValue.LVALUE, expr.getLRValue());
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         expr.executeTypeCheck();
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError {
+            AssignToConstError {
         // now lets check if we try to write something into an already written constant
         // expr can only be an Init-Factor
         InitFactor factor = (InitFactor) expr;
@@ -51,13 +51,13 @@ public class DebugInCmd extends AstNode implements ICmd {
         }
         // If this is a const and it is already initialized (once written to), throw an error
         if (typeIdent.getConst() && typeIdent.getInit())
-            throw new CannotAssignToConstError(factor.ident);
+            throw new AssignToConstError(factor.ident);
 
         expr.executeInitCheck(globalProtected);
 
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
         InitFactor factor = (InitFactor) expr;
         // Get address

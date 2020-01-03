@@ -13,16 +13,15 @@ public interface IAstNode {
     public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError;
 
-    public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError;
+    public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError;
 
-    public void executeTypeCheck() throws TypeCheckingError, CastError;
+    public void executeTypeCheck() throws TypeCheckError, CastError;
 
     public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
-            CannotAssignToConstError;
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError, AssignToConstError;
 
     public void setInit(TypeIdent ident);
 
-    public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError;
 }

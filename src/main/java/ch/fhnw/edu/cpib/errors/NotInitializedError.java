@@ -30,6 +30,6 @@ public class NotInitializedError extends Exception {
     }
 
     private static String setupMessage(Ident ident) {
-        return "Identifier [" + ident.getIdent() + "] is not initialised.";
+        return "Identifier [" + ident.getIdent() + "] not initialized.";
     }
 }
