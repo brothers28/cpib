@@ -69,7 +69,7 @@ public class InitFactor extends IdentFactor {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             CannotAssignToConstError {
         // Get the typeIdent for this factor
         TypeIdent typeIdent = null;
@@ -81,9 +81,6 @@ public class InitFactor extends IdentFactor {
             isGlobal = true;
         }
         if (init) {
-            if (globalProtected && isGlobal)
-                // Global and protected variable cannot be initialized
-                throw new GlobalProtectedInitializationError(typeIdent.getIdent());
             if (typeIdent.getInit()) {
                 // Already inizialized
                 throw new AlreadyInitializedError(typeIdent.getIdent());

@@ -46,7 +46,7 @@ public class IfCmd extends AstNode implements ICmd {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             CannotAssignToConstError {
         expr.executeInitCheck(globalProtected);
         // set recursively all initialized variables also on the child-nodes to init

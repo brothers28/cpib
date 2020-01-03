@@ -55,7 +55,7 @@ public class CastFactor extends AstNode implements IFactor {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             CannotAssignToConstError {
         factor.executeInitCheck(globalProtected);
     }

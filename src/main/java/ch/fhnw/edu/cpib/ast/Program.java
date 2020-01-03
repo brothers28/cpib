@@ -68,7 +68,7 @@ public class Program extends AstNode {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             CannotAssignToConstError {
         // We check only the cpsCmd, as the globalDeclarations (e.g. FunDecl) will be checked at the call location
         cpsCmd.executeInitCheck(globalProtected);

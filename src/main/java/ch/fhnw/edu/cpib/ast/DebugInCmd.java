@@ -36,7 +36,7 @@ public class DebugInCmd extends AstNode implements ICmd {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             CannotAssignToConstError {
         // now lets check if we try to write something into an already written constant
         // expr can only be an Init-Factor

@@ -18,7 +18,7 @@ public interface IAstNode {
     public void executeTypeCheck() throws TypeCheckingError, CastError;
 
     public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             CannotAssignToConstError;
 
     public void setInit(TypeIdent ident);

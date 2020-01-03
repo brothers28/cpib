@@ -86,7 +86,7 @@ public class ProcDecl extends AstNode implements IDecl {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             CannotAssignToConstError {
         cpsCmd.executeInitCheck(globalProtected);
     }

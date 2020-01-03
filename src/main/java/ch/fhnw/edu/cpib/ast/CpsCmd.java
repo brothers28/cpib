@@ -36,7 +36,7 @@ public class CpsCmd extends AstNode implements ICmd {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             CannotAssignToConstError {
         for (ICmd cmd : commands) {
             cmd.executeInitCheck(globalProtected);

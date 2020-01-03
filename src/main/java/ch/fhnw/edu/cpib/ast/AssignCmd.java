@@ -46,7 +46,7 @@ public class AssignCmd extends AstNode implements ICmd {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            throws NotInitializedError, AlreadyInitializedError,
             CannotAssignToConstError {
         // lets check if we try to write something into an already written constant
         // exprLeft can only be an Init-Factor
