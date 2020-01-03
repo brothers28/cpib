@@ -5,8 +5,8 @@ import ch.fhnw.edu.cpib.cst.interfaces.IMonadicOpr;
 
 // factor ::= monadicOpr factor
 public class FactorMonadicOpr extends Production implements IFactor {
-    private IMonadicOpr nts_monadicOpr;
-    private IFactor nts_mfactor;
+    protected IMonadicOpr nts_monadicOpr;
+    protected IFactor nts_mfactor;
 
     public FactorMonadicOpr(IMonadicOpr nts_monadicOpr, IFactor nts_mfactor) {
         this.nts_monadicOpr = nts_monadicOpr;

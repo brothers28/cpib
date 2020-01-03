@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class AssignCmd extends AstNode implements ICmd {
-    private IExpr exprLeft;
-    private IExpr exprRight;
+    protected IExpr exprLeft;
+    protected IExpr exprRight;
 
     public AssignCmd(IExpr exprLeft, IExpr exprRight) {
         this.exprLeft = exprLeft;

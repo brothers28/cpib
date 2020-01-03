@@ -9,11 +9,11 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class TypedIdent extends AstNode implements Cloneable {
-    private Ident ident;
-    private Types type;
-    private boolean isInit;
-    private boolean isConst;
-    private boolean needToDeref;
+    protected Ident ident;
+    protected Types type;
+    protected boolean isInit;
+    protected boolean isConst;
+    protected boolean needToDeref;
 
     public TypedIdent(Ident ident, Types type) {
         this.ident = ident;

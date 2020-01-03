@@ -6,9 +6,9 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // factor ::= LPAREN expr RPAREN
 public class FactorLParen extends Production implements IFactor {
-    private IToken ts_lParen;
-    private IExpr nts_expr;
-    private IToken ts_rParen;
+    protected IToken ts_lParen;
+    protected IExpr nts_expr;
+    protected IToken ts_rParen;
 
     public FactorLParen(IToken ts_lParen, IExpr nts_expr, IToken ts_rParen) {
         this.ts_lParen = ts_lParen;

@@ -8,7 +8,7 @@ import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import java.util.HashMap;
 
 public class AstTree {
-    private AstNode root;
+    protected AstNode root;
 
     public AstTree(IProgram concSynTreeRoot) {
         this.root = concSynTreeRoot.toAbsSyntax();

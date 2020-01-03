@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 // cpsCmd ::= cmd cpsCmdNTS
 public class CpsCmd extends Production implements ICpsCmd {
-    private ICmd nts_cmd;
-    private ICpsCmdNTS nts_cpsCmdNTS;
+    protected ICmd nts_cmd;
+    protected ICpsCmdNTS nts_cpsCmdNTS;
 
     public CpsCmd(ICmd nts_cmd, ICpsCmdNTS nts_cpsCmdNTS) {
         this.nts_cmd = nts_cmd;

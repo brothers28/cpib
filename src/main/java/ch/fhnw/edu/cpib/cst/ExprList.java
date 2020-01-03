@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 // exprList ::= LPAREN exprListLparenNTS RPAREN
 public class ExprList extends Production implements IExprList {
-    private IToken ts_lParen;
-    private IExprListLparenNTS nts_exprListLparenNTS;
-    private IToken ts_rParen;
+    protected IToken ts_lParen;
+    protected IExprListLparenNTS nts_exprListLparenNTS;
+    protected IToken ts_rParen;
 
     public ExprList(IToken ts_lParen, IExprListLparenNTS nts_exprListLparenNTS, IToken ts_rParen) {
         this.ts_lParen = ts_lParen;

@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 // globalNTS ::= GLOBAL cpsDecl
 public class GlobalNTS extends Production implements IGlobalNTS {
-    private IToken ts_global;
-    private ICpsDecl nts_cpsDecl;
+    protected IToken ts_global;
+    protected ICpsDecl nts_cpsDecl;
 
     public GlobalNTS(IToken ts_global, ICpsDecl nts_cpsDecl) {
         this.ts_global = ts_global;

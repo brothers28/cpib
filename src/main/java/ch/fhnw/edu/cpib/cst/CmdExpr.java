@@ -6,9 +6,9 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= expr BECOMES expr
 public class CmdExpr extends Production implements ICmd {
-    private IExpr nts_expr1;
-    private IToken ts_becomes;
-    private IExpr nts_expr2;
+    protected IExpr nts_expr1;
+    protected IToken ts_becomes;
+    protected IExpr nts_expr2;
 
     public CmdExpr(IExpr nts_expr1, IToken ts_becomes, IExpr nts_expr2) {
         this.nts_expr1 = nts_expr1;

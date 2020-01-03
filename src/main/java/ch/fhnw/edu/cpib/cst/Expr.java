@@ -6,8 +6,8 @@ import ch.fhnw.edu.cpib.cst.interfaces.ITerm1;
 
 // expr ::= term1 exprNTS
 public class Expr extends Production implements IExpr {
-    private ITerm1 nts_term1;
-    private IExprNTS nts_exprNTS;
+    protected ITerm1 nts_term1;
+    protected IExprNTS nts_exprNTS;
 
     public Expr(ITerm1 nts_term1, IExprNTS nts_exprNTS) {
         this.nts_term1 = nts_term1;

@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class FunCallFactor extends IdentFactor {
-    private ArrayList<IExpr> expressions;
-    private Types castType;
+    protected ArrayList<IExpr> expressions;
+    protected Types castType;
 
     public FunCallFactor(Ident ident, ArrayList<IExpr> expressions) {
         this.ident = ident;

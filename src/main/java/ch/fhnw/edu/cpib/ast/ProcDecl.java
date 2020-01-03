@@ -12,11 +12,11 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class ProcDecl extends AstNode implements IDecl {
-    private Ident ident;
-    private CpsCmd cpsCmd;
-    private ArrayList<Param> params;
-    private ArrayList<StoDecl> stoDecls;
-    private boolean initChecked = false;
+    protected Ident ident;
+    protected CpsCmd cpsCmd;
+    protected ArrayList<Param> params;
+    protected ArrayList<StoDecl> stoDecls;
+    protected boolean initChecked = false;
 
     public ProcDecl(Ident ident, ArrayList<Param> params, ArrayList<StoDecl> stoDecls, CpsCmd cpsCmd) {
         this.ident = ident;

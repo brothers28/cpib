@@ -12,11 +12,11 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class Param extends AstNode {
-    private Flowmodes flowMode;
-    private Mechmodes mechMode;
-    private Changemodes changeMode;
-    private TypedIdent typedIdent;
-    private LRValue lrValue;
+    protected Flowmodes flowMode;
+    protected Mechmodes mechMode;
+    protected Changemodes changeMode;
+    protected TypedIdent typedIdent;
+    protected LRValue lrValue;
 
     public Param(Flowmodes flowMode, Mechmodes mechMode, Changemodes changeMode, TypedIdent typedIdent) {
         this.flowMode = flowMode != null ? flowMode : Flowmodes.IN;

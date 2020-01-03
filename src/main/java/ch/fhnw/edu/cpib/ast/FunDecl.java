@@ -12,12 +12,12 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class FunDecl extends AstNode implements IDecl {
-    private Ident ident;
-    private CpsCmd cpsCmd;
-    private ArrayList<Param> params;
-    private StoDecl stoDecl;
-    private ArrayList<StoDecl> stoDecls;
-    private boolean initChecked = false;
+    protected Ident ident;
+    protected CpsCmd cpsCmd;
+    protected ArrayList<Param> params;
+    protected StoDecl stoDecl;
+    protected ArrayList<StoDecl> stoDecls;
+    protected boolean initChecked = false;
 
     public FunDecl(Ident ident, ArrayList<Param> params, StoDecl stoDecl, ArrayList<StoDecl> stoDecls, CpsCmd cpsCmd) {
         this.ident = ident;

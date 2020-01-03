@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 // paramListNTS ::= param paramNTS
 public class ParamListNTS extends Production implements IParamListNTS {
-    private IParam nts_param;
-    private IParamNTS nts_paramNTS;
+    protected IParam nts_param;
+    protected IParamNTS nts_paramNTS;
 
     public ParamListNTS(IParam nts_param, IParamNTS nts_paramNTS) {
         this.nts_param = nts_param;

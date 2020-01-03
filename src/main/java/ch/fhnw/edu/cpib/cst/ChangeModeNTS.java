@@ -7,7 +7,7 @@ import ch.fhnw.edu.cpib.scanner.keywords.Changemode;
 
 // changeModeNTS ::= CHANGEMODE
 public class ChangeModeNTS extends Production implements IChangeModeNTS {
-    private IToken ts_changeMode;
+    protected IToken ts_changeMode;
 
     public ChangeModeNTS(IToken ts_changeMode) {
         this.ts_changeMode = ts_changeMode;

@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class Program extends AstNode {
-    private Ident ident;
-    private ArrayList<IDecl> globalDeclarations;
-    private CpsCmd cpsCmd;
+    protected Ident ident;
+    protected ArrayList<IDecl> globalDeclarations;
+    protected CpsCmd cpsCmd;
 
     public Program(Ident ident, ArrayList<IDecl> globalDeclarations, CpsCmd cpsCmd) {
         this.ident = ident;

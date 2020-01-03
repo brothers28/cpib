@@ -5,8 +5,8 @@ import ch.fhnw.edu.cpib.cst.interfaces.IFactor;
 
 // factor ::= castOpr factor
 public class FactorCastOpr extends Production implements IFactor {
-    private ICastOpr nts_castOpr;
-    private IFactor nts_mfactor;
+    protected ICastOpr nts_castOpr;
+    protected IFactor nts_mfactor;
 
     public FactorCastOpr(ICastOpr nts_castOpr, IFactor nts_mfactor) {
         this.nts_castOpr = nts_castOpr;

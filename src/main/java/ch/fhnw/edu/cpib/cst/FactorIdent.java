@@ -7,8 +7,8 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // factor ::= IDENT factorNTS
 public class FactorIdent extends Production implements IFactor {
-    private IToken ts_ident;
-    private IFactorNTS nts_factorNTS;
+    protected IToken ts_ident;
+    protected IFactorNTS nts_factorNTS;
 
     public FactorIdent(IToken ts_ident, IFactorNTS nts_factorNTS) {
         this.ts_ident = ts_ident;

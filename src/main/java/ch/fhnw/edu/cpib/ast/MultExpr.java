@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class MultExpr extends AstNode implements IExpr {
-    private Operators multOpr;
-    private IExpr exprLeft;
-    private IExpr exprRight;
-    private Types castType;
+    protected Operators multOpr;
+    protected IExpr exprLeft;
+    protected IExpr exprRight;
+    protected Types castType;
 
     public MultExpr(Operators multOpr, IExpr exprLeft, IExpr exprRight) {
         this.multOpr = multOpr;

@@ -8,12 +8,12 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= IF expr THEN cpsCmd ifElseNTS ENDIF
 public class CmdIf extends Production implements ICmd {
-    private IToken ts_if;
-    private IExpr nts_expr;
-    private IToken ts_then;
-    private ICpsCmd nts_cpsCmd;
-    private IIfElseNTS nts_ifElseNts;
-    private IToken ts_endIf;
+    protected IToken ts_if;
+    protected IExpr nts_expr;
+    protected IToken ts_then;
+    protected ICpsCmd nts_cpsCmd;
+    protected IIfElseNTS nts_ifElseNts;
+    protected IToken ts_endIf;
 
     public CmdIf(IToken ts_if, IExpr nts_expr, IToken ts_then, ICpsCmd nts_cpsCmd,
             IIfElseNTS nts_ifElseNts, IToken ts_endIf) {
