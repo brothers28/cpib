@@ -7,22 +7,22 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= WHILE expr DO cpsCmd ENDWHILE
 public class CmdWhile extends Production implements ICmd {
-    protected final IToken T_while;
-    protected final IExpr N_expr;
-    protected final IToken T_do;
-    protected final ICpsCmd N_cpsCmd;
-    protected final IToken T_endWhile;
+    protected final IToken ts_while;
+    protected final IExpr nts_expr;
+    protected final IToken ts_do;
+    protected final ICpsCmd nts_cpsCmd;
+    protected final IToken ts_endWhile;
 
-    public CmdWhile(final IToken T_while, final IExpr N_expr, final IToken T_do, final ICpsCmd N_cpsCmd,
-            final IToken T_endWhile) {
-        this.T_while = T_while;
-        this.N_expr = N_expr;
-        this.T_do = T_do;
-        this.N_cpsCmd = N_cpsCmd;
-        this.T_endWhile = T_endWhile;
+    public CmdWhile(final IToken ts_while, final IExpr nts_expr, final IToken ts_do, final ICpsCmd nts_cpsCmd,
+            final IToken ts_endWhile) {
+        this.ts_while = ts_while;
+        this.nts_expr = nts_expr;
+        this.ts_do = ts_do;
+        this.nts_cpsCmd = nts_cpsCmd;
+        this.ts_endWhile = ts_endWhile;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.WhileCmd(N_expr.toAbsSyntax(), N_cpsCmd.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.WhileCmd(nts_expr.toAbsSyntax(), nts_cpsCmd.toAbsSyntax());
     }
 }

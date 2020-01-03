@@ -5,15 +5,15 @@ import ch.fhnw.edu.cpib.cst.interfaces.IMonadicOpr;
 
 // factor ::= monadicOpr factor
 public class FactorMonadicOpr extends Production implements IFactor {
-    protected final IMonadicOpr N_monadicOpr;
-    protected final IFactor N_mfactor;
+    protected final IMonadicOpr nts_monadicOpr;
+    protected final IFactor nts_mfactor;
 
-    public FactorMonadicOpr(final IMonadicOpr n_monadicOpr, final IFactor n_mfactor) {
-        N_monadicOpr = n_monadicOpr;
-        N_mfactor = n_mfactor;
+    public FactorMonadicOpr(final IMonadicOpr nts_monadicOpr, final IFactor nts_mfactor) {
+        this.nts_monadicOpr = nts_monadicOpr;
+        this.nts_mfactor = nts_mfactor;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.MonadicFactor(N_monadicOpr.toAbsSyntax(), N_mfactor.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.MonadicFactor(nts_monadicOpr.toAbsSyntax(), nts_mfactor.toAbsSyntax());
     }
 }

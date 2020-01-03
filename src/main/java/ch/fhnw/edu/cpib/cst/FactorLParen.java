@@ -6,17 +6,17 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // factor ::= LPAREN expr RPAREN
 public class FactorLParen extends Production implements IFactor {
-    protected final IToken T_lParen;
-    protected final IExpr N_expr;
-    protected final IToken T_rParen;
+    protected final IToken ts_lParen;
+    protected final IExpr nts_expr;
+    protected final IToken ts_rParen;
 
-    public FactorLParen(final IToken t_lParen, final IExpr n_expr, final IToken t_rParen) {
-        T_lParen = t_lParen;
-        T_rParen = t_rParen;
-        N_expr = n_expr;
+    public FactorLParen(final IToken ts_lParen, final IExpr nts_expr, final IToken ts_rParen) {
+        this.ts_lParen = ts_lParen;
+        this.ts_rParen = ts_rParen;
+        this.nts_expr = nts_expr;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.ExprFactor(N_expr.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.ExprFactor(nts_expr.toAbsSyntax());
     }
 }

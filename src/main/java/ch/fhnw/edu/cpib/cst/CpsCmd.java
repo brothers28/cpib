@@ -8,18 +8,18 @@ import java.util.ArrayList;
 
 // cpsCmd ::= cmd cpsCmdNTS
 public class CpsCmd extends Production implements ICpsCmd {
-    protected final ICmd N_cmd;
-    protected final ICpsCmdNTS N_cpsCmdNTS;
+    protected final ICmd nts_cmd;
+    protected final ICpsCmdNTS nts_cpsCmdNTS;
 
-    public CpsCmd(final ICmd N_cmd, final ICpsCmdNTS N_cpsCmdNTS) {
-        this.N_cmd = N_cmd;
-        this.N_cpsCmdNTS = N_cpsCmdNTS;
+    public CpsCmd(final ICmd nts_cmd, final ICpsCmdNTS nts_cpsCmdNTS) {
+        this.nts_cmd = nts_cmd;
+        this.nts_cpsCmdNTS = nts_cpsCmdNTS;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.CpsCmd toAbsSyntax() {
         ArrayList<ch.fhnw.edu.cpib.ast.interfaces.ICmd> temp = new ArrayList<>();
-        temp.add(N_cmd.toAbsSyntax());
+        temp.add(nts_cmd.toAbsSyntax());
 
-        return new ch.fhnw.edu.cpib.ast.CpsCmd(N_cpsCmdNTS.toAbsSyntax(temp));
+        return new ch.fhnw.edu.cpib.ast.CpsCmd(nts_cpsCmdNTS.toAbsSyntax(temp));
     }
 }

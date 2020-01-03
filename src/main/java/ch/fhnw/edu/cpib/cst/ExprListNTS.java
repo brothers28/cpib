@@ -8,19 +8,19 @@ import java.util.ArrayList;
 
 // exprListNTS ::= COMMA expr exprListNTS
 public class ExprListNTS extends Production implements IExprListNTS {
-    protected final IToken T_comma;
-    protected final IExpr N_expr;
-    protected final IExprListNTS N_exprListNTS;
+    protected final IToken ts_comma;
+    protected final IExpr nts_expr;
+    protected final IExprListNTS nts_exprListNTS;
 
-    public ExprListNTS(final IToken t_comma, final IExpr n_expr, final IExprListNTS n_exprListNTS) {
-        T_comma = t_comma;
-        N_expr = n_expr;
-        N_exprListNTS = n_exprListNTS;
+    public ExprListNTS(final IToken ts_comma, final IExpr nts_expr, final IExprListNTS nts_exprListNTS) {
+        this.ts_comma = ts_comma;
+        this.nts_expr = nts_expr;
+        this.nts_exprListNTS = nts_exprListNTS;
     }
 
     @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IExpr> toAbsSyntax(
             ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IExpr> temp) {
-        temp.add(N_expr.toAbsSyntax());
-        return N_exprListNTS.toAbsSyntax(temp);
+        temp.add(nts_expr.toAbsSyntax());
+        return nts_exprListNTS.toAbsSyntax(temp);
     }
 }

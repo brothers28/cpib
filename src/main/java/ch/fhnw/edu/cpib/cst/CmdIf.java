@@ -8,24 +8,24 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= IF expr THEN cpsCmd ifelseNTS ENDIF
 public class CmdIf extends Production implements ICmd {
-    protected final IToken T_if;
-    protected final IExpr N_expr;
-    protected final IToken T_then;
-    protected final ICpsCmd N_cpsCmd;
-    protected final IIfElseNTS N_ifelseNTS;
-    protected final IToken T_endIf;
+    protected final IToken ts_if;
+    protected final IExpr nts_expr;
+    protected final IToken ts_then;
+    protected final ICpsCmd nts_cpsCmd;
+    protected final IIfElseNTS nts_ifelseNTS;
+    protected final IToken ts_endIf;
 
-    public CmdIf(final IToken T_if, final IExpr N_expr, final IToken T_then, final ICpsCmd N_cpsCmd,
-            final IIfElseNTS N_ifelseNTS, final IToken T_endIf) {
-        this.T_if = T_if;
-        this.N_expr = N_expr;
-        this.T_then = T_then;
-        this.N_cpsCmd = N_cpsCmd;
-        this.N_ifelseNTS = N_ifelseNTS;
-        this.T_endIf = T_endIf;
+    public CmdIf(final IToken ts_if, final IExpr nts_expr, final IToken ts_then, final ICpsCmd nts_cpsCmd,
+            final IIfElseNTS nts_ifelseNTS, final IToken ts_endIf) {
+        this.ts_if = ts_if;
+        this.nts_expr = nts_expr;
+        this.ts_then = ts_then;
+        this.nts_cpsCmd = nts_cpsCmd;
+        this.nts_ifelseNTS = nts_ifelseNTS;
+        this.ts_endIf = ts_endIf;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.IfCmd(N_expr.toAbsSyntax(), N_cpsCmd.toAbsSyntax(), N_ifelseNTS.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.IfCmd(nts_expr.toAbsSyntax(), nts_cpsCmd.toAbsSyntax(), nts_ifelseNTS.toAbsSyntax());
     }
 }

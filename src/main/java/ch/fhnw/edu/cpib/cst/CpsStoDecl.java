@@ -8,17 +8,17 @@ import java.util.ArrayList;
 
 // cpsStoDecl ::= stoDecl cpsStoDeclNTS
 public class CpsStoDecl extends Production implements ICpsStoDecl {
-    protected final IStoDecl N_stoDecl;
-    protected final ICpsStoDeclNTS N_cpsStoDeclNTS;
+    protected final IStoDecl nts_stoDecl;
+    protected final ICpsStoDeclNTS nts_cpsStoDeclNTS;
 
-    public CpsStoDecl(final IStoDecl n_stoDecl, final ICpsStoDeclNTS n_cpsStoDeclNTS) {
-        N_stoDecl = n_stoDecl;
-        N_cpsStoDeclNTS = n_cpsStoDeclNTS;
+    public CpsStoDecl(final IStoDecl nts_stoDecl, final ICpsStoDeclNTS nts_cpsStoDeclNTS) {
+        this.nts_stoDecl = nts_stoDecl;
+        this.nts_cpsStoDeclNTS = nts_cpsStoDeclNTS;
     }
 
     @Override public ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> toAbsSyntax() {
         ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> temp = new ArrayList<>();
-        temp.add(N_stoDecl.toAbsSyntax());
-        return N_cpsStoDeclNTS.toAbsSyntax(temp);
+        temp.add(nts_stoDecl.toAbsSyntax());
+        return nts_cpsStoDeclNTS.toAbsSyntax(temp);
     }
 }

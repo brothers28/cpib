@@ -7,16 +7,16 @@ import ch.fhnw.edu.cpib.scanner.keywords.Changemode;
 
 // stoDecl ::= CHANGEMODE typedIdent
 public class StoDeclChangeMode extends Production implements IStoDecl {
-    protected final IToken T_changeMode;
-    protected final ITypedIdent N_typedIdent;
+    protected final IToken ts_changeMode;
+    protected final ITypedIdent nts_typedIdent;
 
-    public StoDeclChangeMode(final IToken T_changeMode, final ITypedIdent N_typedIdent) {
-        this.T_changeMode = T_changeMode;
-        this.N_typedIdent = N_typedIdent;
+    public StoDeclChangeMode(final IToken ts_changeMode, final ITypedIdent nts_typedIdent) {
+        this.ts_changeMode = ts_changeMode;
+        this.nts_typedIdent = nts_typedIdent;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.StoDecl toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.StoDecl(((Changemode) T_changeMode).getChangemode(),
-                N_typedIdent.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.StoDecl(((Changemode) ts_changeMode).getChangemode(),
+                nts_typedIdent.toAbsSyntax());
     }
 }

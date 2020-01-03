@@ -6,15 +6,15 @@ import ch.fhnw.edu.cpib.cst.interfaces.ITerm3;
 
 // term2 ::= term3 term2NTS
 public class Term2 extends Production implements ITerm2 {
-    protected final ITerm3 N_term3;
-    protected final ITerm2NTS N_term2NTS;
+    protected final ITerm3 nts_term3;
+    protected final ITerm2NTS nts_term2NTS;
 
-    public Term2(final ITerm3 n_term3, final ITerm2NTS n_term2NTS) {
-        N_term3 = n_term3;
-        N_term2NTS = n_term2NTS;
+    public Term2(final ITerm3 nts_term3, final ITerm2NTS nts_term2NTS) {
+        this.nts_term3 = nts_term3;
+        this.nts_term2NTS = nts_term2NTS;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.IExpr toAbsSyntax() {
-        return N_term2NTS.toAbsSyntax(N_term3.toAbsSyntax());
+        return nts_term2NTS.toAbsSyntax(nts_term3.toAbsSyntax());
     }
 }

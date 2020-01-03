@@ -8,18 +8,18 @@ import java.util.ArrayList;
 
 // cpsStoDeclNTS ::= SEMICOLON stoDecl cpsStoDeclNTS
 public class CpsStoDeclNTS extends Production implements ICpsStoDeclNTS {
-    protected final IToken T_semicolon;
-    protected final IStoDecl N_stoDecl;
-    protected final ICpsStoDeclNTS N_cpsStoDeclNTS;
+    protected final IToken ts_semicolon;
+    protected final IStoDecl nts_stoDecl;
+    protected final ICpsStoDeclNTS nts_cpsStoDeclNTS;
 
-    public CpsStoDeclNTS(final IToken t_semicolon, final IStoDecl n_stoDecl, final ICpsStoDeclNTS n_cpsStoDeclNTS) {
-        T_semicolon = t_semicolon;
-        N_stoDecl = n_stoDecl;
-        N_cpsStoDeclNTS = n_cpsStoDeclNTS;
+    public CpsStoDeclNTS(final IToken ts_semicolon, final IStoDecl nts_stoDecl, final ICpsStoDeclNTS nts_cpsStoDeclNTS) {
+        this.ts_semicolon = ts_semicolon;
+        this.nts_stoDecl = nts_stoDecl;
+        this.nts_cpsStoDeclNTS = nts_cpsStoDeclNTS;
     }
 
     @Override public ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> toAbsSyntax(ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> temp) {
-        temp.add(N_stoDecl.toAbsSyntax());
-        return N_cpsStoDeclNTS.toAbsSyntax(temp);
+        temp.add(nts_stoDecl.toAbsSyntax());
+        return nts_cpsStoDeclNTS.toAbsSyntax(temp);
     }
 }

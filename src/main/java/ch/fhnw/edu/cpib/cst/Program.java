@@ -8,24 +8,24 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // program ::= PROGRAM IDENT globalNTS DO cpsCmd ENDPROGRAM
 public class Program extends Production implements IProgram {
-    protected final IToken T_program;
-    protected final IToken T_ident;
-    protected final IGlobalNTS N_globalNTS;
-    protected final IToken T_do;
-    protected final ICpsCmd N_cpsCmd;
-    protected final IToken T_endprogram;
+    protected final IToken ts_program;
+    protected final IToken ts_ident;
+    protected final IGlobalNTS nts_globalNTS;
+    protected final IToken ts_do;
+    protected final ICpsCmd nts_cpsCmd;
+    protected final IToken ts_endprogram;
 
-    public Program(final IToken t_program, final IToken t_ident, final IGlobalNTS n_globalNTS, final IToken t_do,
-            final ICpsCmd n_cpsCmd, final IToken t_endprogram) {
-        T_program = t_program;
-        T_ident = t_ident;
-        N_globalNTS = n_globalNTS;
-        T_do = t_do;
-        N_cpsCmd = n_cpsCmd;
-        T_endprogram = t_endprogram;
+    public Program(final IToken ts_program, final IToken ts_ident, final IGlobalNTS nts_globalNTS, final IToken ts_do,
+            final ICpsCmd nts_cpsCmd, final IToken ts_endprogram) {
+        this.ts_program = ts_program;
+        this.ts_ident = ts_ident;
+        this.nts_globalNTS = nts_globalNTS;
+        this.ts_do = ts_do;
+        this.nts_cpsCmd = nts_cpsCmd;
+        this.ts_endprogram = ts_endprogram;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.Program toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.Program((Ident) T_ident, N_globalNTS.toAbsSyntax(), N_cpsCmd.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.Program((Ident) ts_ident, nts_globalNTS.toAbsSyntax(), nts_cpsCmd.toAbsSyntax());
     }
 }

@@ -6,15 +6,15 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // ifelseNTS ::= ELSE cpsCmd
 public class IfElseNTS extends Production implements IIfElseNTS {
-    protected final IToken T_else;
-    protected final ICpsCmd N_cpsCmd;
+    protected final IToken ts_else;
+    protected final ICpsCmd nts_cpsCmd;
 
-    public IfElseNTS(final IToken T_else, final ICpsCmd N_cpsCmd) {
-        this.T_else = T_else;
-        this.N_cpsCmd = N_cpsCmd;
+    public IfElseNTS(final IToken ts_else, final ICpsCmd nts_cpsCmd) {
+        this.ts_else = ts_else;
+        this.nts_cpsCmd = nts_cpsCmd;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.CpsCmd toAbsSyntax() {
-        return N_cpsCmd.toAbsSyntax();
+        return nts_cpsCmd.toAbsSyntax();
     }
 }

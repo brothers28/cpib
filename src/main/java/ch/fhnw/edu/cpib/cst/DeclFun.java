@@ -5,13 +5,13 @@ import ch.fhnw.edu.cpib.cst.interfaces.IFunDecl;
 
 // decl ::= funDecl
 public class DeclFun extends Production implements IDecl {
-    protected final IFunDecl N_funDecl;
+    protected final IFunDecl nts_funDecl;
 
-    public DeclFun(final IFunDecl N_funDecl) {
-        this.N_funDecl = N_funDecl;
+    public DeclFun(final IFunDecl nts_funDecl) {
+        this.nts_funDecl = nts_funDecl;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyntax() {
-        return N_funDecl.toAbsSyntax();
+        return nts_funDecl.toAbsSyntax();
     }
 }

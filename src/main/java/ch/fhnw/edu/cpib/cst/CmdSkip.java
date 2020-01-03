@@ -5,10 +5,10 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= SKIP
 public class CmdSkip extends Production implements ICmd {
-    protected final IToken T_skip;
+    protected final IToken ts_skip;
 
-    public CmdSkip(final IToken T_skip) {
-        this.T_skip = T_skip;
+    public CmdSkip(final IToken ts_skip) {
+        this.ts_skip = ts_skip;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyntax() {

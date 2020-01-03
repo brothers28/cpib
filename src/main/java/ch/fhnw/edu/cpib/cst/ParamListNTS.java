@@ -8,19 +8,19 @@ import java.util.ArrayList;
 
 // paramListNTS ::= param paramNTS
 public class ParamListNTS extends Production implements IParamListNTS {
-    protected final IParam N_param;
-    protected final IParamNTS N_paramNTS;
+    protected final IParam nts_param;
+    protected final IParamNTS nts_paramNTS;
 
-    public ParamListNTS(final IParam N_param, final IParamNTS N_paramNTS) {
-        this.N_param = N_param;
-        this.N_paramNTS = N_paramNTS;
+    public ParamListNTS(final IParam nts_param, final IParamNTS nts_paramNTS) {
+        this.nts_param = nts_param;
+        this.nts_paramNTS = nts_paramNTS;
 
     }
 
     @Override public ArrayList<ch.fhnw.edu.cpib.ast.Param> toAbsSyntax() {
         ArrayList<ch.fhnw.edu.cpib.ast.Param> temp = new ArrayList<>();
-        temp.add(N_param.toAbsSyntax());
+        temp.add(nts_param.toAbsSyntax());
 
-        return N_paramNTS.toAbsSyntax(temp);
+        return nts_paramNTS.toAbsSyntax(temp);
     }
 }

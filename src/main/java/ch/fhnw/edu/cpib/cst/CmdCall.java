@@ -8,17 +8,17 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= CALL IDENT exprList
 public class CmdCall extends Production implements ICmd {
-    protected final IToken T_call;
-    protected final IToken T_ident;
-    protected final IExprList N_exprList;
+    protected final IToken ts_call;
+    protected final IToken ts_ident;
+    protected final IExprList nts_exprList;
 
-    public CmdCall(final IToken T_call, final IToken T_ident, final IExprList N_exprList) {
-        this.T_call = T_call;
-        this.T_ident = T_ident;
-        this.N_exprList = N_exprList;
+    public CmdCall(final IToken ts_call, final IToken ts_ident, final IExprList nts_exprList) {
+        this.ts_call = ts_call;
+        this.ts_ident = ts_ident;
+        this.nts_exprList = nts_exprList;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyntax() {
-        return new ProcCallCmd((Ident) T_ident, N_exprList.toAbsSyntax());
+        return new ProcCallCmd((Ident) ts_ident, nts_exprList.toAbsSyntax());
     }
 }

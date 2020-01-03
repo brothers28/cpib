@@ -8,17 +8,17 @@ import java.util.ArrayList;
 
 // exprListLparenNTS ::= expr exprListNTS
 public class ExprListLParenNTS extends Production implements IExprListLparenNTS {
-    protected final IExpr N_expr;
-    protected final IExprListNTS N_exprListNTS;
+    protected final IExpr nts_expr;
+    protected final IExprListNTS nts_exprListNTS;
 
-    public ExprListLParenNTS(final IExpr n_expr, final IExprListNTS n_exprListNTS) {
-        N_expr = n_expr;
-        N_exprListNTS = n_exprListNTS;
+    public ExprListLParenNTS(final IExpr nts_expr, final IExprListNTS nts_exprListNTS) {
+        this.nts_expr = nts_expr;
+        this.nts_exprListNTS = nts_exprListNTS;
     }
 
     @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IExpr> toAbsSyntax() {
         ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IExpr> temp = new ArrayList<>();
-        temp.add(N_expr.toAbsSyntax());
-        return N_exprListNTS.toAbsSyntax(temp);
+        temp.add(nts_expr.toAbsSyntax());
+        return nts_exprListNTS.toAbsSyntax(temp);
     }
 }

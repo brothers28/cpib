@@ -9,27 +9,27 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // procDecl ::= PROC IDENT paramList procDeclNTS DO cpsCmd ENDPROC
 public class ProcDecl extends Production implements IProcDecl {
-    protected final IToken T_proc;
-    protected final IToken T_ident;
-    protected final IParamList N_paramList;
-    protected final IProcDeclNTS N_procDeclNTS;
-    protected final IToken T_do;
-    protected final ICpsCmd N_cpsCmd;
-    protected final IToken T_endProc;
+    protected final IToken ts_proc;
+    protected final IToken ts_ident;
+    protected final IParamList nts_paramList;
+    protected final IProcDeclNTS nts_procDeclNTS;
+    protected final IToken ts_do;
+    protected final ICpsCmd nts_cpsCmd;
+    protected final IToken ts_endProc;
 
-    public ProcDecl(final IToken t_proc, final IToken t_ident, final IParamList n_paramList,
-            final IProcDeclNTS n_procDeclNTS, final IToken t_do, final ICpsCmd n_cpsCmd, final IToken t_endProc) {
-        T_proc = t_proc;
-        T_ident = t_ident;
-        T_do = t_do;
-        T_endProc = t_endProc;
-        N_paramList = n_paramList;
-        N_procDeclNTS = n_procDeclNTS;
-        N_cpsCmd = n_cpsCmd;
+    public ProcDecl(final IToken ts_proc, final IToken ts_ident, final IParamList nts_paramList,
+            final IProcDeclNTS nts_procDeclNTS, final IToken ts_do, final ICpsCmd nts_cpsCmd, final IToken ts_endProc) {
+        this.ts_proc = ts_proc;
+        this.ts_ident = ts_ident;
+        this.ts_do = ts_do;
+        this.ts_endProc = ts_endProc;
+        this.nts_paramList = nts_paramList;
+        this.nts_procDeclNTS = nts_procDeclNTS;
+        this.nts_cpsCmd = nts_cpsCmd;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.ProcDecl((Ident) T_ident, N_paramList.toAbsSyntax(),
-                N_procDeclNTS.toAbsSyntax(), N_cpsCmd.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.ProcDecl((Ident) ts_ident, nts_paramList.toAbsSyntax(),
+                nts_procDeclNTS.toAbsSyntax(), nts_cpsCmd.toAbsSyntax());
     }
 }
