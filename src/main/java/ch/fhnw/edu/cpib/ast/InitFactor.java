@@ -19,7 +19,7 @@ public class InitFactor extends IdentFactor {
         this.init = init;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
     }

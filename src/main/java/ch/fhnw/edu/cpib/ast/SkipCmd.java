@@ -12,7 +12,7 @@ public class SkipCmd extends AstNode implements ICmd {
         //
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
     }

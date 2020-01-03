@@ -17,10 +17,10 @@ public class DebugOutCmd extends AstNode implements ICmd {
         this.expr = expr;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
-        expr.saveNamespaceInfo(this.localVarNamespace);
+        expr.setNamespaceInfo(this.localVarNamespace);
     }
 
     @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {

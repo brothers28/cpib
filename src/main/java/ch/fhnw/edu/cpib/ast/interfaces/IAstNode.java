@@ -10,7 +10,7 @@ public interface IAstNode {
 
     String toString(String indent);
 
-    void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+    void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError;
 
     void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError;

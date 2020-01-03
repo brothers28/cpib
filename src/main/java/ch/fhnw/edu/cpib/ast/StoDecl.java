@@ -25,7 +25,7 @@ public class StoDecl extends AstNode implements IDecl {
         this.typedIdent = typedIdent;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
     }

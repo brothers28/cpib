@@ -21,11 +21,11 @@ public class FunCallFactor extends IdentFactor {
         this.expressions = expressions;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         for (IExpr expr : expressions) {
-            expr.saveNamespaceInfo(this.localVarNamespace);
+            expr.setNamespaceInfo(this.localVarNamespace);
         }
     }
 

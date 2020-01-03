@@ -21,7 +21,7 @@ public class Program extends AstNode {
         this.cpsCmd = cpsCmd;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         // Check namespaces
         for (IDecl decl : globalDeclarations) {
@@ -45,7 +45,7 @@ public class Program extends AstNode {
         for (IDecl decl : globalDeclarations) {
             // For funDecl and procDecl, store the local variables into the nodes and child nodes
             if (!(decl instanceof StoDecl))
-                decl.saveNamespaceInfo(new HashMap<String, TypedIdent>());
+                decl.setNamespaceInfo(new HashMap<String, TypedIdent>());
         }
     }
 

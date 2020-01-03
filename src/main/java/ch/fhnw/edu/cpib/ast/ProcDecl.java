@@ -41,7 +41,7 @@ public class ProcDecl extends AstNode implements IDecl {
         return ident.getIdent();
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
 
         // Create local namespace
@@ -74,7 +74,7 @@ public class ProcDecl extends AstNode implements IDecl {
             this.localVarNamespace.put(stoDecl.getIdentString(), stoDecl.getTypedIdent());
         }
 
-        cpsCmd.saveNamespaceInfo(this.localVarNamespace);
+        cpsCmd.setNamespaceInfo(this.localVarNamespace);
     }
 
     @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {

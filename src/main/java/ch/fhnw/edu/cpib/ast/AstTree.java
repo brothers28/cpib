@@ -21,7 +21,7 @@ public class AstTree {
     public void executeScopeCheck()
             throws AlreadyDeclaredError, NotDeclaredError, AlreadyGloballyDeclaredError, LRValError,
             AlreadyInitializedError, InvalidParamCountError {
-        root.saveNamespaceInfo(null);
+        root.setNamespaceInfo(null);
         root.executeScopeCheck();
     }
 

@@ -24,13 +24,13 @@ public class ProcCallCmd extends AstNode implements ICmd {
         this.expressions = expressions;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
 
         // add local storage on everery case
         for (IExpr ie : expressions)
-            ie.saveNamespaceInfo(this.localVarNamespace);
+            ie.setNamespaceInfo(this.localVarNamespace);
     }
 
     @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {

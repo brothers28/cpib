@@ -15,11 +15,11 @@ public class CpsCmd extends AstNode implements ICmd {
         this.commands = commands;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         for (ICmd cmd : commands) {
-            cmd.saveNamespaceInfo(this.localVarNamespace);
+            cmd.setNamespaceInfo(this.localVarNamespace);
         }
     }
 

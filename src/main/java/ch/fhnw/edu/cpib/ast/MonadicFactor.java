@@ -27,10 +27,10 @@ public class MonadicFactor extends AstNode implements IFactor {
         this.monadicOpr = monadicOpr;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
-        factor.saveNamespaceInfo(this.localVarNamespace);
+        factor.setNamespaceInfo(this.localVarNamespace);
     }
 
     @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {

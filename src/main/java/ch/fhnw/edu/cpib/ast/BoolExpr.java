@@ -23,11 +23,11 @@ public class BoolExpr extends AstNode implements IExpr {
         this.exprRight = exprRight;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
-        exprLeft.saveNamespaceInfo(this.localVarNamespace);
-        exprRight.saveNamespaceInfo(this.localVarNamespace);
+        exprLeft.setNamespaceInfo(this.localVarNamespace);
+        exprRight.setNamespaceInfo(this.localVarNamespace);
     }
 
     @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
