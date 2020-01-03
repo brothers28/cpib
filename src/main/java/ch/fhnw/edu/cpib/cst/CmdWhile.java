@@ -7,14 +7,14 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= WHILE expr DO cpsCmd ENDWHILE
 public class CmdWhile extends Production implements ICmd {
-    protected final IToken ts_while;
-    protected final IExpr nts_expr;
-    protected final IToken ts_do;
-    protected final ICpsCmd nts_cpsCmd;
-    protected final IToken ts_endWhile;
+    private IToken ts_while;
+    private IExpr nts_expr;
+    private IToken ts_do;
+    private ICpsCmd nts_cpsCmd;
+    private IToken ts_endWhile;
 
-    public CmdWhile(final IToken ts_while, final IExpr nts_expr, final IToken ts_do, final ICpsCmd nts_cpsCmd,
-            final IToken ts_endWhile) {
+    public CmdWhile(IToken ts_while, IExpr nts_expr, IToken ts_do, ICpsCmd nts_cpsCmd,
+            IToken ts_endWhile) {
         this.ts_while = ts_while;
         this.nts_expr = nts_expr;
         this.ts_do = ts_do;

@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 // cpsStoDecl ::= stoDecl cpsStoDeclNTS
 public class CpsStoDecl extends Production implements ICpsStoDecl {
-    protected final IStoDecl nts_stoDecl;
-    protected final ICpsStoDeclNTS nts_cpsStoDeclNTS;
+    private IStoDecl nts_stoDecl;
+    private ICpsStoDeclNTS nts_cpsStoDeclNTS;
 
-    public CpsStoDecl(final IStoDecl nts_stoDecl, final ICpsStoDeclNTS nts_cpsStoDeclNTS) {
+    public CpsStoDecl(IStoDecl nts_stoDecl, ICpsStoDeclNTS nts_cpsStoDeclNTS) {
         this.nts_stoDecl = nts_stoDecl;
         this.nts_cpsStoDeclNTS = nts_cpsStoDeclNTS;
     }

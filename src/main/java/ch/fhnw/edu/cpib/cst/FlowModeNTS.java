@@ -7,9 +7,9 @@ import ch.fhnw.edu.cpib.scanner.keywords.Flowmode;
 
 // flowModeNTS ::= FLOWMODE
 public class FlowModeNTS extends Production implements IFlowModeNTS {
-    protected final IToken ts_flowMode;
+    private IToken ts_flowMode;
 
-    public FlowModeNTS(final IToken ts_flowMode) {
+    public FlowModeNTS(IToken ts_flowMode) {
         this.ts_flowMode = ts_flowMode;
     }
 

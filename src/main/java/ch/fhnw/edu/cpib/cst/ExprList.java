@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 // exprList ::= LPAREN exprListLparenNTS RPAREN
 public class ExprList extends Production implements IExprList {
-    protected final IToken ts_lParen;
-    protected final IExprListLparenNTS nts_exprListLparenNTS;
-    protected final IToken ts_rParen;
+    private IToken ts_lParen;
+    private IExprListLparenNTS nts_exprListLparenNTS;
+    private IToken ts_rParen;
 
-    public ExprList(final IToken ts_lParen, final IExprListLparenNTS nts_exprListLparenNTS, final IToken ts_rParen) {
+    public ExprList(IToken ts_lParen, IExprListLparenNTS nts_exprListLparenNTS, IToken ts_rParen) {
         this.ts_lParen = ts_lParen;
         this.ts_rParen = ts_rParen;
         this.nts_exprListLparenNTS = nts_exprListLparenNTS;

@@ -6,10 +6,10 @@ import ch.fhnw.edu.cpib.cst.interfaces.ITerm2;
 
 // term1 ::= term2 term1NTS
 public class Term1 extends Production implements ITerm1 {
-    protected final ITerm2 nts_term2;
-    protected final ITerm1NTS nts_term1NTS;
+    private ITerm2 nts_term2;
+    private ITerm1NTS nts_term1NTS;
 
-    public Term1(final ITerm2 nts_term2, final ITerm1NTS nts_term1NTS) {
+    public Term1(ITerm2 nts_term2, ITerm1NTS nts_term1NTS) {
         this.nts_term2 = nts_term2;
         this.nts_term1NTS = nts_term1NTS;
     }

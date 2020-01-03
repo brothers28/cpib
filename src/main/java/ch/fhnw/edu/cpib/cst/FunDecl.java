@@ -6,19 +6,19 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // funDecl ::= FUN IDENT paramList RETURNS stoDecl funDeclNTS DO cpsCmd ENDFUN
 public class FunDecl extends Production implements IFunDecl {
-    protected final IToken ts_fun;
-    protected final IToken ts_ident;
-    protected final IParamList nts_paramList;
-    protected final IToken ts_returns;
-    protected final IStoDecl nts_stoDecl;
-    protected final IFunDeclNTS nts_funDeclNTS;
-    protected final IToken ts_do;
-    protected final ICpsCmd nts_cpsCmd;
-    protected final IToken ts_endFun;
+    private IToken ts_fun;
+    private IToken ts_ident;
+    private IParamList nts_paramList;
+    private IToken ts_returns;
+    private IStoDecl nts_stoDecl;
+    private IFunDeclNTS nts_funDeclNTS;
+    private IToken ts_do;
+    private ICpsCmd nts_cpsCmd;
+    private IToken ts_endFun;
 
-    public FunDecl(final IToken ts_fun, final IToken ts_ident, final IParamList nts_paramList, final IToken ts_returns,
-            final IStoDecl nts_stoDecl, final IFunDeclNTS nts_funDeclNTS, final IToken ts_do, final ICpsCmd nts_cpsCmd,
-            final IToken ts_endFun) {
+    public FunDecl(IToken ts_fun, IToken ts_ident, IParamList nts_paramList, IToken ts_returns,
+            IStoDecl nts_stoDecl, IFunDeclNTS nts_funDeclNTS, IToken ts_do, ICpsCmd nts_cpsCmd,
+            IToken ts_endFun) {
         this.ts_fun = ts_fun;
         this.ts_ident = ts_ident;
         this.nts_paramList = nts_paramList;

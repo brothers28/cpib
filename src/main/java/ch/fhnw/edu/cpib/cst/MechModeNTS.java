@@ -7,9 +7,9 @@ import ch.fhnw.edu.cpib.scanner.keywords.Mechmode;
 
 // mechModeNTS ::= MECHMODE
 public class MechModeNTS extends Production implements IMechModeNTS {
-    protected final IToken ts_mechMode;
+    private IToken ts_mechMode;
 
-    public MechModeNTS(final IToken ts_mechMode) {
+    public MechModeNTS(IToken ts_mechMode) {
         this.ts_mechMode = ts_mechMode;
     }
 

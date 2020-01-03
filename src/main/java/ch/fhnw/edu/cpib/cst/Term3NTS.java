@@ -8,11 +8,11 @@ import ch.fhnw.edu.cpib.scanner.symbols.Operator;
 
 // term3NTS ::= MULTOPR factor term3NTS
 public class Term3NTS extends Production implements ITerm3NTS {
-    protected final IToken ts_multOpr;
-    protected final IFactor nts_factor;
-    protected final ITerm3NTS nts_term3NTS;
+    private IToken ts_multOpr;
+    private IFactor nts_factor;
+    private ITerm3NTS nts_term3NTS;
 
-    public Term3NTS(final IToken ts_multOpr, final IFactor nts_factor, final ITerm3NTS nts_term3NTS) {
+    public Term3NTS(IToken ts_multOpr, IFactor nts_factor, ITerm3NTS nts_term3NTS) {
         this.ts_multOpr = ts_multOpr;
         this.nts_factor = nts_factor;
         this.nts_term3NTS = nts_term3NTS;

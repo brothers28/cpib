@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 // cpsDeclNTS ::= SEMICOLON decl cpsDeclNTS
 public class CpsDeclNTS extends Production implements ICpsDeclNTS {
-    protected final IToken ts_semicolon;
-    protected final IDecl nts_decl;
-    protected final ICpsDeclNTS nts_cpsDeclNTS;
+    private IToken ts_semicolon;
+    private IDecl nts_decl;
+    private ICpsDeclNTS nts_cpsDeclNTS;
 
-    public CpsDeclNTS(final IToken ts_semicolon, final IDecl nts_decl, final ICpsDeclNTS nts_cpsDeclNTS) {
+    public CpsDeclNTS(IToken ts_semicolon, IDecl nts_decl, ICpsDeclNTS nts_cpsDeclNTS) {
         this.ts_semicolon = ts_semicolon;
         this.nts_decl = nts_decl;
         this.nts_cpsDeclNTS = nts_cpsDeclNTS;

@@ -6,9 +6,9 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // factorNTS ::= INIT
 public class FactorNTSInit extends Production implements IFactorNTS {
-    protected final IToken ts_init;
+    private IToken ts_init;
 
-    public FactorNTSInit(final IToken ts_init) {
+    public FactorNTSInit(IToken ts_init) {
         this.ts_init = ts_init;
     }
 

@@ -7,11 +7,11 @@ import ch.fhnw.edu.cpib.scanner.keywords.Type;
 
 // castOpr ::= LBRACKET ATOMTYPE RBRACKET
 public class CastOpr extends Production implements ICastOpr {
-    protected final IToken ts_lBracket;
-    protected final IToken ts_type;
-    protected final IToken ts_rBracket;
+    private IToken ts_lBracket;
+    private IToken ts_type;
+    private IToken ts_rBracket;
 
-    public CastOpr(final IToken ts_lBracket, final IToken ts_type, final IToken ts_rBracket) {
+    public CastOpr(IToken ts_lBracket, IToken ts_type, IToken ts_rBracket) {
         this.ts_lBracket = ts_lBracket;
         this.ts_type = ts_type;
         this.ts_rBracket = ts_rBracket;

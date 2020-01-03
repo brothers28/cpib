@@ -5,9 +5,9 @@ import ch.fhnw.edu.cpib.cst.interfaces.ITypedIdent;
 
 // stoDecl ::= typedIdent
 public class StoDeclTypedIdent extends Production implements IStoDecl {
-    protected final ITypedIdent nts_typedIdent;
+    private ITypedIdent nts_typedIdent;
 
-    public StoDeclTypedIdent(final ITypedIdent nts_typedIdent) {
+    public StoDeclTypedIdent(ITypedIdent nts_typedIdent) {
         this.nts_typedIdent = nts_typedIdent;
     }
 

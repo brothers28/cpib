@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 // paramList ::= LPAREN paramListNTS RPAREN
 public class ParamList extends Production implements IParamList {
-    protected final IToken ts_lparen;
-    protected final IParamListNTS nts_paramListNTS;
-    protected final IToken ts_rparen;
+    private IToken ts_lparen;
+    private IParamListNTS nts_paramListNTS;
+    private IToken ts_rparen;
 
-    public ParamList(final IToken ts_lparen, final IParamListNTS nts_paramListNTS, final IToken ts_rparen) {
+    public ParamList(IToken ts_lparen, IParamListNTS nts_paramListNTS, IToken ts_rparen) {
         this.ts_lparen = ts_lparen;
         this.nts_paramListNTS = nts_paramListNTS;
         this.ts_rparen = ts_rparen;

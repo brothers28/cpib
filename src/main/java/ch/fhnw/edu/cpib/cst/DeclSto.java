@@ -5,9 +5,9 @@ import ch.fhnw.edu.cpib.cst.interfaces.IStoDecl;
 
 // decl ::= stoDecl
 public class DeclSto extends Production implements IDecl {
-    protected final IStoDecl nts_stoDecl;
+    private IStoDecl nts_stoDecl;
 
-    public DeclSto(final IStoDecl nts_stoDecl) {
+    public DeclSto(IStoDecl nts_stoDecl) {
         this.nts_stoDecl = nts_stoDecl;
     }
 

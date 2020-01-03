@@ -8,11 +8,11 @@ import ch.fhnw.edu.cpib.scanner.symbols.Operator;
 
 // term1NTS ::= RELOPR term2 term1NTS
 public class Term1NTS extends Production implements ITerm1NTS {
-    protected final IToken ts_relOpr;
-    protected final ITerm2 nts_term2;
-    protected final ITerm1NTS nts_term1NTS;
+    private IToken ts_relOpr;
+    private ITerm2 nts_term2;
+    private ITerm1NTS nts_term1NTS;
 
-    public Term1NTS(final IToken ts_relOpr, final ITerm2 nts_term2, final ITerm1NTS nts_term1NTS) {
+    public Term1NTS(IToken ts_relOpr, ITerm2 nts_term2, ITerm1NTS nts_term1NTS) {
         this.ts_relOpr = ts_relOpr;
         this.nts_term2 = nts_term2;
         this.nts_term1NTS = nts_term1NTS;

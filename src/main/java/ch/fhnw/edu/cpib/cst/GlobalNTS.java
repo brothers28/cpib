@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 // globalNTS ::= GLOBAL cpsDecl
 public class GlobalNTS extends Production implements IGlobalNTS {
-    protected final IToken ts_global;
-    protected final ICpsDecl nts_cpsDecl;
+    private IToken ts_global;
+    private ICpsDecl nts_cpsDecl;
 
-    public GlobalNTS(final IToken ts_global, final ICpsDecl nts_cpsDecl) {
+    public GlobalNTS(IToken ts_global, ICpsDecl nts_cpsDecl) {
         this.ts_global = ts_global;
         this.nts_cpsDecl = nts_cpsDecl;
     }

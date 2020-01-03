@@ -6,9 +6,9 @@ import ch.fhnw.edu.cpib.scanner.symbols.Operator;
 
 // monadicOpr ::= ADDOPR
 public class MonadicOprAddOpr extends Production implements IMonadicOpr {
-    protected final IToken ts_addOpr;
+    private IToken ts_addOpr;
 
-    public MonadicOprAddOpr(final IToken ts_addOpr) {
+    public MonadicOprAddOpr(IToken ts_addOpr) {
         this.ts_addOpr = ts_addOpr;
     }
 

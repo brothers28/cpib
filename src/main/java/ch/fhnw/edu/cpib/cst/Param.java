@@ -4,13 +4,13 @@ import ch.fhnw.edu.cpib.cst.interfaces.*;
 
 // param ::= flowModeNTS mechModeNTS changeModeNTS typedIdent
 public class Param extends Production implements IParam {
-    protected final IFlowModeNTS nts_flowModeNTS;
-    protected final IMechModeNTS nts_mechModeNTS;
-    protected final IChangeModeNTS nts_changeModeNTS;
-    protected final ITypedIdent nts_typedIdent;
+    private IFlowModeNTS nts_flowModeNTS;
+    private IMechModeNTS nts_mechModeNTS;
+    private IChangeModeNTS nts_changeModeNTS;
+    private ITypedIdent nts_typedIdent;
 
-    public Param(final IFlowModeNTS nts_flowModeNTS, final IMechModeNTS nts_mechModeNTS,
-            final IChangeModeNTS nts_changeModeNTS, final ITypedIdent nts_typedIdent) {
+    public Param(IFlowModeNTS nts_flowModeNTS, IMechModeNTS nts_mechModeNTS,
+            IChangeModeNTS nts_changeModeNTS, ITypedIdent nts_typedIdent) {
         this.nts_flowModeNTS = nts_flowModeNTS;
         this.nts_changeModeNTS = nts_changeModeNTS;
         this.nts_mechModeNTS = nts_mechModeNTS;

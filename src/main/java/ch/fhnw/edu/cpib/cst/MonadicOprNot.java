@@ -6,9 +6,9 @@ import ch.fhnw.edu.cpib.scanner.symbols.Operator;
 
 // monadicOpr ::= NOT
 public class MonadicOprNot extends Production implements IMonadicOpr {
-    protected final IToken ts_not;
+    private IToken ts_not;
 
-    public MonadicOprNot(final IToken ts_not) {
+    public MonadicOprNot(IToken ts_not) {
         this.ts_not = ts_not;
     }
 

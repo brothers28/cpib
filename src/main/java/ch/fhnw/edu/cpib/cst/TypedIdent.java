@@ -7,11 +7,11 @@ import ch.fhnw.edu.cpib.scanner.keywords.Type;
 
 // typedIdent ::= IDENT COLON TYPE
 public class TypedIdent extends Production implements ITypedIdent {
-    protected final IToken ts_ident;
-    protected final IToken ts_colon;
-    protected final IToken ts_type;
+    private IToken ts_ident;
+    private IToken ts_colon;
+    private IToken ts_type;
 
-    public TypedIdent(final IToken ts_ident, final IToken ts_colon, final IToken ts_type) {
+    public TypedIdent(IToken ts_ident, IToken ts_colon, IToken ts_type) {
         this.ts_ident = ts_ident;
         this.ts_colon = ts_colon;
         this.ts_type = ts_type;

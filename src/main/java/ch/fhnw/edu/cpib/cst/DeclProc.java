@@ -5,9 +5,9 @@ import ch.fhnw.edu.cpib.cst.interfaces.IProcDecl;
 
 // decl ::= procDecl
 public class DeclProc extends Production implements IDecl {
-    protected final IProcDecl nts_procDecl;
+    private IProcDecl nts_procDecl;
 
-    public DeclProc(final IProcDecl nts_procDecl) {
+    public DeclProc(IProcDecl nts_procDecl) {
         this.nts_procDecl = nts_procDecl;
     }
 

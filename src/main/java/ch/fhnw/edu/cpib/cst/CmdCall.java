@@ -8,11 +8,11 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= CALL IDENT exprList
 public class CmdCall extends Production implements ICmd {
-    protected final IToken ts_call;
-    protected final IToken ts_ident;
-    protected final IExprList nts_exprList;
+    private IToken ts_call;
+    private IToken ts_ident;
+    private IExprList nts_exprList;
 
-    public CmdCall(final IToken ts_call, final IToken ts_ident, final IExprList nts_exprList) {
+    public CmdCall(IToken ts_call, IToken ts_ident, IExprList nts_exprList) {
         this.ts_call = ts_call;
         this.ts_ident = ts_ident;
         this.nts_exprList = nts_exprList;

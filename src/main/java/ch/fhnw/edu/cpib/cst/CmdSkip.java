@@ -5,9 +5,9 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= SKIP
 public class CmdSkip extends Production implements ICmd {
-    protected final IToken ts_skip;
+    private IToken ts_skip;
 
-    public CmdSkip(final IToken ts_skip) {
+    public CmdSkip(IToken ts_skip) {
         this.ts_skip = ts_skip;
     }
 

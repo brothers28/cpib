@@ -5,9 +5,9 @@ import ch.fhnw.edu.cpib.cst.interfaces.IFunDecl;
 
 // decl ::= funDecl
 public class DeclFun extends Production implements IDecl {
-    protected final IFunDecl nts_funDecl;
+    private IFunDecl nts_funDecl;
 
-    public DeclFun(final IFunDecl nts_funDecl) {
+    public DeclFun(IFunDecl nts_funDecl) {
         this.nts_funDecl = nts_funDecl;
     }
 

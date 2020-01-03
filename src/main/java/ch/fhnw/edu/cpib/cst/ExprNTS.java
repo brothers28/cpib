@@ -8,11 +8,11 @@ import ch.fhnw.edu.cpib.scanner.symbols.Operator;
 
 // exprNTS ::= BOOLOPR term1 exprNTS
 public class ExprNTS extends Production implements IExprNTS {
-    protected final IToken ts_boolOpr;
-    protected final ITerm1 nts_term1;
-    protected final IExprNTS nts_exprNTS;
+    private IToken ts_boolOpr;
+    private ITerm1 nts_term1;
+    private IExprNTS nts_exprNTS;
 
-    public ExprNTS(final IToken ts_boolOpr, final ITerm1 nts_term1, final IExprNTS nts_exprNTS) {
+    public ExprNTS(IToken ts_boolOpr, ITerm1 nts_term1, IExprNTS nts_exprNTS) {
         this.ts_boolOpr = ts_boolOpr;
         this.nts_term1 = nts_term1;
         this.nts_exprNTS = nts_exprNTS;

@@ -7,10 +7,10 @@ import ch.fhnw.edu.cpib.scanner.keywords.Changemode;
 
 // stoDecl ::= CHANGEMODE typedIdent
 public class StoDeclChangeMode extends Production implements IStoDecl {
-    protected final IToken ts_changeMode;
-    protected final ITypedIdent nts_typedIdent;
+    private IToken ts_changeMode;
+    private ITypedIdent nts_typedIdent;
 
-    public StoDeclChangeMode(final IToken ts_changeMode, final ITypedIdent nts_typedIdent) {
+    public StoDeclChangeMode(IToken ts_changeMode, ITypedIdent nts_typedIdent) {
         this.ts_changeMode = ts_changeMode;
         this.nts_typedIdent = nts_typedIdent;
     }
