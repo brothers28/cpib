@@ -61,7 +61,7 @@ public class ExprFactor extends AstNode implements IFactor {
     @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
             throws CodeTooSmallError {
 
-        // Add the value on top of stack
+        // Add to top of stack
         expr.addToCodeArray(localLocations, simulateOnly);
     }
 

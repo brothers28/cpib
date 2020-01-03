@@ -65,7 +65,7 @@ public class CastFactor extends AstNode implements IFactor {
         // Cast factor
         factor.executeTypeCast(castType);
 
-        // Add the value on top of stack
+        // Add to top of stack
         factor.addToCodeArray(localLocations, simulateOnly);
     }
 
