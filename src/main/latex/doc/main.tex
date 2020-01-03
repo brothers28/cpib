@@ -256,11 +256,35 @@ Beim der Typenüberprüfung innerhalb vom \texttt{CastFactor} wird überprüft, 
 Die effektive Typ-Konversion wird erst bei der Code-Generierung durchgeführt.
 
 \subsubsection*{Initalization checking}
+Über das Interface \texttt{IAstNode} müssen alle Knotenpunkte vom AST, die Methode \texttt{executeInitCheck} implementieren.
+Der AST wird dabei von unten nach oben überprüft.
 
-% TODO: Beschreiben anhand von Methode executeInitCheck und Code in den ensprechenden Klassen refactoren und Variabeln umbenennen etc.
+Anhand nachfolgendem Besipielprogramm wird erklärt, wann welcher Fehler auftreten kann.
+Die Fehler werden unterhalb näher beschrieben:
+\begin{lstlisting}
+program exampleInitErrors
+global
+    var x:int32;
+    const y:int32
+do
+    x := 7; // throws NotInitializedError
+    x init := 4;
+    x init := 3; // throws AlreadyInitializedError
+    y init := 1;
+    y := 2 // throws CannotAssignToConstError
+endprogram
+\end{lstlisting}
+Folgende Fehler können dabei auftreten:
+\begin{itemize}
+    \item \texttt{\textbf{NotInitializedError}}: Die Variable wurde zuvor nicht initialisiert.
+    \item \texttt{\textbf{AlreadyInitializedError}}: Die Variable wurde bereits zuvor initialisiert.
+    \item \texttt{\textbf{CannotAssignToConstError}}: Die Variable ist eine Konstante und wurde bereits einmal inizialisiert.
+\end{itemize}
+
+Falls einer dieser Fehler auftritt, wird die Überprüfung sofort beendet und der Initialisierungscheck ist fehlgeschlagen.
 
 \subsection{Virtuelle Maschine}
-Grundlage für die Code-Generierung ist der Abstract Syntax Tree (AST).
+Grundlage für die Code-Generierung ist der AST.
 Vom Root-Knoten ausgehend fügt jeder Knoten seinen Code zum Code-Array.
 
 Im Falle eines Castings zwischen zwei Datentypen befindet sich an mindestens einer Stelle in der AST Struktur ein \texttt{CastFactor}-Element.
@@ -308,7 +332,6 @@ Dies kann dazu führen, dass mit \glqq falschen\grqq \ Werten gerechnet wird, oh
 
 \subsection{Fliesskommazahlen}
 \label{ieee}
-% TODO: Zweierkomplement oben noch nicht beschrieben. Bem: Muss das gemacht werden? Es sollte doch Hr. Lederer bekannt sein, was das Zweierkomplement ist.
 Im Gegensatz zur Darstellung im Zweierkomplement, welches für Integer-Typen in Java verwendet werden, werden Fliesskommazahlen intern nach IEEE Standard dargestellt.
 Anders als bei der Zweierkomplement-Darstellung sieht dieses Format spezielle, konstante Werte vor.
 So sind in Java beispielsweise Konstanten für \texttt{Double.POSITIVE\_INFINITY}, \texttt{Double.NEGATIVE\_INFINITY} und \texttt{Double.NaN} definiert.
