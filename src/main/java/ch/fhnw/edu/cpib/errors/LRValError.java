@@ -14,7 +14,7 @@ public class LRValError extends Exception {
     }
 
     public LRValError(LRValue expected, LRValue found) {
-        super(setupMessage(expected, found));
+        super(buildOutputMessage(expected, found));
     }
 
     public LRValError(String message, Throwable cause) {
@@ -22,14 +22,14 @@ public class LRValError extends Exception {
     }
 
     public LRValError(LRValue expected, LRValue found, Throwable cause) {
-        super(setupMessage(expected, found), cause);
+        super(buildOutputMessage(expected, found), cause);
     }
 
     public LRValError(Throwable cause) {
         super(cause);
     }
 
-    private static String setupMessage(LRValue expected, LRValue found) {
+    private static String buildOutputMessage(LRValue expected, LRValue found) {
         return "Expected [" + expected.name() + "] but found [" + found.name() + "]";
     }
 }

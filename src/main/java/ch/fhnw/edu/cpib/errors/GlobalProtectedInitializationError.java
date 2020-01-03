@@ -14,7 +14,7 @@ public class GlobalProtectedInitializationError extends Exception {
     }
 
     public GlobalProtectedInitializationError(Ident ident) {
-        super(setupMessage(ident));
+        super(buildOutputMessage(ident));
     }
 
     public GlobalProtectedInitializationError(String message, Throwable cause) {
@@ -22,14 +22,15 @@ public class GlobalProtectedInitializationError extends Exception {
     }
 
     public GlobalProtectedInitializationError(Ident ident, Throwable cause) {
-        super(setupMessage(ident), cause);
+        super(buildOutputMessage(ident), cause);
     }
 
     public GlobalProtectedInitializationError(Throwable cause) {
         super(cause);
     }
 
-    private static String setupMessage(Ident ident) {
-        return "Identifier [" + ident.getIdent() + "] is global and therefore cannot be initialized in protected scope.";
+    private static String buildOutputMessage(Ident ident) {
+        return "Identifier [" + ident.getIdent()
+                + "] is global and therefore cannot be initialized in protected scope.";
     }
 }

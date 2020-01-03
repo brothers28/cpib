@@ -8,18 +8,18 @@ public class AlreadyDeclaredError extends Exception {
     }
 
     public AlreadyDeclaredError(String errorMessage) {
-        super(setupMessage(errorMessage));
+        super(buildOutputMessage(errorMessage));
     }
 
     public AlreadyDeclaredError(String message, Throwable cause) {
-        super(setupMessage(message), cause);
+        super(buildOutputMessage(message), cause);
     }
 
     public AlreadyDeclaredError(Throwable cause) {
         super(cause);
     }
 
-    private static String setupMessage(String string) {
+    private static String buildOutputMessage(String string) {
         return "Name already declared [" + string + "]";
     }
 }

@@ -14,7 +14,7 @@ public class AssignToConstError extends Exception {
     }
 
     public AssignToConstError(Ident ident) {
-        super(setupMessage(ident));
+        super(buildOutputMessage(ident));
     }
 
     public AssignToConstError(String message, Throwable cause) {
@@ -22,14 +22,14 @@ public class AssignToConstError extends Exception {
     }
 
     public AssignToConstError(Ident ident, Throwable cause) {
-        super(setupMessage(ident), cause);
+        super(buildOutputMessage(ident), cause);
     }
 
     public AssignToConstError(Throwable cause) {
         super(cause);
     }
 
-    private static String setupMessage(Ident ident) {
+    private static String buildOutputMessage(Ident ident) {
         return "Const [" + ident.getIdent() + "] is already initialized!";
     }
 }

@@ -6,6 +6,7 @@ public class TypeCheckError extends Exception {
     private static final long serialVersionUID = 1L;
 
     public TypeCheckError() {
+
     }
 
     public TypeCheckError(String errorMessage) {
@@ -13,7 +14,7 @@ public class TypeCheckError extends Exception {
     }
 
     public TypeCheckError(Types expected, Types found) {
-        super(setupMessage(expected, found));
+        super(buildOutputMessage(expected, found));
     }
 
     public TypeCheckError(String message, Throwable cause) {
@@ -21,14 +22,14 @@ public class TypeCheckError extends Exception {
     }
 
     public TypeCheckError(Types expected, Types found, Throwable cause) {
-        super(setupMessage(expected, found), cause);
+        super(buildOutputMessage(expected, found), cause);
     }
 
     public TypeCheckError(Throwable cause) {
         super(cause);
     }
 
-    private static String setupMessage(Types expected, Types found) {
+    private static String buildOutputMessage(Types expected, Types found) {
         return "Expected type [" + expected.name() + "] but found [" + found.name() + "]";
     }
 }
