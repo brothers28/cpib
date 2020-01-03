@@ -778,6 +778,7 @@ public class Parser {
         }
     }
 
+
     // procDeclNTS ::= LOCAL cpsStoDecl
     // procDeclNTS ::= ε
     private IProcDeclNTS procDeclNTS() throws GrammarError {
