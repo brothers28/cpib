@@ -7,15 +7,15 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // factor ::= IDENT factorNTS
 public class FactorIdent extends Production implements IFactor {
-    protected final IToken T_ident;
-    protected final IFactorNTS N_factorNTS;
+    private IToken ts_ident;
+    private IFactorNTS nts_factorNTS;
 
-    public FactorIdent(final IToken t_ident, final IFactorNTS n_factorNTS) {
-        T_ident = t_ident;
-        N_factorNTS = n_factorNTS;
+    public FactorIdent(IToken ts_ident, IFactorNTS nts_factorNTS) {
+        this.ts_ident = ts_ident;
+        this.nts_factorNTS = nts_factorNTS;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyntax() {
-        return N_factorNTS.toAbsSyntax((Ident) T_ident);
+        return nts_factorNTS.toAbsSyntax((Ident) ts_ident);
     }
 }

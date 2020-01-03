@@ -17,39 +17,39 @@ public class DebugOutCmd extends AstNode implements ICmd {
         this.expr = expr;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
-        expr.saveNamespaceInfo(this.localVarNamespace);
+        expr.setNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         expr.executeScopeCheck();
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         expr.executeTypeCheck();
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
+            AssignToConstError {
         expr.executeInitCheck(globalProtected);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
 
-        expr.addInstructionToCodeArray(localLocations, simulateOnly);
+        expr.addToCodeArray(localLocations, noExec);
 
         String indicator;
         if (expr instanceof InitFactor) {
             indicator = ((InitFactor) expr).ident.getIdent();
         } else {
-            indicator = "<anonymous>";
+            indicator = "<?>";
         }
 
-        if (!simulateOnly) {
+        if (!noExec) {
             if (expr.getType() == Types.BOOL) {
                 codeArray.put(codeArrayPointer, new IInstructions.OutputBool(indicator));
             } else if (expr.getType() == Types.INT32) {
@@ -70,8 +70,8 @@ public class DebugOutCmd extends AstNode implements ICmd {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<expr>:\n";
         s += expr.toString(subIndent);
 

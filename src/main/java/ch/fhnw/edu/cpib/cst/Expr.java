@@ -6,15 +6,15 @@ import ch.fhnw.edu.cpib.cst.interfaces.ITerm1;
 
 // expr ::= term1 exprNTS
 public class Expr extends Production implements IExpr {
-    protected final ITerm1 N_term1;
-    protected final IExprNTS N_exprNTS;
+    private ITerm1 nts_term1;
+    private IExprNTS nts_exprNTS;
 
-    public Expr(final ITerm1 n_term1, final IExprNTS n_exprNTS) {
-        N_term1 = n_term1;
-        N_exprNTS = n_exprNTS;
+    public Expr(ITerm1 nts_term1, IExprNTS nts_exprNTS) {
+        this.nts_term1 = nts_term1;
+        this.nts_exprNTS = nts_exprNTS;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.IExpr toAbsSyntax() {
-        return N_exprNTS.toAbsSyntax(N_term1.toAbsSyntax());
+        return nts_exprNTS.toAbsSyntax(nts_term1.toAbsSyntax());
     }
 }

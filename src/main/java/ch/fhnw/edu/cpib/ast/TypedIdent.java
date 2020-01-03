@@ -8,14 +8,14 @@ import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class TypeIdent extends AstNode implements Cloneable {
+public class TypedIdent extends AstNode implements Cloneable {
     private Ident ident;
     private Types type;
     private boolean isInit;
     private boolean isConst;
     private boolean needToDeref;
 
-    public TypeIdent(Ident ident, Types type) {
+    public TypedIdent(Ident ident, Types type) {
         this.ident = ident;
         this.type = type;
     }
@@ -60,7 +60,7 @@ public class TypeIdent extends AstNode implements Cloneable {
         return needToDeref;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
     }
@@ -69,17 +69,17 @@ public class TypeIdent extends AstNode implements Cloneable {
         //
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError {
+    @Override public void executeTypeCheck() throws TypeCheckError {
         //
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
+            AssignToConstError {
         //
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         //
     }
@@ -90,8 +90,8 @@ public class TypeIdent extends AstNode implements Cloneable {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "(<ident>, <type>): (" + ident.toString() + ", " + type.toString() + ")\n";
 
         return s;

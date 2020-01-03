@@ -6,12 +6,6 @@ package ch.fhnw.edu.cpib.vm;
 import ch.fhnw.edu.cpib.vm.IInstructions.IInstr;
 
 public interface ICodeArray {
-    // for the COMPILER:
-    // a CodeTooSmallError indicates that the code is too small
-    // to hold the complete program
-    class CodeTooSmallError extends Exception {
-    }
-
     void put(int loc, IInstr instr) throws CodeTooSmallError;
 
     void resize();
@@ -24,4 +18,10 @@ public interface ICodeArray {
     IInstr get(int loc);
 
     void fromString();
+
+    // for the COMPILER:
+    // a CodeTooSmallError indicates that the code is too small
+    // to hold the complete program
+    class CodeTooSmallError extends Exception {
+    }
 }

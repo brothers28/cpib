@@ -12,7 +12,7 @@ public class InvalidParamCountError extends Exception {
     }
 
     public InvalidParamCountError(int expected, int found) {
-        super(setupMessage(expected, found));
+        super(buildOutputMessage(expected, found));
     }
 
     public InvalidParamCountError(String message, Throwable cause) {
@@ -20,14 +20,14 @@ public class InvalidParamCountError extends Exception {
     }
 
     public InvalidParamCountError(int expected, int found, Throwable cause) {
-        super(setupMessage(expected, found), cause);
+        super(buildOutputMessage(expected, found), cause);
     }
 
     public InvalidParamCountError(Throwable cause) {
         super(cause);
     }
 
-    private static String setupMessage(int expected, int found) {
-        return "Expected [" + expected + "] params but found [" + found + "] params";
+    private static String buildOutputMessage(int expected, int found) {
+        return "Expected [" + expected + "] params but were [" + found + "] params";
     }
 }

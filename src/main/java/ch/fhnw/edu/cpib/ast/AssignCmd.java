@@ -19,60 +19,60 @@ public class AssignCmd extends AstNode implements ICmd {
         this.exprRight = exprRight;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
-        exprLeft.saveNamespaceInfo(this.localVarNamespace);
-        exprRight.saveNamespaceInfo(this.localVarNamespace);
+        exprLeft.setNamespaceInfo(this.localVarNamespace);
+        exprRight.setNamespaceInfo(this.localVarNamespace);
 
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         exprLeft.executeScopeCheck();
         exprRight.executeScopeCheck();
 
         // Has to be LVALUE
         if (exprLeft.getLRValue() == LRValue.RVALUE)
-            throw new LRValueError(LRValue.LVALUE, exprLeft.getLRValue());
+            throw new LRValError(LRValue.LVALUE, exprLeft.getLRValue());
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         exprLeft.executeTypeCheck();
         exprRight.executeTypeCheck();
 
         // Check allowed types
         if (exprLeft.getType() != exprRight.getType()) //&& !isCastable(exprLeft.getType(), exprRight.getType()))
-            throw new TypeCheckingError(exprLeft.getType(), exprRight.getType());
+            throw new TypeCheckError(exprLeft.getType(), exprRight.getType());
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
-        // lets check if we try to write something into an already written constant
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         // exprLeft can only be an Init-Factor
         InitFactor factor = (InitFactor) exprLeft;
-        // is the variable already initialized (= written once) and is a constant?
-        // if yes, we are writing to an already initialized constant --> not allowed
-        TypeIdent typeIdent = null;
+
+        // Check if variable already initialized and a constant
+        TypedIdent typedIdent = null;
         if (this.localVarNamespace.containsKey(factor.ident.getIdent()))
-            typeIdent = this.localVarNamespace.get(factor.ident.getIdent());
+            typedIdent = this.localVarNamespace.get(factor.ident.getIdent());
         if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
-            typeIdent = globalVarNamespace.get(factor.ident.getIdent());
+            typedIdent = globalVarNamespace.get(factor.ident.getIdent());
         }
-        // If this is a const and it is already initialized (once written to), throw an error
-        if (typeIdent.getConst() && typeIdent.getInit())
-            throw new CannotAssignToConstError(factor.ident);
+        if (typedIdent.getConst() && typedIdent.getInit())
+            // Constant and already initialized
+            throw new AssignToConstError(factor.ident);
 
         exprLeft.executeInitCheck(globalProtected);
         exprRight.executeInitCheck(globalProtected);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
-        // Get the address of the left expression
+
+        // Get exprLeft address and
+        // add instruction depending on (casted) type
         InitFactor factor = (InitFactor) exprLeft;
         int address;
-        if (!simulateOnly) {
+        if (!noExec) {
             if (globalVarAdresses.containsKey(factor.ident.getIdent())) {
                 address = globalVarAdresses.get(factor.ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrAbs(address));
@@ -80,29 +80,29 @@ public class AssignCmd extends AstNode implements ICmd {
                 address = localLocations.get(factor.ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrRel(address));
             } else {
-                throw new RuntimeException("No address found for variable " + factor.ident.getIdent() + " ?");
+                throw new RuntimeException("No address found for " + factor.ident.getIdent() + " ?");
             }
         }
         codeArrayPointer++;
 
-        // If this needs to be dereferenced (=Param), dereference it once more
-        TypeIdent variableIdent = null;
+        // Deref
+        TypedIdent variableIdent = null;
         if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
             variableIdent = globalVarNamespace.get(factor.ident.getIdent());
         } else {
             variableIdent = localVarNamespace.get(factor.ident.getIdent());
         }
         if (variableIdent.getNeedToDeref()) {
-            if (!simulateOnly)
+            if (!noExec)
                 codeArray.put(codeArrayPointer, new IInstructions.Deref());
             codeArrayPointer++;
         }
 
-        // Get the value of the exprRight (RVal)
-        exprRight.addInstructionToCodeArray(localLocations, simulateOnly);
+        // Get the value of exprRight
+        exprRight.addToCodeArray(localLocations, noExec);
 
-        // Now copy our value to the "remote" stack place (store)
-        if (!simulateOnly)
+        // Copy value to new address
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.Store());
         codeArrayPointer++;
     }
@@ -114,8 +114,8 @@ public class AssignCmd extends AstNode implements ICmd {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<exprLeft>:\n";
         s += exprLeft.toString(subIndent);
         s += argumentIndent + "<exprRight>:\n";

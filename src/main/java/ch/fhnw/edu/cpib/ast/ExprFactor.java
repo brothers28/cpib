@@ -18,14 +18,24 @@ public class ExprFactor extends AstNode implements IFactor {
         this.expr = expr;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
-        expr.saveNamespaceInfo(this.localVarNamespace);
+        expr.setNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         expr.executeScopeCheck();
+    }
+
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
+        expr.executeTypeCheck();
+    }
+
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError,
+            AssignToConstError {
+        expr.executeInitCheck(globalProtected);
     }
 
     @Override public void executeTypeCast(Types type) {
@@ -48,21 +58,11 @@ public class ExprFactor extends AstNode implements IFactor {
         return expr.getType();
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
-        expr.executeTypeCheck();
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
-        expr.executeInitCheck(globalProtected);
-    }
-
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
 
-        // Add the value on top of stack
-        expr.addInstructionToCodeArray(localLocations, simulateOnly);
+        // Add to top of stack
+        expr.addToCodeArray(localLocations, noExec);
     }
 
     @Override public String toString(String indent) {
@@ -72,8 +72,8 @@ public class ExprFactor extends AstNode implements IFactor {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<expr>:\n";
         s += expr.toString(subIndent);
 

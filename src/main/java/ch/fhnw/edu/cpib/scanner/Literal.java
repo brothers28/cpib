@@ -45,14 +45,14 @@ public class Literal extends Base {
         if (!isBoolean)
             throw new ExecutionControl.NotImplementedException("Type is not bool");
 
-        return value > 0 ? true : false;
+        return value > 0;
     }
 
     public long getIntValue() throws ExecutionControl.NotImplementedException {
         if (isBoolean)
             throw new ExecutionControl.NotImplementedException("Type is bool");
 
-        return (long) value;
+        return value;
     }
 
     public long getNatValue() throws ExecutionControl.NotImplementedException {

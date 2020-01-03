@@ -20,68 +20,67 @@ public class WhileCmd extends AstNode implements ICmd {
         this.cpsCmd = cpsCmd;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
-        expr.saveNamespaceInfo(this.localVarNamespace);
+        expr.setNamespaceInfo(this.localVarNamespace);
         // inner while body with deepCopy from localStorage
-        cpsCmd.saveNamespaceInfo(DataStructureHelper.deepCopy(this.localVarNamespace));
+        cpsCmd.setNamespaceInfo(DataStructureHelper.deepCopy(this.localVarNamespace));
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         expr.executeScopeCheck();
         cpsCmd.executeScopeCheck();
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         expr.executeTypeCheck();
         cpsCmd.executeTypeCheck();
 
         // Check allowed types
         if (expr.getType() != Types.BOOL)
-            throw new TypeCheckingError(Types.BOOL, expr.getType());
+            throw new TypeCheckError(Types.BOOL, expr.getType());
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, GlobalProtectedInitializationError,
+            AssignToConstError {
         expr.executeInitCheck(globalProtected);
-        // set recursively all initialized variables also on the child-nodes to init
-        for (TypeIdent ident : localVarNamespace.values()) {
+
+        // Set initialized variables
+        for (TypedIdent ident : localVarNamespace.values()) {
             if (ident.getInit()) {
                 cpsCmd.setInit(ident);
             }
         }
-        // Do the init checking
-        // Global variables cannot be initialized from now on
+
+        // Prohibited to initialize global variables
         cpsCmd.executeInitCheck(true);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
-        // get the size of cpsCmd by simulating the add action
-        int codeArrayPointerBefore = codeArrayPointer;
+        // Get size of cmd
+        int pointerBefore = codeArrayPointer;
+        // NoExec = true
+        cpsCmd.addToCodeArray(localLocations, true);
+        int cpsCmdSize = codeArrayPointer - pointerBefore + 1;
+        // Reset pointer
+        codeArrayPointer = pointerBefore;
 
-        cpsCmd.addInstructionToCodeArray(localLocations, true);
-        int cpsCmdSize = codeArrayPointer - codeArrayPointerBefore + 1; // + 1 for unconditional jump after exprFalse
-
-        // reset pointer
-        codeArrayPointer = codeArrayPointerBefore;
-
-        // save the start of the while loop (where we save the boolean onto the stack and to the jump afterwards)
-        int loopStartAddress = codeArrayPointer;
-
-        // add the boolean for the conditional check onto the stack
-        expr.addInstructionToCodeArray(localLocations, simulateOnly);
-        // now add the jump condition to see if we had to continue (loop part) or to jump (after the loop part)
-        if (!simulateOnly)
+        // Save the start address of while loop
+        int startAddress = codeArrayPointer;
+        // Check condition
+        expr.addToCodeArray(localLocations, noExec);
+        // Jump condition to check if we have to continue or to jump to the end of the loop
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.CondJump(codeArrayPointer + 1 + cpsCmdSize));
         codeArrayPointer++;
-        // now add the loop part
-        cpsCmd.addInstructionToCodeArray(localLocations, simulateOnly);
-        // now add the unconditional jump to jump back to the jump condition (we already processed the loop part ...)
-        if (!simulateOnly)
-            codeArray.put(codeArrayPointer, new IInstructions.UncondJump(loopStartAddress));
+        //  Loop part
+        cpsCmd.addToCodeArray(localLocations, noExec);
+        // Jump back to condition
+        if (!noExec)
+            codeArray.put(codeArrayPointer, new IInstructions.UncondJump(startAddress));
         codeArrayPointer++;
     }
 
@@ -92,8 +91,8 @@ public class WhileCmd extends AstNode implements ICmd {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<expr>:\n";
         s += expr.toString(subIndent);
         s += argumentIndent + "<cpsCmd>:\n";

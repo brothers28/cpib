@@ -6,10 +6,10 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // factorNTS ::= INIT
 public class FactorNTSInit extends Production implements IFactorNTS {
-    protected final IToken T_init;
+    private IToken ts_init;
 
-    public FactorNTSInit(final IToken t_init) {
-        T_init = t_init;
+    public FactorNTSInit(IToken ts_init) {
+        this.ts_init = ts_init;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyntax(Ident ident) {

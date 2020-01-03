@@ -8,19 +8,19 @@ import java.util.ArrayList;
 
 // paramNTS ::= COMMA param paramNTS
 public class ParamNTS extends Production implements IParamNTS {
-    protected final IToken T_comma;
-    protected final IParam N_param;
-    protected final IParamNTS N_paramNTS;
+    private IToken ts_comma;
+    private IParam nts_param;
+    private IParamNTS nts_paramNTS;
 
-    public ParamNTS(final IToken T_comma, final IParam N_param, final IParamNTS N_paramNTS) {
-        this.T_comma = T_comma;
-        this.N_param = N_param;
-        this.N_paramNTS = N_paramNTS;
+    public ParamNTS(IToken ts_comma, IParam nts_param, IParamNTS nts_paramNTS) {
+        this.ts_comma = ts_comma;
+        this.nts_param = nts_param;
+        this.nts_paramNTS = nts_paramNTS;
 
     }
 
     @Override public ArrayList<ch.fhnw.edu.cpib.ast.Param> toAbsSyntax(ArrayList<ch.fhnw.edu.cpib.ast.Param> temp) {
-        temp.add(N_param.toAbsSyntax());
-        return N_paramNTS.toAbsSyntax(temp);
+        temp.add(nts_param.toAbsSyntax());
+        return nts_paramNTS.toAbsSyntax(temp);
     }
 }

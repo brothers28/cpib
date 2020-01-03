@@ -1,7 +1,7 @@
 package ch.fhnw.edu.cpib.cst.interfaces;
 
-import ch.fhnw.edu.cpib.ast.TypeIdent;
+import ch.fhnw.edu.cpib.ast.TypedIdent;
 
 public interface ITypedIdent extends IProduction {
-    public TypeIdent toAbsSyntax();
+    TypedIdent toAbsSyntax();
 }

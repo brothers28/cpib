@@ -14,7 +14,7 @@ public class NotInitializedError extends Exception {
     }
 
     public NotInitializedError(Ident ident) {
-        super(setupMessage(ident));
+        super(buildOutputMessage(ident));
     }
 
     public NotInitializedError(String message, Throwable cause) {
@@ -22,14 +22,14 @@ public class NotInitializedError extends Exception {
     }
 
     public NotInitializedError(Ident ident, Throwable cause) {
-        super(setupMessage(ident), cause);
+        super(buildOutputMessage(ident), cause);
     }
 
     public NotInitializedError(Throwable cause) {
         super(cause);
     }
 
-    private static String setupMessage(Ident ident) {
-        return "Identifier [" + ident.getIdent() + "] is not initialised.";
+    private static String buildOutputMessage(Ident ident) {
+        return "Identifier [" + ident.getIdent() + "] not initialized.";
     }
 }

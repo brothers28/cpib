@@ -199,11 +199,13 @@ public interface IInstructions {
     class Deref implements IInstr {
         Types castType;
 
-        public Deref(){}
+        public Deref() {
+        }
 
-        public Deref(Types type){
+        public Deref(Types type) {
             castType = type;
         }
+
         public String toString() {
             return "Deref";
         }

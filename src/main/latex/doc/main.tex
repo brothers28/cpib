@@ -130,14 +130,14 @@ Zusätzlich zu den bestehende Operatoren wurde ein neuer \texttt{castOpr} erstel
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
 xleftmargin = 0.05cm,
 framexleftmargin = 0.05em]
-    castOpr := LBRACKET TYPE RBRACKET
+    castOpr ::= LBRACKET TYPE RBRACKET
 \end{lstlisting}
 Das bestehende Nichtterminal-Symbol \texttt{factor} wird um diese neue Produktion ergänzt:
 % Neue Produktionen
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
 xleftmargin = 0.05cm,
 framexleftmargin = 0.05em]
-    factor := LITERAL
+    factor ::= LITERAL
     | IDENT [INIT | exprList]
     | castOpr factor
     | monadicOpr factor
@@ -182,7 +182,7 @@ Dieser kann Werte von $-9223372036854775808$ bis $9223372036854775808$ annehmen 
 Die Überprüfung, ob der Wert innerhalb des gültigen Wertebereichs des jeweiligen Datentyps liegt, erfolgt zum Zeitpunkt der Code-Generierung.
 
 \subsection{Parser}
-Der neu eingeführte \texttt{castOpr} und die neue Produktion \texttt{factor := castOpr factor} sind im Abstrakten Syntax Tree (AST) abgebildet.
+Der neu eingeführte \texttt{castOpr} und die neue Produktion \texttt{factor ::= castOpr factor} sind im Abstrakten Syntax Tree (AST) abgebildet.
 Dabei wird der Typ \texttt{CastOpr} zum Typ \texttt{CastFactor} welcher Teil des AST ist.
 Abbildung \ref{ast} zeigt die Umwandlung von der konkreten in die abstrakte Syntax.
 
@@ -540,7 +540,6 @@ endprogram
 
 Code-Array:
 \begin{lstlisting}
-codeArrayPoiner: 14
 0: AllocBlock(1)
 1: AllocBlock(1)
 2: UncondJump(3)
@@ -628,7 +627,6 @@ endprogram
 
 Code-Array:
 \begin{lstlisting}
-codeArrayPoiner: 40
 0: AllocBlock(1)
 1: AllocBlock(1)
 2: AllocBlock(1)

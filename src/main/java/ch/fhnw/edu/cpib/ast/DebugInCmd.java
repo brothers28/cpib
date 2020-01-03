@@ -18,51 +18,50 @@ public class DebugInCmd extends AstNode implements ICmd {
         this.expr = expr;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
-        expr.saveNamespaceInfo(this.localVarNamespace);
+        expr.setNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         expr.executeScopeCheck();
         // Has to be LVALUE
         if (expr.getLRValue() != LRValue.LVALUE)
-            throw new LRValueError(LRValue.LVALUE, expr.getLRValue());
+            throw new LRValError(LRValue.LVALUE, expr.getLRValue());
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         expr.executeTypeCheck();
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
-        // now lets check if we try to write something into an already written constant
-        // expr can only be an Init-Factor
+            AssignToConstError {
+        // exprLeft has to be InitFactor
         InitFactor factor = (InitFactor) expr;
-        // is the variable already initialized (= written once) and is a constant?
-        // if yes, we are writing to an already initialized constant --> not allowed
-        TypeIdent typeIdent = null;
+
+        // Check if variable already initialized and a constant
+        TypedIdent typedIdent = null;
         if (this.localVarNamespace.containsKey(factor.ident.getIdent()))
-            typeIdent = this.localVarNamespace.get(factor.ident.getIdent());
+            typedIdent = this.localVarNamespace.get(factor.ident.getIdent());
         if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
-            typeIdent = globalVarNamespace.get(factor.ident.getIdent());
+            typedIdent = globalVarNamespace.get(factor.ident.getIdent());
         }
-        // If this is a const and it is already initialized (once written to), throw an error
-        if (typeIdent.getConst() && typeIdent.getInit())
-            throw new CannotAssignToConstError(factor.ident);
+        // Constant and already initialized
+        if (typedIdent.getConst() && typedIdent.getInit())
+            throw new AssignToConstError(factor.ident);
 
         expr.executeInitCheck(globalProtected);
 
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         InitFactor factor = (InitFactor) expr;
         // Get address
         int address;
-        if (!simulateOnly) {
+        if (!noExec) {
             if (globalVarAdresses.containsKey(factor.ident.getIdent())) {
                 address = globalVarAdresses.get(factor.ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrAbs(address));
@@ -70,11 +69,11 @@ public class DebugInCmd extends AstNode implements ICmd {
                 address = localLocations.get(factor.ident.getIdent());
                 codeArray.put(codeArrayPointer, new IInstructions.LoadAddrRel(address));
             } else {
-                throw new RuntimeException("No address found for variable " + factor.ident.getIdent() + " !!");
+                throw new RuntimeException("No address found for " + factor.ident.getIdent() + " !!");
             }
         }
         codeArrayPointer++;
-        if (!simulateOnly) {
+        if (!noExec) {
             if (factor.getType() == Types.BOOL) {
                 codeArray.put(codeArrayPointer, new IInstructions.InputBool(factor.ident.getIdent()));
             } else if (factor.getType() == Types.INT32) {
@@ -95,8 +94,8 @@ public class DebugInCmd extends AstNode implements ICmd {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<expr>:\n";
         s += expr.toString(subIndent);
 

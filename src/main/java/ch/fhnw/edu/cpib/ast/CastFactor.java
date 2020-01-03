@@ -20,13 +20,13 @@ public class CastFactor extends AstNode implements IFactor {
         this.factor = factor;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
-        factor.saveNamespaceInfo(this.localVarNamespace);
+        factor.setNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         factor.executeScopeCheck();
     }
 
@@ -46,7 +46,7 @@ public class CastFactor extends AstNode implements IFactor {
         return castType;
     }
 
-    @Override public void executeTypeCheck() throws CastError, TypeCheckingError {
+    @Override public void executeTypeCheck() throws CastError, TypeCheckError {
         factor.executeTypeCheck();
 
         // Check if casteable
@@ -56,19 +56,17 @@ public class CastFactor extends AstNode implements IFactor {
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
+            AssignToConstError {
         factor.executeInitCheck(globalProtected);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
-
         // Cast factor
         factor.executeTypeCast(castType);
 
-        // Add the value on top of stack
-        factor.addInstructionToCodeArray(localLocations, simulateOnly);
-
+        // Add to top of stack
+        factor.addToCodeArray(localLocations, noExec);
     }
 
     @Override public String toString(String indent) {
@@ -78,8 +76,8 @@ public class CastFactor extends AstNode implements IFactor {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<CastType>: " + castType.toString() + "\n";
         s += argumentIndent + "<factor>:\n";
         s += factor.toString(subIndent);

@@ -21,25 +21,7 @@ public class Program extends AstNode {
         this.cpsCmd = cpsCmd;
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        for (IDecl decl : globalDeclarations) {
-            if (!(decl instanceof StoDecl))
-                decl.executeScopeCheck();
-        }
-
-        cpsCmd.executeScopeCheck();
-    }
-
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
-        for (IDecl decl : globalDeclarations) {
-            if (!(decl instanceof StoDecl))
-                decl.executeTypeCheck();
-        }
-
-        cpsCmd.executeTypeCheck();
-    }
-
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         // Check namespaces
         for (IDecl decl : globalDeclarations) {
@@ -49,7 +31,7 @@ public class Program extends AstNode {
                     throw new AlreadyDeclaredError(decl.getIdentString());
 
                 // Save to global namespace
-                AstNode.globalVarNamespace.put(decl.getIdentString(), ((StoDecl) decl).getTypeIdent());
+                AstNode.globalVarNamespace.put(decl.getIdentString(), ((StoDecl) decl).getTypedIdent());
             } else {
                 if (AstNode.globalRoutNamespace.containsKey(decl.getIdentString()))
                     // Already declared
@@ -63,64 +45,75 @@ public class Program extends AstNode {
         for (IDecl decl : globalDeclarations) {
             // For funDecl and procDecl, store the local variables into the nodes and child nodes
             if (!(decl instanceof StoDecl))
-                decl.saveNamespaceInfo(new HashMap<String, TypeIdent>());
+                decl.setNamespaceInfo(new HashMap<String, TypedIdent>());
         }
+    }
+
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
+        for (IDecl decl : globalDeclarations) {
+            if (!(decl instanceof StoDecl))
+                decl.executeScopeCheck();
+        }
+
+        cpsCmd.executeScopeCheck();
+    }
+
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
+        for (IDecl decl : globalDeclarations) {
+            if (!(decl instanceof StoDecl))
+                decl.executeTypeCheck();
+        }
+
+        cpsCmd.executeTypeCheck();
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
-        // We check only the cpsCmd, as the globalDeclarations (e.g. FunDecl) will be checked at the call location
+            AssignToConstError {
         cpsCmd.executeInitCheck(globalProtected);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
-        // For all global storage declarations, allocate blocks and save addresses to globalStoresLocation-map
+        // Add addresses of global declarations to global address map
         for (IDecl decl : globalDeclarations) {
             if (decl instanceof StoDecl) {
                 globalVarAdresses.put(decl.getIdentString(), codeArrayPointer);
-                decl.addInstructionToCodeArray(localLocations, simulateOnly);
+                decl.addToCodeArray(localLocations, noExec);
             }
         }
 
-        // save current codeArrayPointer
-        int codeArrayPointerBefore = codeArrayPointer;
-        // For all global function and procedure declarations, simulate add IInstr and save addresses to globalRoutinesLocation-map
+        // Save codeArrayPointer
+        int pointerBefore = codeArrayPointer;
+        // Try to fill stack
+        // NoExec = true
         for (IDecl decl : globalDeclarations) {
             if (!(decl instanceof StoDecl)) {
-                globalRoutAdresses.put(decl.getIdentString(), codeArrayPointer
-                        + 1); // + 1 because we will have a conditional jump before the declaration block (see below)
-                decl.addInstructionToCodeArray(localLocations, true);
+                globalRoutAdresses.put(decl.getIdentString(), codeArrayPointer + 1); // Overjump conditional jump
+                decl.addToCodeArray(localLocations, true);
             }
         }
-        // after going through all declarations, the pointer is at the position after the declaration (= start of programm)
-        // +1 for the conditional jump execution
-        int addressAfterDeclaration = codeArrayPointer + 1;
-        // restore the previous codeArrayPointer
-        codeArrayPointer = codeArrayPointerBefore;
 
-        // Jump to beginning of programm
-        if (!simulateOnly)
+        int addressAfterDeclaration = codeArrayPointer + 1; // Overjump conditional jump
+        // Restore pointer
+        codeArrayPointer = pointerBefore;
+
+        // Jump to programm start
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.UncondJump(addressAfterDeclaration));
         codeArrayPointer++;
 
-        // For all global function and procedure declarations, now really add IInstr and save addresses to globalRoutinesLocation-map
+        // Exec
         for (IDecl decl : globalDeclarations) {
             if (!(decl instanceof StoDecl)) {
-                decl.addInstructionToCodeArray(localLocations, simulateOnly);
+                decl.addToCodeArray(localLocations, noExec);
             }
         }
-        // For cpsCommand
-        cpsCmd.addInstructionToCodeArray(localLocations, simulateOnly);
+        cpsCmd.addToCodeArray(localLocations, noExec);
 
-        // Add stop exec
-        if (!simulateOnly)
+        // End of programm
             codeArray.put(codeArrayPointer, new IInstructions.Stop());
         codeArrayPointer++;
-
-        System.out.println("codeArrayPoiner: " + codeArrayPointer);
-
     }
 
     @Override public String toString(String indent) {
@@ -130,8 +123,8 @@ public class Program extends AstNode {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         if (AstNode.globalVarNamespace != null)
             s += argumentIndent + "[globalStoresNamespace]: " + globalVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";

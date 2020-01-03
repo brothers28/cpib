@@ -8,15 +8,15 @@ import java.util.ArrayList;
 
 // procDeclNTS ::= LOCAL cpsStoDecl
 public class ProcDeclNTS extends Production implements IProcDeclNTS {
-    protected final IToken T_local;
-    protected final ICpsStoDecl N_cpsStoDecl;
+    private IToken ts_local;
+    private ICpsStoDecl nts_cpsStoDecl;
 
-    public ProcDeclNTS(final IToken t_local, final ICpsStoDecl n_cpsStoDecl) {
-        T_local = t_local;
-        N_cpsStoDecl = n_cpsStoDecl;
+    public ProcDeclNTS(IToken ts_local, ICpsStoDecl nts_cpsStoDecl) {
+        this.ts_local = ts_local;
+        this.nts_cpsStoDecl = nts_cpsStoDecl;
     }
 
     @Override public ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> toAbsSyntax() {
-        return N_cpsStoDecl.toAbsSyntax();
+        return nts_cpsStoDecl.toAbsSyntax();
     }
 }

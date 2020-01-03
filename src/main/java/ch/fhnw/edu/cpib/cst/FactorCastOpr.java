@@ -5,15 +5,15 @@ import ch.fhnw.edu.cpib.cst.interfaces.IFactor;
 
 // factor ::= castOpr factor
 public class FactorCastOpr extends Production implements IFactor {
-    protected final ICastOpr N_castOpr;
-    protected final IFactor N_mfactor;
+    private ICastOpr nts_castOpr;
+    private IFactor nts_mfactor;
 
-    public FactorCastOpr(final ICastOpr n_castOpr, final IFactor n_mfactor) {
-        N_castOpr = n_castOpr;
-        N_mfactor = n_mfactor;
+    public FactorCastOpr(ICastOpr nts_castOpr, IFactor nts_mfactor) {
+        this.nts_castOpr = nts_castOpr;
+        this.nts_mfactor = nts_mfactor;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.IFactor toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.CastFactor(N_castOpr.toAbsSyntax(), N_mfactor.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.CastFactor(nts_castOpr.toAbsSyntax(), nts_mfactor.toAbsSyntax());
     }
 }

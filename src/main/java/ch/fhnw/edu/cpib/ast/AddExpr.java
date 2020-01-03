@@ -23,17 +23,34 @@ public class AddExpr extends AstNode implements IExpr {
         this.exprRight = exprRight;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
-        exprLeft.saveNamespaceInfo(this.localVarNamespace);
-        exprRight.saveNamespaceInfo(this.localVarNamespace);
-
+        exprLeft.setNamespaceInfo(this.localVarNamespace);
+        exprRight.setNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         exprLeft.executeScopeCheck();
         exprRight.executeScopeCheck();
+    }
+
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
+        exprLeft.executeTypeCheck();
+        exprRight.executeTypeCheck();
+
+        // Check allowed types
+        if (exprLeft.getType() == Types.BOOL)
+            throw new TypeCheckError(Types.INT32, exprLeft.getType());
+        if (exprLeft.getType() != exprRight.getType())
+            throw new TypeCheckError(exprLeft.getType(), exprRight.getType());
+    }
+
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError,
+            AssignToConstError {
+        exprLeft.executeInitCheck(globalProtected);
+        exprRight.executeInitCheck(globalProtected);
     }
 
     @Override public void executeTypeCast(Types type) {
@@ -55,31 +72,13 @@ public class AddExpr extends AstNode implements IExpr {
         return exprLeft.getType();
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
-        exprLeft.executeTypeCheck();
-        exprRight.executeTypeCheck();
-
-        // Check allowed types
-        if (exprLeft.getType() == Types.BOOL)
-            throw new TypeCheckingError(Types.INT32, exprLeft.getType());
-        if (exprLeft.getType() != exprRight.getType())
-            throw new TypeCheckingError(exprLeft.getType(), exprRight.getType());
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
-        exprLeft.executeInitCheck(globalProtected);
-        exprRight.executeInitCheck(globalProtected);
-    }
-
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
+        exprLeft.addToCodeArray(localLocations, noExec);
+        exprRight.addToCodeArray(localLocations, noExec);
 
-        exprLeft.addInstructionToCodeArray(localLocations, simulateOnly);
-        exprRight.addInstructionToCodeArray(localLocations, simulateOnly);
-
-        if (!simulateOnly) {
+        // Add instruction depending on (casted) type
+        if (!noExec) {
             switch (addOpr) {
             case PLUS:
                 if (Types.INT32.equals(getType())) {
@@ -109,8 +108,8 @@ public class AddExpr extends AstNode implements IExpr {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<addOpr>: " + addOpr.toString() + "\n";
         s += argumentIndent + "<exprLeft>:\n";
         s += exprLeft.toString(subIndent);

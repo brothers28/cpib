@@ -15,21 +15,21 @@ public class CpsCmd extends AstNode implements ICmd {
         this.commands = commands;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         for (ICmd cmd : commands) {
-            cmd.saveNamespaceInfo(this.localVarNamespace);
+            cmd.setNamespaceInfo(this.localVarNamespace);
         }
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         for (ICmd cmd : commands) {
             cmd.executeScopeCheck();
         }
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         for (ICmd cmd : commands) {
             cmd.executeTypeCheck();
         }
@@ -37,16 +37,16 @@ public class CpsCmd extends AstNode implements ICmd {
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
+            AssignToConstError {
         for (ICmd cmd : commands) {
             cmd.executeInitCheck(globalProtected);
         }
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         for (ICmd cmd : commands) {
-            cmd.addInstructionToCodeArray(localLocations, simulateOnly);
+            cmd.addToCodeArray(localLocations, noExec);
         }
     }
 
@@ -57,8 +57,8 @@ public class CpsCmd extends AstNode implements ICmd {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<commands>:\n";
         for (ICmd cmd : commands) {
             s += cmd.toString(subIndent);

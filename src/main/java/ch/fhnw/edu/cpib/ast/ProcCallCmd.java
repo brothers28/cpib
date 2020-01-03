@@ -24,16 +24,16 @@ public class ProcCallCmd extends AstNode implements ICmd {
         this.expressions = expressions;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
 
         // add local storage on everery case
         for (IExpr ie : expressions)
-            ie.saveNamespaceInfo(this.localVarNamespace);
+            ie.setNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         // Check namespace
         if (!globalRoutNamespace.containsKey(ident.getIdent())) {
             // Function not declared in global namespace
@@ -59,11 +59,11 @@ public class ProcCallCmd extends AstNode implements ICmd {
             LRValue realRLValue = expressions.get(i).getLRValue();
             if (expectedLRValue == LRValue.LVALUE && realRLValue == LRValue.RVALUE)
                 // We expect LVALUE, but get RVALUE (invalid)
-                throw new LRValueError(expectedLRValue, realRLValue);
+                throw new LRValError(expectedLRValue, realRLValue);
         }
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
         for (IExpr expr : expressions) {
             expr.executeTypeCheck();
         }
@@ -71,30 +71,34 @@ public class ProcCallCmd extends AstNode implements ICmd {
         // Check allowed types
         ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());
         for (int i = 0; i < procDecl.getParams().size(); i++) {
-            Types expectedType = procDecl.getParams().get(i).getTypeIdent().getType();
+            Types expectedType = procDecl.getParams().get(i).getTypedIdent().getType();
             Types realType = expressions.get(i).getType();
-            if (expectedType != realType && !isCastable(expectedType, realType)) // TODO: Uncomment isCastable like in AssignCmd?
-                throw new TypeCheckingError(expectedType, realType);
+            if (expectedType != realType && !isCastable(expectedType,
+                    realType)) // TODO: Uncomment isCastable like in AssignCmd?
+                throw new TypeCheckError(expectedType, realType);
         }
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
-        // Run the init checking for the function declaration
+            AssignToConstError {
+
+        // Init check for procedure declaration
         ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());
-        // We need to run the init checking only once for the declaration
-        if (!procDecl.getInitCheckDone()) {
-            procDecl.setInitCheckDone();
+
+        // Check only once
+        if (!procDecl.getInitChecked()) {
+            procDecl.setInitChecked();
             procDecl.executeInitCheck(globalProtected);
         }
 
+        // Run on expressions
         for (IExpr expr : expressions) {
             expr.executeInitCheck(globalProtected);
         }
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());
 
@@ -104,14 +108,14 @@ public class ProcCallCmd extends AstNode implements ICmd {
             LRValue expectedLRValue = procDecl.getParams().get(i).getLRValue();
             if (expectedLRValue == LRValue.RVALUE) {
                 // We expect RVALUE, pass RVALUE or LVALUE
-                expressions.get(i).addInstructionToCodeArray(localLocations, simulateOnly);
+                expressions.get(i).addToCodeArray(localLocations, noExec);
             } else if (realLRValue == LRValue.LVALUE && expectedLRValue == LRValue.LVALUE) {
                 // We expect RVALUE, pass RVALUE or LVALUE
 
                 // Get InitFactor
                 InitFactor factor = (InitFactor) expressions.get(i);
                 // Get the address
-                if (!simulateOnly) {
+                if (!noExec) {
                     int address;
                     if (globalVarAdresses.containsKey(factor.ident.getIdent())) {
                         address = globalVarAdresses.get(factor.ident.getIdent());
@@ -126,14 +130,14 @@ public class ProcCallCmd extends AstNode implements ICmd {
                 codeArrayPointer++;
 
                 // Deref
-                TypeIdent variableIdent = null;
+                TypedIdent variableIdent = null;
                 if (globalVarNamespace.containsKey(factor.ident.getIdent())) {
                     variableIdent = globalVarNamespace.get(factor.ident.getIdent());
                 } else {
                     variableIdent = localVarNamespace.get(factor.ident.getIdent());
                 }
                 if (variableIdent.getNeedToDeref()) {
-                    if (!simulateOnly)
+                    if (!noExec)
                         codeArray.put(codeArrayPointer, new IInstructions.Deref());
                     codeArrayPointer++;
                 }
@@ -143,7 +147,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
             }
         }
 
-        if (!simulateOnly) {
+        if (!noExec) {
             int funAddress = globalRoutAdresses.get(ident.getIdent());
             codeArray.put(codeArrayPointer, new IInstructions.Call(funAddress));
         }
@@ -157,8 +161,8 @@ public class ProcCallCmd extends AstNode implements ICmd {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<ident>: " + ident.toString() + "\n";
         s += argumentIndent + "<expressions>:\n";
         for (IExpr expr : expressions) {

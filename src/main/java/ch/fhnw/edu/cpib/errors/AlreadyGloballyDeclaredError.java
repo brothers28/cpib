@@ -8,18 +8,18 @@ public class AlreadyGloballyDeclaredError extends Exception {
     }
 
     public AlreadyGloballyDeclaredError(String errorMessage) {
-        super(setupMessage(errorMessage));
+        super(buildOutputMessage(errorMessage));
     }
 
     public AlreadyGloballyDeclaredError(String message, Throwable cause) {
-        super(setupMessage(message), cause);
+        super(buildOutputMessage(message), cause);
     }
 
     public AlreadyGloballyDeclaredError(Throwable cause) {
         super(cause);
     }
 
-    private static String setupMessage(String string) {
+    private static String buildOutputMessage(String string) {
         return "Name already globally declared [" + string + "]";
     }
 }

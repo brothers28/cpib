@@ -4,14 +4,14 @@ import ch.fhnw.edu.cpib.cst.interfaces.IDecl;
 import ch.fhnw.edu.cpib.cst.interfaces.IFunDecl;
 
 // decl ::= funDecl
-public class DeclFunDecl extends Production implements IDecl {
-    protected final IFunDecl N_funDecl;
+public class DeclFun extends Production implements IDecl {
+    private IFunDecl nts_funDecl;
 
-    public DeclFunDecl(final IFunDecl N_funDecl) {
-        this.N_funDecl = N_funDecl;
+    public DeclFun(IFunDecl nts_funDecl) {
+        this.nts_funDecl = nts_funDecl;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyntax() {
-        return N_funDecl.toAbsSyntax();
+        return nts_funDecl.toAbsSyntax();
     }
 }

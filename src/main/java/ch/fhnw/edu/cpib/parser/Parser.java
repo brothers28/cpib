@@ -39,10 +39,9 @@ public class Parser {
     }
 
     public AstTree parse()
-            throws GrammarError, AlreadyDeclaredError, NotDeclaredError, AlreadyGloballyDeclaredError,
-            LRValueError, InvalidParamCountError, AlreadyInitializedError, TypeCheckingError, NotInitializedError,
-            CannotAssignToConstError, CastError {
-
+            throws GrammarError, AlreadyDeclaredError, NotDeclaredError, AlreadyGloballyDeclaredError, LRValError,
+            InvalidParamCountError, AlreadyInitializedError, TypeCheckError, NotInitializedError,
+            AssignToConstError, CastError {
         System.out.println("Start parsing:\n");
         IProgram program = program();
         consume(Terminals.SENTINEL);
@@ -79,13 +78,13 @@ public class Parser {
     private IProgram program() throws GrammarError {
         if (currentTerminal == Terminals.PROGRAM) {
             System.out.println("program ::= PROGRAM IDENT <globalNTS> DO <cpsCmd> ENDPROGRAM");
-            IToken T_program = consume(Terminals.PROGRAM);
-            IToken T_ident = consume(Terminals.IDENT);
-            IGlobalNTS N_globalNTS = globalNTS();
-            IToken T_do = consume(Terminals.DO);
-            ICpsCmd N_cpsCmd = cpsCmd();
-            IToken T_endprogram = consume(Terminals.ENDPROGRAM);
-            return new Program(T_program, T_ident, N_globalNTS, T_do, N_cpsCmd, T_endprogram);
+            IToken ts_program = consume(Terminals.PROGRAM);
+            IToken ts_ident = consume(Terminals.IDENT);
+            IGlobalNTS nts_globalNTS = globalNTS();
+            IToken ts_do = consume(Terminals.DO);
+            ICpsCmd nts_cpsCmd = cpsCmd();
+            IToken ts_endprogram = consume(Terminals.ENDPROGRAM);
+            return new Program(ts_program, ts_ident, nts_globalNTS, ts_do, nts_cpsCmd, ts_endprogram);
         } else {
             throw new GrammarError(Terminals.PROGRAM, currentTerminal);
         }
@@ -96,12 +95,12 @@ public class Parser {
     private IGlobalNTS globalNTS() throws GrammarError {
         if (currentTerminal == Terminals.GLOBAL) {
             System.out.println("globalNTS ::= GLOBAL <cpsDecl>");
-            IToken T_global = consume(Terminals.GLOBAL);
-            ICpsDecl N_cpsDecl = cpsDecl();
-            return new GlobalNTS(T_global, N_cpsDecl);
+            IToken ts_global = consume(Terminals.GLOBAL);
+            ICpsDecl nts_cpsDecl = cpsDecl();
+            return new GlobalNTS(ts_global, nts_cpsDecl);
         } else if (currentTerminal == Terminals.DO) {
             System.out.println("globalNTS ::= ε");
-            return new Epsilon.GlobalNTS();
+            return new IEpsilon.GlobalNTS();
         } else {
             throw new GrammarError(Terminals.GLOBALNTS, currentTerminal);
         }
@@ -112,9 +111,9 @@ public class Parser {
         if (currentTerminal == Terminals.PROC || currentTerminal == Terminals.FUN
                 || currentTerminal == Terminals.CHANGEMOD || currentTerminal == Terminals.IDENT) {
             System.out.println("cpsDecl ::= <decl> <cpsDeclNTS>");
-            IDecl N_decl = decl();
-            ICpsDeclNTS N_cpsDeclNTS = cpsDeclNTS();
-            return new CpsDecl(N_decl, N_cpsDeclNTS);
+            IDecl nts_decl = decl();
+            ICpsDeclNTS nts_cpsDeclNTS = cpsDeclNTS();
+            return new CpsDecl(nts_decl, nts_cpsDeclNTS);
         } else {
             throw new GrammarError(Terminals.CPSDECL, currentTerminal);
         }
@@ -125,13 +124,13 @@ public class Parser {
     private ICpsDeclNTS cpsDeclNTS() throws GrammarError {
         if (currentTerminal == Terminals.SEMICOLON) {
             System.out.println("cpsDeclNTS ::= SEMICOLON <decl> <cpsDeclNTS>");
-            IToken T_semicolon = consume(Terminals.SEMICOLON);
-            IDecl N_decl = decl();
-            ICpsDeclNTS N_cpsDeclNTS = cpsDeclNTS();
-            return new CpsDeclNTS(T_semicolon, N_decl, N_cpsDeclNTS);
+            IToken ts_semicolon = consume(Terminals.SEMICOLON);
+            IDecl nts_decl = decl();
+            ICpsDeclNTS nts_cpsDeclNTS = cpsDeclNTS();
+            return new CpsDeclNTS(ts_semicolon, nts_decl, nts_cpsDeclNTS);
         } else if (currentTerminal == Terminals.DO) {
             System.out.println("cpsDeclNTS ::= ε");
-            return new Epsilon.CpsDeclNTS();
+            return new IEpsilon.CpsDeclNTS();
         } else {
             throw new GrammarError(Terminals.CPSDECLNTS, currentTerminal);
         }
@@ -143,16 +142,16 @@ public class Parser {
     private IDecl decl() throws GrammarError {
         if (currentTerminal == Terminals.CHANGEMOD || currentTerminal == Terminals.IDENT) {
             System.out.println("decl ::= <stoDecl>");
-            IStoDecl N_stoDecl = stoDecl();
-            return new DeclStoDecl(N_stoDecl);
+            IStoDecl nts_stoDecl = stoDecl();
+            return new DeclSto(nts_stoDecl);
         } else if (currentTerminal == Terminals.FUN) {
             System.out.println("decl ::= <funDecl>");
-            IFunDecl N_funDecl = funDecl();
-            return new DeclFunDecl(N_funDecl);
+            IFunDecl nts_funDecl = funDecl();
+            return new DeclFun(nts_funDecl);
         } else if (currentTerminal == Terminals.PROC) {
             System.out.println("decl ::= <procDecl>");
-            IProcDecl N_procDecl = procDecl();
-            return new DeclProcDecl(N_procDecl);
+            IProcDecl nts_procDecl = procDecl();
+            return new DeclProc(nts_procDecl);
         } else {
             throw new GrammarError(Terminals.DECL, currentTerminal);
         }
@@ -163,13 +162,13 @@ public class Parser {
     private IStoDecl stoDecl() throws GrammarError {
         if (currentTerminal == Terminals.IDENT) {
             System.out.println("stoDecl ::= <typedIdent>");
-            ITypedIdent N_typedIdent = typedIdent();
-            return new StoDeclTypedIdent(N_typedIdent);
+            ITypedIdent nts_typedIdent = typedIdent();
+            return new StoDeclTypedIdent(nts_typedIdent);
         } else if (currentTerminal == Terminals.CHANGEMOD) {
             System.out.println("stoDecl ::= CHANGEMOD <typedIdent>");
-            IToken T_changeMode = consume(Terminals.CHANGEMOD);
-            ITypedIdent N_typedIdent = typedIdent();
-            return new StoDeclChangeMode(T_changeMode, N_typedIdent);
+            IToken ts_changeMode = consume(Terminals.CHANGEMOD);
+            ITypedIdent nts_typedIdent = typedIdent();
+            return new StoDeclChangeMode(ts_changeMode, nts_typedIdent);
         } else {
             throw new GrammarError(Terminals.STODECL, currentTerminal);
         }
@@ -179,10 +178,10 @@ public class Parser {
     private ITypedIdent typedIdent() throws GrammarError {
         if (currentTerminal == Terminals.IDENT) {
             System.out.println("typedIdent ::= IDENT COLON TYPE");
-            IToken T_ident = consume(Terminals.IDENT);
-            IToken T_colon = consume(Terminals.COLON);
-            IToken T_type = consume(Terminals.TYPE);
-            return new TypedIdent(T_ident, T_colon, T_type);
+            IToken ts_ident = consume(Terminals.IDENT);
+            IToken ts_colon = consume(Terminals.COLON);
+            IToken ts_type = consume(Terminals.TYPE);
+            return new TypedIdent(ts_ident, ts_colon, ts_type);
         } else {
             throw new GrammarError(Terminals.TYPEDIDENT, currentTerminal);
         }
@@ -192,17 +191,17 @@ public class Parser {
     private IFunDecl funDecl() throws GrammarError {
         if (currentTerminal == Terminals.FUN) {
             System.out.println("funDecl ::= FUN IDENT <paramList> RETURNS <stoDecl> <funDeclNTS> DO <cpsCmd> ENDFUN");
-            IToken T_fun = consume(Terminals.FUN);
-            IToken T_ident = consume(Terminals.IDENT);
-            IParamList N_paramList = paramList();
-            IToken T_returns = consume(Terminals.RETURNS);
-            IStoDecl N_stoDecl = stoDecl();
-            IFunDeclNTS N_funDeclNTS = funDeclNTS();
-            IToken T_do = consume(Terminals.DO);
-            ICpsCmd N_cpsCmd = cpsCmd();
-            IToken T_endFun = consume(Terminals.ENDFUN);
-            return new FunDecl(T_fun, T_ident, N_paramList, T_returns, N_stoDecl, N_funDeclNTS, T_do, N_cpsCmd,
-                    T_endFun);
+            IToken ts_fun = consume(Terminals.FUN);
+            IToken ts_ident = consume(Terminals.IDENT);
+            IParamList nts_paramList = paramList();
+            IToken ts_returns = consume(Terminals.RETURNS);
+            IStoDecl nts_stoDecl = stoDecl();
+            IFunDeclNTS nts_funDeclNTS = funDeclNTS();
+            IToken ts_do = consume(Terminals.DO);
+            ICpsCmd nts_cpsCmd = cpsCmd();
+            IToken ts_endFun = consume(Terminals.ENDFUN);
+            return new FunDecl(ts_fun, ts_ident, nts_paramList, ts_returns, nts_stoDecl, nts_funDeclNTS, ts_do, nts_cpsCmd,
+                    ts_endFun);
         } else {
             throw new GrammarError(Terminals.FUNDECL, currentTerminal);
         }
@@ -213,12 +212,12 @@ public class Parser {
     private IFunDeclNTS funDeclNTS() throws GrammarError {
         if (currentTerminal == Terminals.LOCAL) {
             System.out.println("funDeclNTS := LOCAL <cpsStoDecl>");
-            IToken T_local = consume(Terminals.LOCAL);
-            ICpsStoDecl N_cpsStoDecl = cpsStoDecl();
-            return new FunDeclNTS(T_local, N_cpsStoDecl);
+            IToken ts_local = consume(Terminals.LOCAL);
+            ICpsStoDecl nts_cpsStoDecl = cpsStoDecl();
+            return new FunDeclNTS(ts_local, nts_cpsStoDecl);
         } else if (currentTerminal == Terminals.DO) {
             System.out.println("funDeclNTS := ε");
-            return new Epsilon.FunDeclNTS();
+            return new IEpsilon.FunDeclNTS();
         } else {
             throw new GrammarError(Terminals.FUNDECLNTS, currentTerminal);
         }
@@ -228,10 +227,10 @@ public class Parser {
     private IParamList paramList() throws GrammarError {
         if (currentTerminal == Terminals.LPAREN) {
             System.out.println("paramList ::= LPAREN <paramListNTS> RPAREN");
-            IToken T_lParen = consume(Terminals.LPAREN);
-            IParamListNTS N_paramListNTS = paramListNTS();
-            IToken T_rParen = consume(Terminals.RPAREN);
-            return new ParamList(T_lParen, N_paramListNTS, T_rParen);
+            IToken ts_lParen = consume(Terminals.LPAREN);
+            IParamListNTS nts_paramListNTS = paramListNTS();
+            IToken ts_rParen = consume(Terminals.RPAREN);
+            return new ParamList(ts_lParen, nts_paramListNTS, ts_rParen);
         } else {
             throw new GrammarError(Terminals.PARAMLIST, currentTerminal);
         }
@@ -243,12 +242,12 @@ public class Parser {
         if (currentTerminal == Terminals.IDENT || currentTerminal == Terminals.MECHMODE
                 || currentTerminal == Terminals.CHANGEMOD) {
             System.out.println("paramListNTS ::= <param> <paramNTS>");
-            IParam N_param = param();
-            IParamNTS N_paramNTS = paramNTS();
-            return new ParamListNTS(N_param, N_paramNTS);
+            IParam nts_param = param();
+            IParamNTS nts_paramNTS = paramNTS();
+            return new ParamListNTS(nts_param, nts_paramNTS);
         } else if (currentTerminal == Terminals.RPAREN) {
             System.out.println("paramListNTS ::= ε");
-            return new Epsilon.ParamListNTS();
+            return new IEpsilon.ParamListNTS();
         } else {
             throw new GrammarError(Terminals.PARAMLISTNTS, currentTerminal);
         }
@@ -259,13 +258,13 @@ public class Parser {
     private IParamNTS paramNTS() throws GrammarError {
         if (currentTerminal == Terminals.COMMA) {
             System.out.println("paramNTS ::= COMMA <param> <paramNTS>");
-            IToken T_comma = consume(Terminals.COMMA);
-            IParam N_param = param();
-            IParamNTS N_paramNTS = paramNTS();
-            return new ParamNTS(T_comma, N_param, N_paramNTS);
+            IToken ts_comma = consume(Terminals.COMMA);
+            IParam nts_param = param();
+            IParamNTS nts_paramNTS = paramNTS();
+            return new ParamNTS(ts_comma, nts_param, nts_paramNTS);
         } else if (currentTerminal == Terminals.RPAREN) {
             System.out.println("paramNTS ::= ε");
-            return new Epsilon.ParamNTS();
+            return new IEpsilon.ParamNTS();
         } else {
             throw new GrammarError(Terminals.PARAMNTS, currentTerminal);
         }
@@ -276,11 +275,11 @@ public class Parser {
         if (currentTerminal == Terminals.IDENT || currentTerminal == Terminals.FLOWMODE
                 || currentTerminal == Terminals.CHANGEMOD || currentTerminal == Terminals.MECHMODE) {
             System.out.println("param ::= <flowModeNTS> <mechModeNTS> <changeModNTS> <typedIdent>");
-            IFlowModeNTS N_flowModeNTS = flowModeNTS();
-            IMechModeNTS N_mechModeNTS = mechModeNTS();
-            IChangeModeNTS N_changeModeNTS = changeModNTS();
-            ITypedIdent N_typedIdent = typedIdent();
-            return new Param(N_flowModeNTS, N_mechModeNTS, N_changeModeNTS, N_typedIdent);
+            IFlowModeNTS nts_flowModeNTS = flowModeNTS();
+            IMechModeNTS nts_mechModeNTS = mechModeNTS();
+            IChangeModeNTS nts_changeModeNTS = changeModNTS();
+            ITypedIdent nts_typedIdent = typedIdent();
+            return new Param(nts_flowModeNTS, nts_mechModeNTS, nts_changeModeNTS, nts_typedIdent);
         } else {
             throw new GrammarError(Terminals.PARAM, currentTerminal);
         }
@@ -291,12 +290,12 @@ public class Parser {
     private IFlowModeNTS flowModeNTS() throws GrammarError {
         if (currentTerminal == Terminals.FLOWMODE) {
             System.out.println("flowModeNTS ::= FLOWMODE");
-            IToken T_flowMode = consume(Terminals.FLOWMODE);
-            return new FlowModeNTS(T_flowMode);
+            IToken ts_flowMode = consume(Terminals.FLOWMODE);
+            return new FlowModeNTS(ts_flowMode);
         } else if (currentTerminal == Terminals.IDENT || currentTerminal == Terminals.MECHMODE
                 || currentTerminal == Terminals.CHANGEMOD) {
             System.out.println("flowModeNTS ::= ε");
-            return new Epsilon.FlowModeNTS();
+            return new IEpsilon.FlowModeNTS();
         } else {
             throw new GrammarError(Terminals.FLOWMODENTS, currentTerminal);
         }
@@ -307,11 +306,11 @@ public class Parser {
     private IChangeModeNTS changeModNTS() throws GrammarError {
         if (currentTerminal == Terminals.CHANGEMOD) {
             System.out.println("changeModNTS ::= CHANGEMOD");
-            IToken T_changeMode = consume(Terminals.CHANGEMOD);
-            return new ChangeModeNTS(T_changeMode);
+            IToken ts_changeMode = consume(Terminals.CHANGEMOD);
+            return new ChangeModeNTS(ts_changeMode);
         } else if (currentTerminal == Terminals.IDENT) {
             System.out.println("changeModNTS ::= ε");
-            return new Epsilon.ChangeModeNTS();
+            return new IEpsilon.ChangeModeNTS();
         } else {
             throw new GrammarError(Terminals.CHANGEMODENTS, currentTerminal);
         }
@@ -322,11 +321,11 @@ public class Parser {
     private IMechModeNTS mechModeNTS() throws GrammarError {
         if (currentTerminal == Terminals.MECHMODE) {
             System.out.println("mechModeNTS ::= MECHMODE");
-            IToken T_mechMode = consume(Terminals.MECHMODE);
-            return new MechModeNTS(T_mechMode);
+            IToken ts_mechMode = consume(Terminals.MECHMODE);
+            return new MechModeNTS(ts_mechMode);
         } else if (currentTerminal == Terminals.IDENT || currentTerminal == Terminals.CHANGEMOD) {
             System.out.println("mechModeNTS ::= ε");
-            return new Epsilon.MechModeNTS();
+            return new IEpsilon.MechModeNTS();
         } else {
             throw new GrammarError(Terminals.MECHMODENTS, currentTerminal);
         }
@@ -341,9 +340,9 @@ public class Parser {
                 || currentTerminal == Terminals.IDENT || currentTerminal == Terminals.LITERAL
                 || currentTerminal == Terminals.SKIP) {
             System.out.println("cpsCMD ::= <cmd> <cpsCmdNTS>");
-            ICmd N_cmd = cmd();
-            ICpsCmdNTS N_cpsCmdNTS = cpsCmdNTS();
-            return new CpsCmd(N_cmd, N_cpsCmdNTS);
+            ICmd nts_cmd = cmd();
+            ICpsCmdNTS nts_cpsCmdNTS = cpsCmdNTS();
+            return new CpsCmd(nts_cmd, nts_cpsCmdNTS);
         } else {
             throw new GrammarError(Terminals.CPSCMD, currentTerminal);
         }
@@ -354,15 +353,15 @@ public class Parser {
     private ICpsCmdNTS cpsCmdNTS() throws GrammarError {
         if (currentTerminal == Terminals.SEMICOLON) {
             System.out.println("cpsCmdNTS ::= SEMICOLON <cmd> <cpsCmdNTS>");
-            IToken T_semicolon = consume(Terminals.SEMICOLON);
-            ICmd N_cmd = cmd();
-            ICpsCmdNTS N_cpsCmdNTS = cpsCmdNTS();
-            return new CpsCmdNTS(T_semicolon, N_cmd, N_cpsCmdNTS);
+            IToken ts_semicolon = consume(Terminals.SEMICOLON);
+            ICmd nts_cmd = cmd();
+            ICpsCmdNTS nts_cpsCmdNTS = cpsCmdNTS();
+            return new CpsCmdNTS(ts_semicolon, nts_cmd, nts_cpsCmdNTS);
         } else if (currentTerminal == Terminals.ENDPROC || currentTerminal == Terminals.ENDWHILE
                 || currentTerminal == Terminals.ENDIF || currentTerminal == Terminals.ELSE
                 || currentTerminal == Terminals.ENDFUN || currentTerminal == Terminals.ENDPROGRAM) {
             System.out.println("cpsCmdNTS ::= ε");
-            return new Epsilon.CpsCmdNTS();
+            return new IEpsilon.CpsCmdNTS();
         } else {
             throw new GrammarError(Terminals.CPSCMDNTS, currentTerminal);
         }
@@ -378,49 +377,49 @@ public class Parser {
     private ICmd cmd() throws GrammarError {
         if (currentTerminal == Terminals.SKIP) {
             System.out.println("cmd ::= SKIP");
-            IToken T_skip = consume(Terminals.SKIP);
-            return new CmdSkip(T_skip);
+            IToken ts_skip = consume(Terminals.SKIP);
+            return new CmdSkip(ts_skip);
         } else if (currentTerminal == Terminals.LPAREN || currentTerminal == Terminals.ADDOPR
                 || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
                 || currentTerminal == Terminals.LITERAL) {
             System.out.println("cmd ::= <expr> BECOMES <expr>");
-            IExpr N_expr1 = expr();
-            IToken T_becomes = consume(Terminals.BECOMES);
-            IExpr N_expr2 = expr();
-            return new CmdExpr(N_expr1, T_becomes, N_expr2);
+            IExpr nts_expr1 = expr();
+            IToken ts_becomes = consume(Terminals.BECOMES);
+            IExpr nts_expr2 = expr();
+            return new CmdExpr(nts_expr1, ts_becomes, nts_expr2);
         } else if (currentTerminal == Terminals.IF) {
             System.out.println("cmd ::= IF <expr> THEN <cpsCmd> <ifelseNTS> ENDIF");
-            IToken T_if = consume(Terminals.IF);
-            IExpr N_expr = expr();
-            IToken T_then = consume(Terminals.THEN);
-            ICpsCmd N_cpsCmd = cpsCmd();
-            IIfElseNTS N_ifelseNTS = ifElseNTS();
-            IToken T_endif = consume(Terminals.ENDIF);
-            return new CmdIfThen(T_if, N_expr, T_then, N_cpsCmd, N_ifelseNTS, T_endif);
+            IToken ts_if = consume(Terminals.IF);
+            IExpr nts_expr = expr();
+            IToken ts_then = consume(Terminals.THEN);
+            ICpsCmd nts_cpsCmd = cpsCmd();
+            IIfElseNTS nts_ifelseNTS = ifElseNTS();
+            IToken ts_endif = consume(Terminals.ENDIF);
+            return new CmdIf(ts_if, nts_expr, ts_then, nts_cpsCmd, nts_ifelseNTS, ts_endif);
         } else if (currentTerminal == Terminals.WHILE) {
             System.out.println("cmd ::= WHILE <expr> DO <cpsCmd> ENDWHILE");
-            IToken T_while = consume(Terminals.WHILE);
-            IExpr N_expr = expr();
-            IToken T_do = consume(Terminals.DO);
-            ICpsCmd N_cpsCmd = cpsCmd();
-            IToken T_endwhile = consume(Terminals.ENDWHILE);
-            return new CmdWhileDo(T_while, N_expr, T_do, N_cpsCmd, T_endwhile);
+            IToken ts_while = consume(Terminals.WHILE);
+            IExpr nts_expr = expr();
+            IToken ts_do = consume(Terminals.DO);
+            ICpsCmd nts_cpsCmd = cpsCmd();
+            IToken ts_endwhile = consume(Terminals.ENDWHILE);
+            return new CmdWhile(ts_while, nts_expr, ts_do, nts_cpsCmd, ts_endwhile);
         } else if (currentTerminal == Terminals.CALL) {
             System.out.println("cmd ::= CALL IDENT <exprList>");
-            IToken T_call = consume(Terminals.CALL);
-            IToken T_ident = consume(Terminals.IDENT);
-            IExprList N_exprList = exprList();
-            return new CmdCallIdentExprList(T_call, T_ident, N_exprList);
+            IToken ts_call = consume(Terminals.CALL);
+            IToken ts_ident = consume(Terminals.IDENT);
+            IExprList nts_exprList = exprList();
+            return new CmdCall(ts_call, ts_ident, nts_exprList);
         } else if (currentTerminal == Terminals.DEBUGIN) {
             System.out.println("cmd ::= DEBUGIN <expr>");
-            IToken T_debugIn = consume(Terminals.DEBUGIN);
-            IExpr N_expr = expr();
-            return new CmdDebugIn(T_debugIn, N_expr);
+            IToken ts_debugIn = consume(Terminals.DEBUGIN);
+            IExpr nts_expr = expr();
+            return new CmdDebugIn(ts_debugIn, nts_expr);
         } else if (currentTerminal == Terminals.DEBUGOUT) {
             System.out.println("cmd ::= DEBUGOUT <expr>");
-            IToken T_debugOut = consume(Terminals.DEBUGOUT);
-            IExpr N_expr = expr();
-            return new CmdDebugOut(T_debugOut, N_expr);
+            IToken ts_debugOut = consume(Terminals.DEBUGOUT);
+            IExpr nts_expr = expr();
+            return new CmdDebugOut(ts_debugOut, nts_expr);
         } else {
             throw new GrammarError(Terminals.CMD, currentTerminal);
         }
@@ -431,12 +430,12 @@ public class Parser {
     private IIfElseNTS ifElseNTS() throws GrammarError {
         if (currentTerminal == Terminals.ELSE) {
             System.out.println("ifelseNTS ::= ELSE <cpsCmd>");
-            IToken T_else = consume(Terminals.ELSE);
-            ICpsCmd N_cpsCmd = cpsCmd();
-            return new IfElseNTS(T_else, N_cpsCmd);
+            IToken ts_else = consume(Terminals.ELSE);
+            ICpsCmd nts_cpsCmd = cpsCmd();
+            return new IfElseNTS(ts_else, nts_cpsCmd);
         } else if (currentTerminal == Terminals.ENDIF) {
             System.out.println("ifelseNTS ::= ε");
-            return new Epsilon.IfElseNTS();
+            return new IEpsilon.IfElseNTS();
         } else {
             throw new GrammarError(Terminals.IFELSENTS, currentTerminal);
         }
@@ -448,9 +447,9 @@ public class Parser {
                 || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
                 || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.LBRACKET) {
             System.out.println("expr ::= <term1> <exprNTS>");
-            ITerm1 N_term1 = term1();
-            IExprNTS N_exprNTS = exprNTS();
-            return new Expr(N_term1, N_exprNTS);
+            ITerm1 nts_term1 = term1();
+            IExprNTS nts_exprNTS = exprNTS();
+            return new Expr(nts_term1, nts_exprNTS);
         } else {
             throw new GrammarError(Terminals.EXPR, currentTerminal);
         }
@@ -461,10 +460,10 @@ public class Parser {
     private IExprNTS exprNTS() throws GrammarError {
         if (currentTerminal == Terminals.BOOLOPR) {
             System.out.println("exprNTS ::= BOOLOPR <term1> <exprNTS>");
-            IToken T_boolOpr = consume(Terminals.BOOLOPR);
-            ITerm1 N_term1 = term1();
-            IExprNTS N_exprNTS = exprNTS();
-            return new ExprNTS(T_boolOpr, N_term1, N_exprNTS);
+            IToken ts_boolOpr = consume(Terminals.BOOLOPR);
+            ITerm1 nts_term1 = term1();
+            IExprNTS nts_exprNTS = exprNTS();
+            return new ExprNTS(ts_boolOpr, nts_term1, nts_exprNTS);
         } else if (currentTerminal == Terminals.COMMA || currentTerminal == Terminals.RPAREN
                 || currentTerminal == Terminals.COLON || currentTerminal == Terminals.DO
                 || currentTerminal == Terminals.THEN || currentTerminal == Terminals.ENDPROC
@@ -473,7 +472,7 @@ public class Parser {
                 || currentTerminal == Terminals.ENDPROGRAM || currentTerminal == Terminals.SEMICOLON
                 || currentTerminal == Terminals.BECOMES) {
             System.out.println("exprNTS ::= ε");
-            return new Epsilon.ExprNTS();
+            return new IEpsilon.ExprNTS();
         } else {
             throw new GrammarError(Terminals.EXPRNTS, currentTerminal);
         }
@@ -485,9 +484,9 @@ public class Parser {
                 || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
                 || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.LBRACKET) {
             System.out.println("term1 ::= <term2> <term1NTS>");
-            ITerm2 N_term2 = term2();
-            ITerm1NTS N_term1NTS = term1NTS();
-            return new Term1(N_term2, N_term1NTS);
+            ITerm2 nts_term2 = term2();
+            ITerm1NTS nts_term1NTS = term1NTS();
+            return new Term1(nts_term2, nts_term1NTS);
         } else {
             throw new GrammarError(Terminals.TERM1, currentTerminal);
         }
@@ -498,10 +497,10 @@ public class Parser {
     private ITerm1NTS term1NTS() throws GrammarError {
         if (currentTerminal == Terminals.RELOPR) {
             System.out.println("term1NTS ::= RELOPR <term2> <term1NTS>");
-            IToken T_relOpr = consume(Terminals.RELOPR);
-            ITerm2 N_term2 = term2();
-            ITerm1NTS N_term1NTS = term1NTS();
-            return new Term1NTS(T_relOpr, N_term2, N_term1NTS);
+            IToken ts_relOpr = consume(Terminals.RELOPR);
+            ITerm2 nts_term2 = term2();
+            ITerm1NTS nts_term1NTS = term1NTS();
+            return new Term1NTS(ts_relOpr, nts_term2, nts_term1NTS);
         } else if (currentTerminal == Terminals.COMMA || currentTerminal == Terminals.RPAREN
                 || currentTerminal == Terminals.COLON || currentTerminal == Terminals.DO
                 || currentTerminal == Terminals.THEN || currentTerminal == Terminals.ENDPROC
@@ -510,7 +509,7 @@ public class Parser {
                 || currentTerminal == Terminals.ENDPROGRAM || currentTerminal == Terminals.SEMICOLON
                 || currentTerminal == Terminals.BECOMES || currentTerminal == Terminals.BOOLOPR) {
             System.out.println("term1NTS ::= ε");
-            return new Epsilon.Term1NTS();
+            return new IEpsilon.Term1NTS();
         } else {
             throw new GrammarError(Terminals.TERM1NTS, currentTerminal);
         }
@@ -522,9 +521,9 @@ public class Parser {
                 || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
                 || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.LBRACKET) {
             System.out.println("term2 ::= <term3> <term2NTS>");
-            ITerm3 N_term3 = term3();
-            ITerm2NTS N_term2NTS = term2NTS();
-            return new Term2(N_term3, N_term2NTS);
+            ITerm3 nts_term3 = term3();
+            ITerm2NTS nts_term2NTS = term2NTS();
+            return new Term2(nts_term3, nts_term2NTS);
         } else {
             throw new GrammarError(Terminals.TERM2, currentTerminal);
         }
@@ -535,10 +534,10 @@ public class Parser {
     private ITerm2NTS term2NTS() throws GrammarError {
         if (currentTerminal == Terminals.ADDOPR) {
             System.out.println("term2NTS ::= ADDOPR <term3> <term2NTS>");
-            IToken T_addOpr = consume(Terminals.ADDOPR);
-            ITerm3 N_term3 = term3();
-            ITerm2NTS N_term2NTS = term2NTS();
-            return new Term2NTS(T_addOpr, N_term3, N_term2NTS);
+            IToken ts_addOpr = consume(Terminals.ADDOPR);
+            ITerm3 nts_term3 = term3();
+            ITerm2NTS nts_term2NTS = term2NTS();
+            return new Term2NTS(ts_addOpr, nts_term3, nts_term2NTS);
         } else if (currentTerminal == Terminals.COMMA || currentTerminal == Terminals.RPAREN
                 || currentTerminal == Terminals.COLON || currentTerminal == Terminals.DO
                 || currentTerminal == Terminals.THEN || currentTerminal == Terminals.ENDPROC
@@ -548,7 +547,7 @@ public class Parser {
                 || currentTerminal == Terminals.BECOMES || currentTerminal == Terminals.BOOLOPR
                 || currentTerminal == Terminals.RELOPR) {
             System.out.println("term2NTS ::= ε");
-            return new Epsilon.Term2NTS();
+            return new IEpsilon.Term2NTS();
         } else {
             throw new GrammarError(Terminals.TERM2NTS, currentTerminal);
         }
@@ -560,9 +559,9 @@ public class Parser {
                 || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
                 || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.LBRACKET) {
             System.out.println("term3 ::= <factor> <term3NTS>");
-            IFactor N_factor = factor();
-            ITerm3NTS N_term3NTS = term3NTS();
-            return new Term3(N_factor, N_term3NTS);
+            IFactor nts_factor = factor();
+            ITerm3NTS nts_term3NTS = term3NTS();
+            return new Term3(nts_factor, nts_term3NTS);
         } else {
             throw new GrammarError(Terminals.TERM3, currentTerminal);
         }
@@ -573,10 +572,10 @@ public class Parser {
     private ITerm3NTS term3NTS() throws GrammarError {
         if (currentTerminal == Terminals.MULTOPR) {
             System.out.println("term3NTS ::= MULTOPR <factor> <term3NTS>");
-            IToken T_multOpr = consume(Terminals.MULTOPR);
-            IFactor N_factor = factor();
-            ITerm3NTS N_term3NTS = term3NTS();
-            return new Term3NTS(T_multOpr, N_factor, N_term3NTS);
+            IToken ts_multOpr = consume(Terminals.MULTOPR);
+            IFactor nts_factor = factor();
+            ITerm3NTS nts_term3NTS = term3NTS();
+            return new Term3NTS(ts_multOpr, nts_factor, nts_term3NTS);
         } else if (currentTerminal == Terminals.COMMA || currentTerminal == Terminals.RPAREN
                 || currentTerminal == Terminals.COLON || currentTerminal == Terminals.DO
                 || currentTerminal == Terminals.THEN || currentTerminal == Terminals.ENDPROC
@@ -586,7 +585,7 @@ public class Parser {
                 || currentTerminal == Terminals.BECOMES || currentTerminal == Terminals.BOOLOPR
                 || currentTerminal == Terminals.RELOPR || currentTerminal == Terminals.ADDOPR) {
             System.out.println("term3NTS ::= ε");
-            return new Epsilon.Term3NTS();
+            return new IEpsilon.Term3NTS();
         } else {
             throw new GrammarError(Terminals.TERM3NTS, currentTerminal);
         }
@@ -600,29 +599,29 @@ public class Parser {
     private IFactor factor() throws GrammarError {
         if (currentTerminal == Terminals.LITERAL) {
             System.out.println("factor ::= LITERAL");
-            IToken T_literal = consume(Terminals.LITERAL);
-            return new FactorLiteral(T_literal);
+            IToken ts_literal = consume(Terminals.LITERAL);
+            return new FactorLiteral(ts_literal);
         } else if (currentTerminal == Terminals.IDENT) {
             System.out.println("factor ::= IDENT <factorNTS>");
-            IToken T_ident = consume(Terminals.IDENT);
-            IFactorNTS N_factorNTS = factorNTS();
-            return new FactorIdent(T_ident, N_factorNTS);
+            IToken ts_ident = consume(Terminals.IDENT);
+            IFactorNTS nts_factorNTS = factorNTS();
+            return new FactorIdent(ts_ident, nts_factorNTS);
         } else if (currentTerminal == Terminals.LBRACKET) {
             System.out.println("factor ::= <castOpr> <factor>");
-            ICastOpr N_castOpr = castOpr();
-            IFactor N_factor = factor();
-            return new FactorCastOpr(N_castOpr, N_factor);
+            ICastOpr nts_castOpr = castOpr();
+            IFactor nts_factor = factor();
+            return new FactorCastOpr(nts_castOpr, nts_factor);
         } else if (currentTerminal == Terminals.ADDOPR || currentTerminal == Terminals.NOTOPR) {
             System.out.println("factor ::= <monadicOpr> <factor>");
-            IMonadicOpr N_monadicOpr = monadicOpr();
-            IFactor N_factor = factor();
-            return new FactorMonadicOpr(N_monadicOpr, N_factor);
+            IMonadicOpr nts_monadicOpr = monadicOpr();
+            IFactor nts_factor = factor();
+            return new FactorMonadicOpr(nts_monadicOpr, nts_factor);
         } else if (currentTerminal == Terminals.LPAREN) {
             System.out.println("factor ::= LPAREN <expr> RPAREN");
-            IToken T_lParen = consume(Terminals.LPAREN);
-            IExpr N_expr = expr();
-            IToken T_rParen = consume(Terminals.RPAREN);
-            return new FactorLParen(T_lParen, N_expr, T_rParen);
+            IToken ts_lParen = consume(Terminals.LPAREN);
+            IExpr nts_expr = expr();
+            IToken ts_rParen = consume(Terminals.RPAREN);
+            return new FactorLParen(ts_lParen, nts_expr, ts_rParen);
         } else {
             throw new GrammarError(Terminals.FACTOR, currentTerminal);
         }
@@ -634,12 +633,12 @@ public class Parser {
     private IFactorNTS factorNTS() throws GrammarError {
         if (currentTerminal == Terminals.INIT) {
             System.out.println("factorNTS ::= INIT");
-            IToken T_init = consume(Terminals.INIT);
-            return new FactorNTSInit(T_init);
+            IToken ts_init = consume(Terminals.INIT);
+            return new FactorNTSInit(ts_init);
         } else if (currentTerminal == Terminals.LPAREN) {
             System.out.println("factorNTS ::= <exprList>");
-            IExprList N_exprList = exprList();
-            return new FactorNTSExprList(N_exprList);
+            IExprList nts_exprList = exprList();
+            return new FactorNTSExprList(nts_exprList);
         } else if (currentTerminal == Terminals.COMMA || currentTerminal == Terminals.RPAREN
                 || currentTerminal == Terminals.COLON || currentTerminal == Terminals.DO
                 || currentTerminal == Terminals.THEN || currentTerminal == Terminals.ENDPROC
@@ -650,7 +649,7 @@ public class Parser {
                 || currentTerminal == Terminals.RELOPR || currentTerminal == Terminals.ADDOPR
                 || currentTerminal == Terminals.MULTOPR) {
             System.out.println("factorNTS ::= ε");
-            return new Epsilon.FactorNTS();
+            return new IEpsilon.FactorNTS();
         } else {
             throw new GrammarError(Terminals.FACTORNTS, currentTerminal);
         }
@@ -660,10 +659,10 @@ public class Parser {
     private IExprList exprList() throws GrammarError {
         if (currentTerminal == Terminals.LPAREN) {
             System.out.println("exprList ::= LPAREN <exprListLparenNTS> RPAREN");
-            IToken T_lParen = consume(Terminals.LPAREN);
-            IExprListLparenNTS N_exprListLparenNTS = exprListLparenNTS();
-            IToken T_rParen = consume(Terminals.RPAREN);
-            return new ExprList(T_lParen, N_exprListLparenNTS, T_rParen);
+            IToken ts_lParen = consume(Terminals.LPAREN);
+            IExprListLparenNTS nts_exprListLparenNTS = exprListLparenNTS();
+            IToken ts_rParen = consume(Terminals.RPAREN);
+            return new ExprList(ts_lParen, nts_exprListLparenNTS, ts_rParen);
         } else {
             throw new GrammarError(Terminals.EXPRLIST, currentTerminal);
         }
@@ -676,12 +675,12 @@ public class Parser {
                 || currentTerminal == Terminals.NOTOPR || currentTerminal == Terminals.IDENT
                 || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.LBRACKET) {
             System.out.println("exprListLparenNTS ::= <expr> <exprListNTS>");
-            IExpr N_expr = expr();
-            IExprListNTS N_exprListNTS = exprListNTS();
-            return new ExprListLParenNTS(N_expr, N_exprListNTS);
+            IExpr nts_expr = expr();
+            IExprListNTS nts_exprListNTS = exprListNTS();
+            return new ExprListLParenNTS(nts_expr, nts_exprListNTS);
         } else if (currentTerminal == Terminals.RPAREN) {
             System.out.println("exprListLparenNTS ::= ε");
-            return new Epsilon.ExprListLParenNTS();
+            return new IEpsilon.ExprListLParenNTS();
         } else {
             throw new GrammarError(Terminals.EXPRLISTLPARENNTS, currentTerminal);
         }
@@ -692,13 +691,13 @@ public class Parser {
     private IExprListNTS exprListNTS() throws GrammarError {
         if (currentTerminal == Terminals.COMMA) {
             System.out.println("exprListNTS ::= COMMA <expr> <exprListNTS>");
-            IToken T_comma = consume(Terminals.COMMA);
-            IExpr N_expr = expr();
-            IExprListNTS N_exprListNTS = exprListNTS();
-            return new ExprListNTS(T_comma, N_expr, N_exprListNTS);
+            IToken ts_comma = consume(Terminals.COMMA);
+            IExpr nts_expr = expr();
+            IExprListNTS nts_exprListNTS = exprListNTS();
+            return new ExprListNTS(ts_comma, nts_expr, nts_exprListNTS);
         } else if (currentTerminal == Terminals.RPAREN) {
             System.out.println("exprListNTS ::= ε");
-            return new Epsilon.ExprListNTS();
+            return new IEpsilon.ExprListNTS();
         } else {
             throw new GrammarError(Terminals.EXPRLISTNTS, currentTerminal);
         }
@@ -709,12 +708,12 @@ public class Parser {
     private IMonadicOpr monadicOpr() throws GrammarError {
         if (currentTerminal == Terminals.NOTOPR) {
             System.out.println("monadicOpr ::= NOT");
-            IToken T_not = consume(Terminals.NOTOPR);
-            return new MonadicOprNot(T_not);
+            IToken ts_not = consume(Terminals.NOTOPR);
+            return new MonadicOprNot(ts_not);
         } else if (currentTerminal == Terminals.ADDOPR) {
             System.out.println("monadicOpr ::= ADDOPR");
-            IToken T_addOpr = consume(Terminals.ADDOPR);
-            return new MonadicOprAddOpr(T_addOpr);
+            IToken ts_addOpr = consume(Terminals.ADDOPR);
+            return new MonadicOprAddOpr(ts_addOpr);
         } else {
             throw new GrammarError(Terminals.MONADICOPR, currentTerminal);
         }
@@ -724,10 +723,10 @@ public class Parser {
     private ICastOpr castOpr() throws GrammarError {
         if (currentTerminal == Terminals.LBRACKET) {
             System.out.println("castOpr ::= LBRACKET TYPE RPAREN");
-            IToken T_lBracket = consume(Terminals.LBRACKET);
-            IToken T_type = consume(Terminals.TYPE);
-            IToken T_rBracket = consume(Terminals.RBRACKET);
-            return new CastOpr(T_lBracket, T_type, T_rBracket);
+            IToken ts_lBracket = consume(Terminals.LBRACKET);
+            IToken ts_type = consume(Terminals.TYPE);
+            IToken ts_rBracket = consume(Terminals.RBRACKET);
+            return new CastOpr(ts_lBracket, ts_type, ts_rBracket);
         } else {
             throw new GrammarError(Terminals.CASTOPR, currentTerminal);
         }
@@ -737,9 +736,9 @@ public class Parser {
     private ICpsStoDecl cpsStoDecl() throws GrammarError {
         if (currentTerminal == Terminals.CHANGEMOD || currentTerminal == Terminals.IDENT) {
             System.out.println("cpsStoDecl ::= <stoDecl> <cpsStoDeclNTS>");
-            IStoDecl N_stoDecl = stoDecl();
-            ICpsStoDeclNTS N_cpsStoDeclNTS = cpsStoDeclNTS();
-            return new CpsStoDecl(N_stoDecl, N_cpsStoDeclNTS);
+            IStoDecl nts_stoDecl = stoDecl();
+            ICpsStoDeclNTS nts_cpsStoDeclNTS = cpsStoDeclNTS();
+            return new CpsStoDecl(nts_stoDecl, nts_cpsStoDeclNTS);
         } else {
             throw new GrammarError(Terminals.CPSSTODECL, currentTerminal);
         }
@@ -750,13 +749,13 @@ public class Parser {
     private ICpsStoDeclNTS cpsStoDeclNTS() throws GrammarError {
         if (currentTerminal == Terminals.SEMICOLON) {
             System.out.println("cpsStoDeclNTS ::= SEMICOLON <stoDecl> <cpsStoDeclNTS>");
-            IToken T_semicolon = consume(Terminals.SEMICOLON);
-            IStoDecl N_stoDecl = stoDecl();
-            ICpsStoDeclNTS N_cpsStoDeclNTS = cpsStoDeclNTS();
-            return new CpsStoDeclNTS(T_semicolon, N_stoDecl, N_cpsStoDeclNTS);
+            IToken ts_semicolon = consume(Terminals.SEMICOLON);
+            IStoDecl nts_stoDecl = stoDecl();
+            ICpsStoDeclNTS nts_cpsStoDeclNTS = cpsStoDeclNTS();
+            return new CpsStoDeclNTS(ts_semicolon, nts_stoDecl, nts_cpsStoDeclNTS);
         } else if (currentTerminal == Terminals.DO) {
             System.out.println("cpsStoDeclNTS ::= ε");
-            return new Epsilon.CpsStoDeclNTS();
+            return new IEpsilon.CpsStoDeclNTS();
         } else {
             throw new GrammarError(Terminals.CPSSTODECLNTS, currentTerminal);
         }
@@ -766,14 +765,14 @@ public class Parser {
     private IProcDecl procDecl() throws GrammarError {
         if (currentTerminal == Terminals.PROC) {
             System.out.println("procDecl ::= PROC IDENT <paramList> <procDeclNTS> DO <cpsCmd> ENDPROC");
-            IToken T_proc = consume(Terminals.PROC);
-            IToken T_ident = consume(Terminals.IDENT);
-            IParamList N_paramList = paramList();
-            IProcDeclNTS N_procDeclNTS = procDeclNTS();
-            IToken T_do = consume(Terminals.DO);
-            ICpsCmd N_cpsCmd = cpsCmd();
-            IToken T_endProc = consume(Terminals.ENDPROC);
-            return new ProcDecl(T_proc, T_ident, N_paramList, N_procDeclNTS, T_do, N_cpsCmd, T_endProc);
+            IToken ts_proc = consume(Terminals.PROC);
+            IToken ts_ident = consume(Terminals.IDENT);
+            IParamList nts_paramList = paramList();
+            IProcDeclNTS nts_procDeclNTS = procDeclNTS();
+            IToken ts_do = consume(Terminals.DO);
+            ICpsCmd nts_cpsCmd = cpsCmd();
+            IToken ts_endProc = consume(Terminals.ENDPROC);
+            return new ProcDecl(ts_proc, ts_ident, nts_paramList, nts_procDeclNTS, ts_do, nts_cpsCmd, ts_endProc);
         } else {
             throw new GrammarError(Terminals.PROCDECL, currentTerminal);
         }
@@ -784,12 +783,12 @@ public class Parser {
     private IProcDeclNTS procDeclNTS() throws GrammarError {
         if (currentTerminal == Terminals.LOCAL) {
             System.out.println("procDeclNTS ::= LOCAL <cpsStoDecl>");
-            IToken T_local = consume(Terminals.LOCAL);
-            ICpsStoDecl N_cpsStoDecl = cpsStoDecl();
-            return new ProcDeclNTS(T_local, N_cpsStoDecl);
+            IToken ts_local = consume(Terminals.LOCAL);
+            ICpsStoDecl nts_cpsStoDecl = cpsStoDecl();
+            return new ProcDeclNTS(ts_local, nts_cpsStoDecl);
         } else if (currentTerminal == Terminals.DO) {
             System.out.println("procDeclNTS ::= ε");
-            return new Epsilon.ProcDeclNTS();
+            return new IEpsilon.ProcDeclNTS();
         } else {
             throw new GrammarError(Terminals.PROCDECLNTS, currentTerminal);
         }

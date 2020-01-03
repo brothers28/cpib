@@ -8,18 +8,18 @@ public class NotDeclaredError extends Exception {
     }
 
     public NotDeclaredError(String errorMessage) {
-        super(setupMessage(errorMessage));
+        super(buildOutputMessage(errorMessage));
     }
 
     public NotDeclaredError(String message, Throwable cause) {
-        super(setupMessage(message), cause);
+        super(buildOutputMessage(message), cause);
     }
 
     public NotDeclaredError(Throwable cause) {
         super(cause);
     }
 
-    private static String setupMessage(String string) {
-        return "Name not declared [" + string + "]";
+    private static String buildOutputMessage(String string) {
+        return "Name [" + string + "] not declared";
     }
 }

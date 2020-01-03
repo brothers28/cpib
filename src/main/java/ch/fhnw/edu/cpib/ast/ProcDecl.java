@@ -16,7 +16,7 @@ public class ProcDecl extends AstNode implements IDecl {
     private CpsCmd cpsCmd;
     private ArrayList<Param> params;
     private ArrayList<StoDecl> stoDecls;
-    private boolean initCheckDone = false;
+    private boolean initChecked = false;
 
     public ProcDecl(Ident ident, ArrayList<Param> params, ArrayList<StoDecl> stoDecls, CpsCmd cpsCmd) {
         this.ident = ident;
@@ -25,31 +25,7 @@ public class ProcDecl extends AstNode implements IDecl {
         this.cpsCmd = cpsCmd;
     }
 
-    public ArrayList<Param> getParams() {
-        return params;
-    }
-
-    public boolean getInitCheckDone() {
-        return initCheckDone;
-    }
-
-    public void setInitCheckDone() {
-        this.initCheckDone = true;
-    }
-
-    @Override public String getIdentString() {
-        return ident.getIdent();
-    }
-
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
-        cpsCmd.executeScopeCheck();
-    }
-
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
-        cpsCmd.executeTypeCheck();
-    }
-
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
 
         // Create local namespace
@@ -63,10 +39,10 @@ public class ProcDecl extends AstNode implements IDecl {
                 throw new AlreadyDeclaredError(param.getIdentString());
             if (param.getMechMode() == Mechmodes.REF)
                 // Deref
-                param.getTypeIdent().setNeedToDeref();
+                param.getTypedIdent().setNeedToDeref();
 
             // Save to local namespace
-            this.localVarNamespace.put(param.getIdentString(), param.getTypeIdent());
+            this.localVarNamespace.put(param.getIdentString(), param.getTypedIdent());
         }
 
         // Save variables in local namespace
@@ -79,38 +55,61 @@ public class ProcDecl extends AstNode implements IDecl {
                 throw new AlreadyDeclaredError(stoDecl.getIdentString());
 
             // Save to local namespace
-            this.localVarNamespace.put(stoDecl.getIdentString(), stoDecl.getTypeIdent());
+            this.localVarNamespace.put(stoDecl.getIdentString(), stoDecl.getTypedIdent());
         }
 
-        cpsCmd.saveNamespaceInfo(this.localVarNamespace);
+        cpsCmd.setNamespaceInfo(this.localVarNamespace);
+    }
+
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
+        cpsCmd.executeScopeCheck();
+    }
+
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
+        cpsCmd.executeTypeCheck();
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
+            AssignToConstError {
         cpsCmd.executeInitCheck(globalProtected);
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    public ArrayList<Param> getParams() {
+        return params;
+    }
+
+    public boolean getInitChecked() {
+        return initChecked;
+    }
+
+    public void setInitChecked() {
+        this.initChecked = true;
+    }
+
+    @Override public String getIdentString() {
+        return ident.getIdent();
+    }
+
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
         localLocations = new HashMap<>();
 
-        // add addresses of params to localLocations-map
+        // Add addresses of params to local address map
         for (int i = 0; i < params.size(); i++) {
             // will be initialized from outside @ FunCallFactor
             localLocations.put(params.get(i).getIdentString(), i - params.size());
         }
 
-        // add addresses of local variables to localLocations-map
-        // first local variable is at relAddress 3
+        // Add addresses of variables to local address map
         for (int i = 0; i < stoDecls.size(); i++) {
-            stoDecls.get(i).addInstructionToCodeArray(localLocations, simulateOnly);
+            stoDecls.get(i).addToCodeArray(localLocations, noExec);
             localLocations.put(stoDecls.get(i).getIdentString(), i + 3);
         }
 
-        cpsCmd.addInstructionToCodeArray(localLocations, simulateOnly);
+        cpsCmd.addToCodeArray(localLocations, noExec);
 
-        if (!simulateOnly)
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.Return(params.size()));
         codeArrayPointer++;
     }
@@ -122,8 +121,8 @@ public class ProcDecl extends AstNode implements IDecl {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<ident>: " + ident.toString() + "\n";
         s += argumentIndent + "<cpsCmd>:";
         s += cpsCmd.toString(subIndent);

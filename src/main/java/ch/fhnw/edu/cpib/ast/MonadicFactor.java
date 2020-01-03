@@ -27,14 +27,32 @@ public class MonadicFactor extends AstNode implements IFactor {
         this.monadicOpr = monadicOpr;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
-        factor.saveNamespaceInfo(this.localVarNamespace);
+        factor.setNamespaceInfo(this.localVarNamespace);
     }
 
-    @Override public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError {
+    @Override public void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError {
         factor.executeScopeCheck();
+    }
+
+    @Override public void executeTypeCheck() throws TypeCheckError, CastError {
+        factor.executeTypeCheck();
+
+        // Check allowed types
+        if (Terminals.NOTOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.BOOL)
+            throw new TypeCheckError(Types.BOOL, factor.getType());
+        if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.INT32)
+            throw new TypeCheckError(Types.INT32, factor.getType());
+        if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.NAT32)
+            throw new TypeCheckError(Types.NAT32, factor.getType());
+    }
+
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError,
+            AssignToConstError {
+        factor.executeInitCheck(globalProtected);
     }
 
     @Override public void executeTypeCast(Types type) {
@@ -57,32 +75,14 @@ public class MonadicFactor extends AstNode implements IFactor {
         return factor.getType();
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError, CastError {
-        factor.executeTypeCheck();
-
-        // Check allowed types
-        if (Terminals.NOTOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.BOOL)
-            throw new TypeCheckingError(Types.BOOL, factor.getType());
-        if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.INT32)
-            throw new TypeCheckingError(Types.INT32, factor.getType());
-        if (Terminals.ADDOPR.equals(monadicOpr.getOperator()) && factor.getType() != Types.NAT32)
-            throw new TypeCheckingError(Types.NAT32, factor.getType());
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
-        factor.executeInitCheck(globalProtected);
-    }
-
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
 
-        // Add the value on top of stack
-        factor.addInstructionToCodeArray(localLocations, simulateOnly);
+        // Add to top of stack
+        factor.addToCodeArray(localLocations, noExec);
 
-        // Negate it
-        if (!simulateOnly) {
+        // Negate
+        if (!noExec) {
             if (Terminals.NOTOPR.equals(monadicOpr.getOperator())) {
                 codeArray.put(codeArrayPointer, new IInstructions.NegBool());
             } else if (Operators.MINUS.equals(monadicOpr.getOperator())) {
@@ -94,7 +94,7 @@ public class MonadicFactor extends AstNode implements IFactor {
                     throw new RuntimeException("Unknown Type!");
                 }
             } else {
-                throw new RuntimeException("UNSUPPORTED MONADIC OPERATOR!");
+                throw new RuntimeException("Unknown monadic operator!");
             }
         }
         codeArrayPointer++;
@@ -107,8 +107,8 @@ public class MonadicFactor extends AstNode implements IFactor {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<monadicOpr>: " + monadicOpr.toString() + "\n";
         s += argumentIndent + "<factor>:\n";
         s += factor.toString(subIndent);

@@ -11,29 +11,21 @@ import java.util.stream.Collectors;
 
 public class StoDecl extends AstNode implements IDecl {
     private Changemodes changeMode;
-    private TypeIdent typeIdent;
+    private TypedIdent typedIdent;
 
-    public StoDecl(Changemodes changeMode, TypeIdent typeIdent) {
+    public StoDecl(Changemodes changeMode, TypedIdent typedIdent) {
         this.changeMode = changeMode;
-        this.typeIdent = typeIdent;
+        this.typedIdent = typedIdent;
         // Set the const boolean value on the typeIdent to true
         if (changeMode == Changemodes.CONST)
-            this.typeIdent.setConst();
+            this.typedIdent.setConst();
     }
 
-    public StoDecl(TypeIdent typeIdent) {
-        this.typeIdent = typeIdent;
+    public StoDecl(TypedIdent typedIdent) {
+        this.typedIdent = typedIdent;
     }
 
-    public TypeIdent getTypeIdent() {
-        return typeIdent;
-    }
-
-    @Override public String getIdentString() {
-        return typeIdent.getValue();
-    }
-
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
     }
@@ -42,19 +34,27 @@ public class StoDecl extends AstNode implements IDecl {
         //
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError {
+    @Override public void executeTypeCheck() throws TypeCheckError {
         //
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
             throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
+            AssignToConstError {
         //
     }
 
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    public TypedIdent getTypedIdent() {
+        return typedIdent;
+    }
+
+    @Override public String getIdentString() {
+        return typedIdent.getValue();
+    }
+
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
-        if (!simulateOnly)
+        if (!noExec)
             codeArray.put(codeArrayPointer, new IInstructions.AllocBlock(1));
         codeArrayPointer++;
     }
@@ -66,12 +66,12 @@ public class StoDecl extends AstNode implements IDecl {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         if (changeMode != null)
             s += argumentIndent + "<changeMode>: " + changeMode.toString() + "\n";
         s += argumentIndent + "<typeIdent>:\n";
-        s += typeIdent.toString(subIndent);
+        s += typedIdent.toString(subIndent);
 
         return s;
     }

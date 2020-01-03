@@ -8,15 +8,15 @@ import java.util.ArrayList;
 
 // globalNTS ::= GLOBAL cpsDecl
 public class GlobalNTS extends Production implements IGlobalNTS {
-    protected final IToken T_global;
-    protected final ICpsDecl N_cpsDecl;
+    private IToken ts_global;
+    private ICpsDecl nts_cpsDecl;
 
-    public GlobalNTS(final IToken t_global, final ICpsDecl n_cpsDecl) {
-        T_global = t_global;
-        N_cpsDecl = n_cpsDecl;
+    public GlobalNTS(IToken ts_global, ICpsDecl nts_cpsDecl) {
+        this.ts_global = ts_global;
+        this.nts_cpsDecl = nts_cpsDecl;
     }
 
     @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IDecl> toAbsSyntax() {
-        return N_cpsDecl.toAbsSyntax();
+        return nts_cpsDecl.toAbsSyntax();
     }
 }

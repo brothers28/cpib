@@ -8,18 +8,18 @@ import java.util.ArrayList;
 
 // cpsDecl ::= decl cpsDeclNTS
 public class CpsDecl extends Production implements ICpsDecl {
-    protected final IDecl N_decl;
-    protected final ICpsDeclNTS N_cpsDeclNTS;
+    private IDecl nts_decl;
+    private ICpsDeclNTS nts_cpsDeclNTS;
 
-    public CpsDecl(final IDecl N_decl, final ICpsDeclNTS N_cpsDeclNTS) {
-        this.N_decl = N_decl;
-        this.N_cpsDeclNTS = N_cpsDeclNTS;
+    public CpsDecl(IDecl nts_decl, ICpsDeclNTS nts_cpsDeclNTS) {
+        this.nts_decl = nts_decl;
+        this.nts_cpsDeclNTS = nts_cpsDeclNTS;
     }
 
     @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IDecl> toAbsSyntax() {
         ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IDecl> temp = new ArrayList<>();
-        temp.add(N_decl.toAbsSyntax());
+        temp.add(nts_decl.toAbsSyntax());
 
-        return N_cpsDeclNTS.toAbsSyntax(temp);
+        return nts_cpsDeclNTS.toAbsSyntax(temp);
     }
 }

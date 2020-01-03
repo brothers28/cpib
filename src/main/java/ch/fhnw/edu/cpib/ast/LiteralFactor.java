@@ -19,12 +19,22 @@ public class LiteralFactor extends AstNode implements IFactor {
         this.literal = literal;
     }
 
-    @Override public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
     }
 
     @Override public void executeScopeCheck() throws NotDeclaredError {
+    }
+
+    @Override public void executeTypeCheck() throws TypeCheckError {
+        //
+    }
+
+    @Override public void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError,
+            AssignToConstError {
+        //
     }
 
     @Override public void executeTypeCast(Types type) {
@@ -47,21 +57,11 @@ public class LiteralFactor extends AstNode implements IFactor {
         return literal.getType();
     }
 
-    @Override public void executeTypeCheck() throws TypeCheckingError {
-        //
-    }
-
-    @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
-        //
-    }
-
-    @Override public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
+    @Override public void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec)
             throws CodeTooSmallError {
 
-        // Add the value on top of stack
-        if (!simulateOnly) {
+        // Add to top of stack
+        if (!noExec) {
             try {
                 if (literal.getType() == Types.BOOL) {
                     codeArray.put(codeArrayPointer, new IInstructions.LoadImBool(literal.getBoolValue()));
@@ -85,8 +85,8 @@ public class LiteralFactor extends AstNode implements IFactor {
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream()
-                    .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+                    .collect(Collectors.joining(",")) + "\n";
         s += argumentIndent + "<literal>: " + literal.toString() + "\n";
 
         return s;

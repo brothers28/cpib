@@ -7,13 +7,13 @@ import ch.fhnw.edu.cpib.scanner.keywords.Flowmode;
 
 // flowModeNTS ::= FLOWMODE
 public class FlowModeNTS extends Production implements IFlowModeNTS {
-    protected final IToken T_flowMode;
+    private IToken ts_flowMode;
 
-    public FlowModeNTS(final IToken t_flowMode) {
-        T_flowMode = t_flowMode;
+    public FlowModeNTS(IToken ts_flowMode) {
+        this.ts_flowMode = ts_flowMode;
     }
 
     @Override public Flowmodes toAbsSyntax() {
-        return ((Flowmode) T_flowMode).getFlowmode();
+        return ((Flowmode) ts_flowMode).getFlowmode();
     }
 }

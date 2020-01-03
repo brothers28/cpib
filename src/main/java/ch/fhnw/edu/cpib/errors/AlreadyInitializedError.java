@@ -14,7 +14,7 @@ public class AlreadyInitializedError extends Exception {
     }
 
     public AlreadyInitializedError(Ident ident) {
-        super(setupMessage(ident));
+        super(buildOutputMessage(ident));
     }
 
     public AlreadyInitializedError(String message, Throwable cause) {
@@ -22,14 +22,14 @@ public class AlreadyInitializedError extends Exception {
     }
 
     public AlreadyInitializedError(Ident ident, Throwable cause) {
-        super(setupMessage(ident), cause);
+        super(buildOutputMessage(ident), cause);
     }
 
     public AlreadyInitializedError(Throwable cause) {
         super(cause);
     }
 
-    private static String setupMessage(Ident ident) {
-        return "Identifier [" + ident.getIdent() + "] is already initialised.";
+    private static String buildOutputMessage(Ident ident) {
+        return "Identifier [" + ident.getIdent() + "] is already initialized.";
     }
 }

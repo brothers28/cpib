@@ -8,18 +8,18 @@ import java.util.ArrayList;
 
 // paramList ::= LPAREN paramListNTS RPAREN
 public class ParamList extends Production implements IParamList {
-    protected final IToken T_lparen;
-    protected final IParamListNTS N_paramListNTS;
-    protected final IToken T_rparen;
+    private IToken ts_lparen;
+    private IParamListNTS nts_paramListNTS;
+    private IToken ts_rparen;
 
-    public ParamList(final IToken T_lparen, final IParamListNTS N_paramListNTS, final IToken T_rparen) {
-        this.T_lparen = T_lparen;
-        this.N_paramListNTS = N_paramListNTS;
-        this.T_rparen = T_rparen;
+    public ParamList(IToken ts_lparen, IParamListNTS nts_paramListNTS, IToken ts_rparen) {
+        this.ts_lparen = ts_lparen;
+        this.nts_paramListNTS = nts_paramListNTS;
+        this.ts_rparen = ts_rparen;
 
     }
 
     @Override public ArrayList<ch.fhnw.edu.cpib.ast.Param> toAbsSyntax() {
-        return N_paramListNTS.toAbsSyntax();
+        return nts_paramListNTS.toAbsSyntax();
     }
 }

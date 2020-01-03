@@ -4,21 +4,21 @@ import ch.fhnw.edu.cpib.cst.interfaces.*;
 
 // param ::= flowModeNTS mechModeNTS changeModeNTS typedIdent
 public class Param extends Production implements IParam {
-    protected final IFlowModeNTS N_flowModeNTS;
-    protected final IMechModeNTS N_mechModeNTS;
-    protected final IChangeModeNTS N_changeModeNTS;
-    protected final ITypedIdent N_typedIdent;
+    private IFlowModeNTS nts_flowModeNTS;
+    private IMechModeNTS nts_mechModeNTS;
+    private IChangeModeNTS nts_changeModeNTS;
+    private ITypedIdent nts_typedIdent;
 
-    public Param(final IFlowModeNTS N_flowModeNTS, final IMechModeNTS N_mechModeNTS,
-            final IChangeModeNTS N_changeModeNTS, final ITypedIdent N_typedIdent) {
-        this.N_flowModeNTS = N_flowModeNTS;
-        this.N_changeModeNTS = N_changeModeNTS;
-        this.N_mechModeNTS = N_mechModeNTS;
-        this.N_typedIdent = N_typedIdent;
+    public Param(IFlowModeNTS nts_flowModeNTS, IMechModeNTS nts_mechModeNTS,
+            IChangeModeNTS nts_changeModeNTS, ITypedIdent nts_typedIdent) {
+        this.nts_flowModeNTS = nts_flowModeNTS;
+        this.nts_changeModeNTS = nts_changeModeNTS;
+        this.nts_mechModeNTS = nts_mechModeNTS;
+        this.nts_typedIdent = nts_typedIdent;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.Param toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.Param(N_flowModeNTS.toAbsSyntax(), N_mechModeNTS.toAbsSyntax(),
-                N_changeModeNTS.toAbsSyntax(), N_typedIdent.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.Param(nts_flowModeNTS.toAbsSyntax(), nts_mechModeNTS.toAbsSyntax(),
+                nts_changeModeNTS.toAbsSyntax(), nts_typedIdent.toAbsSyntax());
     }
 }

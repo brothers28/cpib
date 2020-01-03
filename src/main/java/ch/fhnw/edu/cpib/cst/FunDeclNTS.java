@@ -8,15 +8,15 @@ import java.util.ArrayList;
 
 // funDeclNTS ::= LOCAL cpsStoNTS
 public class FunDeclNTS extends Production implements IFunDeclNTS {
-    protected final IToken T_local;
-    protected final ICpsStoDecl N_cpsStoDecl;
+    private IToken ts_local;
+    private ICpsStoDecl nts_cpsStoDecl;
 
-    public FunDeclNTS(final IToken T_local, final ICpsStoDecl N_cpsStoDecl) {
-        this.T_local = T_local;
-        this.N_cpsStoDecl = N_cpsStoDecl;
+    public FunDeclNTS(IToken ts_local, ICpsStoDecl nts_cpsStoDecl) {
+        this.ts_local = ts_local;
+        this.nts_cpsStoDecl = nts_cpsStoDecl;
     }
 
     @Override public ArrayList<ch.fhnw.edu.cpib.ast.StoDecl> toAbsSyntax() {
-        return N_cpsStoDecl.toAbsSyntax();
+        return nts_cpsStoDecl.toAbsSyntax();
     }
 }

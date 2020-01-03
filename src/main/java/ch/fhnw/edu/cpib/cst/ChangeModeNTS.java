@@ -7,13 +7,13 @@ import ch.fhnw.edu.cpib.scanner.keywords.Changemode;
 
 // changeModeNTS ::= CHANGEMODE
 public class ChangeModeNTS extends Production implements IChangeModeNTS {
-    protected final IToken T_changeModeNTS;
+    private IToken ts_changeMode;
 
-    public ChangeModeNTS(final IToken t_changeModeNTS) {
-        T_changeModeNTS = t_changeModeNTS;
+    public ChangeModeNTS(IToken ts_changeMode) {
+        this.ts_changeMode = ts_changeMode;
     }
 
     @Override public Changemodes toAbsSyntax() {
-        return ((Changemode) T_changeModeNTS).getChangemode();
+        return ((Changemode) ts_changeMode).getChangemode();
     }
 }

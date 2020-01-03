@@ -1,6 +1,6 @@
 package ch.fhnw.edu.cpib.ast.interfaces;
 
-import ch.fhnw.edu.cpib.ast.TypeIdent;
+import ch.fhnw.edu.cpib.ast.TypedIdent;
 import ch.fhnw.edu.cpib.errors.*;
 import ch.fhnw.edu.cpib.vm.ICodeArray.CodeTooSmallError;
 
@@ -8,21 +8,20 @@ import java.util.HashMap;
 
 public interface IAstNode {
 
-    public abstract String toString(String indent);
+    void setInit(TypedIdent ident);
 
-    public void saveNamespaceInfo(HashMap<String, TypeIdent> localStoresNamespace)
+    void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
             throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError;
 
-    public void executeScopeCheck() throws NotDeclaredError, LRValueError, InvalidParamCountError;
+    void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError;
 
-    public void executeTypeCheck() throws TypeCheckingError, CastError;
+    void executeTypeCheck() throws TypeCheckError, CastError;
 
-    public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError;
+    void executeInitCheck(boolean globalProtected)
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError;
 
-    public void setInit(TypeIdent ident);
+    void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec) throws CodeTooSmallError;
 
-    public void addInstructionToCodeArray(HashMap<String, Integer> localLocations, boolean simulateOnly)
-            throws CodeTooSmallError;
+    String toString(String indent);
+
 }

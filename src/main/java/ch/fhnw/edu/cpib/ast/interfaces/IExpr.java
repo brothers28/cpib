@@ -5,10 +5,10 @@ import ch.fhnw.edu.cpib.scanner.enumerations.Types;
 
 public interface IExpr extends IAstNode {
 
-    public Types getType();
+    Types getType();
 
-    public LRValue getLRValue();
+    LRValue getLRValue();
 
-    public void executeTypeCast(Types type);
+    void executeTypeCast(Types type);
 
 }

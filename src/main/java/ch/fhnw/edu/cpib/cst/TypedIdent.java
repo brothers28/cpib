@@ -1,6 +1,5 @@
 package ch.fhnw.edu.cpib.cst;
 
-import ch.fhnw.edu.cpib.ast.TypeIdent;
 import ch.fhnw.edu.cpib.cst.interfaces.ITypedIdent;
 import ch.fhnw.edu.cpib.scanner.Ident;
 import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
@@ -8,17 +7,17 @@ import ch.fhnw.edu.cpib.scanner.keywords.Type;
 
 // typedIdent ::= IDENT COLON TYPE
 public class TypedIdent extends Production implements ITypedIdent {
-    protected final IToken T_ident;
-    protected final IToken T_colon;
-    protected final IToken T_type;
+    private IToken ts_ident;
+    private IToken ts_colon;
+    private IToken ts_type;
 
-    public TypedIdent(final IToken t_ident, final IToken t_colon, final IToken t_type) {
-        T_ident = t_ident;
-        T_colon = t_colon;
-        T_type = t_type;
+    public TypedIdent(IToken ts_ident, IToken ts_colon, IToken ts_type) {
+        this.ts_ident = ts_ident;
+        this.ts_colon = ts_colon;
+        this.ts_type = ts_type;
     }
 
-    @Override public TypeIdent toAbsSyntax() {
-        return new TypeIdent((Ident) T_ident, ((Type) T_type).getType());
+    @Override public ch.fhnw.edu.cpib.ast.TypedIdent toAbsSyntax() {
+        return new ch.fhnw.edu.cpib.ast.TypedIdent((Ident) ts_ident, ((Type) ts_type).getType());
     }
 }

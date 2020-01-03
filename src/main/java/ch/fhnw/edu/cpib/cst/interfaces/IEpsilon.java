@@ -10,7 +10,7 @@ import ch.fhnw.edu.cpib.scanner.enumerations.Mechmodes;
 
 import java.util.ArrayList;
 
-public interface Epsilon {
+public interface IEpsilon {
     class GlobalNTS extends Production implements IGlobalNTS {
         @Override public ArrayList<ch.fhnw.edu.cpib.ast.interfaces.IDecl> toAbsSyntax() {
             return new ArrayList<>();

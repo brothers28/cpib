@@ -19,24 +19,24 @@ public class AstTree {
     }
 
     public void executeScopeCheck()
-            throws AlreadyDeclaredError, NotDeclaredError, AlreadyGloballyDeclaredError, LRValueError,
+            throws AlreadyDeclaredError, NotDeclaredError, AlreadyGloballyDeclaredError, LRValError,
             AlreadyInitializedError, InvalidParamCountError {
-        root.saveNamespaceInfo(null);
+        root.setNamespaceInfo(null);
         root.executeScopeCheck();
     }
 
-    public void executeTypeCheck() throws TypeCheckingError, CastError {
+    public void executeTypeCheck() throws TypeCheckError, CastError {
         root.executeTypeCheck();
     }
 
     public void executeInitCheck()
             throws NotInitializedError, AlreadyInitializedError,
-            CannotAssignToConstError {
+            AssignToConstError {
         root.executeInitCheck(false);
     }
 
     public ICodeArray getCodeArray() throws CodeTooSmallError {
-        root.addInstructionToCodeArray(new HashMap<String, Integer>(), false);
+        root.addToCodeArray(new HashMap<String, Integer>(), false);
         AstNode.codeArray.resize();
         return AstNode.codeArray;
     }

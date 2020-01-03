@@ -8,19 +8,19 @@ import ch.fhnw.edu.cpib.scanner.symbols.Operator;
 
 // exprNTS ::= BOOLOPR term1 exprNTS
 public class ExprNTS extends Production implements IExprNTS {
-    protected final IToken T_boolOpr;
-    protected final ITerm1 N_term1;
-    protected final IExprNTS N_exprNTS;
+    private IToken ts_boolOpr;
+    private ITerm1 nts_term1;
+    private IExprNTS nts_exprNTS;
 
-    public ExprNTS(final IToken t_boolOpr, final ITerm1 n_term1, final IExprNTS n_exprNTS) {
-        T_boolOpr = t_boolOpr;
-        N_term1 = n_term1;
-        N_exprNTS = n_exprNTS;
+    public ExprNTS(IToken ts_boolOpr, ITerm1 nts_term1, IExprNTS nts_exprNTS) {
+        this.ts_boolOpr = ts_boolOpr;
+        this.nts_term1 = nts_term1;
+        this.nts_exprNTS = nts_exprNTS;
     }
 
     @Override public IExpr toAbsSyntax(IExpr expr) {
         ch.fhnw.edu.cpib.ast.interfaces.IExpr temp = new ch.fhnw.edu.cpib.ast.BoolExpr(
-                ((Operator) T_boolOpr).getOperator(), expr, N_term1.toAbsSyntax());
-        return N_exprNTS.toAbsSyntax(temp);
+                ((Operator) ts_boolOpr).getOperator(), expr, nts_term1.toAbsSyntax());
+        return nts_exprNTS.toAbsSyntax(temp);
     }
 }

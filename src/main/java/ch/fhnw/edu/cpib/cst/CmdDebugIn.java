@@ -6,15 +6,15 @@ import ch.fhnw.edu.cpib.scanner.interfaces.IToken;
 
 // cmd ::= DEBUGIN expr
 public class CmdDebugIn extends Production implements ICmd {
-    protected final IToken T_debugIn;
-    protected final IExpr N_expr;
+    private IToken ts_debugIn;
+    private IExpr nts_expr;
 
-    public CmdDebugIn(final IToken T_debugIn, final IExpr N_expr) {
-        this.T_debugIn = T_debugIn;
-        this.N_expr = N_expr;
+    public CmdDebugIn(IToken ts_debugIn, IExpr nts_expr) {
+        this.ts_debugIn = ts_debugIn;
+        this.nts_expr = nts_expr;
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.ICmd toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.DebugInCmd(N_expr.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.DebugInCmd(nts_expr.toAbsSyntax());
     }
 }

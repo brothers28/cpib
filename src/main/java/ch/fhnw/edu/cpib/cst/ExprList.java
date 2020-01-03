@@ -9,17 +9,17 @@ import java.util.ArrayList;
 
 // exprList ::= LPAREN exprListLparenNTS RPAREN
 public class ExprList extends Production implements IExprList {
-    protected final IToken T_lParen;
-    protected final IExprListLparenNTS N_exprListLparenNTS;
-    protected final IToken T_rParen;
+    private IToken ts_lParen;
+    private IExprListLparenNTS nts_exprListLparenNTS;
+    private IToken ts_rParen;
 
-    public ExprList(final IToken t_lParen, final IExprListLparenNTS n_exprListLparenNTS, final IToken t_rParen) {
-        T_lParen = t_lParen;
-        T_rParen = t_rParen;
-        N_exprListLparenNTS = n_exprListLparenNTS;
+    public ExprList(IToken ts_lParen, IExprListLparenNTS nts_exprListLparenNTS, IToken ts_rParen) {
+        this.ts_lParen = ts_lParen;
+        this.ts_rParen = ts_rParen;
+        this.nts_exprListLparenNTS = nts_exprListLparenNTS;
     }
 
     @Override public ArrayList<IExpr> toAbsSyntax() {
-        return N_exprListLparenNTS.toAbsSyntax();
+        return nts_exprListLparenNTS.toAbsSyntax();
     }
 }
