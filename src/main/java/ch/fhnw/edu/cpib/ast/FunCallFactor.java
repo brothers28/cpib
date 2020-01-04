@@ -176,14 +176,21 @@ public class FunCallFactor extends IdentFactor {
     }
 
     @Override public String toString(String indent) {
+        // Set horizontal spaces
         String nameIndent = indent;
         String argumentIndent = indent + " ";
         String subIndent = indent + "  ";
+
+        // Get class
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
+
+        // Add arguments
         if (localVarNamespace != null)
             s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
+
+        // Add elements
         s += argumentIndent + "<expressions>:\n";
         for (IExpr expr : expressions) {
             s += expr.toString(subIndent);

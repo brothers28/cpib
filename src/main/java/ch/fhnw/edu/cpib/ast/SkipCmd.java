@@ -40,6 +40,8 @@ public class SkipCmd extends AstNode implements ICmd {
         String argumentIndent = indent + " ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
+
+        // Add arguments
         if (localVarNamespace != null)
             s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";

@@ -101,14 +101,21 @@ public class AddExpr extends AstNode implements IExpr {
     }
 
     @Override public String toString(String indent) {
+        // Set horizontal spaces
         String nameIndent = indent;
         String argumentIndent = indent + " ";
         String subIndent = indent + "  ";
+
+        // Get class
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
+
+        // Add arguments
         if (localVarNamespace != null)
             s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
+
+        // Add elements
         s += argumentIndent + "<addOpr>: " + addOpr.toString() + "\n";
         s += argumentIndent + "<exprLeft>:\n";
         s += exprLeft.toString(subIndent);

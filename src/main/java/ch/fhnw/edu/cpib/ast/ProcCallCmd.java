@@ -73,8 +73,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
         for (int i = 0; i < procDecl.getParams().size(); i++) {
             Types expectedType = procDecl.getParams().get(i).getTypedIdent().getType();
             Types realType = expressions.get(i).getType();
-            if (expectedType != realType && !isCastable(expectedType,
-                    realType))
+            if (expectedType != realType && !isCastable(expectedType, realType))
                 throw new TypeCheckError(expectedType, realType);
         }
     }
@@ -154,14 +153,21 @@ public class ProcCallCmd extends AstNode implements ICmd {
     }
 
     @Override public String toString(String indent) {
+        // Set horizontal spaces
         String nameIndent = indent;
         String argumentIndent = indent + " ";
         String subIndent = indent + "  ";
+
+        // Get class
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
+
+        // Add arguments
         if (localVarNamespace != null)
             s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
+
+        // Add elements
         s += argumentIndent + "<ident>: " + ident.toString() + "\n";
         s += argumentIndent + "<expressions>:\n";
         for (IExpr expr : expressions) {

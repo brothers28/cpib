@@ -88,9 +88,13 @@ public class TypedIdent extends AstNode implements Cloneable {
         String argumentIndent = indent + " ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
+
+        // Add arguments
         if (localVarNamespace != null)
             s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
+
+        // Add elements
         s += argumentIndent + "(<ident>, <type>): (" + ident.toString() + ", " + type.toString() + ")\n";
 
         return s;

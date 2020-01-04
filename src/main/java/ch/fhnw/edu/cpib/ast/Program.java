@@ -118,11 +118,16 @@ public class Program extends AstNode {
     }
 
     @Override public String toString(String indent) {
+        // Set horizontal spaces
         String nameIndent = indent;
         String argumentIndent = indent + " ";
         String subIndent = indent + "  ";
+
+        // Get class
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
+
+        // Add arguments
         if (localVarNamespace != null)
             s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
@@ -132,6 +137,8 @@ public class Program extends AstNode {
         if (AstNode.globalRoutNamespace != null)
             s += argumentIndent + "[globalRoutinesNamespace]: " + globalRoutNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
+
+        // Add elements
         s += argumentIndent + "<ident>: " + ident.toString() + "\n";
         s += argumentIndent + "<globalDeclarations>:\n";
         for (IDecl decl : globalDeclarations) {

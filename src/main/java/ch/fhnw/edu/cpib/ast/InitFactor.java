@@ -135,9 +135,13 @@ public class InitFactor extends IdentFactor {
         String argumentIndent = indent + " ";
         String s = "";
         s += nameIndent + this.getClass().getName() + "\n";
+
+        // Add arguments
         if (localVarNamespace != null)
             s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
+
+        // Add elements
         s += argumentIndent + "<init>: " + init + "\n";
 
         return s;
