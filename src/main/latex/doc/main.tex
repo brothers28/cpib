@@ -800,30 +800,30 @@ Code-Array:
 IML:
 \begin{lstlisting}
 program exampleFactorial
-global
+    global
     const input:nat32;
-    const result:nat32;
-    proc factorial(copy const value:nat32, ref var factorial:nat32)
+    const result:int32;
+    proc factorial(copy const value:int32, ref var factorial:int32)
     local
-        var counter:nat32
-    do
-        counter init := value;
-        factorial := [nat32] 1;
-        while counter > [nat32] 1 do
-            factorial := factorial * counter;
-            counter := counter - [nat32] 1
-        endwhile
-    endproc
+        var counter:int32
+        do
+            counter init := value;
+            factorial := 1;
+            while counter > 1 do
+                factorial := factorial * counter;
+                counter := counter - 1
+            endwhile
+        endproc
 do
     debugin input init;
-    call factorial([nat32] input, result init);
-    debugout result
+    call factorial([int32] input, result init);
+        debugout result
 endprogram
 \end{lstlisting}
 
 Output:
 
-\texttt{result:nat32 => 5} \cmark
+\texttt{result:int32 => 24} \cmark
 %----------------------------------------------------------------------------------------
 
 \end{document}
