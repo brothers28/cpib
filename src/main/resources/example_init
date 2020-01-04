@@ -4,5 +4,5 @@ global
    var y:nat32
 do
    x init := [int32] 4;
-   y init := [nat32] 3
+   y init := [nat32] 4294967295
 endprogram
