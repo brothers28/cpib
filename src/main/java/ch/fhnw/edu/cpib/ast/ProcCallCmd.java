@@ -74,7 +74,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
             Types expectedType = procDecl.getParams().get(i).getTypedIdent().getType();
             Types realType = expressions.get(i).getType();
             if (expectedType != realType && !isCastable(expectedType,
-                    realType)) // TODO: Uncomment isCastable like in AssignCmd?
+                    realType))
                 throw new TypeCheckError(expectedType, realType);
         }
     }

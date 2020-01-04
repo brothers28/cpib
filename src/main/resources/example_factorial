@@ -1,7 +1,8 @@
 program exampleFactorial
 global
-   const input:nat32;
+   const input:int32;
    const result:nat32;
+   const natInput:nat32;
    proc factorial(copy const value:nat32, ref var factorial:nat32)
    local
     var counter:nat32
@@ -15,6 +16,7 @@ global
   endproc
 do
   debugin input init;
-  call factorial([nat32] input, result init);
+  natInput init := [nat32] input;
+  call factorial(natInput, result init);
   debugout result
 endprogram
