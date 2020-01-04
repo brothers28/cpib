@@ -99,21 +99,28 @@ public class IfCmd extends AstNode implements ICmd {
 
     }
 
-    @Override public String toString(String indent) {
-        String nameIndent = indent;
-        String argumentIndent = indent + " ";
-        String subIndent = indent + "  ";
+    @Override public String toString(String spaces) {
+        // Set horizontal spaces
+        String identifierIndendation = spaces;
+        String argumentIndendation = spaces + " ";
+        String lowerSpaces = spaces + "  ";
+
+        // Get class
         String s = "";
-        s += nameIndent + this.getClass().getName() + "\n";
+        s += identifierIndendation + this.getClass().getName() + "\n";
+
+        // Add arguments
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+            s += argumentIndendation + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
-        s += argumentIndent + "<expr>:\n";
-        s += expr.toString(subIndent);
-        s += argumentIndent + "<ifCpsCmd>:\n";
-        s += ifCpsCmd.toString(subIndent);
-        s += argumentIndent + "<elseCpsCmd>:\n";
-        s += elseCpsCmd.toString(subIndent);
+
+        // Add elements
+        s += argumentIndendation + "<expr>:\n";
+        s += expr.toString(lowerSpaces);
+        s += argumentIndendation + "<ifCpsCmd>:\n";
+        s += ifCpsCmd.toString(lowerSpaces);
+        s += argumentIndendation + "<elseCpsCmd>:\n";
+        s += elseCpsCmd.toString(lowerSpaces);
 
         return s;
     }

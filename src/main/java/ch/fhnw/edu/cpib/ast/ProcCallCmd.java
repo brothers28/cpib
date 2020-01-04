@@ -73,8 +73,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
         for (int i = 0; i < procDecl.getParams().size(); i++) {
             Types expectedType = procDecl.getParams().get(i).getTypedIdent().getType();
             Types realType = expressions.get(i).getType();
-            if (expectedType != realType && !isCastable(expectedType,
-                    realType))
+            if (expectedType != realType && !isCastable(expectedType, realType))
                 throw new TypeCheckError(expectedType, realType);
         }
     }
@@ -153,19 +152,26 @@ public class ProcCallCmd extends AstNode implements ICmd {
         codeArrayPointer++;
     }
 
-    @Override public String toString(String indent) {
-        String nameIndent = indent;
-        String argumentIndent = indent + " ";
-        String subIndent = indent + "  ";
+    @Override public String toString(String spaces) {
+        // Set horizontal spaces
+        String identifierIndendation = spaces;
+        String argumentIndendation = spaces + " ";
+        String lowerSpaces = spaces + "  ";
+
+        // Get class
         String s = "";
-        s += nameIndent + this.getClass().getName() + "\n";
+        s += identifierIndendation + this.getClass().getName() + "\n";
+
+        // Add arguments
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+            s += argumentIndendation + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
-        s += argumentIndent + "<ident>: " + ident.toString() + "\n";
-        s += argumentIndent + "<expressions>:\n";
+
+        // Add elements
+        s += argumentIndendation + "<ident>: " + ident.toString() + "\n";
+        s += argumentIndendation + "<expressions>:\n";
         for (IExpr expr : expressions) {
-            s += expr.toString(subIndent);
+            s += expr.toString(lowerSpaces);
         }
 
         return s;

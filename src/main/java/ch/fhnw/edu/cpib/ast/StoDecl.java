@@ -58,19 +58,26 @@ public class StoDecl extends AstNode implements IDecl {
         codeArrayPointer++;
     }
 
-    @Override public String toString(String indent) {
-        String nameIndent = indent;
-        String argumentIndent = indent + " ";
-        String subIndent = indent + "  ";
+    @Override public String toString(String spaces) {
+        // Set horizontal spaces
+        String identifierIndendation = spaces;
+        String argumentIndendation = spaces + " ";
+        String lowerSpaces = spaces + "  ";
+
+        // Get class
         String s = "";
-        s += nameIndent + this.getClass().getName() + "\n";
+        s += identifierIndendation + this.getClass().getName() + "\n";
+
+        // Add arguments
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+            s += argumentIndendation + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
         if (changeMode != null)
-            s += argumentIndent + "<changeMode>: " + changeMode.toString() + "\n";
-        s += argumentIndent + "<typeIdent>:\n";
-        s += typedIdent.toString(subIndent);
+            s += argumentIndendation + "<changeMode>: " + changeMode.toString() + "\n";
+
+        // Add elements
+        s += argumentIndendation + "<typeIdent>:\n";
+        s += typedIdent.toString(lowerSpaces);
 
         return s;
     }

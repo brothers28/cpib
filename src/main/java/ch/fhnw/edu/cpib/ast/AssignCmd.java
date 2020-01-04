@@ -107,19 +107,26 @@ public class AssignCmd extends AstNode implements ICmd {
         codeArrayPointer++;
     }
 
-    @Override public String toString(String indent) {
-        String nameIndent = indent;
-        String argumentIndent = indent + " ";
-        String subIndent = indent + "  ";
+    @Override public String toString(String spaces) {
+        // Set horizontal spaces
+        String identifierIndendation = spaces;
+        String argumentIndendation = spaces + " ";
+        String lowerSpaces = spaces + "  ";
+
+        // Get class
         String s = "";
-        s += nameIndent + this.getClass().getName() + "\n";
+        s += identifierIndendation + this.getClass().getName() + "\n";
+
+        // Add arguments
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+            s += argumentIndendation + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
-        s += argumentIndent + "<exprLeft>:\n";
-        s += exprLeft.toString(subIndent);
-        s += argumentIndent + "<exprRight>:\n";
-        s += exprRight.toString(subIndent);
+
+        // Add elements
+        s += argumentIndendation + "<exprLeft>:\n";
+        s += exprLeft.toString(lowerSpaces);
+        s += argumentIndendation + "<exprRight>:\n";
+        s += exprRight.toString(lowerSpaces);
 
         return s;
     }
