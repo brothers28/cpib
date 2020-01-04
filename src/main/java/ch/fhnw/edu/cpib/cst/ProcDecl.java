@@ -17,8 +17,8 @@ public class ProcDecl extends Production implements IProcDecl {
     protected ICpsCmd nts_cpsCmd;
     protected IToken ts_endProc;
 
-    public ProcDecl(IToken ts_proc, IToken ts_ident, IParamList nts_paramList,
-            IProcDeclNTS nts_procDeclNTS, IToken ts_do, ICpsCmd nts_cpsCmd, IToken ts_endProc) {
+    public ProcDecl(IToken ts_proc, IToken ts_ident, IParamList nts_paramList, IProcDeclNTS nts_procDeclNTS,
+            IToken ts_do, ICpsCmd nts_cpsCmd, IToken ts_endProc) {
         this.ts_proc = ts_proc;
         this.ts_ident = ts_ident;
         this.ts_do = ts_do;

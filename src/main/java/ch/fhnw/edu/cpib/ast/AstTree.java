@@ -19,8 +19,7 @@ public class AstTree {
     }
 
     public void executeScopeCheck()
-            throws AlreadyDeclaredError, NotDeclaredError, AlreadyGloballyDeclaredError, LRValError,
-            AlreadyInitializedError, InvalidParamCountError {
+            throws AlreadyDeclaredError, NotDeclaredError, LRValError, AlreadyInitializedError, InvalidParamCountError {
         root.setNamespaceInfo(null);
         root.executeScopeCheck();
     }
@@ -29,9 +28,7 @@ public class AstTree {
         root.executeTypeCheck();
     }
 
-    public void executeInitCheck()
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+    public void executeInitCheck() throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         root.executeInitCheck(false);
     }
 

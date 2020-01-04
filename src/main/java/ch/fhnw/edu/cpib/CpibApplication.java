@@ -52,9 +52,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         } catch (NotDeclaredError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();
-        } catch (AlreadyGloballyDeclaredError e) {
-            System.out.println(" Error...\n");
-            e.printStackTrace();
         } catch (LRValError e) {
             System.out.println(" Error...\n");
             e.printStackTrace();

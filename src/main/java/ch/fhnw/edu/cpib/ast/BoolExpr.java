@@ -24,7 +24,7 @@ public class BoolExpr extends AstNode implements IExpr {
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         exprLeft.setNamespaceInfo(this.localVarNamespace);
         exprRight.setNamespaceInfo(this.localVarNamespace);
@@ -47,8 +47,7 @@ public class BoolExpr extends AstNode implements IExpr {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         exprLeft.executeInitCheck(globalProtected);
         exprRight.executeInitCheck(globalProtected);
     }

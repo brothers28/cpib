@@ -22,7 +22,7 @@ public class FunCallFactor extends IdentFactor {
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         for (IExpr expr : expressions) {
             expr.setNamespaceInfo(this.localVarNamespace);
@@ -75,8 +75,7 @@ public class FunCallFactor extends IdentFactor {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         // Check function declaration
         FunDecl funDecl = (FunDecl) globalRoutNamespace.get(ident.getIdent());
 

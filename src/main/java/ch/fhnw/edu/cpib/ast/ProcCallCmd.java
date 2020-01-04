@@ -25,7 +25,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
 
         // add local storage on everery case
@@ -80,8 +80,7 @@ public class ProcCallCmd extends AstNode implements ICmd {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
 
         // Init check for procedure declaration
         ProcDecl procDecl = (ProcDecl) globalRoutNamespace.get(ident.getIdent());

@@ -13,8 +13,7 @@ public class CmdWhile extends Production implements ICmd {
     protected ICpsCmd nts_cpsCmd;
     protected IToken ts_endWhile;
 
-    public CmdWhile(IToken ts_while, IExpr nts_expr, IToken ts_do, ICpsCmd nts_cpsCmd,
-            IToken ts_endWhile) {
+    public CmdWhile(IToken ts_while, IExpr nts_expr, IToken ts_do, ICpsCmd nts_cpsCmd, IToken ts_endWhile) {
         this.ts_while = ts_while;
         this.nts_expr = nts_expr;
         this.ts_do = ts_do;

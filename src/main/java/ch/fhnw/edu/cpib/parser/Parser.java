@@ -39,9 +39,8 @@ public class Parser {
     }
 
     public AstTree parse()
-            throws GrammarError, AlreadyDeclaredError, NotDeclaredError, AlreadyGloballyDeclaredError, LRValError,
-            InvalidParamCountError, AlreadyInitializedError, TypeCheckError, NotInitializedError,
-            AssignToConstError, CastError {
+            throws GrammarError, AlreadyDeclaredError, NotDeclaredError, LRValError, InvalidParamCountError,
+            AlreadyInitializedError, TypeCheckError, NotInitializedError, AssignToConstError, CastError {
         System.out.println("Start parsing:\n");
         IProgram program = program();
         consume(Terminals.SENTINEL);
@@ -157,8 +156,8 @@ public class Parser {
             IToken ts_do = consume(Terminals.DO);
             ICpsCmd nts_cpsCmd = cpsCmd();
             IToken ts_endFun = consume(Terminals.ENDFUN);
-            return new FunDecl(ts_fun, ts_ident, nts_paramList, ts_returns, nts_stoDecl, nts_funDeclNTS, ts_do, nts_cpsCmd,
-                    ts_endFun);
+            return new FunDecl(ts_fun, ts_ident, nts_paramList, ts_returns, nts_stoDecl, nts_funDeclNTS, ts_do,
+                    nts_cpsCmd, ts_endFun);
         } else {
             throw new GrammarError(Terminals.FUNDECL, currentTerminal);
         }

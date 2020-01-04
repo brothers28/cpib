@@ -26,17 +26,16 @@ public class ProcDecl extends AstNode implements IDecl {
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
 
         // Create local namespace
         this.localVarNamespace = new HashMap<>();
         for (Param param : params) {
-            if (globalVarNamespace.containsKey(param.getIdentString()))
-                // Already declared (globally)
-                throw new AlreadyGloballyDeclaredError(param.getIdentString());
-            if (this.localVarNamespace.containsKey(param.getIdentString()))
+            if (globalVarNamespace.containsKey(param.getIdentString()) || this.localVarNamespace
+                    .containsKey(param.getIdentString())) {
                 // Already declared
                 throw new AlreadyDeclaredError(param.getIdentString());
+            }
             if (param.getMechMode() == Mechmodes.REF)
                 // Deref
                 param.getTypedIdent().setNeedToDeref();
@@ -47,13 +46,11 @@ public class ProcDecl extends AstNode implements IDecl {
 
         // Save variables in local namespace
         for (StoDecl stoDecl : stoDecls) {
-            if (globalVarNamespace.containsKey(stoDecl.getIdentString()))
-                // Already declared (globally)
-                throw new AlreadyGloballyDeclaredError(stoDecl.getIdentString());
-            if (this.localVarNamespace.containsKey(stoDecl.getIdentString()))
+            if (globalVarNamespace.containsKey(stoDecl.getIdentString()) || this.localVarNamespace
+                    .containsKey(stoDecl.getIdentString())) {
                 // Already declared
                 throw new AlreadyDeclaredError(stoDecl.getIdentString());
-
+            }
             // Save to local namespace
             this.localVarNamespace.put(stoDecl.getIdentString(), stoDecl.getTypedIdent());
         }
@@ -70,8 +67,7 @@ public class ProcDecl extends AstNode implements IDecl {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         cpsCmd.executeInitCheck(globalProtected);
     }
 

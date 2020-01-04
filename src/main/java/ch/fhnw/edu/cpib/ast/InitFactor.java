@@ -44,8 +44,7 @@ public class InitFactor extends IdentFactor {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
 
         // Get typedIdent for this factor
         TypedIdent typedIdent = null;

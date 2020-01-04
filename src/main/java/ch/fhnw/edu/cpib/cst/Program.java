@@ -15,8 +15,8 @@ public class Program extends Production implements IProgram {
     protected ICpsCmd nts_cpsCmd;
     protected IToken ts_endprogram;
 
-    public Program(IToken ts_program, IToken ts_ident, IGlobalNTS nts_globalNTS, IToken ts_do,
-            ICpsCmd nts_cpsCmd, IToken ts_endprogram) {
+    public Program(IToken ts_program, IToken ts_ident, IGlobalNTS nts_globalNTS, IToken ts_do, ICpsCmd nts_cpsCmd,
+            IToken ts_endprogram) {
         this.ts_program = ts_program;
         this.ts_ident = ts_ident;
         this.nts_globalNTS = nts_globalNTS;
@@ -26,6 +26,7 @@ public class Program extends Production implements IProgram {
     }
 
     @Override public ch.fhnw.edu.cpib.ast.Program toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.Program((Ident) ts_ident, nts_globalNTS.toAbsSyntax(), nts_cpsCmd.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.Program((Ident) ts_ident, nts_globalNTS.toAbsSyntax(),
+                nts_cpsCmd.toAbsSyntax());
     }
 }

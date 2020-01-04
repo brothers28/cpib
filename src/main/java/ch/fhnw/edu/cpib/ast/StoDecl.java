@@ -39,8 +39,7 @@ public class StoDecl extends AstNode implements IDecl {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         //
     }
 

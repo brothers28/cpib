@@ -19,7 +19,7 @@ public class DebugInCmd extends AstNode implements ICmd {
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         expr.setNamespaceInfo(this.localVarNamespace);
     }
@@ -36,8 +36,7 @@ public class DebugInCmd extends AstNode implements ICmd {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         // exprLeft has to be InitFactor
         InitFactor factor = (InitFactor) expr;
 

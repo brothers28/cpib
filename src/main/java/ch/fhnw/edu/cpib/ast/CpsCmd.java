@@ -16,7 +16,7 @@ public class CpsCmd extends AstNode implements ICmd {
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         for (ICmd cmd : commands) {
             cmd.setNamespaceInfo(this.localVarNamespace);
@@ -36,8 +36,7 @@ public class CpsCmd extends AstNode implements ICmd {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         for (ICmd cmd : commands) {
             cmd.executeInitCheck(globalProtected);
         }

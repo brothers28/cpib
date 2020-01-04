@@ -8,11 +8,17 @@ These instructions will help you to run the application on your local machine.
 
 ### Configuration
 
-TODO
+The IML that should be compiled can be specified in `CpibApplication.java` on line 16:
+
+```
+public static final String FILE_NAME = "/example_factorial";
+```
+
+The corresponding files can be found in the `resources` folder.
 
 ### Run application
 
-TODO
+Just run the *main*-Methon in `CpibApplication.java`.
 
 ## Authors
 
