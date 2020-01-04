@@ -2,7 +2,6 @@ package ch.fhnw.edu.cpib.scanner;
 
 import ch.fhnw.edu.cpib.scanner.enumerations.Terminals;
 import ch.fhnw.edu.cpib.scanner.enumerations.Types;
-import jdk.jshell.spi.ExecutionControl;
 
 public class Literal extends Base {
     private final boolean isBoolean;
@@ -41,23 +40,23 @@ public class Literal extends Base {
 
     }
 
-    public boolean getBoolValue() throws ExecutionControl.NotImplementedException {
+    public boolean getBoolValue() throws IllegalStateException {
         if (!isBoolean)
-            throw new ExecutionControl.NotImplementedException("Type is not bool");
+            throw new IllegalStateException("Type is not bool");
 
         return value > 0;
     }
 
-    public long getIntValue() throws ExecutionControl.NotImplementedException {
+    public long getIntValue() throws IllegalStateException {
         if (isBoolean)
-            throw new ExecutionControl.NotImplementedException("Type is bool");
+            throw new IllegalStateException("Type is bool");
 
         return value;
     }
 
-    public long getNatValue() throws ExecutionControl.NotImplementedException {
+    public long getNatValue() throws IllegalStateException {
         if (isBoolean)
-            throw new ExecutionControl.NotImplementedException("Type is bool");
+            throw new IllegalStateException("Type is bool");
 
         return value;
     }

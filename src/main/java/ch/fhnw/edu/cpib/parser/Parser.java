@@ -72,11 +72,10 @@ public class Parser {
         return ast;
     }
 
-    // program ::= PROGRAM IDENT globalNTS DO cpsCmd ENDPROGRAM
-    // TODO: progParamList fehlt hier
+    // program ::= PROGRAM IDENT progParamList globalNTS DO cpsCmd ENDPROGRAM
     private IProgram program() throws GrammarError {
         if (currentTerminal == Terminals.PROGRAM) {
-            System.out.println("program ::= PROGRAM IDENT <globalNTS> DO <cpsCmd> ENDPROGRAM");
+            System.out.println("program ::= PROGRAM IDENT progParamList <globalNTS> DO <cpsCmd> ENDPROGRAM");
             IToken ts_program = consume(Terminals.PROGRAM);
             IToken ts_ident = consume(Terminals.IDENT);
             IGlobalNTS nts_globalNTS = globalNTS();
