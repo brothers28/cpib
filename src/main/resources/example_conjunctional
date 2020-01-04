@@ -8,7 +8,7 @@ do
    x init := 4;
    y init := 4;
    z init := 0;
-   if x > y = 4  then
+   if [int32] x > y = 4  then
       z := ([int32] x * y)
    else
       z := ([int32] x + y)

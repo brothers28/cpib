@@ -477,11 +477,147 @@ framexleftmargin = 0.05em]
 
 \clearpage
 \twocolumn
+\section{Beispiel Scanner}
+IML:
+\begin{lstlisting}
+    This file should lex successfully:
+
+    Liebe Grossmutter:
+
+    Zu Deinen 67-ten Geburtstag wuensche ich Dir alles Gute,
+
+    Dein Beat
+
+    &&   ||   program++-*endprogram
+
+
+    whilex==17do//
+    xwhile:=5
+
+    x_'_'17   1000''100'10
+
+    // A Comment
+    no comment
+
+    mod modE
+    [NAT32]
+\end{lstlisting}
+
+Token-List:
+\begin{lstlisting}
+[(IDENT, "This"), (IDENT, "file"), (IDENT, "should"), (IDENT, "lex"), (IDENT, "successfully"), COLON, (IDENT, "Liebe"), (IDENT, "Grossmutter"), COLON, (IDENT, "Zu"), (IDENT, "Deinen"), (LITERAL, 67), (ADDOPR, MINUS), (IDENT, "ten"), (IDENT, "Geburtstag"), (IDENT, "wuensche"), (IDENT, "ich"), (IDENT, "Dir"), (IDENT, "alles"), (IDENT, "Gute"), COMMA, (IDENT, "Dein"), (IDENT, "Beat"), (BOOLOPR, CAND), (BOOLOPR, COR), PROGRAM, (ADDOPR, PLUS), (ADDOPR, PLUS), (ADDOPR, MINUS), (MULTOPR, TIMES), ENDPROGRAM, (IDENT, "whilex"), (RELOPR, EQ), (RELOPR, EQ), (LITERAL, 17), DO, (IDENT, "xwhile"), BECOMES, (LITERAL, 5), (IDENT, "x__17"), (LITERAL, 100010010), (IDENT, "no"), (IDENT, "comment"), (MULTOPR, MOD), (MULTOPR, MOD_E), LBRACKET, (IDENT, "NAT32"), RBRACKET, SENTINEL ]
+\end{lstlisting}
+
+\clearpage
+\section{Beispiel \texttt{init}}
+IML:
+\begin{lstlisting}
+program exampleInit
+global
+    var x:int32;
+    var y:nat32
+do
+    x init := [int32] 4;
+    y init := [nat32] 3
+endprogram
+\end{lstlisting}
+
+Concrete Syntax Tree:
+\begin{lstlisting}
+PROGRAM
+(IDENT, "exampleInit")
+ GLOBAL
+    (CHANGEMOD, VAR)
+     (IDENT, "x")
+     COLON
+     (TYPE, INT32)
+   SEMICOLON
+    (CHANGEMOD, VAR)
+     (IDENT, "y")
+     COLON
+     (TYPE, NAT32)
+DO
+     (IDENT, "x")
+      INIT
+  BECOMES
+       LBRACKET
+       (TYPE, INT32)
+       RBRACKET
+       (LITERAL, 4)
+  SEMICOLON
+     (IDENT, "y")
+      INIT
+  BECOMES
+       LBRACKET
+       (TYPE, NAT32)
+       RBRACKET
+       (LITERAL, 3)
+ENDPROGRAM
+\end{lstlisting}
+
+\newpage
+\vspace*{0.3cm}
+Abstract Syntax Tree:
+\begin{lstlisting}
+ch.fhnw.edu.cpib.ast.Program
+ [localStoresNamespace]:
+ [globalStoresNamespace]:
+ [globalRoutinesNamespace]:
+ <ident>: (IDENT, "exampleInit")
+ <globalDeclarations>:
+  ch.fhnw.edu.cpib.ast.StoDecl
+   [localStoresNamespace]:
+   <changeMode>: VAR
+   <typeIdent>:
+    ch.fhnw.edu.cpib.ast.TypedIdent
+    [localStoresNamespace]:
+    (<ident>, <type>): ((IDENT, "x"), INT32)
+  ch.fhnw.edu.cpib.ast.StoDecl
+   [localStoresNamespace]:
+   <changeMode>: VAR
+   <typeIdent>:
+    ch.fhnw.edu.cpib.ast.TypedIdent
+     [localStoresNamespace]:
+     (<ident>, <type>): ((IDENT, "y"), NAT32)
+ <cpsCmd>:  ch.fhnw.edu.cpib.ast.CpsCmd
+   [localStoresNamespace]:
+   <commands>:
+    ch.fhnw.edu.cpib.ast.AssignCmd
+    [localStoresNamespace]:
+    <exprLeft>:
+     ch.fhnw.edu.cpib.ast.InitFactor
+      [localStoresNamespace]:
+      <init>: true
+    <exprRight>:
+     ch.fhnw.edu.cpib.ast.CastFactor
+      [localStoresNamespace]:
+      <CastType>: INT32
+      <factor>:
+       ch.fhnw.edu.cpib.ast.LiteralFactor
+        [localStoresNamespace]:
+        <literal>: (LITERAL, 4)
+    ch.fhnw.edu.cpib.ast.AssignCmd
+     [localStoresNamespace]:
+     <exprLeft>:
+      ch.fhnw.edu.cpib.ast.InitFactor
+       [localStoresNamespace]:
+       <init>: true
+     <exprRight>:
+      ch.fhnw.edu.cpib.ast.CastFactor
+       [localStoresNamespace]:
+       <CastType>: NAT32
+       <factor>:
+        ch.fhnw.edu.cpib.ast.LiteralFactor
+         [localStoresNamespace]:
+         <literal>: (LITERAL, 3)
+\end{lstlisting}
+
+\clearpage
 \section{Beispiel doppeltes Casting}
 \label{bsp_casting}
 IML:
 \begin{lstlisting}
-program progDouble
+program exampleDouble
 global
     var value:int32
 do
@@ -544,6 +680,8 @@ Code-Array:
 13: Stop
 \end{lstlisting}
 
+\newpage
+\vspace*{0.3cm}
 Stack:
 \begin{lstlisting}
     ...
@@ -592,8 +730,8 @@ Stack content:
 \end{lstlisting}
 
 \clearpage
-\section{Beispiel casting einer expression}
-\label{bsp_casting_expr}
+\section{Beispiel Casting \texttt{expr}}
+\label{bsp_expr}
 IML:
 \begin{lstlisting}
 program exampleCastExpression
@@ -655,171 +793,6 @@ Code-Array:
 37: GeInt
 38: Store
 39: Stop
-\end{lstlisting}
-
-Stack:
-\begin{lstlisting}
-    ...
-(12) Executing instruction LoadAddrAbs(2)
-pc: 12
-sp: 5
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: null
-3: null
-4: null
-5: IntData: 2
-
-(13) Executing instruction LoadAddrAbs(0)
-pc: 13
-sp: 6
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: null
-3: null
-4: null
-5: IntData: 2
-6: IntData: 0
-
-(14) Executing instruction Deref
-pc: 14
-sp: 7
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: null
-3: null
-4: null
-5: IntData: 2
-6: IntData: 4
-
-(15) Executing instruction LoadAddrAbs(1)
-pc: 15
-sp: 7
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: null
-3: null
-4: null
-5: IntData: 2
-6: IntData: 4
-7: IntData: 1
-
-(16) Executing instruction Deref
-pc: 16
-sp: 8
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: null
-3: null
-4: null
-5: IntData: 2
-6: IntData: 4
-7: IntData: 2
-
-(17) Executing instruction MultInt
-pc: 17
-sp: 8
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: null
-3: null
-4: null
-5: IntData: 2
-6: IntData: 8
-
-(18) Executing instruction LoadAddrAbs(1)
-pc: 18
-sp: 7
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: null
-3: null
-4: null
-5: IntData: 2
-6: IntData: 8
-7: IntData: 1
-
-(19) Executing instruction Deref
-pc: 19
-sp: 8
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: null
-3: null
-4: null
-5: IntData: 2
-6: IntData: 8
-7: IntData: 2
-
-(20) Executing instruction AddInt
-pc: 20
-sp: 8
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: null
-3: null
-4: null
-5: IntData: 2
-6: IntData: 10
-
-(21) Executing instruction LoadAddrAbs(0)
-pc: 21
-sp: 7
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: null
-3: null
-4: null
-5: IntData: 2
-6: IntData: 10
-7: IntData: 0
-
-(22) Executing instruction Deref
-pc: 22
-sp: 8
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: null
-3: null
-4: null
-5: IntData: 2
-6: IntData: 10
-7: IntData: 4
-
-(23) Executing instruction AddNat
-pc: 23
-sp: 8
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: null
-3: null
-4: null
-5: IntData: 2
-6: NatData: 14
-
-(24) Executing instruction Store
-pc: 24
-sp: 7
-Stack content:
-0: IntData: 4
-1: IntData: 2
-2: NatData: 14
-3: null
-4: null
-
-    ...
 \end{lstlisting}
 
 

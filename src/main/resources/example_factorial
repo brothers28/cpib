@@ -1,6 +1,20 @@
 program progFactorial
 global
-  const test:nat32
+   const input:nat32;
+   const result:nat32;
+   proc factorial(copy const value:nat32, ref var factorial:nat32)
+   local
+    var counter:nat32
+   do
+    counter init := value;
+    factorial := [nat32] 1;
+   while counter > [nat32] 1 do
+    factorial := factorial * counter;
+    counter := counter - [nat32] 1
+   endwhile
+  endproc
 do
-  test init := [nat32] (4 + 5)
+  debugin input init;
+  call factorial([nat32] input, result init);
+  debugout result
 endprogram
