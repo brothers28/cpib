@@ -49,7 +49,7 @@
 %	ABSTRACT
 %----------------------------------------------------------------------------------------
 
-\lettrineabstract{Im Modul Compilerbau wird eine Erweiterung für die bestehende Sprache IML spezifiziert und implementiert. Die Implementierung beinhaltet einen neuen Datentyp für natürliche Zahlen, sowie eine Möglichkeit den Datentyp Int32 in den neuen Datentypen zu casten und umgekehrt.}
+\lettrineabstract{Im Modul Compilerbau wird eine Erweiterung für die bestehende Sprache IML spezifiziert und implementiert. Die Implementierung beinhaltet einen neuen Datentyp für natürliche Zahlen, sowie eine Möglichkeit den Datentyp \texttt{int32} in den neuen Datentypen zu casten und umgekehrt.}
 %----------------------------------------------------------------------------------------
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
@@ -60,10 +60,10 @@ Unter natürlichen Zahlen werden die positiven, ganzen Zahlen und 0 verstanden:
 
 $$ \mathbb{N} = \{0; 1; 2; 3; \ldots\} $$
 
-Die IML soll um einen neuen Datentyp \texttt{NAT32} erweitert werden.
+Die IML soll um einen neuen Datentyp \texttt{nat32} erweitert werden.
 Der neue Datentyp soll solche positiven, ganzen Zahlen mit einer Länge von bis zu 32 Bits in Binärdarstellung abbilden können.
 Es sollen die bestehenden Operationen unterstützt werden.
-Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp \texttt{INT32} und dem neuen Datentyp \texttt{NAT32} möglich sein.
+Ausserdem soll ein explizites Casting zwischen dem bestehenden Datentyp \texttt{int32} und dem neuen Datentyp \texttt{nat32} möglich sein.
 
 \subsection{Lexikalische Syntax}
 Für den neuen Datentyp wird das Keyword \texttt{(TYPE, NAT32)} und ein Castingoperator hinzugefügt.
@@ -78,10 +78,10 @@ framexleftmargin = 0.05em]
 
 Casting ist nur von \texttt{(TYPE, INT32)} zu \texttt{(TYPE, NAT32)} und umgekehrt möglich.
 Als Castingoperator werden rechteckige Klammern (nachfolgend Brackets genannt) verwendet.
-Innerhalb der Brackets befindet sich der Zieldatentyp \footnote{zum Beispiel \texttt{[INT32]}}.
+Innerhalb der Brackets befindet sich der Zieldatentyp \footnote{zum Beispiel \texttt{[int32]}}.
 
 \subsection{Grammatikalische Syntax}
-Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{NAT32} eingesetzt werden kann.
+Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{nat32} eingesetzt werden kann.
 \begin{lstlisting}
     // Deklaration
     var natIdent1 : nat32;
@@ -93,20 +93,20 @@ Das nachfolgende Code-Listing zeigt, wie der neue Datentyp \texttt{NAT32} einges
     natIdent2 init := [nat32] 10;
     natIdent3 init := natIdent1 + natIdent2;
 
-    // Casting von INT32 nach NAT32
+    // Casting von int32 nach nat32
     var intIdent1 : int32;
     intIdent1 init := 30;
     natIdent3 := [nat32] intIdent1;
 
     call functionWithNatParam([nat32] intIdent1);
 
-    // Casting von NAT32 nach INT32
+    // Casting von nat32 nach int32
     var intIdent2 : int32;
     intIdent2 init := [int32] natIdent3;
 
     call functionWithIntParam([int32] natIdent3);
 \end{lstlisting}
-Literale werden standardmässig als \texttt{INT32} interpretiert - ein \texttt{NAT32}-Literal bedingt vorab deshalb den Castingoperator.
+Literale werden standardmässig als \texttt{int32} interpretiert - ein \texttt{nat32}-Literal bedingt vorab deshalb den Castingoperator.
 Falls zwei Datentypen nicht gecastet werden können, wird ein Kompilierungsfehler geworfen.
 Folgendes Code-Listing zeigt ein solches Beispiel mit dem bestehenden Datentyp \texttt{bool}:
 \begin{lstlisting}
@@ -144,17 +144,17 @@ framexleftmargin = 0.05em]
 \end{lstlisting}
 
 \subsection{Kontext- und Typen-Einschränkungen}
-Der \texttt{TYPE} zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss vom Datentyp \texttt{INT32} oder \texttt{NAT32} sein.
-Ein Casting zum Typ \texttt{bool} oder vom Typ \texttt{bool} zu \texttt{INT32} resp. \texttt{NAT32} führt zu einem Kompilierungsfehler.
+Der \texttt{TYPE} zwischen \texttt{LBRACKET} und \texttt{RBRACKET} muss vom Datentyp \texttt{int32} oder \texttt{nat32} sein.
+Ein Casting zum Typ \texttt{bool} oder vom Typ \texttt{bool} zu \texttt{int32} resp. \texttt{nat32} führt zu einem Kompilierungsfehler.
 
 Tabelle \ref{tab:Casting} zeigt die unterstützen Typumwandlungen der verschiedenen Datentypen.
 Typumwandlungen, welche zu potentiellen Laufzeitfehlern führen, sind mit mit \texttt{*} gekennzeichnet.
-Der Datentyp \texttt{INT32} umfasst einen Wertebereich von $-2147483648$ bis $2147483647$, wobei das Most Significant Bit (MSB) für das Vorzeichen verwendet wird.
-Weil der Datentyp \texttt{NAT32} nur positive, ganze Zahlen und die Zahl 0 darstellt, wird kein Vorzeichenbit benötigt.
+Der Datentyp \texttt{int32} umfasst einen Wertebereich von $-2147483648$ bis $2147483647$, wobei das Most Significant Bit (MSB) als Vorzeichen verwendet wird.
+Weil der Datentyp \texttt{nat32} nur positive, ganze Zahlen und die Zahl 0 darstellt, wird kein Vorzeichenbit benötigt.
 Der Wertebereich verschiebt sich dadurch auf $0$ bis $4294967295$.
 Falls bei Typumwandlungen der Wert ausserhalb des Wertebereichs des Zieldatentyps liegt, führt dies zu einem Laufzeitfehler.
-Bei der Umwandlung von \texttt{NAT32} nach \texttt{INT32} kann ein solcher Laufzeitfehler beispielsweise auftreten, falls es sich um einen Wert $> 2147483647$ handelt.
-Falls negative Werte von \texttt{INT32} nach \texttt{NAT32} umgewandelt werden, resultiert ebenfalls ein Laufzeitfehler.
+Bei der Umwandlung von \texttt{nat32} nach \texttt{int32} kann ein solcher Laufzeitfehler beispielsweise auftreten, falls es sich um einen Wert $> 2147483647$ handelt.
+Falls negative Werte von \texttt{int32} nach \texttt{nat32} umgewandelt werden, resultiert ebenfalls ein Laufzeitfehler.
 \begin{table}[h]
     \tiny
     \centering
@@ -176,9 +176,9 @@ Der Compiler basiert auf der IML (V2) und ist in Java geschrieben.
 
 \subsection{Scanner}
 \label{scanner}
-Literale werden standardmässig als \texttt{INT32} interpretiert - ein \texttt{NAT32}-Literal bedingt vorab deshalb den Castingoperator.
+Literale werden standardmässig als \texttt{int32} interpretiert - ein \texttt{nat32}-Literal bedingt vorab deshalb den Castingoperator.
 Vom Scanner werden Literale als \texttt{long} in Java eingelesen.
-Dieser Datentyp kann Werte von $-9223372036854775808$ bis $9223372036854775807$ annehmen und deckt somit den gesamten Wertebereich der beiden Datentypen \texttt{INT32} und \texttt{NAT32} ab.
+Dieser Datentyp kann Werte von $-9223372036854775808$ bis $9223372036854775807$ annehmen und deckt somit den gesamten Wertebereich der beiden Datentypen \texttt{int32} und \texttt{nat32} ab.
 Die Überprüfung, ob der Wert innerhalb des gültigen Wertebereichs des jeweiligen Datentyps liegt, erfolgt zum Zeitpunkt der Code-Generierung.
 
 \subsection{Parser}
@@ -227,7 +227,7 @@ Innerhalb des Scope checkings wird zudem überprüft, ob die Anzahl der erwartet
 
 \subsubsection*{Type checking}
 Das Casten zwischen zwei Datentypen ist nur für bestimmte Typen erlaubt (vgl. Tabelle \ref{tab:Casting}).
-Zusätzlich sind bei der Abarbeitung des AST nur die folgenden Typen erlaubt:
+Zusätzlich sind beim Abarbeiten des AST nur folgende Typen erlaubt:
 
 \begin{table}[h]
     \centering
@@ -253,10 +253,10 @@ Zusätzlich sind bei der Abarbeitung des AST nur die folgenden Typen erlaubt:
 \end{table}
 Bei Einträgen, die mit * gekennzeichnet sind, müssen \texttt{LValue} und \texttt{RValue} vom selben Typ sein.
 Bei der Typenüberprüfung innerhalb vom \texttt{CastFactor} wird überprüft, ob der Typ vom \texttt{CastFactor} und jener des zugehörigen \texttt{factors} gecasted werden können (vgl. Tabelle \ref{tab:Casting}).
-Die effektive Typ-Konversion wird erst bei der Code-Generierung durchgeführt.
+Die effektive Typ-Konversion wird erst bei der Codegenerierung durchgeführt.
 
 \subsubsection*{Initalization checking}
-Beim Initialization checking wird überprüft, ob Variablen noch nicht initialisiert wurden, zuvor bereits einmal initialisiert wurden oder ob das Zuweisen eines Werts zur Variable untersagt ist.
+Beim Initialization checking wird überprüft, ob Variablen noch nicht initialisiert wurden, zuvor bereits einmal initialisiert wurden oder das Zuweisen eines Werts zur Variable untersagt ist.
 Folgendes Codebeispiel zeigt die verschiedenen Initialisierungsfehler:
 \begin{lstlisting}
 program exampleInitErrors
@@ -275,8 +275,8 @@ endprogram
 \end{lstlisting}
 
 \begin{itemize}
-    \item \texttt{\textbf{NotInitializedError}}: Die Variable wurde zuvor nicht initialisiert.
-    \item \texttt{\textbf{AlreadyInitializedError}}: Die Variable wurde bereits zuvor initialisiert.
+    \item \texttt{\textbf{NotInitializedError}}: Die Variable wurde noch nicht initialisiert.
+    \item \texttt{\textbf{AlreadyInitializedError}}: Die Variable wurde bereits initialisiert.
     \item \texttt{\textbf{AssignToConstError}}: Die Variable ist eine Konstante und wurde bereits initialisiert.
 \end{itemize}
 
@@ -284,7 +284,7 @@ Falls einer dieser Fehler auftritt, wird die Überprüfung sofort beendet und de
 Der AST wird während der Validierung Knoten für Knoten durchlaufen, wobei eine "Deep-First" Baumsuche angewendet wird.
 
 \subsection{Virtuelle Maschine}
-Grundlage für die Code-Generierung ist der AST.
+Grundlage für die Codegenerierung ist der AST.
 Vom Root-Knoten ausgehend fügt jeder Knoten seinen Code zum Code-Array.
 
 Im Falle eines Castings zwischen zwei Datentypen befindet sich an mindestens einer Stelle in der AST-Struktur ein \texttt{CastFactor}-Element.
@@ -294,7 +294,7 @@ Weil der \texttt{factor} gemäss Grammatik unterschiedliche Produktionen besitzt
 Die Rekursion wird durch Literale oder Expressions unterbrochen, wie am Beispiel in Anhang \ref{bsp_casting} aufgezeigt.
 
 In der virtuellen Maschine wurde ein neuer generischer Typ \texttt{NumData} eingeführt.
-Dieser wird für die Konversion zwischen Daten vom Typ \texttt{IntData}\footnote{für den Datentyp \texttt{INT32}} und \texttt{NatData}\footnote{für den Datentyp \texttt{NAT32}} verwendet.
+Dieser wird für die Konversion zwischen Daten vom Typ \texttt{IntData}\footnote{für den Datentyp \texttt{int32}} und \texttt{NatData}\footnote{für den Datentyp \texttt{nat32}} verwendet.
 Abbildung \ref{data_hierarchy} zeigt die Klassenhierarchie dieser Typen.
 
 \begin{figure}[H]
@@ -350,17 +350,17 @@ Dies kann dazu führen, dass mit \glqq falschen\grqq \ Werten gerechnet wird, oh
 
 \subsection{Fliesskommazahlen}
 \label{ieee}
-Im Gegensatz zur Darstellung im Zweierkomplement, welches für Integer-Typen in Java verwendet werden, werden Fliesskommazahlen intern nach IEEE Standard dargestellt.
+Im Gegensatz zur Darstellung im Zweierkomplement, welches für Integer-Typen in Java verwendet wird, werden Fliesskommazahlen intern nach IEEE Standard dargestellt.
 Anders als bei der Zweierkomplement-Darstellung sieht dieses Format spezielle, konstante Werte vor.
 So sind in Java beispielsweise Konstanten für \texttt{Double.POSITIVE\_INFINITY}, \texttt{Double.NEGATIVE\_INFINITY} und \texttt{Double.NaN} definiert \footnote{vgl. [4]}.
 
 \section{Designentscheidungen}
 \subsection{Spezifiziertes Verhalten}
-Der neue Datentyp \texttt{NAT32} unterstützt die bestehenden Operationen aus IML\footnote{Aktuell sind dies \begin{itemize}
+Der neue Datentyp \texttt{nat32} unterstützt die bestehenden Operationen aus IML\footnote{Aktuell sind dies \begin{itemize}
                                                                                                                 \item MULTOPR(*, divE, modE) \item ADDOPR(+, -) \item RELOPR(<, <=, >, >=, =, /=) \item BOOLOPR(\&\&, ||, \&, |)
 \end{itemize}}.
 Sofern sich die einzelnen Operanden und auch das Resultat im Wertebereich\footnote{$[0,4294967295]$} befinden,
-entspricht das Verhalten vom Datentyp \texttt{NAT32} jenem vom Datentyp \texttt{INT32}.
+entspricht das Verhalten vom Datentyp \texttt{nat32} jenem vom Datentyp \texttt{int32}.
 Andernfalls wird folgendes Verhalten festgelegt:
 
 \begin{itemize}
@@ -372,21 +372,23 @@ Andernfalls wird folgendes Verhalten festgelegt:
 Folgende weiteren Ansätze wurden für die Umsetzung der Erweiterung in Betracht gezogen:
 
 \begin{itemize}
-    \item \textbf{Arithmetischer Überlauf:} Wertebereisüber- resp. unterschreitungen resultieren in einem arithmetischen Überlauf. Gegenüber der Darstellung in Abbildung \ref{zahlenkreis} müsste kein negativer Wertebereich verwendet werden und das Addieren von $+ 1$ zum grössten Darstellbaren Wert des Datentyps \texttt{NAT32} führt zum Wert $0$. Weil auf ein Vorzeichenbit verzichtet werden kann, verdoppelt sich der Wertebereich gegenüber dem Datentyp \texttt{INT32}. Nachteilig ist dabei, dass der Entwickler verantwortlich ist für das Einhalten der Wertebereichsgrenzen.
+    \item \textbf{Arithmetischer Überlauf:} Wertebereisüber- resp. unterschreitungen resultieren in einem arithmetischen Überlauf. Gegenüber der Darstellung in Abbildung \ref{zahlenkreis} müsste kein negativer Wertebereich verwendet werden und das Addieren von $+ 1$ zum grössten Darstellbaren Wert des Datentyps \texttt{nat32} führt zum Wert $0$. Weil auf ein Vorzeichenbit verzichtet werden kann, verdoppelt sich der Wertebereich gegenüber dem Datentyp \texttt{int32}. Nachteilig ist dabei, dass der Entwickler verantwortlich ist für das Einhalten der Wertebereichsgrenzen.
     \item \textbf{Vordefinierte Konstanten:} Ähnlich wie bei Fliesskommazahlen (vgl. Kapitel \ref{ieee}) könnten konstante Werte für z.B. \texttt{POSITIVE\_INFINITY} und \texttt{NEGATIVE\_INFINITY} vorgesehen werden. Das Verhalten bei Wertebereichsüberschreitungen müsste definiert werden. Nachteilig bei dieser Variante ist, dass der Wertebereich um die Anzahl solcher konstante Werte verringert wird.
-    \item \textbf{Absolute Werte:} Bei dieser Variante wird bei negativen Werten deren Absolutwert verwendet. Von dieser initial angedachten Variante wurde abgesehen, weil das Verhalten schnell zu ungewollten Resultaten führen kann.
+    \item \textbf{Absolute Werte:} Bei dieser Variante wird, bei negativen Werten, deren Absolutwert verwendet. Von dieser initial angedachten Variante wurde abgesehen, weil das Verhalten schnell zu ungewollten Resultaten führen kann.
 \end{itemize}
 
+Aufgrund der beschriebenen Nachteile, haben wir uns für die im Kapitel \ref{Spezifiziertes Verhalten} spezifizierte Variante entschieden.
+
 \section{Diskussion und Ausblick}
-Die Erweiterung des Compilers um einen neuen Datentypen für natürliche Zahlen, sowie eine Möglichkeit den Datentyp \texttt{INT32} in den neuen Datentypen zu casten und umgekehrt, konnten erfolgreich umgesetzt werden.
+Die Erweiterung des Compilers um einen neuen Datentypen für natürliche Zahlen, sowie eine Möglichkeit den Datentyp \texttt{int32} in den neuen Datentypen zu casten und umgekehrt, konnten erfolgreich umgesetzt werden.
 Der Scanner wurde grösstenteils von Marco Romanutti implementiert, während Benjamin Meyer die Grammatik für Fix und Foxi erstellte.
 Alle übrigen Arbeiten (Parser, Statische Analyse, Virtuelle Berichte, Berichte, etc.) wurden aufgrund des grossen Aufwands gemeinsam und in fortwährendem Austausch durchgeführt.
 
-Wie in Kapitel \ref{scanner} beschrieben, werden Literale standardmässig als \texttt{INT32} interpretiert.
-Literale für den Datentyp \texttt{NAT32} müssen deshalb mit dem Castingoperator gecastet werden.
-In einer nächsten Erweiterung des Compilers könnte ein neues Syntaxelement eingefügt werden, mithilfe welchem \texttt{NAT32}-Literale "schöner" gekennzeichnet werden könnten\footnote{vgl. Java Suffix für \texttt{long} (z.B. \texttt{39537L}), \texttt{float} (z.B. \texttt{1.4f}) und \texttt{double} (z.B. \texttt{-7.439d})}.
+Wie in Kapitel \ref{scanner} beschrieben, werden Literale standardmässig als \texttt{int32} interpretiert.
+Literale für den Datentyp \texttt{nat32} müssen deshalb mit dem Castingoperator gecastet werden.
+In einer nächsten Erweiterung des Compilers könnte ein neues Syntaxelement eingefügt werden, mithilfe welchem \texttt{nat32}-Literale "schöner" gekennzeichnet werden könnten\footnote{vgl. Java Suffix für \texttt{long} (z.B. \texttt{39537L}), \texttt{float} (z.B. \texttt{1.4f}) und \texttt{double} (z.B. \texttt{-7.439d})}.
 Weiter könnten Datentypen mit einer Länge von mehr als 32 Bit in Binärdarstellung oder auch Floatingdatentypen eingeführt werden.
-Ebenfalls denkbar wären zusätzliche mathematische Funktionen einzubauen, wie z.B. eine Funktion zur Berechnung des grössten gemeinsamen Teilers (ggT), resp. des kleinsten gemeinsamen Vielfachen (kgV).
+Ebenfalls denkbar wären zusätzliche mathematische Funktionen einzubauen, wie z.B. eine Funktion zur Berechnung des grössten gemeinsamen Teilers (ggT) oder des kleinsten gemeinsamen Vielfachen (kgV).
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
@@ -521,7 +523,7 @@ IML:
     no comment
 
     mod modE
-    [NAT32]
+    [nat32]
 \end{lstlisting}
 
 Token-List:
