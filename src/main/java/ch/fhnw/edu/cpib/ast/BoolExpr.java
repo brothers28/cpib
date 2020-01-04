@@ -96,27 +96,27 @@ public class BoolExpr extends AstNode implements IExpr {
         codeArrayPointer++;
     }
 
-    @Override public String toString(String indent) {
+    @Override public String toString(String spaces) {
         // Set horizontal spaces
-        String nameIndent = indent;
-        String argumentIndent = indent + " ";
-        String subIndent = indent + "  ";
+        String identifierIndendation = spaces;
+        String argumentIndendation = spaces + " ";
+        String lowerSpaces = spaces + "  ";
 
         // Get class
         String s = "";
-        s += nameIndent + this.getClass().getName() + "\n";
+        s += identifierIndendation + this.getClass().getName() + "\n";
 
         // Add arguments
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+            s += argumentIndendation + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
 
         // Add elements
-        s += argumentIndent + "<boolOpr>: " + boolOpr.toString() + "\n";
-        s += argumentIndent + "<exprLeft>:\n";
-        s += exprLeft.toString(subIndent);
-        s += argumentIndent + "<exprRight>:\n";
-        s += exprRight.toString(subIndent);
+        s += argumentIndendation + "<boolOpr>: " + boolOpr.toString() + "\n";
+        s += argumentIndendation + "<exprLeft>:\n";
+        s += exprLeft.toString(lowerSpaces);
+        s += argumentIndendation + "<exprRight>:\n";
+        s += exprRight.toString(lowerSpaces);
 
         return s;
     }

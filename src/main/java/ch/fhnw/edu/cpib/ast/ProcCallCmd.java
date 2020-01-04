@@ -152,26 +152,26 @@ public class ProcCallCmd extends AstNode implements ICmd {
         codeArrayPointer++;
     }
 
-    @Override public String toString(String indent) {
+    @Override public String toString(String spaces) {
         // Set horizontal spaces
-        String nameIndent = indent;
-        String argumentIndent = indent + " ";
-        String subIndent = indent + "  ";
+        String identifierIndendation = spaces;
+        String argumentIndendation = spaces + " ";
+        String lowerSpaces = spaces + "  ";
 
         // Get class
         String s = "";
-        s += nameIndent + this.getClass().getName() + "\n";
+        s += identifierIndendation + this.getClass().getName() + "\n";
 
         // Add arguments
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+            s += argumentIndendation + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
 
         // Add elements
-        s += argumentIndent + "<ident>: " + ident.toString() + "\n";
-        s += argumentIndent + "<expressions>:\n";
+        s += argumentIndendation + "<ident>: " + ident.toString() + "\n";
+        s += argumentIndendation + "<expressions>:\n";
         for (IExpr expr : expressions) {
-            s += expr.toString(subIndent);
+            s += expr.toString(lowerSpaces);
         }
 
         return s;

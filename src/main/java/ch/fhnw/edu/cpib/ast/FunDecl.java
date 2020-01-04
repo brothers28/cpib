@@ -126,34 +126,34 @@ public class FunDecl extends AstNode implements IDecl {
         codeArrayPointer++;
     }
 
-    @Override public String toString(String indent) {
+    @Override public String toString(String spaces) {
         // Set horizontal spaces
-        String nameIndent = indent;
-        String argumentIndent = indent + " ";
-        String subIndent = indent + "  ";
+        String identifierIndendation = spaces;
+        String argumentIndendation = spaces + " ";
+        String lowerSpaces = spaces + "  ";
 
         // Get class
         String s = "";
-        s += nameIndent + this.getClass().getName() + "\n";
+        s += identifierIndendation + this.getClass().getName() + "\n";
 
         // Add arguments
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+            s += argumentIndendation + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
 
         // Add elements
-        s += argumentIndent + "<ident>: " + ident.toString() + "\n";
-        s += argumentIndent + "<cpsCmd>:";
-        s += cpsCmd.toString(subIndent);
-        s += argumentIndent + "<params>:\n";
+        s += argumentIndendation + "<ident>: " + ident.toString() + "\n";
+        s += argumentIndendation + "<cpsCmd>:";
+        s += cpsCmd.toString(lowerSpaces);
+        s += argumentIndendation + "<params>:\n";
         for (Param param : params) {
-            s += param.toString(subIndent);
+            s += param.toString(lowerSpaces);
         }
-        s += argumentIndent + "<stoDecl>:";
-        s += stoDecl.toString(subIndent);
-        s += argumentIndent + "<stoDecls>:\n";
+        s += argumentIndendation + "<stoDecl>:";
+        s += stoDecl.toString(lowerSpaces);
+        s += argumentIndendation + "<stoDecls>:\n";
         for (StoDecl stoDecl : stoDecls) {
-            s += stoDecl.toString(subIndent);
+            s += stoDecl.toString(lowerSpaces);
         }
         return s;
     }

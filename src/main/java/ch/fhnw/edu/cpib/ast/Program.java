@@ -117,35 +117,35 @@ public class Program extends AstNode {
         codeArrayPointer++;
     }
 
-    @Override public String toString(String indent) {
+    @Override public String toString(String spaces) {
         // Set horizontal spaces
-        String nameIndent = indent;
-        String argumentIndent = indent + " ";
-        String subIndent = indent + "  ";
+        String identifierIndendation = spaces;
+        String argumentIndendation = spaces + " ";
+        String lowerSpaces = spaces + "  ";
 
         // Get class
         String s = "";
-        s += nameIndent + this.getClass().getName() + "\n";
+        s += identifierIndendation + this.getClass().getName() + "\n";
 
         // Add arguments
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+            s += argumentIndendation + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
         if (AstNode.globalVarNamespace != null)
-            s += argumentIndent + "[globalStoresNamespace]: " + globalVarNamespace.keySet().stream()
+            s += argumentIndendation + "[globalStoresNamespace]: " + globalVarNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
         if (AstNode.globalRoutNamespace != null)
-            s += argumentIndent + "[globalRoutinesNamespace]: " + globalRoutNamespace.keySet().stream()
+            s += argumentIndendation + "[globalRoutinesNamespace]: " + globalRoutNamespace.keySet().stream()
                     .map(Object::toString).collect(Collectors.joining(",")) + "\n";
 
         // Add elements
-        s += argumentIndent + "<ident>: " + ident.toString() + "\n";
-        s += argumentIndent + "<globalDeclarations>:\n";
+        s += argumentIndendation + "<ident>: " + ident.toString() + "\n";
+        s += argumentIndendation + "<globalDeclarations>:\n";
         for (IDecl decl : globalDeclarations) {
-            s += decl.toString(subIndent);
+            s += decl.toString(lowerSpaces);
         }
-        s += argumentIndent + "<cpsCmd>:";
-        s += cpsCmd.toString(subIndent);
+        s += argumentIndendation + "<cpsCmd>:";
+        s += cpsCmd.toString(lowerSpaces);
 
         return s;
     }

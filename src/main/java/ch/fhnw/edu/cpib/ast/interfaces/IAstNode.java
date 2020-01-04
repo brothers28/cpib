@@ -22,6 +22,6 @@ public interface IAstNode {
 
     void addToCodeArray(HashMap<String, Integer> localLocations, boolean noExec) throws CodeTooSmallError;
 
-    String toString(String indent);
+    String toString(String spaces);
 
 }

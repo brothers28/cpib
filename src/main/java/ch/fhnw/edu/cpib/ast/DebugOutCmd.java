@@ -62,24 +62,24 @@ public class DebugOutCmd extends AstNode implements ICmd {
         codeArrayPointer++;
     }
 
-    @Override public String toString(String indent) {
+    @Override public String toString(String spaces) {
         // Set horizontal spaces
-        String nameIndent = indent;
-        String argumentIndent = indent + " ";
-        String subIndent = indent + "  ";
+        String identifierIndendation = spaces;
+        String argumentIndendation = spaces + " ";
+        String lowerSpaces = spaces + "  ";
 
         // Get class
         String s = "";
-        s += nameIndent + this.getClass().getName() + "\n";
+        s += identifierIndendation + this.getClass().getName() + "\n";
 
         // Add arguments
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+            s += argumentIndendation + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
 
         // Add elements
-        s += argumentIndent + "<expr>:\n";
-        s += expr.toString(subIndent);
+        s += argumentIndendation + "<expr>:\n";
+        s += expr.toString(lowerSpaces);
 
         return s;
     }

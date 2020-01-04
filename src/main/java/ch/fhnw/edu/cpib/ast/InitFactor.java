@@ -130,19 +130,19 @@ public class InitFactor extends IdentFactor {
         }
     }
 
-    @Override public String toString(String indent) {
-        String nameIndent = indent;
-        String argumentIndent = indent + " ";
+    @Override public String toString(String spaces) {
+        String identifierIndendation = spaces;
+        String argumentIndendation = spaces + " ";
         String s = "";
-        s += nameIndent + this.getClass().getName() + "\n";
+        s += identifierIndendation + this.getClass().getName() + "\n";
 
         // Add arguments
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+            s += argumentIndendation + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
 
         // Add elements
-        s += argumentIndent + "<init>: " + init + "\n";
+        s += argumentIndendation + "<init>: " + init + "\n";
 
         return s;
     }

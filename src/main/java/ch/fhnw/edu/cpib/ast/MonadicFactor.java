@@ -99,25 +99,25 @@ public class MonadicFactor extends AstNode implements IFactor {
         codeArrayPointer++;
     }
 
-    @Override public String toString(String indent) {
+    @Override public String toString(String spaces) {
         // Set horizontal spaces
-        String nameIndent = indent;
-        String argumentIndent = indent + " ";
-        String subIndent = indent + "  ";
+        String identifierIndendation = spaces;
+        String argumentIndendation = spaces + " ";
+        String lowerSpaces = spaces + "  ";
 
         // Get class
         String s = "";
-        s += nameIndent + this.getClass().getName() + "\n";
+        s += identifierIndendation + this.getClass().getName() + "\n";
 
         // Add arguments
         if (localVarNamespace != null)
-            s += argumentIndent + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
+            s += argumentIndendation + "[localStoresNamespace]: " + localVarNamespace.keySet().stream().map(Object::toString)
                     .collect(Collectors.joining(",")) + "\n";
 
         // Add elements
-        s += argumentIndent + "<monadicOpr>: " + monadicOpr.toString() + "\n";
-        s += argumentIndent + "<factor>:\n";
-        s += factor.toString(subIndent);
+        s += argumentIndendation + "<monadicOpr>: " + monadicOpr.toString() + "\n";
+        s += argumentIndendation + "<factor>:\n";
+        s += factor.toString(lowerSpaces);
 
         return s;
     }
