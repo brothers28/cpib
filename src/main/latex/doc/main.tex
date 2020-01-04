@@ -49,7 +49,7 @@
 %	ABSTRACT
 %----------------------------------------------------------------------------------------
 
-\lettrineabstract{Im Modul Compilerbau wird eine Erweiterung für die bestehende Sprache IML spezifiziert und implementiert. Die Implementierung beinhaltet einen neuen Datentyp für natürliche Zahlen, sowie eine Möglichkeit den Datentyp \texttt{int32} in den neuen Datentypen zu casten und umgekehrt.}
+\lettrineabstract{Im Modul Compilerbau wird eine Erweiterung für die bestehende Sprache IML spezifiziert und implementiert. Die Implementierung beinhaltet einen neuen Datentyp für natürliche Zahlen, sowie eine Möglichkeit den Datentyp int32 in den neuen Datentypen zu casten und umgekehrt.}
 %----------------------------------------------------------------------------------------
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
@@ -356,6 +356,7 @@ So sind in Java beispielsweise Konstanten für \texttt{Double.POSITIVE\_INFINITY
 
 \section{Designentscheidungen}
 \subsection{Spezifiziertes Verhalten}
+\label{behaviour}
 Der neue Datentyp \texttt{nat32} unterstützt die bestehenden Operationen aus IML\footnote{Aktuell sind dies \begin{itemize}
                                                                                                                 \item MULTOPR(*, divE, modE) \item ADDOPR(+, -) \item RELOPR(<, <=, >, >=, =, /=) \item BOOLOPR(\&\&, ||, \&, |)
 \end{itemize}}.
@@ -377,7 +378,7 @@ Folgende weiteren Ansätze wurden für die Umsetzung der Erweiterung in Betracht
     \item \textbf{Absolute Werte:} Bei dieser Variante wird, bei negativen Werten, deren Absolutwert verwendet. Von dieser initial angedachten Variante wurde abgesehen, weil das Verhalten schnell zu ungewollten Resultaten führen kann.
 \end{itemize}
 
-Aufgrund der beschriebenen Nachteile, haben wir uns für die im Kapitel \ref{Spezifiziertes Verhalten} spezifizierte Variante entschieden.
+Aufgrund der beschriebenen Nachteile, haben wir uns für die im Kapitel \ref{behaviour} spezifizierte Variante entschieden.
 
 \section{Diskussion und Ausblick}
 Die Erweiterung des Compilers um einen neuen Datentypen für natürliche Zahlen, sowie eine Möglichkeit den Datentyp \texttt{int32} in den neuen Datentypen zu casten und umgekehrt, konnten erfolgreich umgesetzt werden.
