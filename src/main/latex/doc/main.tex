@@ -406,75 +406,77 @@ Marco Romanutti \hfill Benjamin Meyer
 %----------------------------------------------------------------------------------------
 \clearpage
 \appendix
+\onecolumn
 \section{Vollständige Grammatik}
 % TODO
-\begin{lstlisting}
-program ::= PROGRAM IDENT progParamList [GLOBAL cpsDecl] DO cpsCmd ENDPROGRAM
+\begin{lstlisting}[backgroundcolor = \color{lightgray},
+xleftmargin = 0.05cm,
+framexleftmargin = 0.05em]
+ program       ::= PROGRAM IDENT progParamList [GLOBAL cpsDecl] DO cpsCmd ENDPROGRAM
 
-decl ::= stoDecl
-        | funDecl
-        | procDecl
+ decl          ::= stoDecl
+                   | funDecl
+                   | procDecl
 
-stoDecl ::= [CHANGEMODE] typedIdent
+ stoDecl       ::= [CHANGEMODE] typedIdent
 
-funDecl ::= FUN IDENT paramList RETURNS stoDecl [GLOBAL globImps] [LOCAL cpsStoDecl] DO cpsCmd ENDFUN
+ funDecl       ::= FUN IDENT paramList RETURNS stoDecl [GLOBAL globImps] [LOCAL cpsStoDecl]
+                    DO cpsCmd ENDFUN
+ procDecl      ::= PROC IDENT paramList [GLOBAL globImps] [LOCAL cpsStoDecl] DO cpsCmd ENDPROC
 
-procDecl ::= PROC IDENT paramList [GLOBAL globImps] [LOCAL cpsStoDecl] DO cpsCmd ENDPROC
+ globImps      ::= globImp {COMMA globImp}
 
-globImps ::= globImp {COMMA globImp}
+ globImp       ::= [FLOWMODE] [CHANGEMODE] IDENT
 
-globImp ::= [FLOWMODE] [CHANGEMODE] IDENT
+ cpsDecl       ::= decl {SEMICOLON decl}
 
-cpsDecl ::= decl {SEMICOLON decl}
+ cpsStoDecl    ::= stoDecl {SEMICOLON stoDecl}
 
-cpsStoDecl ::= stoDecl {SEMICOLON stoDecl}
+ progParamList ::= LPAREN [progParam {COMMA progParam}] RPAREN
 
-progParamList ::= LPAREN [progParam {COMMA progParam}] RPAREN
+ progParam     ::= [FLOWMODE] [CHANGEMODE] typedIdent
 
-progParam ::= [FLOWMODE] [CHANGEMODE] typedIdent
+ paramList     ::= LPAREN [param {COMMA param}] RPAREN
 
-paramList ::= LPAREN [param {COMMA param}] RPAREN
+ param         ::= [FLOWMODE] [MECHMODE] [CHANGEMODE] typedIdent
 
-param ::= [FLOWMODE] [MECHMODE] [CHANGEMODE] typedIdent
+ typedIdent    ::= IDENT COLON TYPE
 
-typedIdent ::= IDENT COLON TYPE
+ cmd           ::= SKIP
+                   | expr BECOMES expr
+                   | IF expr THEN cpsCmd ELSE cpsCmd ENDIF
+                   | WHILE expr DO cpsCmd ENDWHILE
+                   | CALL IDENT exprList [globInits]
+                   | DEBUGIN expr
+                   | DEBUGOUT expr
 
-cmd ::= SKIP
-        | expr BECOMES expr
-        | IF expr THEN cpsCmd ELSE cpsCmd ENDIF
-        | WHILE expr DO cpsCmd ENDWHILE
-        | CALL IDENT exprList [globInits]
-        | DEBUGIN expr
-        | DEBUGOUT expr
+ cpsCmd        ::= cmd {SEMICOLON cmd}
 
-cpsCmd ::= cmd {SEMICOLON cmd}
+ globInits     ::= INIT idents
 
-globInits ::= INIT idents
+ idents        ::= IDENT {COMMA IDENT}
 
-idents ::= IDENT {COMMA IDENT}
+ expr          ::= term1 {BOOLOPR term1}
 
-expr ::= term1 {BOOLOPR term1}
+ term1         ::= term2 [RELOPR term2]
+ term2         ::= term3 {ADDOPR term3}
+ term3         ::= factor {MULTOPR factor}
 
-term1 ::= term2 [RELOPR term2]
+ factor        ::= LITERAL
+                   | IDENT [INIT | exprList]
+                   | monadicOpr factor
+                   | LPAREN expr RPAREN
+                   | castOpr factor
 
-term2 ::= term3 {ADDOPR term3}
+ castOpr       ::= LBRACKET TYPE RBRACKET
 
-term3 ::= factor {MULTOPR factor}
+ exprList      ::= LPAREN [expr {COMMA expr}] RPAREN
 
-factor ::= LITERAL
-        | IDENT [INIT | exprList]
-        | monadicOpr factor
-        | LPAREN expr RPAREN
-        | castOpr factor
-
-castOpr ::= LBRACKET TYPE RBRACKET
-
-exprList ::= LPAREN [expr {COMMA expr}] RPAREN
-
-monadicOpr ::= NOT | ADDOPR
+ monadicOpr    ::= NOT | ADDOPR
 \end{lstlisting}
 
 \clearpage
+\twocolumn
 \section{Beispiel doppeltes Casting}
 \label{bsp_casting}
 IML:
