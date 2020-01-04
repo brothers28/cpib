@@ -24,7 +24,7 @@ public class MultExpr extends AstNode implements IExpr {
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         exprLeft.setNamespaceInfo(this.localVarNamespace);
         exprRight.setNamespaceInfo(this.localVarNamespace);
@@ -42,8 +42,7 @@ public class MultExpr extends AstNode implements IExpr {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         exprLeft.executeInitCheck(globalProtected);
         exprRight.executeInitCheck(globalProtected);
     }
@@ -76,7 +75,6 @@ public class MultExpr extends AstNode implements IExpr {
             throws CodeTooSmallError {
         exprLeft.addToCodeArray(localLocations, noExec);
         exprRight.addToCodeArray(localLocations, noExec);
-
 
         // Add instruction depending on (casted) type
         if (!noExec) {

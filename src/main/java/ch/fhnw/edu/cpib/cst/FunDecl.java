@@ -16,9 +16,8 @@ public class FunDecl extends Production implements IFunDecl {
     protected ICpsCmd nts_cpsCmd;
     protected IToken ts_endFun;
 
-    public FunDecl(IToken ts_fun, IToken ts_ident, IParamList nts_paramList, IToken ts_returns,
-            IStoDecl nts_stoDecl, IFunDeclNTS nts_funDeclNTS, IToken ts_do, ICpsCmd nts_cpsCmd,
-            IToken ts_endFun) {
+    public FunDecl(IToken ts_fun, IToken ts_ident, IParamList nts_paramList, IToken ts_returns, IStoDecl nts_stoDecl,
+            IFunDeclNTS nts_funDeclNTS, IToken ts_do, ICpsCmd nts_cpsCmd, IToken ts_endFun) {
         this.ts_fun = ts_fun;
         this.ts_ident = ts_ident;
         this.nts_paramList = nts_paramList;
@@ -31,7 +30,7 @@ public class FunDecl extends Production implements IFunDecl {
     }
 
     @Override public ch.fhnw.edu.cpib.ast.interfaces.IDecl toAbsSyntax() {
-        return new ch.fhnw.edu.cpib.ast.FunDecl((Ident) ts_ident, nts_paramList.toAbsSyntax(), nts_stoDecl.toAbsSyntax(),
-                nts_funDeclNTS.toAbsSyntax(), nts_cpsCmd.toAbsSyntax());
+        return new ch.fhnw.edu.cpib.ast.FunDecl((Ident) ts_ident, nts_paramList.toAbsSyntax(),
+                nts_stoDecl.toAbsSyntax(), nts_funDeclNTS.toAbsSyntax(), nts_cpsCmd.toAbsSyntax());
     }
 }

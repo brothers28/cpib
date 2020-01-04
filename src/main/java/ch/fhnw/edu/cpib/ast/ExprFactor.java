@@ -19,7 +19,7 @@ public class ExprFactor extends AstNode implements IFactor {
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         expr.setNamespaceInfo(this.localVarNamespace);
     }
@@ -33,8 +33,7 @@ public class ExprFactor extends AstNode implements IFactor {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         expr.executeInitCheck(globalProtected);
     }
 

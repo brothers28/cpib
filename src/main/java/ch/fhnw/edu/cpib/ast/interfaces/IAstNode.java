@@ -11,7 +11,7 @@ public interface IAstNode {
     void setInit(TypedIdent ident);
 
     void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError;
+            throws AlreadyDeclaredError, AlreadyInitializedError;
 
     void executeScopeCheck() throws NotDeclaredError, LRValError, InvalidParamCountError;
 

@@ -1,22 +1,20 @@
 program exampleFactorial
 global
-   const input:int32;
-   const result:nat32;
-   const natInput:nat32;
-   proc factorial(copy const value:nat32, ref var factorial:nat32)
+   const input:nat32;
+   const result:int32;
+   proc factorial(copy const value:int32, ref var factorial:int32)
    local
-    var counter:nat32
+    var counter:int32
    do
     counter init := value;
-    factorial := [nat32] 1;
-   while counter > [nat32] 1 do
+    factorial := 1;
+   while counter > 1 do
     factorial := factorial * counter;
-    counter := counter - [nat32] 1
+    counter := counter - 1
    endwhile
   endproc
 do
   debugin input init;
-  natInput init := [nat32] input;
-  call factorial(natInput, result init);
+  call factorial([int32] input, result init);
   debugout result
 endprogram

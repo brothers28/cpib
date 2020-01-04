@@ -21,7 +21,7 @@ public class WhileCmd extends AstNode implements ICmd {
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         expr.setNamespaceInfo(this.localVarNamespace);
         // inner while body with deepCopy from localStorage
@@ -43,8 +43,7 @@ public class WhileCmd extends AstNode implements ICmd {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         expr.executeInitCheck(globalProtected);
 
         // Set initialized variables

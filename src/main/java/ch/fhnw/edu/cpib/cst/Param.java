@@ -9,8 +9,8 @@ public class Param extends Production implements IParam {
     protected IChangeModeNTS nts_changeModeNTS;
     protected ITypedIdent nts_typedIdent;
 
-    public Param(IFlowModeNTS nts_flowModeNTS, IMechModeNTS nts_mechModeNTS,
-            IChangeModeNTS nts_changeModeNTS, ITypedIdent nts_typedIdent) {
+    public Param(IFlowModeNTS nts_flowModeNTS, IMechModeNTS nts_mechModeNTS, IChangeModeNTS nts_changeModeNTS,
+            ITypedIdent nts_typedIdent) {
         this.nts_flowModeNTS = nts_flowModeNTS;
         this.nts_changeModeNTS = nts_changeModeNTS;
         this.nts_mechModeNTS = nts_mechModeNTS;

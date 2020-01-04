@@ -28,7 +28,7 @@ public class MonadicFactor extends AstNode implements IFactor {
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         factor.setNamespaceInfo(this.localVarNamespace);
     }
@@ -50,8 +50,7 @@ public class MonadicFactor extends AstNode implements IFactor {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         factor.executeInitCheck(globalProtected);
     }
 

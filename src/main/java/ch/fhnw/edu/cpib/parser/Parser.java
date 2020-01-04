@@ -39,9 +39,8 @@ public class Parser {
     }
 
     public AstTree parse()
-            throws GrammarError, AlreadyDeclaredError, NotDeclaredError, AlreadyGloballyDeclaredError, LRValError,
-            InvalidParamCountError, AlreadyInitializedError, TypeCheckError, NotInitializedError,
-            AssignToConstError, CastError {
+            throws GrammarError, AlreadyDeclaredError, NotDeclaredError, LRValError, InvalidParamCountError,
+            AlreadyInitializedError, TypeCheckError, NotInitializedError, AssignToConstError, CastError {
         System.out.println("Start parsing:\n");
         IProgram program = program();
         consume(Terminals.SENTINEL);
@@ -58,25 +57,23 @@ public class Parser {
         System.out.println("\n---------------------------------------------------\n");
         System.out.print("Scope checking:");
         ast.executeScopeCheck();
-        System.out.println(" OK!");
+        System.out.println(" \u2713 \n");
 
-        System.out.println("\n---------------------------------------------------\n");
         System.out.print("Type checking:");
         ast.executeTypeCheck();
-        System.out.println(" OK!");
+        System.out.println(" \u2713 \n");
 
-        System.out.println("\n---------------------------------------------------\n");
         System.out.print("Init checking:");
         ast.executeInitCheck();
-        System.out.println(" OK!");
+        System.out.println(" \u2713");
 
         return ast;
     }
 
-    // program ::= PROGRAM IDENT globalNTS DO cpsCmd ENDPROGRAM
+    // program ::= PROGRAM IDENT progParamList globalNTS DO cpsCmd ENDPROGRAM
     private IProgram program() throws GrammarError {
         if (currentTerminal == Terminals.PROGRAM) {
-            System.out.println("program ::= PROGRAM IDENT <globalNTS> DO <cpsCmd> ENDPROGRAM");
+            System.out.println("program ::= PROGRAM IDENT progParamList <globalNTS> DO <cpsCmd> ENDPROGRAM");
             IToken ts_program = consume(Terminals.PROGRAM);
             IToken ts_ident = consume(Terminals.IDENT);
             IGlobalNTS nts_globalNTS = globalNTS();
@@ -156,8 +153,8 @@ public class Parser {
             IToken ts_do = consume(Terminals.DO);
             ICpsCmd nts_cpsCmd = cpsCmd();
             IToken ts_endFun = consume(Terminals.ENDFUN);
-            return new FunDecl(ts_fun, ts_ident, nts_paramList, ts_returns, nts_stoDecl, nts_funDeclNTS, ts_do, nts_cpsCmd,
-                    ts_endFun);
+            return new FunDecl(ts_fun, ts_ident, nts_paramList, ts_returns, nts_stoDecl, nts_funDeclNTS, ts_do,
+                    nts_cpsCmd, ts_endFun);
         } else {
             throw new GrammarError(Terminals.FUNDECL, currentTerminal);
         }

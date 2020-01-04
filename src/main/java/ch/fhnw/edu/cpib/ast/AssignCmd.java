@@ -20,7 +20,7 @@ public class AssignCmd extends AstNode implements ICmd {
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         this.localVarNamespace = localStoresNamespace;
         exprLeft.setNamespaceInfo(this.localVarNamespace);
         exprRight.setNamespaceInfo(this.localVarNamespace);

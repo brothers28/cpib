@@ -22,20 +22,22 @@ public class Program extends AstNode {
     }
 
     @Override public void setNamespaceInfo(HashMap<String, TypedIdent> localStoresNamespace)
-            throws AlreadyDeclaredError, AlreadyGloballyDeclaredError, AlreadyInitializedError {
+            throws AlreadyDeclaredError, AlreadyInitializedError {
         // Check namespaces
         for (IDecl decl : globalDeclarations) {
             if (decl instanceof StoDecl) {
-                if (AstNode.globalVarNamespace.containsKey(decl.getIdentString()))
-                    // Already declared (globally)
+                if (AstNode.globalVarNamespace.containsKey(decl.getIdentString())) {
+                    // Already declared
                     throw new AlreadyDeclaredError(decl.getIdentString());
+                }
 
                 // Save to global namespace
                 AstNode.globalVarNamespace.put(decl.getIdentString(), ((StoDecl) decl).getTypedIdent());
             } else {
-                if (AstNode.globalRoutNamespace.containsKey(decl.getIdentString()))
+                if (AstNode.globalRoutNamespace.containsKey(decl.getIdentString())) {
                     // Already declared
                     throw new AlreadyDeclaredError(decl.getIdentString());
+                }
 
                 // Save to global namespace
                 AstNode.globalRoutNamespace.put(decl.getIdentString(), decl);
@@ -68,8 +70,7 @@ public class Program extends AstNode {
     }
 
     @Override public void executeInitCheck(boolean globalProtected)
-            throws NotInitializedError, AlreadyInitializedError,
-            AssignToConstError {
+            throws NotInitializedError, AlreadyInitializedError, AssignToConstError {
         cpsCmd.executeInitCheck(globalProtected);
     }
 
@@ -112,7 +113,7 @@ public class Program extends AstNode {
         cpsCmd.addToCodeArray(localLocations, noExec);
 
         // End of programm
-            codeArray.put(codeArrayPointer, new IInstructions.Stop());
+        codeArray.put(codeArrayPointer, new IInstructions.Stop());
         codeArrayPointer++;
     }
 
