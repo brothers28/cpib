@@ -1,4 +1,4 @@
-program progFactorial
+program exampleFactorial
 global
    const input:nat32;
    const result:nat32;

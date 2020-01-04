@@ -29,7 +29,7 @@
 \title{Nat32 und Casting für IML} % The article title
 
 \author{
-\authorstyle{Marco Romanutti\textsuperscript{1,2} und Benjamin Meyer\textsuperscript{1,2}} % Authors
+\authorstyle{Marco Romanutti und Benjamin Meyer\textsuperscript{1,2}} % Authors
 \newline\newline % Space before institutions
 \textsuperscript{1}\institution{Fachhochschule Nordwestschweiz FHNW, Brugg}\\ % Institution
 \textsuperscript{2}\texttt{Schlussbericht} % Module
@@ -795,6 +795,36 @@ Code-Array:
 39: Stop
 \end{lstlisting}
 
+\clearpage
+\section{Beispiel Conjunctional}
+IML:
+\begin{lstlisting}
+program exampleConjunctional
+global
+    var x:nat32;
+    var y:int32;
+    var z:int32;
+    var b:bool
+do
+    x init := [nat32] 1;
+    y init := 4;
+    z init := 0;
+    if x > y = 4  then
+        z := ([int32] x * y)
+    else
+        z := ([int32] x + y)
+    endif;
+    b init := [int32] x >= y;
+    debugout z;
+    debugout b
+endprogram
+\end{lstlisting}
+
+Output:
+
+\texttt{z:int => 5} \cmark
+
+\texttt{b:bool => true} \cmark
 
 %----------------------------------------------------------------------------------------
 
