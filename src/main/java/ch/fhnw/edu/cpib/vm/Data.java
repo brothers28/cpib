@@ -217,7 +217,6 @@ public class Data {
         try {
             long r = numGet(a) / numGet(b);
             if (numGet(a) < 0 && r * numGet(b) != numGet(a)) {
-                // FIXME: Nat can never be negative?
                 r -= java.lang.Math.signum(numGet(b));
             }
             return natNew(r);

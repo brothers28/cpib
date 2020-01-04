@@ -3,7 +3,8 @@ global
    var x:int32;
    var y:nat32
 do
-   x init := [int32] 4;
+   x init := 4;
    y init := [nat32] 3;
-   x := [int32] y
+   x := [int32] y;
+   y := [nat32] 7
 endprogram

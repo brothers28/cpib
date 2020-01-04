@@ -36,7 +36,7 @@ public class Literal extends Base {
             return castType;
         }
         // otherwise get real type
-        return isBoolean ? Types.BOOL : Types.INT32; // FIXME: WTF?
+        return isBoolean ? Types.BOOL : Types.INT32;
 
     }
 

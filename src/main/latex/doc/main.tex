@@ -306,7 +306,32 @@ Abbildung \ref{data_hierarchy} zeigt die Klassenhierarchie dieser Typen.
 Beim Dereferenzieren muss im Falle eines Castings der Datentyp von bereits typisierten Daten auf dem Stack geändert werden.
 Anhang \ref{bsp_deref} zeigt ein Beispiel, bei welchem der Datentyp aufgrund des neu propagierten Attributs \texttt{castType} umgewandelt wird.
 
-\subsection{Code Generierung}
+\subsection{Codegenerierung}
+Für die Zuweisung von einem Literal an eine Variable vom neuen Datentyp \texttt{nat32}, musste eine neue Code Instruktion erstellt werden: \texttt{LoadImNat()}.
+Ebenfalls wurde die Logik für das definieren vom Typ dieses Literals angepasst.
+Im Standardfall wird ein Literal aufgrund des \texttt{castType} Attributs geladen.
+Das Attribut \texttt{castType} muss zwingend gesetzt sein, beim Zuweisen von Lieralen an eine Variablen vom Typ \texttt{nat32}.
+Falls \texttt{castType} nicht definiert ist, wird der Literal als \texttt{int32} oder \texttt{bool} Typ interpretiert.
+
+Das Programm \texttt{exampleLoadInit} soll, mit dem daraus generierten Code (Abbildung \ref{codegenerierung}), dieses Verhalten aufzeigen.
+\begin{lstlisting}
+program exampleLoadInit
+global
+    var x:int32;
+    var y:nat32
+do
+    x init := 4;
+    y init := [nat32] 3;
+    x := [int32] y
+endprogram
+\end{lstlisting}
+
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{code_generierung.png}
+    \caption{Codegenerierung von Programm "exampleLoadInit"}
+    \label{codegenerierung}
+\end{figure}
+
 \section{Vergleich mit anderen Programmiersprachen}
 \subsection{Ganzzahlige Werte}
 In Java wird bei Zuweisungen die Länge einer Zahl in Binärdarstellung überprüft:
