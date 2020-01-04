@@ -799,36 +799,34 @@ Code-Array:
 \end{lstlisting}
 
 \clearpage
-\section{Beispiel Conjunctional}
+\section{Beispiel Factorial}
 IML:
 \begin{lstlisting}
-program exampleConjunctional
+program exampleFactorial
 global
-    var x:nat32;
-    var y:int32;
-    var z:int32;
-    var b:bool
+    const input:nat32;
+    const result:nat32;
+    proc factorial(copy const value:nat32, ref var factorial:nat32)
+    local
+        var counter:nat32
+    do
+        counter init := value;
+        factorial := [nat32] 1;
+        while counter > [nat32] 1 do
+            factorial := factorial * counter;
+            counter := counter - [nat32] 1
+        endwhile
+    endproc
 do
-    x init := [nat32] 1;
-    y init := 4;
-    z init := 0;
-    if x > y = 4  then
-        z := ([int32] x * y)
-    else
-        z := ([int32] x + y)
-    endif;
-    b init := [int32] x >= y;
-    debugout z;
-    debugout b
+    debugin input init;
+    call factorial([nat32] input, result init);
+    debugout result
 endprogram
 \end{lstlisting}
 
 Output:
 
-\texttt{z:int => 5} \cmark
-
-\texttt{b:bool => true} \cmark
-
+\texttt{result:nat32 => 5} \cmark
 %----------------------------------------------------------------------------------------
 
 \end{document}
