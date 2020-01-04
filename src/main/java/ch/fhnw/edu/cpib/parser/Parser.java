@@ -57,17 +57,15 @@ public class Parser {
         System.out.println("\n---------------------------------------------------\n");
         System.out.print("Scope checking:");
         ast.executeScopeCheck();
-        System.out.println(" OK!");
+        System.out.println(" \u2713 \n");
 
-        System.out.println("\n---------------------------------------------------\n");
         System.out.print("Type checking:");
         ast.executeTypeCheck();
-        System.out.println(" OK!");
+        System.out.println(" \u2713 \n");
 
-        System.out.println("\n---------------------------------------------------\n");
         System.out.print("Init checking:");
         ast.executeInitCheck();
-        System.out.println(" OK!");
+        System.out.println(" \u2713");
 
         return ast;
     }
