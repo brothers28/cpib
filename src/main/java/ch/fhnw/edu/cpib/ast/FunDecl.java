@@ -38,8 +38,6 @@ public class FunDecl extends AstNode implements IDecl {
                 // Already declared
                 throw new AlreadyDeclaredError(param.getIdentString());
             }
-            // Deref
-            param.getTypedIdent().setNeedToDeref();
 
             // Save to local namespace
             this.localVarNamespace.put(param.getIdentString(), param.getTypedIdent());
