@@ -1,0 +1,17 @@
+program exampleCasting
+global
+   var x:nat32;
+   var y:int32
+do
+   x init := [nat32] 32;
+   y init := [int32] (x * [nat32] 2)
+
+   //y init := [int32] -5;
+   //x init := [nat32] (y * -3)
+
+   //x init := [nat32] 4294967295;
+   //y init := [int32] x
+
+   //y init := [int32] -17;
+   //x init := [nat32] y
+endprogram

@@ -1,0 +1,7 @@
+program exampleUnderflowNat
+global
+   var x:nat32
+do
+   x init := [nat32] 0;
+   x := x - [nat32] 1
+endprogram

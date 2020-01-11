@@ -13,7 +13,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication public class CpibApplication {
-    public static final String FILE_NAME = "/example_fibo";
+    public static final String FILE_NAME = "/example_overflowNat"; // Overflow: Execution Error
+    //public static final String FILE_NAME = "/example_underflowNat"; // Underflow: Execution Error
+    //public static final String FILE_NAME = "/example_casting"; // Nat -> Int, Int -> Nat, OverflowInt, UnderflowNat
+    //public static final String FILE_NAME = "/example_fibo"; // fibo(8) --> 21
+    //public static final String FILE_NAME = "/example_factorial"; // 4 --> 24
 
     public static void main(String[] args) {
         // Start spring application
@@ -80,6 +84,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
             e.printStackTrace();
         } catch (IVirtualMachine.ExecutionError e) {
             System.out.println("\nVM error...\n");
+            System.out.println(e.getMessage());
             e.printStackTrace();
         } catch (ICodeArray.CodeTooSmallError e) {
             System.out.println("\nVM error...\n");

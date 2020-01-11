@@ -1,0 +1,7 @@
+program exampleOverflowNat
+global
+   var x:nat32
+do
+   x init := [nat32] 4294967295;
+   x := x + [nat32] 1
+endprogram
