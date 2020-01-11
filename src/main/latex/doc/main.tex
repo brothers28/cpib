@@ -858,7 +858,7 @@ program exampleFibo
     fun recursiveFibonacci(copy const n:int32)
     returns m: int32
     do
-        if n < 2 then
+        if n <= 2 then
             m init := 1
         else
             m init := recursiveFibonacci(n-1) + recursiveFibonacci(n-2)
@@ -872,7 +872,7 @@ endprogram
 
 Output für Input $8$:
 
-\texttt{result:int32 => 34} \cmark
+\texttt{result:int32 => 21} \cmark
 %----------------------------------------------------------------------------------------
 
 \end{document}

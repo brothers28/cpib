@@ -3,7 +3,7 @@ global
   fun recursiveFibonacci(copy const n:int32)
   returns m: int32
   do
-    if n < 2 then
+    if n <= 2 then
       m init := 1
     else
       m init := recursiveFibonacci(n-1) + recursiveFibonacci(n-2)
