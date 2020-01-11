@@ -72,7 +72,7 @@ Für den neuen Datentyp wird das Keyword \texttt{(TYPE, NAT32)} und ein Castingo
 \begin{lstlisting}[backgroundcolor = \color{lightgray},
 xleftmargin = 0.05cm,
 framexleftmargin = 0.05em]
-    Datentyp:     NAT32     (TYPE, NAT32)
+    Datentyp:     nat32     (TYPE, NAT32)
     Brackets:     [ ]       LBRACKET, RBRACKET
 \end{lstlisting}
 
@@ -848,6 +848,31 @@ endprogram
 Output bei Input $4$:
 
 \texttt{result:int32 => 24} \cmark
+
+\clearpage
+\section{Beispiel Fibonacci}
+IML:
+\begin{lstlisting}
+program exampleFibo
+    global
+    fun recursiveFibonacci(copy const n:int32)
+    returns m: int32
+    do
+        if n < 2 then
+            m init := 1
+        else
+            m init := recursiveFibonacci(n-1) + recursiveFibonacci(n-2)
+        endif
+    endfun
+do
+    debugout recursiveFibonacci(8)
+endprogram
+
+\end{lstlisting}
+
+Output für Input $8$:
+
+\texttt{result:int32 => 34} \cmark
 %----------------------------------------------------------------------------------------
 
 \end{document}

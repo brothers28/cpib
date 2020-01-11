@@ -13,7 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication public class CpibApplication {
-    public static final String FILE_NAME = "/example_init";
+    public static final String FILE_NAME = "/example_fibo";
 
     public static void main(String[] args) {
         // Start spring application
