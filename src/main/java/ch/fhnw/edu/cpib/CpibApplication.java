@@ -86,6 +86,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
             System.out.println("\nVM error...\n");
             System.out.println(e.getMessage());
             e.printStackTrace();
+        } catch(RuntimeException e) {
+            System.out.println("\nRuntime error...\n");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         } catch (ICodeArray.CodeTooSmallError e) {
             System.out.println("\nVM error...\n");
             e.printStackTrace();
